@@ -1,194 +1,208 @@
-function FORMS_Dock() {}
-
-/// @func forms_dock_create([_x, _y, _width, _height])
-/// @desc Creates a new dock.
-/// @param {real} [_x] The x positon to create the dock at.
-/// @param {real} [_y] The y positon to create the dock at.
-/// @param {real} [_width] The width of the dock.
-/// @param {real} [_height] The width of the dock.
-/// @return {real} The id of the created dock.
-function forms_dock_create()
+/// @enum Enumeration of widget split types. Used for example in the dock widget.
+enum FORMS_ESplit
 {
-	var _dock = forms_widgetset_create(FORMS_Dock);
-	if (argument_count == 4)
+	/// @member Widget is split horizontally.
+	Horizontal,
+	/// @member Widget is split vertically.
+	Vertical,
+};
+
+/// @func FORMS_Dock([_x, _y, _width, _height])
+///
+/// @extends FORMS_CompoundWidget
+///
+/// @param {Real} [_x] The x position to create the dock at.
+/// @param {Real} [_y] The y position to create the dock at.
+/// @param {Real} [_width] The width of the dock.
+/// @param {Real} [_height] The width of the dock.
+function FORMS_Dock(_x, _y, _width, _height)
+	: FORMS_CompoundWidget() constructor
+{
+	static Type = FORMS_EWidgetType.Dock;
+
+	/// @var {Real}
+	SplitSize = 0.5;
+
+	/// @var {FORMS_ESplit}
+	SplitType = FORMS_ESplit.Horizontal;
+
+	/// @var {Real}
+	/// @private
+	MouseOffset = 0;
+
+	/// @var {Real}
+	Padding = 3;
+
+	static OnUpdate = function ()
 	{
-		forms_widget_set_rectangle(_dock, argument[0], argument[1], argument[2], argument[3]);
+		FORMS_DockUpdate(self);
+	};
+
+	static OnDraw = function ()
+	{
+		FORMS_DockDraw(self);
 	}
-	_dock[? "split_size"] = 0.5;
-	// Only Horizontal and Vertical applies!
-	_dock[? "split_type"] = FORMS_EDirection.Horizontal;
-	_dock[? "scr_update"] = forms_dock_update;
-	_dock[? "scr_draw"] = forms_dock_draw;
-	_dock[? "mouse_offset"] = 0;
-	var _border_size = sprite_get_width(FORMS_SprDock);
-	_dock[? "border_size"] = _border_size;
-	_dock[? "padding"] = floor(_border_size / 2);
-	return _dock;
+
+	if (_height != undefined)
+	{
+		SetRectangle(_x, _y, _width, _height);
+	}
 }
 
-/// @func forms_dock_draw(_dock)
+/// @func FORMS_DockDraw(_dock)
+///
 /// @desc Draws the dock.
-/// @param {real} _dock The id of the dock.
-function forms_dock_draw(_dock)
+///
+/// @param {Struct.FORMS_Dock} _dock The dock.
+function FORMS_DockDraw(_dock)
 {
-	var _x = forms_widget_get_x(_dock);
-	var _y = forms_widget_get_y(_dock);
-	var _items = forms_widgetset_get_items(_dock);
-	var _item_count = ds_list_size(_items);
+	var _x = _dock.X;
+	var _y = _dock.Y;
+	var _items = FORMS_GetItems(_dock);
+	var _itemCount = ds_list_size(_items);
 
-	forms_matrix_push(_x, _y);
+	FORMS_MatrixPush(_x, _y);
 
-	switch (_item_count)
+	if (_itemCount == 1)
 	{
-	case 0:
-		break;
-
-	case 1:
 		var _item = _items[| 0];
-		forms_widget_set_size(_item,
-			forms_widget_get_width(_dock),
-			forms_widget_get_height(_dock));
-		forms_draw_item(_item, 0, 0);
-		break;
-
-	case 2:
-		var _width = forms_widget_get_width(_dock);
-		var _height = forms_widget_get_height(_dock);
-		var _split_type = _dock[? "split_type"];
-		var _split_size = _dock[? "split_size"];
-		var _border_size = _dock[? "border_size"];
-		var _padding = _dock[? "padding"];
-		var _left = _items[| 0];
-		var _right = _items[| 1];
+		_item.SetSize(
+			_dock.Width,
+			_dock.Height);
+		FORMS_DrawItem(_item, 0, 0);
+	}
+	else if (_itemCount == 2)
+	{
+		var _width = _dock.Width;
+		var _height = _dock.Height;
+		var _splitType = _dock.SplitType;
+		var _splitSize = _dock.SplitSize;
+		var _padding = _dock.Padding;
 		var _middle;
 
-		switch (_split_type)
+		if (_splitType == FORMS_ESplit.Horizontal)
 		{
-		case FORMS_EDirection.Horizontal:
-			_middle = round(_width * _split_size);
+			_middle = round(_width * _splitSize);
+		}
+		else
+		{
+			_middle = round(_height * _splitSize);
+		}
 
-			forms_widget_set_size(_left,
+		// Left
+		var _left = _items[| 0];
+		if (_splitType == FORMS_ESplit.Horizontal)
+		{
+			_left.SetSize(
 				_middle - _padding,
 				_height);
+		}
+		else
+		{
+			_left.SetSize(
+				_width,
+				_middle - _padding);
+		}
+		FORMS_DrawItem(_left, 0, 0);
 
-			forms_widget_set_rectangle(_right,
+		// Right
+		var _right = _items[| 1];
+		if (_splitType == FORMS_ESplit.Horizontal)
+		{
+			_right.SetRectangle(
 				_middle + _padding,
 				0,
 				_width - _middle - _padding,
 				_height);
-
-			draw_sprite_stretched(FORMS_SprDock, 1, _middle - _padding, 0, _border_size, _height);
-			break;
-
-		case FORMS_EDirection.Vertical:
-			_middle = round(_height * _split_size);
-
-			forms_widget_set_size(_left,
-				_width,
-				_middle - _padding);
-
-			forms_widget_set_rectangle(_right,
+		}
+		else
+		{
+			_right.SetRectangle(
 				0,
 				_middle + _padding,
 				_width,
 				_height - _middle - _padding);
-
-			draw_sprite_stretched(FORMS_SprDock, 0, 0, _middle - _padding, _width, _border_size);
-			break;
-
-		default:
-			// TODO: Use ce_assert
-			show_error("Invalid dock split!", true);
-			break;
 		}
-
-		forms_draw_item(_left, 0, 0);
-		forms_draw_item(_right);
-		break;
-
-	default:
-		// TODO: Use ce_assert
-		show_error("Invalid dock item count!", true);
-		break;
+		FORMS_DrawItem(_right);
 	}
 
-	forms_matrix_restore();
+	FORMS_MatrixRestore();
 }
 
-/// @func forms_dock_update(_dock)
+/// @func FORMS_DockUpdate(_dock)
+///
 /// @desc Updates the dock.
-/// @param {real} _dock The id of the dock.
-function forms_dock_update(_dock)
+///
+/// @param {Struct.FORMS_Dock} _dock The dock.
+function FORMS_DockUpdate(_dock)
 {
-	forms_widgetset_update(_dock);
+	FORMS_CompoundWidgetUpdate(_dock);
 
 	// Start resizing
-	if (!forms_widget_exists(forms_widget_active)
-		&& forms_widget_is_hovered(_dock))
+	if (!FORMS_WidgetExists(FORMS_WIDGET_ACTIVE)
+		&& _dock.IsHovered())
 	{
-		var _x = forms_widget_get_x(_dock);
-		var _y = forms_widget_get_y(_dock);
-		var _width = forms_widget_get_width(_dock);
-		var _height = forms_widget_get_height(_dock);
-		var _split_type = _dock[? "split_type"];
-		var _split_size = _dock[? "split_size"];
-		var _padding = _dock[? "padding"];
+		var _width = _dock.Width;
+		var _height = _dock.Height;
+		var _splitType = _dock.SplitType;
+		var _splitSize = _dock.SplitSize;
+		var _padding = _dock.Padding;
 		var _middle;
 
-		if (_split_type == FORMS_EDirection.Horizontal)
+		if (_splitType == FORMS_ESplit.Horizontal)
 		{
-			_middle = round(_width * _split_size);
+			_middle = round(_width * _splitSize);
 
 			// Horizontally
-			if (forms_mouse_x >= _middle - _padding
-				&& forms_mouse_x < _middle + _padding)
+			if (FORMS_MOUSE_X >= _middle - _padding
+				&& FORMS_MOUSE_X < _middle + _padding)
 			{
-				forms_cursor = cr_size_we;
+				FORMS_CURSOR = cr_size_we;
 				if (mouse_check_button_pressed(mb_left))
 				{
-					forms_widget_active = _dock;
-					_dock[? "mouse_offset"] = _middle - forms_mouse_x;
+					FORMS_WIDGET_ACTIVE = _dock;
+					_dock.MouseOffset = _middle - FORMS_MOUSE_X;
 				}
 			}
 		}
 		else
 		{
-			_middle = round(_height * _split_size);
+			_middle = round(_height * _splitSize);
 
 			// Vertically
-			if (forms_mouse_y >= _middle - _padding
-				&& forms_mouse_y < _middle + _padding)
+			if (FORMS_MOUSE_Y >= _middle - _padding
+				&& FORMS_MOUSE_Y < _middle + _padding)
 			{
-				forms_cursor = cr_size_ns;
+				FORMS_CURSOR = cr_size_ns;
 				if (mouse_check_button_pressed(mb_left))
 				{
-					forms_widget_active = _dock;
-					_dock[? "mouse_offset"] = _middle - forms_mouse_y;
+					FORMS_WIDGET_ACTIVE = _dock;
+					_dock.MouseOffset = _middle - FORMS_MOUSE_Y;
 				}
 			}
 		}
 	}
 
 	// Resize
-	if (forms_widget_active == _dock)
+	if (FORMS_WIDGET_ACTIVE == _dock)
 	{
 		if (mouse_check_button(mb_left))
 		{
-			if (_dock[? "split_type"] == FORMS_EDirection.Horizontal)
+			if (_dock.SplitType == FORMS_ESplit.Horizontal)
 			{
-				_dock[? "split_size"] = (forms_mouse_x + _dock[? "mouse_offset"]) / forms_widget_get_width(_dock);
-				forms_cursor = cr_size_we;
+				_dock.SplitSize = (FORMS_MOUSE_X + _dock.MouseOffset) / _dock.Width;
+				FORMS_CURSOR = cr_size_we;
 			}
 			else
 			{
-				_dock[? "split_size"] = (forms_mouse_y + _dock[? "mouse_offset"]) / forms_widget_get_height(_dock);
-				forms_cursor = cr_size_ns;
+				_dock.SplitSize = (FORMS_MOUSE_Y + _dock.MouseOffset) / _dock.Height;
+				FORMS_CURSOR = cr_size_ns;
 			}
-			_dock[? "split_size"] = clamp(_dock[? "split_size"], 0.1, 0.9);
+			_dock.SplitSize = clamp(_dock.SplitSize, 0.1, 0.9);
 		}
 		else
 		{
-			forms_widget_active = noone;
+			FORMS_WIDGET_ACTIVE = undefined;
 		}
 	}
 }

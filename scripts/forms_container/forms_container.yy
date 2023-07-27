@@ -1,12 +1,11 @@
 {
-  "isDnD": false,
+  "resourceType": "GMScript",
+  "resourceVersion": "1.0",
+  "name": "FORMS_Container",
   "isCompatibility": false,
+  "isDnD": false,
   "parent": {
     "name": "Scripts",
     "path": "folders/Forms/Scripts.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "forms_container",
-  "tags": [],
-  "resourceType": "GMScript",
 }

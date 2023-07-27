@@ -1,207 +1,208 @@
-function FORMS_Canvas() {}
-
-/// @func forms_canvas_create([type])
-/// @desc Creates a new canvas.
-/// @param {real} [type] The canvas type.
-/// @return {real} The id of the createed canvas.
-function forms_canvas_create()
+/// @func FORMS_Canvas()
+///
+/// @extends FORMS_CompoundWidget
+function FORMS_Canvas()
+	: FORMS_CompoundWidget() constructor
 {
-	var _type = (argument_count > 0) ? argument[0] : FORMS_Canvas;
-	var _canvas = forms_widgetset_create(_type);
-	forms_canvas_set_surface(_canvas, noone);
-	forms_canvas_set_background(_canvas, FORMS_C_WINDOW_BACKGROUND);
-	_canvas[? "scr_draw"] = forms_canvas_draw;
-	_canvas[? "scr_cleanup"] = forms_canvas_cleanup;
-	return _canvas;
+	static Type = FORMS_EWidgetType.Canvas;
+
+	/// @var {Id.Surface}
+	/// @readonly
+	Surface = -1;
+
+	/// @var {color}
+	Background = FORMS_GetColor(FORMS_EStyle.WindowBackground);
+
+	/// @func BeginFill()
+	///
+	/// @desc Sets the canvas surface as the render target.
+	///
+	/// @return {Bool} True if the surface has been set as the render target.
+	static BeginFill = function ()
+	{
+		////////////////////////////////////////////////////////////////////////
+		// Check surface
+		var _surface = Surface;
+		var _width = max(Width, 1);
+		var _height = max(Height, 1);
+
+		if (surface_exists(_surface))
+		{
+			if (surface_get_width(_surface) != _width
+				|| surface_get_height(_surface) != _height)
+			{
+				var _depthDisable = surface_get_depth_disable();
+				surface_depth_disable(true);
+				surface_resize(_surface, _width, _height);
+				surface_depth_disable(_depthDisable);
+				FORMS_RequestRedraw(self);
+			}
+		}
+		else
+		{
+			_surface = surface_create(_width, _height);
+			FORMS_RequestRedraw(self);
+		}
+		Surface = _surface;
+
+		////////////////////////////////////////////////////////////////////////
+		// Start filling
+		if (Redraw
+			&& !FORMS_WIDGET_FILLING)
+		{
+			Redraw = false;
+			var _scrollX = 0;
+			var _scrollY = 0;
+			var _scrollbarHor = FORMS_GetScrollbarHor(self);
+			var _scrollbarVer = FORMS_GetScrollbarVer(self);
+			if (!is_undefined(_scrollbarHor))
+			{
+				_scrollX = _scrollbarHor.GetScroll() * _scrollbarHor.IsVisible();
+			}
+			if (!is_undefined(_scrollbarVer))
+			{
+				_scrollY = _scrollbarVer.GetScroll() * _scrollbarVer.IsVisible();
+			}
+			if (is_nan(_scrollX)) _scrollX = 0;
+			if (is_nan(_scrollY)) _scrollY = 0;
+			
+			surface_set_target(_surface);
+			draw_clear(Background);
+			FORMS_MatrixSet(-_scrollX, -_scrollY);
+			FORMS_WIDGET_FILLING = self;
+			FORMS_WIDGET_ID_NEXT = 0;
+			return true;
+		}
+		return false;
+	}
+
+	/// @func EndFill()
+	///
+	/// @desc Finishes drawing into the canvas and resets the render target.
+	static EndFill = function ()
+	{
+		if (FORMS_WIDGET_FILLING == self)
+		{
+			var _scrollX = 0;
+			var _scrollY = 0;
+			var _scrollbarHor = FORMS_GetScrollbarHor(self);
+			var _scrollbarVer = FORMS_GetScrollbarVer(self);
+			var _drawVer = false;
+			var _drawHor = false;
+
+			if (!is_undefined(_scrollbarVer))
+			{
+				_drawVer = _scrollbarVer.IsVisible();
+				_scrollY = _scrollbarVer.GetScroll() * _drawVer;
+			}
+			if (!is_undefined(_scrollbarHor))
+			{
+				_drawHor = _scrollbarHor.IsVisible();
+				_scrollX = _scrollbarHor.GetScroll() * _drawHor;
+			}
+
+			if (!is_undefined(_scrollbarVer))
+			{
+				var _height = Height - _drawHor * _scrollbarHor.Height;
+				_scrollbarVer.SetHeight(_height);
+				_scrollbarVer.Size = _height;
+				_scrollbarVer.CalcJumpAndThumbSize();
+
+				if (_drawVer)
+				{
+					FORMS_DrawItem(_scrollbarVer,
+						_scrollX + Width - _scrollbarVer.Width, _scrollY);
+				}
+			}
+
+			if (!is_undefined(_scrollbarHor))
+			{
+				var _width = Width - _drawVer * _scrollbarVer.Width;
+				_scrollbarHor.SetWidth(_width);
+				_scrollbarHor.Size = _width;
+				_scrollbarHor.CalcJumpAndThumbSize();
+
+				if (_drawHor)
+				{
+					FORMS_DrawItem(_scrollbarHor,
+						_scrollX, _scrollY + Height - _scrollbarHor.Height);
+				}
+			}
+
+			FORMS_MatrixRestore();
+			surface_reset_target();
+			FORMS_WIDGET_FILLING = undefined;
+		}
+	}
+
+	static OnDraw = function ()
+	{
+		FORMS_CanvasDraw(self);
+	};
+
+	static OnCleanUp = function ()
+	{
+		FORMS_CanvasCleanUp(self);
+	};
 }
 
-/// @func forms_canvas_cleanup(canvas)
+/// @func FORMS_CanvasCleanUp(_canvas)
+///
 /// @desc Frees canvas resources from memory.
-/// @param {real} canvas The id of the canvas.
-function forms_canvas_cleanup(canvas)
+///
+/// @param {Struct.FORMS_Canvas} _canvas The canvas.
+function FORMS_CanvasCleanUp(_canvas)
 {
-	var _surface = canvas[? "surface"];
+	var _surface = _canvas.Surface;
 	if (surface_exists(_surface))
 	{
 		surface_free(_surface);
 	}
-	forms_widgetset_cleanup(canvas);
+	FORMS_CompoundWidgetCleanUp(_canvas);
 }
 
-/// @func forms_canvas_draw(canvas)
+/// @func FORMS_CanvasDraw(_canvas)
+///
 /// @desc Draws the canvas.
-/// @param {canvas} canvas The id of the canvas.
-function forms_canvas_draw(canvas)
+///
+/// @param {Struct.FORMS_Canvas} The canvas.
+function FORMS_CanvasDraw(_canvas)
 {
-	var _surface = forms_canvas_get_surface(canvas);
+	var _surface = _canvas.Surface;
 	if (surface_exists(_surface))
 	{
-		draw_surface(
-			_surface,
-			forms_widget_get_x(canvas),
-			forms_widget_get_y(canvas));
+		draw_surface(_surface, _canvas.X, _canvas.Y);
 	}
 }
 
-/// @func forms_canvas_get_background(canvas)
-/// @desc Gets the background color of the canvas.
-/// @param {real} canvas The id of the canvas.
-/// @return {real} The background color of the canvas.
-function forms_canvas_get_background(canvas)
-{
-	gml_pragma("forceinline");
-	return canvas[? "background"];
-}
 
-/// @func forms_canvas_get_surface(canvas)
-/// @desc Gets the surface of the canvas.
-/// @param {real} canvas The id of the canvas.
-/// @return {real} The surface of the canvas.
-function forms_canvas_get_surface(canvas)
+/// @func FORMS_GetDrawPositionAbsolute(_x, _y)
+///
+/// @desc Retrieves an absolute position of a point drawn into a canvas.
+///
+/// @param {Real} _x The x coordinate.
+/// @param {Real} _y The y coordinate.
+///
+/// @return {Array<Real>} An array `[x, y]` with the absolute coordinates on the
+/// screen.
+///
+/// @note This works only after {@link BBMOD_Canvas.BeginFill} and before
+/// {@link BBMOD_Canvas.EndFill}!
+function FORMS_GetDrawPositionAbsolute(_x, _y)
 {
-	gml_pragma("forceinline");
-	return canvas[? "surface"];
-}
-
-/// @func forms_canvas_set_background(canvas, background)
-/// @desc Sets the background color of the canvas.
-/// @param {real} canvas The id of the canvas.
-/// @param {real} background The new background color.
-function forms_canvas_set_background(canvas, background)
-{
-	gml_pragma("forceinline");
-	canvas[? "background"] = background;
-}
-
-/// @func forms_canvas_set_surface(canvas, surface)
-/// @desc Sets the surface of the canvas.
-/// @param {real} canvas The id of the canvas.
-/// @param {real} surface The id of the new surface.
-function forms_canvas_set_surface(canvas, surface)
-{
-	gml_pragma("forceinline");
-	canvas[? "surface"] = surface;
-}
-
-/// @func forms_begin_fill(_canvas)
-/// @desc Sets the canvas surface as the render target.
-/// @param {real} _canvas The id of the canvas.
-/// @return {bool} True if the surface has been set as the render target.
-function forms_begin_fill(_canvas)
-{
-	////////////////////////////////////////////////////////////////////////////////
-	// Check surface
-	var _surface = forms_canvas_get_surface(_canvas);
-	var _width = max(forms_widget_get_width(_canvas), 1);
-	var _height = max(forms_widget_get_height(_canvas), 1);
-
-	if (surface_exists(_surface))
+	var _position = FORMS_WIDGET_FILLING.GetPositionAbsolute();
+	var _scrollbarHor = FORMS_WIDGET_FILLING.ScrollbarHor;
+	var _scrollbarVer = FORMS_WIDGET_FILLING.ScrollbarVer;
+	if (_scrollbarHor != undefined)
 	{
-		if (surface_get_width(_surface) != _width
-			|| surface_get_height(_surface) != _height)
+		if (_scrollbarHor.IsVisible())
 		{
-			surface_resize(_surface, _width, _height);
-			forms_request_redraw(_canvas);
+			_x -= _scrollbarHor.GetScroll();
+		}
+		if (_scrollbarVer.IsVisible())
+		{
+			_y -= _scrollbarVer.GetScroll();
 		}
 	}
-	else
-	{
-		_surface = surface_create(_width, _height);
-		forms_request_redraw(_canvas);
-	}
-	forms_canvas_set_surface(_canvas, _surface);
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Start filling
-	if (forms_widget_get_redraw(_canvas)
-		&& !forms_widget_filling)
-	{
-		forms_widget_set_redraw(_canvas, false);
-		var _scroll_x = 0;
-		var _scroll_y = 0;
-		var _scrollbar_hor = _canvas[? "scrollbar_hor"]
-		var _scrollbar_ver = _canvas[? "scrollbar_ver"];
-		if (!is_undefined(_scrollbar_hor))
-		{
-			_scroll_x = forms_scrollbar_get_scroll(_scrollbar_hor)
-				* forms_scrollbar_is_visible(_scrollbar_hor);
-		}
-		if (!is_undefined(_scrollbar_ver))
-		{
-			_scroll_y = forms_scrollbar_get_scroll(_scrollbar_ver)
-				* forms_scrollbar_is_visible(_scrollbar_ver);
-		}
-		surface_set_target(_surface);
-		draw_clear(forms_canvas_get_background(_canvas));
-		forms_matrix_set(-_scroll_x, -_scroll_y);
-		forms_widget_filling = _canvas;
-		forms_widget_id = 0;
-		return true;
-	}
-	return false;
-}
-
-/// @func forms_end_fill(_canvas)
-/// @desc Finishes drawing into the canvas and resets the render target.
-/// @param {real} _canvas The id of the canvas.
-function forms_end_fill(_canvas)
-{
-	if (forms_widget_filling == _canvas)
-	{
-		var _scroll_x = 0;
-		var _scroll_y = 0;
-		var _scrollbar_ver = _canvas[? "scrollbar_ver"];
-		var _scrollbar_hor = _canvas[? "scrollbar_hor"];
-		var _draw_ver = false;
-		var _draw_hor = false;
-
-		if (!is_undefined(_scrollbar_ver))
-		{
-			_draw_ver = forms_scrollbar_is_visible(_scrollbar_ver);
-			_scroll_y = forms_scrollbar_get_scroll(_scrollbar_ver) * _draw_ver;
-		}
-		if (!is_undefined(_scrollbar_hor))
-		{
-			_draw_hor = forms_scrollbar_is_visible(_scrollbar_hor);
-			_scroll_x = forms_scrollbar_get_scroll(_scrollbar_hor) * _draw_hor;
-		}
-
-		if (!is_undefined(_scrollbar_ver))
-		{
-			var _height = forms_widget_get_height(_canvas) - _draw_hor * forms_widget_get_height(_scrollbar_hor);
-			forms_widget_set_height(_scrollbar_ver, _height);
-			_scrollbar_ver[? "size"] = _height;
-			forms_scrollbar_calc_jump_and_thumb_size(_scrollbar_ver);
-
-			if (_draw_ver)
-			{
-				forms_draw_item(_scrollbar_ver, _scroll_x + forms_widget_get_width(_canvas) - forms_widget_get_width(_scrollbar_ver), _scroll_y);
-			}
-		}
-
-		if (!is_undefined(_scrollbar_hor))
-		{
-			var _width = forms_widget_get_width(_canvas) - _draw_ver * forms_widget_get_width(_scrollbar_ver);
-			forms_widget_set_width(_scrollbar_hor, _width);
-			_scrollbar_hor[? "size"] = _width;
-			forms_scrollbar_calc_jump_and_thumb_size(_scrollbar_hor);
-
-			if (_draw_hor)
-			{
-				forms_draw_item(_scrollbar_hor, _scroll_x, _scroll_y + forms_widget_get_height(_canvas) - forms_widget_get_height(_scrollbar_hor));
-			}
-		}
-
-		if (_draw_ver && _draw_hor)
-		{
-			var _size = 14;
-			var _x = _scroll_x + forms_widget_get_width(_canvas) - _size;
-			var _y = _scroll_y + forms_widget_get_height(_canvas) - _size;
-			ce_draw_rectangle(_x, _y, _size, _size, c_black);
-		}
-
-		forms_matrix_restore();
-		surface_reset_target();
-		forms_widget_filling = noone;
-	}
+	return [_position[0] + _x, _position[1] + _y];
 }

@@ -1,418 +1,395 @@
-function FORMS_Widget() {}
-
-/// @func forms_widget_create([type])
-/// @desc Creates a new widget.
-/// @param {FORMS_EShape} [type] The type of the widget.
-/// @return {real} The id of the created widget.
-function forms_widget_create()
+/// @func FORMS_Widget()
+///
+/// @desc Base struct for widgets.
+function FORMS_Widget() constructor
 {
-	static _id = 0;
+	/// @var {FORMS_EWidgetType} The type of the widget.
+	/// @readonly
+	/// @see FORMS_EWidgetType
+	static Type = FORMS_EWidgetType.Blank;
 
-	var _widget = ds_map_create();
-	if (argument_count == 1)
+	/// @private
+	static IdNext = 0;
+
+	/// @var {Real} The id of the widget.
+	/// @readonly
+	Id = IdNext++;
+
+	/// @var {Struct.FORMS_CompoundWidget} The widget's parent or `undefined`.
+	/// @readonly
+	Parent = undefined;
+
+	/// @var {Real} The widget's position on the X axis.
+	X = 0;
+
+	/// @var {Real} The widget's position on the Y axis.
+	Y = 0;
+
+	/// @var {Real} The widget's width.
+	Width = 1;
+
+	/// @var {Real} The widget's height.
+	Height = 1;
+
+	/// @var {Real} The widget's depth. User for sorting widgets within its parent.
+	Depth = 0;
+
+	/// @var {Bool} If `true` then the widget's content needs to be redrawed.
+	Redraw = true;
+
+	/// @var {String} The widget's tooltip displayed on mouse over or `undefined`.
+	Tooltip = undefined;
+
+	/// @var {Struct.FORMS_KeyboardShortcut[]} Keyboard shortcuts usable when
+	/// the widget
+	/// is active.
+	/// @readonly
+	KeyboardShortcuts = [];
+
+	/// @var {Bool} If `true` then the widget will be destroyed at the end of the
+	/// frame and it should not be used anymore.
+	/// @private
+	Destroyed = false;
+
+	/// @func AddKeyboardShortcut(_keyboardShortcut)
+	///
+	/// @desc Adds keyboard shortcut to the widget.
+	///
+	/// @param {Struct.FORMS_KeyboardShortcut} _keyboardShortcut The keyboard
+	/// shortcut.
+	static AddKeyboardShortcut = function (_keyboardShortcut)
 	{
-		forms_widget_set_type(_widget, argument[0]);
-	}
-	else
+		gml_pragma("forceinline");
+		array_push(KeyboardShortcuts, _keyboardShortcut);
+	};
+
+	/// @func IsAncestor(_item)
+	///
+	/// @desc Finds out whether the widget is an ancestor of an item.
+	///
+	/// @param {Struct.FORMS_Widget} _item The item.
+	///
+	/// @return {Bool} True if the widget is an ancestor the item.
+	static IsAncestor = function (_item)
 	{
-		forms_widget_set_type(_widget, FORMS_Widget);
-	}
-	forms_widget_set_depth(_widget, noone);
-	forms_widget_set_delegate(_widget, noone);
-	forms_widget_set_x(_widget, 0);
-	forms_widget_set_y(_widget, 0);
-	forms_widget_set_width(_widget, 1);
-	forms_widget_set_height(_widget, 1);
-	forms_widget_set_depth(_widget, 0);
+		if (!FORMS_WidgetExists(_item))
+		{
+			return false;
+		}
+		var _parent = _item.Parent;
+		if (!FORMS_WidgetExists(_parent))
+		{
+			return false;
+		}
+		if (_parent == self)
+		{
+			return true;
+		}
+		return IsAncestor(_parent);
+	};
 
-	_widget[? "id"] = "widget" + string(_id++);
-	_widget[? "redraw"] = true;
+	/// @func IsActive()
+	///
+	/// @desc Gets whether the widget is active.
+	///
+	/// @return {Bool} True if the widget is active.
+	static IsActive = function ()
+	{
+		gml_pragma("forceinline");
+		return (FORMS_WIDGET_ACTIVE == self);
+	};
 
-	_widget[? "scr_update"] = forms_widget_update;
-	_widget[? "scr_draw"] = noone;
-	_widget[? "scr_cleanup"] = forms_widget_cleanup;
+	/// @func IsHovered()
+	///
+	/// @desc Gets whether the widget is hovered.
+	///
+	/// @return {Bool} True if the widget is hovered.
+	static IsHovered = function ()
+	{
+		gml_pragma("forceinline");
+		return (FORMS_WIDGET_HOVERED == self
+			&& (!FORMS_WidgetExists(FORMS_WIDGET_ACTIVE)
+			|| FORMS_WIDGET_ACTIVE == self));
+	};
 
-	_widget[? "scr_on_redraw"] = noone;
+	/// @func IsSelected()
+	///
+	/// @desc Gets whether the widget is selected.
+	///
+	/// @return {Bool} True if the widget is selected.
+	static IsSelected = function ()
+	{
+		gml_pragma("forceinline");
+		return (FORMS_WIDGET_SELECTED == self);
+	};
 
-	_widget[? "reference"] = undefined;
+	/// @func GetPositionAbsolute()
+	///
+	/// @desc Retreives the widget's absolute position on the screen.
+	///
+	/// @return {Array<Real>} An array `[x, y]` with the the widget's absolute
+	/// position on the screen.
+	static GetPositionAbsolute = function ()
+	{
+		var _x = 0;
+		var _y = 0;
+		var _widget = self;
+		while (_widget != undefined)
+		{
+			_x += _widget.X;
+			_y += _widget.Y;
+			_widget = _widget.Parent;
+		}
+		return [_x, _y];
+	};
 
-	return _widget;
+	/// @func SetPosition(_x, _y)
+	///
+	/// @desc Sets the x and y position of the widget relative to its parent.
+	///
+	/// @param {Real} _x The new x position.
+	/// @param {Real} _y The new y position.
+	///
+	/// @return {Struct.FORMS_Widget} Returns `self`.
+	static SetPosition = function (_x, _y)
+	{
+		gml_pragma("forceinline");
+		X = _x;
+		Y = _y;
+		return self;
+	};
+
+	/// @func SetWidth(_width)
+	///
+	/// @desc Sets the width of the widget.
+	///
+	/// @param {Real} _width The new width.
+	///
+	/// @return {Struct.FORMS_Widget} Returns `self`.
+	static SetWidth = function (_width)
+	{
+		gml_pragma("forceinline");
+		Width = max(_width, 1);
+		return self;
+	};
+
+	/// @func SetHeight(_height)
+	///
+	/// @desc Sets the height of the widget.
+	///
+	/// @param {Real} _height The new height.
+	///
+	/// @return {Struct.FORMS_Widget} Returns `self`.
+	static SetHeight = function (_height)
+	{
+		gml_pragma("forceinline");
+		Height = max(_height, 1);
+		return self;
+	};
+
+	/// @func SetSize(_width, _height)
+	///
+	/// @desc Sets the width and height of the widget.
+	///
+	/// @param {Real} _width The new width.
+	/// @param {Real} _height The new height.
+	///
+	/// @return {Struct.FORMS_Widget} Returns `self`.
+	static SetSize = function (_width, _height)
+	{
+		gml_pragma("forceinline");
+		SetWidth(_width);
+		SetHeight(_height);
+		return self;
+	};
+
+	/// @func SetRectangle(_widget, _x, _y, _width, _height)
+	///
+	/// @desc Sets the x and y position of the widget relative to its parent and
+	/// its size.
+	///
+	/// @param {Real} _x The new x position.
+	/// @param {Real} _y The new y position.
+	/// @param {Real} _width The new width.
+	/// @param {Real} _height The new height.
+	///
+	/// @return {Struct.FORMS_Widget} Returns `self`.
+	static SetRectangle = function (_x, _y, _width, _height)
+	{
+		gml_pragma("forceinline");
+		SetPosition(_x, _y);
+		SetWidth(_width);
+		SetHeight(_height);
+		return self;
+	};
+
+	static OnUpdate = function ()
+	{
+		FORMS_WidgetUpdate(self);
+	};
+
+	static OnDraw = function () {};
+
+	static OnCleanUp = function ()
+	{
+		FORMS_WidgetCleanUp(self);
+	};
 }
 
-/// @func forms_widget_cleanup(_widget)
-/// @desc Frees resources used by the widget from memory.
-/// @param {real} _widget The id of the widget.
-function forms_widget_cleanup(_widget)
+/// @func FORMS_DestroyWidget(_widget)
+///
+/// @desc Destroys the widget.
+///
+/// @param {Struct.FORMS_Widget} _widget The widget.
+function FORMS_DestroyWidget(_widget)
 {
-	if (forms_widget_exists(_widget))
+	gml_pragma("forceinline");
+	if (FORMS_WidgetExists(_widget))
 	{
-		// Remove from delegate
-		var _delegate = forms_widget_get_delegate(_widget);
-		if (forms_widget_exists(_delegate))
+		ds_stack_push(FORMS_DESTROY_STACK, _widget);
+	}
+}
+
+/// @func FORMS_RequestRedraw(_widget)
+///
+/// @desc Pushes a redraw request of the given widget to the parent.
+///
+/// @param {Struct.FORMS_Widget} _widget The widget to redraw.
+function FORMS_RequestRedraw(_widget)
+{
+	while (FORMS_WidgetExists(_widget))
+	{
+		_widget.Redraw = true;
+		_widget = _widget.Parent;
+	}
+}
+
+/// @func FORMS_RequestRedrawAll(_widget)
+///
+/// @desc Requests redraw of all child widget.
+///
+/// @param {Struct.FORMS_Widget} _widget The widget.
+function FORMS_RequestRedrawAll(_widget)
+{
+	_widget.Redraw = true;
+	var _items = FORMS_GetItems(_widget);
+	if (!is_undefined(_items))
+	{
+		for (var i = ds_list_size(_items) - 1; i >= 0; --i)
 		{
-			var _items = forms_widgetset_get_items(_delegate);
+			FORMS_RequestRedrawAll(_items[| i]);
+		}
+	}
+}
+
+/// @func FORMS_WidgetCleanUp(_widget)
+///
+/// @desc Frees resources used by the widget from memory.
+///
+/// @param {Struct.FORMS_Widget} _widget The widget.
+function FORMS_WidgetCleanUp(_widget)
+{
+	if (FORMS_WidgetExists(_widget))
+	{
+		// Remove from parent
+		var _parent = _widget.Parent;
+		if (FORMS_WidgetExists(_parent))
+		{
+			var _items = FORMS_GetItems(_parent);
 			var _pos = ds_list_find_index(_items, _widget);
 			if (_pos >= 0)
 			{
 				ds_list_delete(_items, _pos);
 			}
 		}
-
-		var _reference = _widget[? "reference"];
-		if (!is_undefined(_reference))
-		{
-			variable_instance_set(id, _reference, noone);
-		}
-
-		// Destroy self
-		ds_map_destroy(_widget);
+		_widget.Destroyed = true;
 	}
 }
 
-/// @func forms_widget_delegates_recursive(widget, item)
-/// @desc Finds out whether the widget delegates the item.
-/// @param {real} widget The id of the widget.
-/// @param {real} item The id of the widget.
-/// @return {bool} True if the widget delegates the item.
-/// @note If the widget is not the delegate of the item, this
-/// function is called recursively for the item's delegate,
-/// until the widget is found or the item does not have delegate.
-/// This way you can check for chained delegation. Wtf?!
-function forms_widget_delegates_recursive(widget, item)
-{
-	if (!forms_widget_exists(item))
-	{
-		return false;
-	}
-	var _delegate = forms_widget_get_delegate(item);
-	if (!forms_widget_exists(_delegate))
-	{
-		return false;
-	}
-	if (_delegate == widget)
-	{
-		return true;
-	}
-	return forms_widget_delegates_recursive(widget, _delegate);
-}
-
-/// @func forms_widget_destroy(widget)
-/// @desc Destroys the widget.
-/// @param {real} widget The id of the widget.
-function forms_widget_destroy(widget)
-{
-	gml_pragma("forceinline");
-	if (forms_widget_exists(widget))
-	{
-		ds_stack_push(forms_destroy_stack, widget);
-	}
-}
-
-/// @func forms_widget_exists(widget)
+/// @func FORMS_WidgetExists(_widget)
+///
 /// @desc Finds out whether the widget exists.
-/// @param {real} widget The id of the widget.
-/// @return {bool} True if the widget does exist.
-function forms_widget_exists(widget)
+///
+/// @param {Struct.FORMS_Widget} _widget The widget.
+///
+/// @return {Bool} True if the widget does exist.
+function FORMS_WidgetExists(_widget)
 {
-	if (!is_real(widget))
+	try
+	{
+		// FIXME: Somewhat hacky...
+		return (variable_struct_exists(_widget, "Type")
+			&& _widget.Type >= 0
+			&& _widget.Type < FORMS_EWidgetType.SIZE
+			&& variable_struct_exists(_widget, "Destroyed")
+			&& !_widget.Destroyed);
+	}
+	catch (_err)
 	{
 		return false;
 	}
-	return ds_exists(widget, ds_type_map);
 }
 
-/// @func forms_widget_get_delegate(widget)
-/// @desc Gets the delegate of the widget.
-/// @param {real} widget The id of the widget.
-/// @return {real} The id of the delegate or noone.
-function forms_widget_get_delegate(widget)
-{
-	gml_pragma("forceinline");
-	return widget[? "delegate"];
-}
-
-/// @func forms_widget_get_depth(widget)
-/// @desc Gets the depth of the widget.
-/// @param {real} widget The id of the widget.
-/// @return {real} The depth of the widget.
-function forms_widget_get_depth(widget)
-{
-	gml_pragma("forceinline");
-	return widget[? "depth"];
-}
-
-/// @func forms_widget_get_height(widget)
-/// @desc Gets the height of the widget.
-/// @param {real} widget The id of the widget.
-/// @return {real} The height of the widget.
-function forms_widget_get_height(widget)
-{
-	gml_pragma("forceinline");
-	return widget[? "height"];
-}
-
-/// @func forms_widget_get_redraw(widget)
-/// @desc Gets the redraw state of the widget.
-/// @param {real} widget The id of the widget.
-/// @return {bool} The redraw state of the widget.
-function forms_widget_get_redraw(widget)
-{
-	gml_pragma("forceinline");
-	return widget[? "redraw"];
-}
-
-/// @func forms_widget_get_tooltip(widget)
-/// @desc Gets the tooltip of the widget.
-/// @param {real} widget The id of the widget.
-/// @return {string} The widget tooltip or an empty string if it does not have any.
-function forms_widget_get_tooltip(widget)
-{
-	var _tooltip = widget[? "tooltip"];
-	if (is_undefined(_tooltip))
-	{
-		return "";
-	}
-	return _tooltip;
-}
-
-/// @func forms_widget_get_type(widget)
-/// @desc Gets the type of the widget.
-/// @param {real} widget The id of the widget.
-/// @return {real} The type of the widget.
-function forms_widget_get_type(widget)
-{
-	gml_pragma("forceinline");
-	return widget[? "type"];
-}
-
-/// @func forms_widget_get_width(widget)
-/// @desc Gets the width of the widget.
-/// @param {real} widget The id of the widget.
-/// @return {real} The width of the widget.
-function forms_widget_get_width(widget)
-{
-	gml_pragma("forceinline");
-	return widget[? "width"];
-}
-
-/// @func forms_widget_get_x(widget)
-/// @desc Gets the x position of the widget.
-/// @param {real} widget The id of the widget.
-/// @return {real} The x position of the widget relative to it's delegate.
-function forms_widget_get_x(widget)
-{
-	gml_pragma("forceinline");
-	return widget[? "x"];
-}
-
-/// @func forms_widget_get_y(widget)
-/// @desc Gets the y position of the widget.
-/// @param {real} widget The id of the widget.
-/// @return {real} The y position of the widget relative to it's delegate.
-function forms_widget_get_y(widget)
-{
-	gml_pragma("forceinline");
-	return widget[? "y"];
-}
-
-/// @func forms_widget_is_active(widget)
-/// @desc Gets whether the widget is active.
-/// @param {real} widget The id of the widget.
-/// @return {bool} True if the widget is active.
-function forms_widget_is_active(widget)
-{
-	gml_pragma("forceinline");
-	return (forms_widget_active == widget);
-}
-
-/// @func forms_widget_is_hovered(widget)
-/// @desc Gets whether the widget is hovered.
-/// @param {real} widget The id of the widget.
-/// @return {bool} True if the widget is hovered.
-function forms_widget_is_hovered(widget)
-{
-	gml_pragma("forceinline");
-	return (forms_widget_hovered == widget
-		&& (forms_mouse_input_widget == widget
-		|| !forms_widget_exists(forms_mouse_input_widget))
-		&& (forms_widget_active == widget
-		|| !forms_widget_exists(forms_widget_active)));
-}
-
-/// @func forms_widget_is_selected(widget)
-/// @desc Gets whether the widget is selected.
-/// @param {real} widget The id of the widget.
-/// @return {bool} True if the widget is selected.
-function forms_widget_is_selected(widget)
-{
-	gml_pragma("forceinline");
-	return (forms_widget_selected == widget);
-}
-
-/// @func forms_widget_set_delegate(widget, delegate)
-/// @desc Sets the delegate of the widget.
-/// @param {real} widget The id of the widget.
-/// @param {real} delegate The id of the delegate or noone.
-function forms_widget_set_delegate(widget, delegate)
-{
-	gml_pragma("forceinline");
-	widget[? "delegate"] = delegate;
-}
-
-/// @func forms_widget_set_depth(_widget, _depth)
-/// @desc Sets the depth of the widget.
-/// @param {real} _widget The id of the widget.
-/// @param {real} _depth The new depth.
-function forms_widget_set_depth(_widget, _depth)
-{
-	gml_pragma("forceinline");
-	_widget[? "depth"] = _depth;
-}
-
-/// @func forms_widget_set_height(widget, height)
-/// @desc Sets the width of the widget.
-/// @param {real} widget The id of the widget.
-/// @param {real} height The new height.
-function forms_widget_set_height(widget, height)
-{
-	gml_pragma("forceinline");
-	widget[? "height"] = max(height, 1);
-}
-
-/// @func forms_widget_set_position(_widget, _x, _y)
-/// @desc Sets the x and y position of the widget relative to it's delegate.
-/// @param {real} _widget The id of the widget.
-/// @param {real} _x The new x position.
-/// @param {real} _y The new y position.
-function forms_widget_set_position(widget, _x, _y)
-{
-	gml_pragma("forceinline");
-	forms_widget_set_x(widget, _x);
-	forms_widget_set_y(widget, _y);
-}
-
-/// @func forms_widget_set_rectangle(_widget, _x, _y, _width, _height)
-/// @desc Sets the x and y position of the widget relative to it's delegate and it's size.
-/// @param {real} _widget The id of the widget.
-/// @param {real} _x The new x position.
-/// @param {real} _y The new y position.
-/// @param {real} _width The new width.
-/// @param {real} _height The new height.
-function forms_widget_set_rectangle(_widget, _x, _y, _width, _height)
-{
-	gml_pragma("forceinline");
-	forms_widget_set_x(_widget, _x);
-	forms_widget_set_y(_widget, _y);
-	forms_widget_set_width(_widget, _width);
-	forms_widget_set_height(_widget, _height);
-}
-
-/// @func forms_widget_set_redraw(widget, redraw)
-/// @desc Sets the redraw state of the widget.
-/// @param {real} widget The id of the widget.
-/// @param {bool} redraw The new redraw state.
-function forms_widget_set_redraw(widget, redraw)
-{
-	gml_pragma("forceinline");
-	widget[? "redraw"] = redraw;
-	if (redraw)
-	{
-		var _on_redraw = widget[? "scr_on_redraw"];
-		if (_on_redraw != noone)
-		{
-			_on_redraw(widget);
-		}
-	}
-}
-
-/// @func forms_widget_set_size(widget, width, height)
-/// @desc Sets the width and height of the widget.
-/// @param {real} widget The id of the widget.
-/// @param {real} width The new width.
-/// @param {real} height The new height.
-function forms_widget_set_size(widget, width, height)
-{
-	gml_pragma("forceinline");
-	forms_widget_set_width(widget, width);
-	forms_widget_set_height(widget, height);
-}
-
-/// @func forms_widget_set_tooltip(widget, text)
-/// @desc Sets the tooltip of the widget.
-/// @param {real} widget The id of the widget.
-/// @param {string} text The tooltip text.
-function forms_widget_set_tooltip(widget, text)
-{
-	gml_pragma("forceinline");
-	widget[? "tooltip"] = text;
-}
-
-/// @func forms_widget_set_type(widget, type)
-/// @desc Sets the type of the widget.
-/// @param {real} widget The id of the widget.
-/// @param {real} type The new type.
-function forms_widget_set_type(widget, type)
-{
-	gml_pragma("forceinline");
-	widget[? "type"] = type;
-}
-
-/// @func forms_widget_set_width(widget, width)
-/// @desc Sets the width of the widget.
-/// @param {real} widget The id of the widget.
-/// @param {real} width The new width.
-function forms_widget_set_width(widget, width)
-{
-	gml_pragma("forceinline");
-	widget[? "width"] = max(width, 1);
-}
-
-/// @func forms_widget_set_x(_widget, _x)
-/// @desc Sets the x position of the widget relative to it's delegate.
-/// @param {real} _widget The id of the widget.
-/// @param {real} _x The new x position.
-function forms_widget_set_x(_widget, _x)
-{
-	gml_pragma("forceinline");
-	_widget[? "x"] = _x;
-}
-
-/// @func forms_widget_set_y(_widget, _y)
-/// @desc Sets the y position of the widget relative to it's delegate.
-/// @param {real} _widget The id of the widget.
-/// @param {real} _y The new y position.
-function forms_widget_set_y(_widget, _y)
-{
-	gml_pragma("forceinline");
-	_widget[? "y"] = _y;
-}
-
-/// @func forms_widget_update(_widget)
+/// @func FORMS_WidgetUpdate(_widget)
+///
 /// @desc Updates the widget.
-/// @param {real} _widget The id of the widget.
-function forms_widget_update(_widget)
+///
+/// @param {Struct.FORMS_Widget} _widget The widget.
+function FORMS_WidgetUpdate(_widget)
 {
-	//forms_widget_set_size(_widget, forms_widget_get_width(_widget), forms_widget_get_height(_widget));
+	//_widget.SetSize(_widget.Width, _widget.Height);
 
-	if (forms_widget_is_hovered(_widget))
+	// Set tooltip on mouse over
+	if (_widget.IsHovered())
 	{
-		// Set tooltip on mouse over
-		var _tooltip = forms_widget_get_tooltip(_widget);
-		if (_tooltip != "")
-		{
-			forms_tooltip_str = _tooltip;
-		}
+		FORMS_TOOLTIP = _widget.Tooltip;
 
 		// Select widget
 		if (mouse_check_button_pressed(mb_any))
 		{
-			var _exists = forms_widget_exists(forms_widget_selected);
-			if ((_exists && forms_widget_selected != _widget)
+			var _exists = FORMS_WidgetExists(FORMS_WIDGET_SELECTED);
+			if ((_exists && FORMS_WIDGET_SELECTED != _widget)
 				|| !_exists)
 			{
-				forms_request_redraw_all(forms_root);
+				FORMS_RequestRedrawAll(FORMS_ROOT);
 			}
-			forms_widget_selected = _widget;
+			FORMS_WIDGET_SELECTED = _widget;
 		}
+	}
+}
+
+
+/// @func FORMS_PushMouseCoordinates(_widget)
+///
+/// @desc Pushes mouse coordinates to be relative to the widget.
+///
+/// @param {Struct.FORMS_Widget} _widget The widget.
+function FORMS_PushMouseCoordinates(_widget)
+{
+	var _x = _widget.X;
+	var _y = _widget.Y;
+	var _scrollX = 0;
+	var _scrollY = 0;
+	var _scrollbarHor = FORMS_GetScrollbarHor(_widget);
+	var _scrollbarVer = FORMS_GetScrollbarVer(_widget);
+
+	if (!is_undefined(_scrollbarHor))
+	{
+		_scrollX = _scrollbarHor.GetScroll() * _scrollbarHor.IsVisible();
+	}
+	if (!is_undefined(_scrollbarVer))
+	{
+		_scrollY = _scrollbarVer.GetScroll() * _scrollbarVer.IsVisible();
+	}
+	if (is_nan(_scrollX)) _scrollX = 0;
+	if (is_nan(_scrollY)) _scrollY = 0;
+
+	FORMS_MOUSE_X += -_x + _scrollX;
+	FORMS_MOUSE_Y += -_y + _scrollY;
+
+	var _parent = _widget.Parent;
+	if (FORMS_WidgetExists(_parent))
+	{
+		FORMS_PushMouseCoordinates(_parent);
 	}
 }

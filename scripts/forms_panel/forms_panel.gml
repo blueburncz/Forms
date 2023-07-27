@@ -1,90 +1,90 @@
-function FORMS_Panel() {}
-
-/// @func forms_panel_create(_title[, _icon])
-/// @desc Creates a new panel.
-/// @param {string} _title The name of the panel.
-/// @param {FORMS_EIcon/undefined} [icon] The panel icon. Defaults to `FORMS_EIcon.ListAlt`.
-/// @return {real} The id of the created panel.
-function forms_panel_create(_title)
+/// @func FORMS_Panel(_title)
+///
+/// @extends FORMS_CompoundWidget
+///
+/// @param {String} _title The name of the panel.
+function FORMS_Panel(_title)
+	: FORMS_CompoundWidget() constructor
 {
-	var _panel = forms_widgetset_create(FORMS_Panel);
-	var _titlebar = forms_titlebar_create(_title, (argument_count > 1) ? argument[1] : FORMS_EIcon.ListAlt);
-	_panel[? "titlebar"] = _titlebar;
-	var _container = forms_container_create();
-	_panel[? "container"] = _container;
-	forms_add_item(_panel, _titlebar);
-	forms_add_item(_panel, _container);
-	_panel[? "scr_draw"] = forms_panel_draw;
-	return _panel;
+	static Type = FORMS_EWidgetType.Panel;
+
+	/// @var {Struct.FORMS_Container}
+	/// @readonly
+	TitleBar = new FORMS_Container();
+	TitleBar.Title = _title;
+	TitleBar.SetContent(new FORMS_TitleBarContent());
+	TitleBar.Background = FORMS_GetColor(FORMS_EStyle.WindowBorder);
+	AddItem(TitleBar);
+
+	/// @var {Struct.FORMS_Container}
+	/// @readonly
+	Container = new FORMS_Container();
+	AddItem(Container);
+
+	static OnDraw = function ()
+	{
+		FORMS_PanelDraw(self);
+	};
 }
 
-/// @func forms_panel_draw(_panel)
+/// @func FORMS_PanelDraw(_panel)
+///
 /// @desc Draws the panel.
-/// @param {real} _panel The id of the panel.
-function forms_panel_draw(_panel)
+///
+/// @param {Struct.FORMS_Panel} _panel The panel.
+function FORMS_PanelDraw(_panel)
 {
-	var _panel_w = forms_widget_get_width(_panel);
-	var _panel_h = forms_widget_get_height(_panel);
-	var _titlebar = forms_panel_get_titlebar(_panel);
-	var _container = forms_panel_get_container(_panel);
+	var _panelW = _panel.Width;
+	var _panelH = _panel.Height;
+	var _titleBar = _panel.TitleBar;
+	var _container = _panel.Container;
 
-	forms_matrix_push(forms_widget_get_x(_panel), forms_widget_get_y(_panel));
+	FORMS_MatrixPush(_panel.X, _panel.Y);
 
-	forms_widget_set_width(_titlebar, _panel_w);
-	forms_draw_item(_titlebar, 0, 0);
-	forms_widget_set_height(_titlebar,
-		clamp(forms_container_get_content_height(_titlebar), 1, _panel_h - 1));
+	_titleBar.SetWidth(_panelW);
+	FORMS_DrawItem(_titleBar, 0, 0);
+	_titleBar.SetHeight(
+		clamp(_titleBar.GetContentHeight(), 1, _panelH - 1));
 
 	var _border = 1;
-	var _titlebar_height = forms_widget_get_height(_titlebar);
-	forms_widget_set_size(_container,
-		_panel_w - _border * 2,
-		max(_panel_h - _titlebar_height - _border, 1));
+	var _titleBarHeight = _titleBar.Height;
+	_container.SetSize(
+		_panelW - _border * 2,
+		max(_panelH - _titleBarHeight - _border, 1));
 
-	var _selected_shape = forms_get_selected_widget();
-	var _color_border = FORMS_C_WINDOW_BORDER;
-	ce_draw_rectangle(0, _titlebar_height, _panel_w, _panel_h - _titlebar_height, _color_border);
-	forms_draw_item(_container, _border, _titlebar_height);
+	var _selectedWidget = FORMS_WIDGET_SELECTED;
+	var _colourBorder = FORMS_GetColor(FORMS_EStyle.WindowBorder);
+	if (_selectedWidget == _panel
+		|| _panel.IsAncestor(_selectedWidget))
+	{
+		_colourBorder = FORMS_GetColor(FORMS_EStyle.Active);
+	}
+	FORMS_DrawRectangle(0, _titleBarHeight, _panelW, _panelH - _titleBarHeight, _colourBorder);
+	FORMS_DrawItem(_container, _border, _titleBarHeight);
 
-	forms_matrix_restore();
+	FORMS_MatrixRestore();
 }
 
-/// @func forms_panel_get_container(panel)
-/// @desc Gets the container of the panel.
-/// @param {real} panel The id of the panel.
-/// @return {real} The container of the panel.
-function forms_panel_get_container(panel)
-{
-	gml_pragma("forceinline");
-	return panel[? "container"];
-}
-
-/// @func forms_panel_get_titlebar(panel)
-/// @desc Gets the title bar of the panel.
-/// @param {real} panel The id of the panel.
-/// @return {real} The title bar of the panel.
-function forms_panel_get_titlebar(panel)
-{
-	gml_pragma("forceinline");
-	return panel[? "titlebar"];
-}
-
-/// @func forms_panel_set_content(panel, content)
+/// @func FORMS_PanelSetContent(_panel, _content)
+///
 /// @desc Sets the content of the panel.
-/// @param {real} panel The id of the panel.
-/// @param {real} content The new content script.
-function forms_panel_set_content(panel, content)
+///
+/// @param {Struct.FORMS_Panel} _panel The panel.
+/// @param {Struct.FORMS_Content} _content The new content.
+function FORMS_PanelSetContent(_panel, _content)
 {
-	var _container = panel[? "container"];
-	_container[? "content"] = content;
+	gml_pragma("forceinline");
+	_panel.Container.SetContent(_content);
 }
 
-/// @func forms_panel_set_titlebar(panel, content)
+/// @func FORMS_PanelSetTitleBar(panel, content)
+///
 /// @desc Sets the title bar of the panel.
-/// @param {real} panel The id of the panel.
-/// @param {real} content The new content script of the panels title bar.
-function forms_panel_set_titlebar(panel, content)
+///
+/// @param {Struct.FORMS_Panel} _panel The panel.
+/// @param {Struct.FORMS_Content} _content The new content of the panels title bar.
+function FORMS_PanelSetTitleBar(_panel, _content)
 {
-	var _titlebar = panel[? "titlebar"];
-	_titlebar[? "content"] = content;
+	gml_pragma("forceinline");
+	_panel.TitleBar.SetContent(_content);
 }
