@@ -10,7 +10,7 @@ function FORMS_Canvas()
 	/// @readonly
 	Surface = -1;
 
-	/// @var {color}
+	/// @var {Constant.Color}
 	Background = FORMS_GetColor(FORMS_EStyle.WindowBackground);
 
 	/// @func BeginFill()

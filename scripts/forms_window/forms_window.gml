@@ -21,7 +21,7 @@ function FORMS_Window()
 	/// @readonly
 	TitleBar = new FORMS_Container();
 	TitleBar.SetContent(new FORMS_WindowTitleBarContent());
-	TitleBar.Background = FORMS_GetColor(FORMS_EStyle.WindowBorder);
+	TitleBar.Background = FORMS_GetColor(FORMS_EStyle.Background);
 	AddItem(TitleBar);
 
 	/// @var {Struct.FORMS_Container}
@@ -49,6 +49,31 @@ function FORMS_Window()
 	Border = 4;
 
 	Depth = 16777216;
+
+	/// @func SetContent(_content)
+	///
+	/// @desc Sets content of the window.
+	///
+	/// @param {Struct.FORMS_Content} _content The new content of the window.
+	///
+	/// @return {Struct.FORMS_Window} Returns `self`.
+	static SetContent = function (_content)
+	{
+		gml_pragma("forceinline");
+		Container.Content = _content;
+		return self;
+	};
+
+	/// @func GetContent()
+	///
+	/// @desc Gets the content of the window.
+	///
+	/// @return {Struct.FORMS_Content} The content of the window.
+	static GetContent = function ()
+	{
+		gml_pragma("forceinline");
+		return Container.Content;
+	};
 
 	static OnUpdate = function ()
 	{
@@ -103,15 +128,15 @@ function FORMS_WindowDraw(_window)
 
 	// Title
 	_titleBar.SetWidth(_windowW - _border * 2);
-	FORMS_DrawItem(_titleBar, _border, 0);
+	FORMS_DrawItem(_titleBar, _border, _border);
 	var _titleBarHeight = _titleBar.GetContentHeight();
 	_titleBar.SetHeight(_titleBarHeight);
 
 	// Content
 	_container.SetSize(
 		_windowW - _border * 2,
-		max(_windowH - _titleBarHeight - _border, 1));
-	FORMS_DrawItem(_container, _border, _titleBarHeight);
+		_windowH - _titleBarHeight - _border * 2);
+	FORMS_DrawItem(_container, _border, _titleBarHeight + _border);
 
 	FORMS_MatrixRestore();
 
@@ -301,7 +326,7 @@ function FORMS_WindowUpdate(_window)
 function FORMS_WindowGetContent(_window)
 {
 	gml_pragma("forceinline");
-	return _window.Container.Content;
+	return _window.GetContent();
 }
 
 /// @func FORMS_WindowSetContent(_window, _content)
@@ -313,5 +338,5 @@ function FORMS_WindowGetContent(_window)
 function FORMS_WindowSetContent(_window, _content)
 {
 	gml_pragma("forceinline");
-	_window.Container.SetContent(_content);
+	_window.SetContent(_content);
 }

@@ -16,3 +16,16 @@ guiMenu.AddItem(new FORMS_MenuBarItem("Help", function (_contextMenu) {
 }));
 
 gui.AddItem(guiMenu);
+
+contentTest = new FORMS_Content();
+contentTest.Title = "Test";
+contentTest.OnDraw = function (_content) {
+	draw_text(0, 0, "Some stuff!");
+
+	_content.SetSize(300, 200);
+};
+
+var _window = new FORMS_Window();
+_window.SetPosition(100, 100);
+_window.SetContent(contentTest);
+gui.AddItem(_window);

@@ -22,10 +22,18 @@ function FORMS_Content() constructor
 	Description = "";
 
 	/// @var {Real} The width of the content.
+	/// @readonly
+	/// @see FORMS_Content.SetSize
 	Width = 0;
 
 	/// @var {Real} The height of the content.
+	/// @readonly
+	/// @see FORMS_Content.SetSize
 	Height = 0;
+
+	/// @var {Function, Undefined} A function executed in the {@link FORMS_Content.Draw}
+	/// method. The content is passed to it as the first argument.
+	OnDraw = undefined;
 
 	/// @func SetSize(_width, _height)
 	///
@@ -38,8 +46,8 @@ function FORMS_Content() constructor
 	static SetSize = function (_width, _height)
 	{
 		gml_pragma("forceinline");
-		Width = _width;
-		Height = _height;
+		Width = max(_width, 1);
+		Height = max(_height, 1);
 		return self;
 	};
 
@@ -50,6 +58,10 @@ function FORMS_Content() constructor
 	/// @return {Struct.FORMS_Content} Returns `self`.
 	static Draw = function ()
 	{
+		if (OnDraw != undefined)
+		{
+			OnDraw(self);
+		}
 		return self;
 	};
 }

@@ -22,19 +22,23 @@ function FORMS_TitleBarContent()
 		var _x = 4;
 		var _y = 4;
 		var _containerContent = _parent.Container.Content;
-		var _title = _containerContent.Title;
 
-		if (_containerContent.Icon != undefined)
+		if (_containerContent)
 		{
-			draw_sprite(_containerContent.Icon, _containerContent.IconSubimage, _x, _y);
-			_x += FORMS_LINE_HEIGHT + 4;
-		}
+			var _title = _containerContent.Title;
 
-		FORMS_DrawTextBold(
-			_x,
-			_y + round((FORMS_LINE_HEIGHT - FORMS_FONT_HEIGHT) * 0.5),
-			_title);
-		_y += FORMS_LINE_HEIGHT + 4;
+			if (_containerContent.Icon != undefined)
+			{
+				draw_sprite(_containerContent.Icon, _containerContent.IconSubimage, _x, _y);
+				_x += FORMS_LINE_HEIGHT + 4;
+			}
+
+			FORMS_DrawTextBold(
+				_x,
+				_y + round((FORMS_LINE_HEIGHT - FORMS_FONT_HEIGHT) * 0.5),
+				_title);
+			_y += FORMS_LINE_HEIGHT + 4;
+		}
 
 		SetSize(_containerWidth, _y);
 		return self;
