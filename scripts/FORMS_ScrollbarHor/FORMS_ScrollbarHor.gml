@@ -55,6 +55,7 @@ function FORMS_ScrollbarHorUpdate(_scrollbarHor)
 		{
 			//_scrollbar.MouseOffset = _x - FORMS_MOUSE_X;
 			_scrollbar.MouseOffset = window_mouse_get_x();
+			FORMS_CONTROL_STATE = FORMS_EControlState.Scrolling;
 			FORMS_WIDGET_ACTIVE = _scrollbar;
 		}
 	}
@@ -63,6 +64,7 @@ function FORMS_ScrollbarHorUpdate(_scrollbarHor)
 	if (mouse_check_button_released(mb_left)
 		&& FORMS_WIDGET_ACTIVE == _scrollbar)
 	{
+		FORMS_CONTROL_STATE = FORMS_EControlState.Default;
 		FORMS_WIDGET_ACTIVE = undefined;
 	}
 

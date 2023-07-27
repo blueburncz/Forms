@@ -18,7 +18,8 @@ function FORMS_DrawInput(_x, _y, _width)
 	var _id = FORMS_EncodeID(FORMS_WIDGET_FILLING, FORMS_WIDGET_ID_NEXT++);
 	var _parent = FORMS_WIDGET_FILLING;
 	var _xStart = _x;
-	var _active = (FORMS_INPUT_ACTIVE == _id);
+	var _active = (FORMS_CONTROL_STATE == FORMS_EControlState.Input
+		&& FORMS_INPUT_ACTIVE == _id);
 
 	var _value;
 	if (_active)
@@ -129,6 +130,7 @@ function FORMS_DrawInput(_x, _y, _width)
 			if (FORMS_INPUT_ACTIVE == undefined)
 			{
 				_active = true;
+				FORMS_CONTROL_STATE = FORMS_EControlState.Input;
 				FORMS_INPUT_ACTIVE = _id;
 				FORMS_INPUT_PARENT = _parent;
 				FORMS_INPUT_STRING = _value;
@@ -144,6 +146,7 @@ function FORMS_DrawInput(_x, _y, _width)
 			&& !FORMS_CONTEXT_MENU.IsAncestor(FORMS_WIDGET_HOVERED))))
 		{
 			// Return value when clicked outside of the input
+			FORMS_CONTROL_STATE = FORMS_EControlState.Default;
 			FORMS_INPUT_ACTIVE = undefined;
 			if (FORMS_WidgetExists(_parent))
 				FORMS_RequestRedraw(_parent);
@@ -178,6 +181,7 @@ function FORMS_DrawInput(_x, _y, _width)
 		if (keyboard_check_pressed(vk_enter))
 		{
 			// Return value when enter is pressed
+			FORMS_CONTROL_STATE = FORMS_EControlState.Default;
 			FORMS_INPUT_ACTIVE = undefined;
 			if (FORMS_WidgetExists(_parent))
 				FORMS_RequestRedraw(_parent);
@@ -188,6 +192,7 @@ function FORMS_DrawInput(_x, _y, _width)
 		else if (keyboard_check_pressed(vk_escape))
 		{
 			// Return original value
+			FORMS_CONTROL_STATE = FORMS_EControlState.Default;
 			FORMS_INPUT_ACTIVE = undefined;
 			return argument[3];
 		}

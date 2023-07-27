@@ -160,6 +160,7 @@ function FORMS_DockUpdate(_dock)
 				FORMS_CURSOR = cr_size_we;
 				if (mouse_check_button_pressed(mb_left))
 				{
+					FORMS_CONTROL_STATE = FORMS_EControlState.ResizingDock;
 					FORMS_WIDGET_ACTIVE = _dock;
 					_dock.MouseOffset = _middle - FORMS_MOUSE_X;
 				}
@@ -176,6 +177,7 @@ function FORMS_DockUpdate(_dock)
 				FORMS_CURSOR = cr_size_ns;
 				if (mouse_check_button_pressed(mb_left))
 				{
+					FORMS_CONTROL_STATE = FORMS_EControlState.ResizingDock;
 					FORMS_WIDGET_ACTIVE = _dock;
 					_dock.MouseOffset = _middle - FORMS_MOUSE_Y;
 				}
@@ -202,6 +204,7 @@ function FORMS_DockUpdate(_dock)
 		}
 		else
 		{
+			FORMS_CONTROL_STATE = FORMS_EControlState.Default;
 			FORMS_WIDGET_ACTIVE = undefined;
 		}
 	}

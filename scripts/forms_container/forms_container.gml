@@ -167,6 +167,7 @@ function FORMS_ContainerUpdate(_container)
 		_container.ClickScroll = true;
 		_container.ClickScrollMouseX = window_mouse_get_x();
 		_container.ClickScrollMouseY = window_mouse_get_y();
+		FORMS_CONTROL_STATE = FORMS_EControlState.ClickScrolling;
 		FORMS_WIDGET_ACTIVE = _container;
 	}
 
@@ -186,6 +187,7 @@ function FORMS_ContainerUpdate(_container)
 		if (!mouse_check_button(mb_middle))
 		{
 			_container.ClickScroll = false;
+			FORMS_CONTROL_STATE = FORMS_EControlState.Default;
 			FORMS_WIDGET_ACTIVE = undefined;
 		}
 		FORMS_CURSOR = cr_drag;

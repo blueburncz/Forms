@@ -33,10 +33,6 @@ function FORMS_Window()
 	/// @private
 	Resize = FORMS_EResize.None;
 
-	/// @var {Bool}
-	/// @private
-	Drag = false;
-
 	/// @var {Real}
 	/// @private
 	MouseOffsetX = 0;
@@ -171,8 +167,7 @@ function FORMS_WindowUpdate(_window)
 		////////////////////////////////////////////////////////////////////////////
 	}
 
-	var _titleBarHoveredForResize = (_titleBar.IsHovered()
-									&& FORMS_MOUSE_Y < _border);
+	var _titleBarHoveredForResize = (_titleBar.IsHovered() && FORMS_MOUSE_Y < _border);
 
 	if (_titleBar.IsHovered()
 		&& !_titleBarHoveredForResize)
@@ -181,9 +176,9 @@ function FORMS_WindowUpdate(_window)
 		if (mouse_check_button_pressed(mb_left)
 			&& FORMS_MOUSE_X < _width - FORMS_LINE_HEIGHT - _border)
 		{
-			_window.Drag = true;
-			_window.MouseOffsetX= _window.X - window_mouse_get_x();
+			_window.MouseOffsetX = _window.X - window_mouse_get_x();
 			_window.MouseOffsetY = _window.Y - window_mouse_get_y();
+			FORMS_CONTROL_STATE = FORMS_EControlState.DraggingWindow;
 			FORMS_WIDGET_ACTIVE = _window;
 		}
 	}
@@ -231,11 +226,13 @@ function FORMS_WindowUpdate(_window)
 			}
 
 			_window.Resize = _resize;
+			FORMS_CONTROL_STATE = FORMS_EControlState.ResizingWindow;
 			FORMS_WIDGET_ACTIVE = _window;
 		}
 	}
 
-	if (_window.Drag)
+	if (FORMS_CONTROL_STATE == FORMS_EControlState.DraggingWindow
+		&& FORMS_WIDGET_ACTIVE == _window)
 	{
 		////////////////////////////////////////////////////////////////////////////
 		// Dragging
@@ -244,7 +241,7 @@ function FORMS_WindowUpdate(_window)
 			clamp(window_mouse_get_y(), 0, window_get_height()) + _window.MouseOffsetY);
 		if (!mouse_check_button(mb_left))
 		{
-			_window.Drag = false;
+			FORMS_CONTROL_STATE = FORMS_EControlState.Default;
 			FORMS_WIDGET_ACTIVE = undefined;
 		}
 	}
@@ -279,7 +276,8 @@ function FORMS_WindowUpdate(_window)
 		}
 
 		// Set size
-		if (FORMS_WIDGET_ACTIVE == _window)
+		if (FORMS_CONTROL_STATE == FORMS_EControlState.ResizingWindow
+			&& FORMS_WIDGET_ACTIVE == _window)
 		{
 			var _minWidth = 128 + _border * 2;
 			if (_resize & FORMS_EResize.Right)
@@ -310,6 +308,7 @@ function FORMS_WindowUpdate(_window)
 			if (!mouse_check_button(mb_left))
 			{
 				_window.Resize = FORMS_EResize.None;
+				FORMS_CONTROL_STATE = FORMS_EControlState.Default;
 				FORMS_WIDGET_ACTIVE = undefined;
 			}
 		}

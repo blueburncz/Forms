@@ -7,6 +7,10 @@
 /// @private
 global.__formsRoot = undefined;
 
+/// @macro Shorthand for `FORMS_ROOT.ControlState`.
+/// @see FORMS_WidgetManager.ControlState
+#macro FORMS_CONTROL_STATE FORMS_ROOT.ControlState
+
 /// @macro Shorthand for `FORMS_ROOT.Tooltip`.
 /// @see FORMS_WidgetManager.Tooltip
 #macro FORMS_TOOLTIP FORMS_ROOT.Tooltip
@@ -155,7 +159,28 @@ global.__formsRoot = undefined;
 /// @see FORMS_WidgetManager.PopupDuration
 #macro FORMS_POPUP_DURATION FORMS_ROOT.PopupDuration
 
-/// @func  FORMS_WidgetManager()
+/// @enum Enumeration of possible control states.
+enum FORMS_EControlState
+{
+	/// @member The default control state.
+	Default,
+	/// @member Typing into an input field.
+	Input,
+	/// @member Dragging a scrollbar.
+	Scrolling,
+	/// @member Scrolling a container by holding MMB.
+	ClickScrolling,
+	/// @member Resizing a dock.
+	ResizingDock,
+	/// @member Dragging a window.
+	DraggingWindow,
+	/// @member Resizing a window.
+	ResizingWindow,
+	/// @member Total number of members of this enum.
+	SIZE
+};
+
+/// @func FORMS_WidgetManager()
 ///
 /// @desc The widget manager.
 ///
@@ -164,6 +189,10 @@ global.__formsRoot = undefined;
 function FORMS_WidgetManager()
 	: FORMS_CompoundWidget() constructor
 {
+	/// @var {Real} The current control state. Use values from {@link FORMS_EControlState}.
+	/// Default is {@link FORMS_EControlState.Default}.
+	ControlState = FORMS_EControlState.Default;
+
 	/// @var {String} The tooltip text to draw. Use an empty string for no tooltip.
 	Tooltip = "";
 
