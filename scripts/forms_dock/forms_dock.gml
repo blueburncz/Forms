@@ -63,6 +63,26 @@ function FORMS_DockDraw(_dock)
 
 	FORMS_MatrixPush(_x, _y);
 
+	{
+		var _width = _dock.Width;
+		var _height = _dock.Height;
+		var _splitType = _dock.SplitType;
+		var _splitSize = _dock.SplitSize;
+		var _padding = _dock.Padding;
+		var _middle;
+
+		if (_splitType == FORMS_ESplit.Horizontal)
+		{
+			_middle = round(_width * _splitSize);
+			FORMS_DrawRectangle(_middle - _padding, 0, _padding * 2, _height, c_black);
+		}
+		else
+		{
+			_middle = round(_height * _splitSize);
+			FORMS_DrawRectangle(0, _middle - _padding, _width, _padding * 2, c_black);
+		}
+	}
+
 	if (_itemCount == 1)
 	{
 		var _item = _items[| 0];

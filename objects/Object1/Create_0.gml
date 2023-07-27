@@ -17,6 +17,9 @@ guiMenu.AddItem(new FORMS_MenuBarItem("Help", function (_contextMenu) {
 
 gui.AddItem(guiMenu);
 
+guiDock = new FORMS_Dock();
+gui.AddItem(guiDock);
+
 contentTest = new FORMS_Content();
 contentTest.Title = "Test";
 contentTest.OnDraw = function (_content) {
