@@ -1,34 +1,92 @@
 application_surface_draw_enable(false);
 
-gui = FORMS_Init();
+gui = new FORMS_RootWidget();
 
-guiMenu = new FORMS_MenuBar();
-guiMenu.AddItem(new FORMS_MenuBarItem("File", function (_contextMenu) {
-	var _ksExit = new FORMS_KeyboardShortcut(game_end);
-	_ksExit.AddKey(vk_alt);
-	_ksExit.AddKey(vk_f4);
-	_contextMenu.AddItem(new FORMS_ContextMenuItem("Exit", game_end, _ksExit, "Exit program"));
-}));
-guiMenu.AddItem(new FORMS_MenuBarItem("Help", function (_contextMenu) {
-	_contextMenu.AddItem(new FORMS_ContextMenuItem("BlueBurn.cz", function () {
-		url_open("https://blueburn.cz");
-	}, undefined, "Open BlueBurn.cz"));
-}));
+testContent = new (function () : FORMS_Content() constructor
+{
+	Checked1 = false;
+	Checked2 = true;
+	Radio = 0;
+	Slider = 0;
+	DropdownValues = [
+		"Some",
+		"Shit",
+		"Here",
+		"That",
+		"You",
+		"Can",
+		"Select",
+	];
+	DropdownIndex = 0;
+	InputString = "";
+	InputReal = 0;
 
-gui.AddItem(guiMenu);
+	static draw = function ()
+	{
+		var _props;
 
-guiDock = new FORMS_Dock();
-gui.AddItem(guiDock);
+		Pen.start(8, 8)
+			.text("Some shit ")
+			.text("Some other shit!", { Color: c_orange, Cursor: cr_handpoint, Tooltip: "Oh yeah!" })
+			.nl();
 
-contentTest = new FORMS_Content();
-contentTest.Title = "Test";
-contentTest.OnDraw = function (_content) {
-	draw_text(0, 0, "Some stuff!");
+		if (Pen.button("Click me!", { Tooltip: "Click the button!" }))
+			show_debug_message("Clicked!");
+		Pen.nl();
 
-	_content.SetSize(300, 200);
-};
+		if (Pen.checkbox(Checked1) | Pen.link(" Label 1"))
+			Checked1 = !Checked1;
+		Pen.nl();
 
-var _window = new FORMS_Window();
-_window.SetPosition(100, 100);
-_window.SetContent(contentTest);
-gui.AddItem(_window);
+		_props = { Tooltip: "Checkbox with a clickable label!" };
+		if (Pen.checkbox(Checked2, _props) | Pen.link(" Label 2", _props))
+			Checked2 = !Checked2;
+		Pen.nl();
+
+		if (Pen.radio(Radio == 0) | Pen.link(" Radio 1"))
+			Radio = 0;
+		Pen.nl();
+
+		if (Pen.radio(Radio == 1) | Pen.link(" Radio 2"))
+			Radio = 1;
+		Pen.nl();
+
+		if (Pen.radio(Radio == 2) | Pen.link(" Radio 3"))
+			Radio = 2;
+		Pen.nl();
+
+		if (Pen.slider("slider", Slider, 0, 100, { Pre: "X: ", Post: "%", Integers: true, Tooltip: "This is the best slider ever!" }))
+			Slider = Pen.get_result();
+		Pen.text(" Slider").nl();
+
+		if (Pen.dropdown("dropdown", DropdownIndex, DropdownValues))
+			DropdownIndex = Pen.get_result();
+		Pen.text(" Dropdown").nl();
+
+		if (Pen.input("input-string", InputString, { Placeholder: "Some text here..." }))
+			InputString = Pen.get_result();
+		Pen.text(" String input").nl();
+
+		if (Pen.input("input-real", InputReal, { Tooltip: "This one has a tooltip!" }))
+			InputReal = Pen.get_result();
+		Pen.text(" Real input").nl();
+
+		Pen.finish();
+
+		Width = Pen.MaxX + 8;
+		Height = Pen.MaxY + 8;
+
+		return self;
+	};
+})();
+
+var _container = new FORMS_Container(testContent, {
+	X: 10,
+	XUnit: FORMS_EUnit.Percent,
+	Y: 32,
+	Width: 300,
+	Height: 200,
+	BackgroundColor: #202020,
+});
+
+gui.add_child(_container);

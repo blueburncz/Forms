@@ -1,395 +1,318 @@
-/// @func FORMS_Widget()
-///
-/// @desc Base struct for widgets.
-function FORMS_Widget() constructor
+/// @enum
+enum FORMS_EUnit
 {
-	/// @var {FORMS_EWidgetType} The type of the widget.
-	/// @readonly
-	/// @see FORMS_EWidgetType
-	static Type = FORMS_EWidgetType.Blank;
+	/// @member
+	Pixel,
+	/// @member
+	Percent,
+	/// @member Value is computed automatically. Using this in unsupported
+	/// places results into errors!
+	Auto,
+	/// @member Total number of members of this enum.
+	SIZE
+};
 
-	/// @private
-	static IdNext = 0;
+/// @func FORMS_WidgetUnitValue([_value[, _unit]])
+///
+/// @desc
+///
+/// @param {Real} [_value]
+/// @param {Real} [_unit] Use values from {@link FORMS_EUnit.Pixel}.
+function FORMS_WidgetUnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
+{
+	/// @var {Real}
+	Value = _value;
 
-	/// @var {Real} The id of the widget.
-	/// @readonly
-	Id = IdNext++;
+	/// @var {Real}
+	/// @see FORMS_EUnit
+	Unit = _unit;
 
-	/// @var {Struct.FORMS_CompoundWidget} The widget's parent or `undefined`.
+	/// @func from_string(_string)
+	///
+	/// @desc
+	///
+	/// @param {String} _string
+	///
+	/// @return {Struct.FORMS_WidgetUnitValue} Returns `self`.
+	static from_string = function (_string)
+	{
+		return self;
+	};
+
+	/// @func from_props(_props, _name[, _valueDefault[, _unitDefault]])
+	///
+	/// @desc
+	///
+	/// @param {Struct.FORMS_WidgetProps, undefined} _props
+	/// @param {String} _name
+	/// @param {Real} [_valueDefault]
+	/// @param {Real} [_unitDefault]
+	///
+	/// @return {Struct.FORMS_WidgetUnitValue} Returns `self`.
+	static from_props = function (_props, _name, _valueDefault=0, _unitDefault=FORMS_EUnit.Pixel)
+	{
+		if (_props == undefined)
+		{
+			Value = _valueDefault;
+			Unit = _unitDefault;
+		}
+		else
+		{
+			Value = _props[$ _name] ?? _valueDefault;
+			Unit = _props[$ _name + "Unit"] ?? _unitDefault;
+		}
+		return self;
+	};
+
+	/// @func get_absolute(_relativeTo[, _autoSize])
+	///
+	/// @desc
+	///
+	/// @param {Real} _relativeTo
+	/// @param {Real, Undefined} [_autoSize]
+	///
+	/// @return {Real}
+	static get_absolute = function (_relativeTo, _autoSize=undefined)
+	{
+		gml_pragma("forceinline");
+		switch (Unit)
+		{
+		case FORMS_EUnit.Pixel:
+			return Value;
+		case FORMS_EUnit.Percent:
+			return (_relativeTo * Value * 0.01);
+		case FORMS_EUnit.Auto:
+			forms_assert(_autoSize != undefined, "Auto size not defined!");
+			return _autoSize;
+		default:
+			forms_assert(false, "Invalid unit!");
+		}
+	};
+}
+
+/// @func FORMS_WidgetProps()
+///
+/// @desc
+function FORMS_WidgetProps() constructor
+{
+	/// @var {String, Undefined} A unique identifier of the widget.
+	Id = undefined;
+
+	/// @var {Real, Undefined} The widget's X position relative to its parent.
+	X = undefined;
+
+	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
+	XUnit = undefined;
+
+	/// @var {Real, Undefined} The widget's Y position relative to its parent.
+	Y = undefined;
+
+	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
+	YUnit = undefined;
+
+	/// @var {Real, Undefined} The widget's width.
+	Width = undefined;
+
+	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
+	WidthUnit = undefined;
+
+	/// @var {Real, Undefined} The widget's height.
+	Height = undefined;
+
+	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
+	HeightUnit = undefined;
+}
+
+/// @func forms_get_prop(_props, _name)
+///
+/// @desc
+///
+/// @param {Struct, Undefined} _props
+/// @param {String} _name
+///
+/// @return {Any}
+function forms_get_prop(_props, _name)
+{
+	gml_pragma("forceinline");
+	return ((_props != undefined) ? _props[$ _name] : undefined);
+}
+
+/// @func FORMS_Widget([_props])
+///
+/// @implements {FORMS_IDestructible}
+///
+/// @desc
+///
+/// @param {Struct.FORMS_WidgetProps, Undefined} [_props]
+function FORMS_Widget(_props=undefined) constructor
+{
+	static __idNext = 0;
+
+	/// @var {String} A unique identifier of the widget.
+	Id = forms_get_prop(_props, "Id") ?? $"Widget{__idNext++}";
+
+	/// @var {Struct.FORMS_CompoundWidget, Undefined}
 	/// @readonly
 	Parent = undefined;
 
-	/// @var {Real} The widget's position on the X axis.
-	X = 0;
+	/// @var {Struct.FORMS_WidgetUnitValue} The widget's X position relative to
+	/// its parent widget.
+	X = new FORMS_WidgetUnitValue().from_props(_props, "X");
 
-	/// @var {Real} The widget's position on the Y axis.
-	Y = 0;
-
-	/// @var {Real} The widget's width.
-	Width = 1;
-
-	/// @var {Real} The widget's height.
-	Height = 1;
-
-	/// @var {Real} The widget's depth. User for sorting widgets within its parent.
-	Depth = 0;
-
-	/// @var {Bool} If `true` then the widget's content needs to be redrawed.
-	Redraw = true;
-
-	/// @var {String} The widget's tooltip displayed on mouse over or `undefined`.
-	Tooltip = undefined;
-
-	/// @var {Struct.FORMS_KeyboardShortcut[]} Keyboard shortcuts usable when
-	/// the widget
-	/// is active.
-	/// @readonly
-	KeyboardShortcuts = [];
-
-	/// @var {Bool} If `true` then the widget will be destroyed at the end of the
-	/// frame and it should not be used anymore.
+	/// @var {Real} The widget's actual X position.
 	/// @private
-	Destroyed = false;
+	__realX = 0;
 
-	/// @func AddKeyboardShortcut(_keyboardShortcut)
+	/// @var {Struct.FORMS_WidgetUnitValue} The widget's Y position relative to
+	/// its parent widget.
+	Y = new FORMS_WidgetUnitValue().from_props(_props, "Y");
+
+	/// @var {Real} The widget's actual Y position.
+	/// @private
+	__realY = 0;
+
+	/// @var {Struct.FORMS_WidgetUnitValue} The widget's width.
+	Width = new FORMS_WidgetUnitValue().from_props(_props, "Width");
+
+	/// @var {Real} The widget's actual width.
+	/// @private
+	__realWidth = 0;
+
+	/// @var {Struct.FORMS_WidgetUnitValue} The widget's height.
+	Height = new FORMS_WidgetUnitValue().from_props(_props, "Height");
+
+	/// @var {Real} The widget's actual height.
+	/// @private
+	__realHeight = 0;
+
+	/// @func get_x()
 	///
-	/// @desc Adds keyboard shortcut to the widget.
+	/// @desc
 	///
-	/// @param {Struct.FORMS_KeyboardShortcut} _keyboardShortcut The keyboard
-	/// shortcut.
-	static AddKeyboardShortcut = function (_keyboardShortcut)
+	/// @return {Real}
+	static get_x = function ()
 	{
 		gml_pragma("forceinline");
-		array_push(KeyboardShortcuts, _keyboardShortcut);
+		return __realX;
 	};
 
-	/// @func IsAncestor(_item)
+	/// @func get_y()
 	///
-	/// @desc Finds out whether the widget is an ancestor of an item.
+	/// @desc
 	///
-	/// @param {Struct.FORMS_Widget} _item The item.
-	///
-	/// @return {Bool} True if the widget is an ancestor the item.
-	static IsAncestor = function (_item)
-	{
-		if (!FORMS_WidgetExists(_item))
-		{
-			return false;
-		}
-		var _parent = _item.Parent;
-		if (!FORMS_WidgetExists(_parent))
-		{
-			return false;
-		}
-		if (_parent == self)
-		{
-			return true;
-		}
-		return IsAncestor(_parent);
-	};
-
-	/// @func IsActive()
-	///
-	/// @desc Gets whether the widget is active.
-	///
-	/// @return {Bool} True if the widget is active.
-	static IsActive = function ()
+	/// @return {Real}
+	static get_y = function ()
 	{
 		gml_pragma("forceinline");
-		return (FORMS_WIDGET_ACTIVE == self);
+		return __realY;
 	};
 
-	/// @func IsHovered()
+	/// @func get_width()
 	///
-	/// @desc Gets whether the widget is hovered.
+	/// @desc
 	///
-	/// @return {Bool} True if the widget is hovered.
-	static IsHovered = function ()
+	/// @return {Real}
+	static get_width = function ()
 	{
 		gml_pragma("forceinline");
-		return (FORMS_WIDGET_HOVERED == self
-			&& (!FORMS_WidgetExists(FORMS_WIDGET_ACTIVE)
-			|| FORMS_WIDGET_ACTIVE == self));
+		return __realWidth;
 	};
 
-	/// @func IsSelected()
+	/// @func get_height()
 	///
-	/// @desc Gets whether the widget is selected.
+	/// @desc
 	///
-	/// @return {Bool} True if the widget is selected.
-	static IsSelected = function ()
+	/// @return {Real}
+	static get_height = function ()
 	{
 		gml_pragma("forceinline");
-		return (FORMS_WIDGET_SELECTED == self);
+		return __realHeight;
 	};
 
-	/// @func GetPositionAbsolute()
+	/// @func has_parent()
 	///
-	/// @desc Retreives the widget's absolute position on the screen.
+	/// @desc
 	///
-	/// @return {Array<Real>} An array `[x, y]` with the the widget's absolute
-	/// position on the screen.
-	static GetPositionAbsolute = function ()
+	/// @return {Bool}
+	static has_parent = function ()
 	{
-		var _x = 0;
-		var _y = 0;
-		var _widget = self;
-		while (_widget != undefined)
-		{
-			_x += _widget.X;
-			_y += _widget.Y;
-			_widget = _widget.Parent;
-		}
-		return [_x, _y];
+		gml_pragma("forceinline");
+		return (Parent != undefined);
 	};
 
-	/// @func SetPosition(_x, _y)
+	/// @func remove_self()
 	///
-	/// @desc Sets the x and y position of the widget relative to its parent.
-	///
-	/// @param {Real} _x The new x position.
-	/// @param {Real} _y The new y position.
+	/// @desc
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
-	static SetPosition = function (_x, _y)
+	static remove_self = function ()
 	{
-		gml_pragma("forceinline");
-		X = _x;
-		Y = _y;
+		forms_assert(Parent != undefined, "Widget does not have a parent!");
+		Parent.remove_child(self);
 		return self;
 	};
 
-	/// @func SetWidth(_width)
+	/// @func find_widget(_id)
 	///
-	/// @desc Sets the width of the widget.
+	/// @desc
 	///
-	/// @param {Real} _width The new width.
+	/// @param {String} _id
 	///
-	/// @return {Struct.FORMS_Widget} Returns `self`.
-	static SetWidth = function (_width)
+	/// @return {Struct.FORMS_Widget, Undefined}
+	static find_widget = function (_id)
 	{
 		gml_pragma("forceinline");
-		Width = max(_width, 1);
+		return (Id == _id) ? self : undefined;
+	};
+
+	/// @func get_auto_width()
+	///
+	/// @desc
+	///
+	/// @return {Real, Undefined}
+	static get_auto_width = function () { return undefined; };
+
+	/// @func get_auto_height()
+	///
+	/// @desc
+	///
+	/// @return {Real, Undefined}
+	static get_auto_height = function () { return undefined; };
+
+	/// @func layout()
+	///
+	/// @desc
+	///
+	/// @return {Struct.FORMS_Widget} Returns `self`.
+	static layout = function ()
+	{
 		return self;
 	};
 
-	/// @func SetHeight(_height)
+	/// @func update(_deltaTime)
 	///
-	/// @desc Sets the height of the widget.
+	/// @desc
 	///
-	/// @param {Real} _height The new height.
+	/// @param {Real} _deltaTime
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
-	static SetHeight = function (_height)
+	static update = function (_deltaTime)
 	{
-		gml_pragma("forceinline");
-		Height = max(_height, 1);
 		return self;
 	};
 
-	/// @func SetSize(_width, _height)
+	/// @func draw()
 	///
-	/// @desc Sets the width and height of the widget.
-	///
-	/// @param {Real} _width The new width.
-	/// @param {Real} _height The new height.
+	/// @desc
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
-	static SetSize = function (_width, _height)
+	static draw = function ()
 	{
-		gml_pragma("forceinline");
-		SetWidth(_width);
-		SetHeight(_height);
 		return self;
 	};
 
-	/// @func SetRectangle(_widget, _x, _y, _width, _height)
-	///
-	/// @desc Sets the x and y position of the widget relative to its parent and
-	/// its size.
-	///
-	/// @param {Real} _x The new x position.
-	/// @param {Real} _y The new y position.
-	/// @param {Real} _width The new width.
-	/// @param {Real} _height The new height.
-	///
-	/// @return {Struct.FORMS_Widget} Returns `self`.
-	static SetRectangle = function (_x, _y, _width, _height)
+	static destroy = function ()
 	{
-		gml_pragma("forceinline");
-		SetPosition(_x, _y);
-		SetWidth(_width);
-		SetHeight(_height);
-		return self;
+		return undefined;
 	};
-
-	static OnUpdate = function ()
-	{
-		FORMS_WidgetUpdate(self);
-	};
-
-	static OnDraw = function () {};
-
-	static OnCleanUp = function ()
-	{
-		FORMS_WidgetCleanUp(self);
-	};
-}
-
-/// @func FORMS_DestroyWidget(_widget)
-///
-/// @desc Destroys the widget.
-///
-/// @param {Struct.FORMS_Widget} _widget The widget.
-function FORMS_DestroyWidget(_widget)
-{
-	gml_pragma("forceinline");
-	if (FORMS_WidgetExists(_widget))
-	{
-		ds_stack_push(FORMS_DESTROY_STACK, _widget);
-	}
-}
-
-/// @func FORMS_RequestRedraw(_widget)
-///
-/// @desc Pushes a redraw request of the given widget to the parent.
-///
-/// @param {Struct.FORMS_Widget} _widget The widget to redraw.
-function FORMS_RequestRedraw(_widget)
-{
-	while (FORMS_WidgetExists(_widget))
-	{
-		_widget.Redraw = true;
-		_widget = _widget.Parent;
-	}
-}
-
-/// @func FORMS_RequestRedrawAll(_widget)
-///
-/// @desc Requests redraw of all child widget.
-///
-/// @param {Struct.FORMS_Widget} _widget The widget.
-function FORMS_RequestRedrawAll(_widget)
-{
-	_widget.Redraw = true;
-	var _items = FORMS_GetItems(_widget);
-	if (!is_undefined(_items))
-	{
-		for (var i = ds_list_size(_items) - 1; i >= 0; --i)
-		{
-			FORMS_RequestRedrawAll(_items[| i]);
-		}
-	}
-}
-
-/// @func FORMS_WidgetCleanUp(_widget)
-///
-/// @desc Frees resources used by the widget from memory.
-///
-/// @param {Struct.FORMS_Widget} _widget The widget.
-function FORMS_WidgetCleanUp(_widget)
-{
-	if (FORMS_WidgetExists(_widget))
-	{
-		// Remove from parent
-		var _parent = _widget.Parent;
-		if (FORMS_WidgetExists(_parent))
-		{
-			var _items = FORMS_GetItems(_parent);
-			var _pos = ds_list_find_index(_items, _widget);
-			if (_pos >= 0)
-			{
-				ds_list_delete(_items, _pos);
-			}
-		}
-		_widget.Destroyed = true;
-	}
-}
-
-/// @func FORMS_WidgetExists(_widget)
-///
-/// @desc Finds out whether the widget exists.
-///
-/// @param {Struct.FORMS_Widget} _widget The widget.
-///
-/// @return {Bool} True if the widget does exist.
-function FORMS_WidgetExists(_widget)
-{
-	try
-	{
-		// FIXME: Somewhat hacky...
-		return (variable_struct_exists(_widget, "Type")
-			&& _widget.Type >= 0
-			&& _widget.Type < FORMS_EWidgetType.SIZE
-			&& variable_struct_exists(_widget, "Destroyed")
-			&& !_widget.Destroyed);
-	}
-	catch (_err)
-	{
-		return false;
-	}
-}
-
-/// @func FORMS_WidgetUpdate(_widget)
-///
-/// @desc Updates the widget.
-///
-/// @param {Struct.FORMS_Widget} _widget The widget.
-function FORMS_WidgetUpdate(_widget)
-{
-	//_widget.SetSize(_widget.Width, _widget.Height);
-
-	// Set tooltip on mouse over
-	if (_widget.IsHovered())
-	{
-		FORMS_TOOLTIP = _widget.Tooltip;
-
-		// Select widget
-		if (mouse_check_button_pressed(mb_any))
-		{
-			var _exists = FORMS_WidgetExists(FORMS_WIDGET_SELECTED);
-			if ((_exists && FORMS_WIDGET_SELECTED != _widget)
-				|| !_exists)
-			{
-				FORMS_RequestRedrawAll(FORMS_ROOT);
-			}
-			FORMS_WIDGET_SELECTED = _widget;
-		}
-	}
-}
-
-
-/// @func FORMS_PushMouseCoordinates(_widget)
-///
-/// @desc Pushes mouse coordinates to be relative to the widget.
-///
-/// @param {Struct.FORMS_Widget} _widget The widget.
-function FORMS_PushMouseCoordinates(_widget)
-{
-	var _x = _widget.X;
-	var _y = _widget.Y;
-	var _scrollX = 0;
-	var _scrollY = 0;
-	var _scrollbarHor = FORMS_GetScrollbarHor(_widget);
-	var _scrollbarVer = FORMS_GetScrollbarVer(_widget);
-
-	if (!is_undefined(_scrollbarHor))
-	{
-		_scrollX = _scrollbarHor.GetScroll() * _scrollbarHor.IsVisible();
-	}
-	if (!is_undefined(_scrollbarVer))
-	{
-		_scrollY = _scrollbarVer.GetScroll() * _scrollbarVer.IsVisible();
-	}
-	if (is_nan(_scrollX)) _scrollX = 0;
-	if (is_nan(_scrollY)) _scrollY = 0;
-
-	FORMS_MOUSE_X += -_x + _scrollX;
-	FORMS_MOUSE_Y += -_y + _scrollY;
-
-	var _parent = _widget.Parent;
-	if (FORMS_WidgetExists(_parent))
-	{
-		FORMS_PushMouseCoordinates(_parent);
-	}
 }

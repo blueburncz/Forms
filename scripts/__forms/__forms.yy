@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "FORMS_Pen",
+  "name": "__forms",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

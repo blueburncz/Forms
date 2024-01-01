@@ -1,225 +1,131 @@
-/// @func FORMS_Container([_x, _y, _width, _height])
+/// @func FORMS_ContainerProps()
 ///
-/// @extends FORMS_Canvas
-///
-/// @desc A scrollable container.
-///
-/// @param {Real} [_x] The x position to create the container at.
-/// @param {Real} [_y] The y position to create the container at.
-/// @param {Real} [_width] The width of the container.
-/// @param {Real} [_height] The width of the container.
-///
-/// @see FORMS_Content
-function FORMS_Container(_x, _y, _width, _height)
-	: FORMS_Canvas() constructor
+/// @extends FORMS_WidgetProps
+function FORMS_ContainerProps()
+	: FORMS_WidgetProps() constructor
 {
-	static Type = FORMS_EWidgetType.Container;
+	/// @var {Constant.Color, Undefined}
+	BackgroundColor = undefined;
 
-	/// @var {Struct.FORMS_Content}
-	/// @see FORMS_Content
+	/// @var {Real, Undefined}
+	BackgroundAlpha = undefined;
+}
+
+/// @func FORMS_Container([_content[, _props]])
+///
+/// @extends FORMS_Widget
+///
+/// @desc
+///
+/// @param {Struct.FORMS_Content, Undefined} [_content]
+/// @param {Struct.FORMS_ContainerProps, Undefined} [_props]
+function FORMS_Container(_content=undefined, _props=undefined)
+	: FORMS_Widget(_props) constructor
+{
+	/// @var {Struct.FORMS_Content, Undefined}
 	/// @readonly
-	/// @see FORMS_Container.SetContent
 	Content = undefined;
 
-	/// @var {Bool}
-	/// @private
-	ClickScroll = false;
+	set_content(_content);
+
+	/// @var {Id.Surface}
+	/// @readonly
+	Surface = -1;
+
+	/// @var {Constant.Color}
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? c_black;
 
 	/// @var {Real}
-	/// @private
-	ClickScrollMouseX = 0;
+	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
 	/// @var {Real}
-	/// @private
-	ClickScrollMouseY = 0;
+	ScrollX = 0;
 
-	/// @var {Struct.FORMS_ScrollbarHor}
-	/// @readonly
-	ScrollbarHor = new FORMS_ScrollbarHor(self);
+	/// @var {Real}
+	ScrollY = 0;
 
-	/// @var {Struct.FORMS_ScrollbarVer}
-	/// @readonly
-	ScrollbarVer = new FORMS_ScrollbarVer(self);
-
-	/// @func SetContent(_content)
+	/// @func set_content(_content)
 	///
-	/// @desc Sets content of the container.
+	/// @desc
 	///
-	/// @param {Struct.FORMS_Content} _content The content.
+	/// @param {Struct.FORMS_Content, Undefined} _content
 	///
 	/// @return {Struct.FORMS_Container} Returns `self`.
-	static SetContent = function (_content)
+	static set_content = function (_content)
 	{
-		gml_pragma("forceinline");
-		if (_content.Container != undefined)
+		if (Content != undefined)
 		{
-			show_error("Content already added to a container!", true);
+			Content.Container = undefined;
 		}
 		Content = _content;
-		Content.Container = self;
+		if (Content != undefined)
+		{
+			forms_assert(Content.Container == undefined, "Content is already added to a container!");
+			Content.Container = self;
+		}
 		return self;
 	};
 
-	/// @func GetContentHeight()
-	///
-	/// @desc Gets the height of the container's content.
-	///
-	/// @return {Real} The height of the container's content.
-	static GetContentHeight = function ()
+	static update = function ()
 	{
-		gml_pragma("forceinline");
-		return ScrollbarVer.ContentSize;
-	};
-
-	/// @func GetContentWidth()
-	///
-	/// @desc Gets the width of the container's content.
-	///
-	/// @return {Real} The width of the container's content.
-	static GetContentWidth = function ()
-	{
-		gml_pragma("forceinline");
-		return ScrollbarHor.ContentSize;
-	}
-
-	/// @func SetContentHeight(_contentHeight)
-	///
-	/// @desc Sets height of the content of the container to the given value.
-	///
-	/// @param {Real} _contentHeight The new height of the container's content.
-	static SetContentHeight = function (_contentHeight)
-	{
-		gml_pragma("forceinline");
-		ScrollbarVer.ContentSize = max(1, _contentHeight);
-	};
-
-	/// @func SetContentWidth(_contentWidth)
-	///
-	/// @desc Sets width of the content of the container to the given value.
-	///
-	/// @param {Real} _contentWidth The new width of the container's content.
-	static SetContentWidth = function (_contentWidth)
-	{
-		gml_pragma("forceinline");
-		ScrollbarHor.ContentSize = max(1, _contentWidth);
-	};
-
-	static OnUpdate = function ()
-	{
-		FORMS_ContainerUpdate(self);
-	};
-
-	static OnDraw = function ()
-	{
-		FORMS_ContainerDraw(self);
-	};
-
-	if (_height != undefined)
-	{
-		SetRectangle(_x, _y, _width, _height);
-	}
-}
-
-/// @func FORMS_ContainerDraw(_container)
-///
-/// @desc Draws the container.
-///
-/// @param {Struct.FORMS_Container} _container The container.
-function FORMS_ContainerDraw(_container)
-{
-	// Draw items
-	if (_container.BeginFill())
-	{
-		var _size = [0.1, 0.1];
-
-		var _content = _container.Content;
-		if (_content != undefined)
+		if (Content != undefined)
 		{
-			_content.Draw();
-			_size = [_content.Width, _content.Height];
+			var _scroll = (mouse_wheel_down() - mouse_wheel_up()) * string_height("M");
+			if (keyboard_check(vk_control))
+			{
+				ScrollX += _scroll;
+			}
+			else
+			{
+				ScrollY += _scroll;
+			}
+			ScrollX = clamp(ScrollX, 0, max(Content.Width - __realWidth, 0));
+			ScrollY = clamp(ScrollY, 0, max(Content.Height - __realHeight, 0));
+		}
+		//else
+		//{
+		//	ScrollX = 0;
+		//	ScrollY = 0;
+		//}
+		return self;
+	};
+
+	static draw = function ()
+	{
+		if (__realWidth <= 0 || __realHeight <= 0)
+		{
+			return self;
 		}
 
-		_container.SetContentWidth(_size[0]);
-		_container.SetContentHeight(_size[1]);
-		_container.EndFill();
-	}
-
-	// Draw container
-	FORMS_CanvasDraw(_container);
-}
-
-/// @func FORMS_ContainerUpdate(_container)
-///
-/// @desc Updates the container.
-///
-/// @param {Struct.FORMS_Container} _container The container.
-function FORMS_ContainerUpdate(_container)
-{
-	var _scrollbarHor = _container.ScrollbarHor;
-	var _scrollbarVer = _container.ScrollbarVer;
-	FORMS_CompoundWidgetUpdate(_container);
-
-	// Click scroll
-	if (mouse_check_button_pressed(mb_middle)
-		&& _container.IsHovered()
-		&& !FORMS_WidgetExists(FORMS_WIDGET_ACTIVE))
-	{
-		_container.ClickScroll = true;
-		_container.ClickScrollMouseX = window_mouse_get_x();
-		_container.ClickScrollMouseY = window_mouse_get_y();
-		FORMS_CONTROL_STATE = FORMS_EControlState.ClickScrolling;
-		FORMS_WIDGET_ACTIVE = _container;
-	}
-
-	if (FORMS_WIDGET_ACTIVE == _container
-		&& _container.ClickScroll)
-	{
-		_scrollbarHor.Scroll += (window_mouse_get_x() - _container.ClickScrollMouseX)
-			/ _scrollbarHor.ScrollJump * 0.1;
-		_scrollbarVer.Scroll += (window_mouse_get_y() - _container.ClickScrollMouseY)
-			/ _scrollbarVer.ScrollJump * 0.1;
-
-		_scrollbarHor.Scroll = clamp(_scrollbarHor.Scroll,
-			0, _scrollbarHor.Size - _scrollbarHor.ThumbSize);
-		_scrollbarVer.Scroll = clamp(_scrollbarVer.Scroll,
-			0, _scrollbarVer.Size - _scrollbarVer.ThumbSize);
-
-		if (!mouse_check_button(mb_middle))
+		if (!surface_exists(Surface))
 		{
-			_container.ClickScroll = false;
-			FORMS_CONTROL_STATE = FORMS_EControlState.Default;
-			FORMS_WIDGET_ACTIVE = undefined;
+			Surface = surface_create(__realWidth, __realHeight);
 		}
-		FORMS_CURSOR = cr_drag;
-	}
-}
+		else if (surface_get_width(Surface) != __realWidth
+			|| surface_get_height(Surface) != __realHeight)
+		{
+			surface_resize(Surface, __realWidth, __realHeight);
+		}
 
-/// @func FORMS_GetScrollbarHor(_widget)
-///
-/// @desc Retrieves a horizontal scrollbar of a widget.
-///
-/// @param {Struct.FORMS_Widget} _widget The widget.
-///
-/// @return {Struct.FORMS_ScrollbarHor, Undefined} The horizontal scrollbar or `undefined`.
-function FORMS_GetScrollbarHor(_widget)
-{
-	gml_pragma("forceinline");
-	return variable_struct_exists(_widget, "ScrollbarHor")
-		? _widget.ScrollbarHor
-		: undefined;
-}
+		surface_set_target(Surface);
+		draw_clear_alpha(BackgroundColor, BackgroundAlpha);
+		if (Content != undefined)
+		{
+			forms_push_mouse_coordinates(__realX - ScrollX, __realY - ScrollY);
+			var _world = matrix_get(matrix_world);
+			_world[@ 12] -= ScrollX;
+			_world[@ 13] -= ScrollY;
+			matrix_set(matrix_world, _world);
+			Content.draw();
+			_world[@ 12] += ScrollX;
+			_world[@ 13] += ScrollY;
+			matrix_set(matrix_world, _world);
+			forms_push_mouse_coordinates(-(__realX - ScrollX), -(__realY - ScrollY));
+		}
+		surface_reset_target();
 
-/// @func FORMS_GetScrollbarVer(_widget)
-///
-/// @desc Retrieves a vertical scrollbar of a widget.
-///
-/// @param {Struct.FORMS_Widget} _widget The widget.
-///
-/// @return {Struct.FORMS_ScrollbarVer, Undefined} The vertical scrollbar or `undefined`.
-function FORMS_GetScrollbarVer(_widget)
-{
-	gml_pragma("forceinline");
-	return variable_struct_exists(_widget, "ScrollbarVer")
-		? _widget.ScrollbarVer
-		: undefined;
+		draw_surface(Surface, __realX, __realY);
+
+		return self;
+	};
 }

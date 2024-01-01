@@ -1,1 +1,1 @@
-FORMS_Destroy();
+gui = gui.destroy();
