@@ -1,8 +1,14 @@
-/// @func FORMS_Pen()
+/// @func FORMS_Pen(_content)
 ///
 /// @desc
-function FORMS_Pen() constructor
+///
+/// @param {Struct.FORMS_Content} _content
+function FORMS_Pen(_content) constructor
 {
+	/// @var {Struct.FORMS_Content}
+	/// @readonly
+	Content = _content;
+
 	Font = -1;
 
 	LineHeight = undefined;
@@ -34,9 +40,6 @@ function FORMS_Pen() constructor
 
 	__widgetActive = undefined;
 
-	__result = undefined;
-	__asyncResults = {};
-
 	__dropdownId = undefined;
 	__dropdownIndex = 0;
 	__dropdownValues = undefined;
@@ -46,6 +49,25 @@ function FORMS_Pen() constructor
 
 	__inputId = undefined;
 	__inputValue = undefined;
+
+	__result = undefined;
+
+	static get_result = function ()
+	{
+		var _result = __result;
+		__result = undefined;
+		return _result;
+	};
+
+	static __consume_result = function (_id)
+	{
+		if (forms_has_result(_id))
+		{
+			__result = forms_get_result(_id);
+			return true;
+		}
+		return false;
+	};
 
 	static __assert_started = function ()
 	{
@@ -66,7 +88,6 @@ function FORMS_Pen() constructor
 		__fontBackup = draw_get_font();
 		draw_set_font(Font);
 		__lineHeight = LineHeight ?? string_height("M");
-		__result = undefined;
 		return self;
 	};
 
@@ -116,16 +137,15 @@ function FORMS_Pen() constructor
 		}
 		draw_text_color(X, Y, _text, _c, _c, _c, _c, _a);
 		__move(string_width(_text));
-		return (_mouseOver && mouse_check_button_pressed(mb_left));
+		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
 	};
 
 	static is_mouse_over = function (_x, _y, _width, _height, _id=undefined)
 	{
-		var _mouseX = forms_mouse_get_x();
-		var _mouseY = forms_mouse_get_y();
-		return (_mouseX >= _x && _mouseX < _x + _width
-			&& _mouseY >= _y && _mouseY < _y + _height
-			&& (_id == undefined || __widgetActive == _id || __widgetActive == undefined));
+		var _root = forms_get_root();
+		return (_root.WidgetHovered == Content.Container
+			&& forms_mouse_in_rectangle(_x, _y, _width, _height)
+			&& (_root.WidgetActive == _id || _root.WidgetActive == undefined));
 	};
 
 	static button = function (_text, _props=undefined)
@@ -144,7 +164,7 @@ function FORMS_Pen() constructor
 		}
 		draw_text_color(X, Y, _text, _c, _c, _c, _c, _a);
 		__move(_textWidth);
-		return (_mouseOver && mouse_check_button_pressed(mb_left));
+		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
 	};
 
 	static checkbox = function (_checked, _props=undefined)
@@ -160,7 +180,7 @@ function FORMS_Pen() constructor
 			forms_set_cursor(cr_handpoint);
 		}
 		__move(_width);
-		return (_mouseOver && mouse_check_button_pressed(mb_left));
+		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
 	};
 
 	static radio = function (_selected, _props=undefined)
@@ -177,14 +197,13 @@ function FORMS_Pen() constructor
 			forms_set_cursor(cr_handpoint);
 		}
 		__move(_width);
-		return (_mouseOver && mouse_check_button_pressed(mb_left));
+		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
 	};
 
 	static slider = function (_id, _value, _min, _max, _props=undefined)
 	{
 		__assert_started();
 		var _valueNew = clamp(_value, _min, _max);
-		var _changed = false;
 		var _width = forms_get_prop(_props, "Width") ?? 200;
 		var _height = __lineHeight;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height, _id);
@@ -192,7 +211,7 @@ function FORMS_Pen() constructor
 		draw_text(X, Y, (forms_get_prop(_props, "Pre") ?? "") + string(_value) + (forms_get_prop(_props, "Post") ?? ""));
 		if (_mouseOver)
 		{
-			if (mouse_check_button_pressed(mb_left))
+			if (forms_mouse_check_button_pressed(mb_left))
 			{
 				__widgetActive = _id;
 			}
@@ -214,27 +233,10 @@ function FORMS_Pen() constructor
 		}
 		if (_value != _valueNew)
 		{
-			__result = _valueNew;
-			_changed = true;
+			forms_return_result(_id, _valueNew);
 		}
 		__move(_width);
-		return _changed;
-	};
-
-	static __consume_result = function (_id, _value)
-	{
-		var _changed = false;
-		if (variable_struct_exists(__asyncResults, _id))
-		{
-			var _valueNew = __asyncResults[$ _id];
-			if (_value != _valueNew)
-			{
-				__result = _valueNew;
-				_changed = true;
-			}
-			variable_struct_remove(__asyncResults, _id);
-		}
-		return _changed;
+		return __consume_result(_id);
 	};
 
 	static dropdown = function (_id, _index, _values, _props=undefined)
@@ -250,59 +252,25 @@ function FORMS_Pen() constructor
 		}
 		if (_mouseOver)
 		{
-			if (mouse_check_button_pressed(mb_left))
+			if (forms_mouse_check_button_pressed(mb_left))
 			{
-				__dropdownId = _id;
-				__dropdownIndex = _index;
-				__dropdownValues = _values;
-				__dropdownX = X;
-				__dropdownY = Y + _height;
-				__dropdownWidth = _width;
+				var _world = matrix_get(matrix_world);
+				var _dropdown = new FORMS_Dropdown(_id, _values, _index, _width, {
+					X: Content.Container.__realX + X + _world[12],
+					Y: Content.Container.__realY + Y + _height + _world[13],
+				});
+				forms_get_root().add_child(_dropdown);
 			}
 			forms_set_cursor(cr_handpoint);
 		}
 		__move(_width);
-		return __consume_result(_id, _index);
-	};
-
-	static __dropdown_options = function ()
-	{
-		var _x = __dropdownX;
-		var _y = __dropdownY;
-		var _select = undefined;
-		for (var i = 0; i < array_length(__dropdownValues); ++i)
-		{
-			var _value = string(__dropdownValues[i]);
-			var _valueWidth = max(string_width(_value), __dropdownWidth);
-			draw_rectangle_color(_x, _y, _x + _valueWidth - 1, _y + __lineHeight - 1, 0, 0, 0, 0, false);
-			if (is_mouse_over(_x, _y, _valueWidth, __lineHeight))
-			{
-				draw_rectangle(_x, _y, _x + _valueWidth - 1, _y + __lineHeight - 1, true);
-				if (mouse_check_button_pressed(mb_left))
-				{
-					_select = i;
-				}
-				forms_set_cursor(cr_handpoint);
-			}
-			else if (i == __dropdownIndex)
-			{
-				draw_rectangle(_x, _y, _x + _valueWidth - 1, _y + __lineHeight - 1, true);
-			}
-			draw_text(_x, _y, _value);
-			_y += __lineHeight;
-		}
-		if (_select != undefined)
-		{
-			__asyncResults[$ __dropdownId] = _select;
-			__dropdownId = undefined;
-			__dropdownValues = undefined;
-		}
+		return __consume_result(_id);
 	};
 
 	static input = function (_id, _value, _props=undefined)
 	{
 		__assert_started();
-	
+
 		var _x = X;
 		var _y = Y;
 		var _width = forms_get_prop(_props, "Width") ?? 200;
@@ -311,12 +279,11 @@ function FORMS_Pen() constructor
 
 		if (_mouseOver)
 		{
-			if (mouse_check_button_pressed(mb_left) && __inputId != _id)
+			if (forms_mouse_check_button_pressed(mb_left) && __inputId != _id)
 			{
 				if (__inputId != undefined)
 				{
-					__asyncResults[$ __inputId] =
-						is_real(__inputValue) ? real(keyboard_string) : keyboard_string;
+					forms_return_result(__inputId, is_real(__inputValue) ? real(keyboard_string) : keyboard_string);
 				}
 				__inputId = _id;
 				__inputValue = _value;
@@ -338,7 +305,7 @@ function FORMS_Pen() constructor
 		}
 		else
 		{
-			var _displayString = string(_value);
+			var _displayString = forms_has_result(_id) ? string(forms_peek_result(_id)) : string(_value);
 			var _displayColor = c_white;
 			if (_displayString == "")
 			{
@@ -370,25 +337,17 @@ function FORMS_Pen() constructor
 		__move(_width);
 
 		if (__inputId == _id && (keyboard_check_pressed(vk_enter)
-			|| (mouse_check_button_pressed(mb_left) && !_mouseOver)))
+			|| (!_mouseOver && mouse_check_button_pressed(mb_left))))
 		{
-			__inputId = undefined;
 			var _valueNew = is_real(__inputValue) ? real(keyboard_string) : keyboard_string;
 			if (__inputValue != _valueNew)
 			{
-				__result = _valueNew;
-				return true;
+				forms_return_result(_id, _valueNew);
 			}
+			__inputId = undefined;
 		}
 
-		return __consume_result(_id, _value);
-	};
-
-	static get_result = function ()
-	{
-		var _result = __result;
-		__result = undefined;
-		return _result;
+		return __consume_result(_id);
 	};
 
 	static nl = function (_count=1)
@@ -407,11 +366,6 @@ function FORMS_Pen() constructor
 		__assert_started();
 
 		__started = false;
-
-		if (__dropdownId != undefined)
-		{
-			__dropdown_options();
-		}
 
 		draw_set_font(__fontBackup);
 

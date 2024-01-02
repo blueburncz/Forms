@@ -9,6 +9,7 @@
 function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 	: FORMS_Widget(_props) constructor
 {
+	static Widget_update = update;
 	static Widget_destroy = destroy;
 
 	/// @var {Array<Struct.FORMS_Widget>}
@@ -109,6 +110,11 @@ function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 		var _parentHeight = __realHeight;
 		var _count = array_length(Children);
 
+		if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight))
+		{
+			forms_get_root().WidgetHovered = self;
+		}
+
 		for (var i = 0; i < _count; ++i)
 		{
 			with (Children[i])
@@ -137,8 +143,8 @@ function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 	/// @return {Struct.FORMS_CompoundWidget} Returns `self`.
 	static update = function (_deltaTime)
 	{
-		var _count = array_length(Children);
-		for (var i = 0; i < _count; ++i)
+		Widget_update(_deltaTime);
+		for (var i = array_length(Children) - 1; i >= 0; --i)
 		{
 			Children[i].update(_deltaTime);
 		}

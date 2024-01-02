@@ -40,12 +40,76 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	/// @readonly
 	MouseY = 0;
 
+	/// @var {Struct.FORMS_Widget, Undefined}
+	/// @readonly
+	WidgetHovered = undefined;
+
+	/// @var {Struct.FORMS_Widget, Undefined}
+	/// @readonly
+	WidgetActive = undefined;
+
+	__mousePressed = {};
+
 	__tooltip = undefined;
 	__tooltipLast = undefined;
 	__tooltipTimer = 0;
 
 	__cursor = cr_default;
 	__cursorLast = __cursor;
+
+	__results = {};
+
+	/// @func return_result(_id, _value)
+	///
+	/// @desc
+	///
+	/// @param {String} _id
+	/// @param {Any} _value
+	///
+	/// @return {Struct.FORMS_RootWidget} Returns `self`.
+	static return_result = function (_id, _value)
+	{
+		__results[$ _id] = _value;
+		return self;
+	}
+
+	/// @func has_result(_id)
+	///
+	/// @desc
+	///
+	/// @param {String} _id
+	///
+	/// @return {Bool}
+	static has_result = function (_id)
+	{
+		return variable_struct_exists(__results, _id);
+	};
+
+	/// @func peek_result(_id)
+	///
+	/// @desc
+	///
+	/// @param {String} _id
+	///
+	/// @return {Any}
+	static peek_result = function (_id)
+	{
+		return __results[$ _id];
+	};
+
+	/// @func get_result(_id)
+	///
+	/// @desc
+	///
+	/// @param {String} _id
+	///
+	/// @return {Any}
+	static get_result = function (_id)
+	{
+		var _result = __results[$ _id];
+		variable_struct_remove(__results, _id);
+		return _result;
+	};
 
 	/// @func layout()
 	///
@@ -62,6 +126,8 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 		__realWidth = floor(Width.get_absolute(_windowWidth));
 		__realHeight = floor(Height.get_absolute(_windowHeight));
 
+		WidgetHovered = undefined;
+
 		CompoundWidget_layout();
 
 		return self;
@@ -77,9 +143,12 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	static update = function (_deltaTime)
 	{
 		global.__formsRoot = self;
-		layout();
 		MouseX = window_mouse_get_x();
 		MouseY = window_mouse_get_y();
+		__mousePressed = {};
+		__tooltip = undefined;
+		__cursor = cr_default;
+		layout();
 		CompoundWidget_update(_deltaTime);
 		global.__formsRoot = undefined;
 		return self;
@@ -93,14 +162,10 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	static draw = function ()
 	{
 		global.__formsRoot = self;
-		MouseX = window_mouse_get_x();
-		MouseY = window_mouse_get_y();
-		__tooltip = undefined;
-		__cursor = cr_default;
 
 		CompoundWidget_draw();
 
-		if (__tooltip != undefined/* && __widgetActive == undefined*/)
+		if (__tooltip != undefined && WidgetActive == undefined)
 		{
 			if (__tooltip != __tooltipLast || mouse_check_button(mb_any))
 			{
@@ -199,6 +264,24 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	{
 		return __cursor;
 	};
+
+	/// @func check_mouse_pressed(_button)
+	///
+	/// @desc
+	///
+	/// @param {Constant.MouseButton} _button
+	///
+	/// @return {Bool}
+	static check_mouse_pressed = function (_button)
+	{
+		if (mouse_check_button_pressed(_button))
+		{
+			var _pressed = __mousePressed[$ _button] ?? true;
+			__mousePressed[$ _button] = false;
+			return _pressed;
+		}
+		return false;
+	};
 }
 
 /// forms_push_mouse_coordinates(_x, _y)
@@ -235,6 +318,37 @@ function forms_mouse_get_y()
 	return forms_get_root().MouseY;
 }
 
+/// forms_mouse_in_rectangle(_x, _y, _width, _height)
+///
+/// @desc
+///
+/// @param {Real} _x
+/// @param {Real} _y
+/// @param {Real} _width
+/// @param {Real} _height
+///
+/// @return {Bool}
+function forms_mouse_in_rectangle(_x, _y, _width, _height)
+{
+	var _mouseX = forms_mouse_get_x();
+	var _mouseY = forms_mouse_get_y();
+	return (_mouseX >= _x && _mouseX <= _x + _width
+		&& _mouseY >= _y && _mouseY <= _y + _height);
+}
+
+/// @func forms_mouse_check_button_pressed(_button)
+///
+/// @desc
+///
+/// @param {Constant.MouseButton} _button
+///
+/// @return {Bool}
+function forms_mouse_check_button_pressed(_button)
+{
+	gml_pragma("forceinline");
+	return forms_get_root().check_mouse_pressed(_button);
+}
+
 /// @func forms_set_tooltip(_tooltip)
 ///
 /// @desc
@@ -266,4 +380,55 @@ function forms_get_cursor(_cursor)
 {
 	gml_pragma("forceinline");
 	return forms_get_root().get_cursor();
+}
+
+/// @func forms_return_result(_id, _value)
+///
+/// @desc
+///
+/// @param {String} _id
+/// @param {Any} _value
+function forms_return_result(_id, _value)
+{
+	gml_pragma("forceinline");
+	forms_get_root().return_result(_id, _value);
+}
+
+/// @func forms_has_result(_id)
+///
+/// @desc
+///
+/// @param {String} _id
+///
+/// @return {Bool}
+function forms_has_result(_id)
+{
+	gml_pragma("forceinline");
+	return forms_get_root().has_result(_id);
+}
+
+/// @func forms_get_result(_id)
+///
+/// @desc
+///
+/// @param {String} _id
+///
+/// @return {Any}
+function forms_get_result(_id)
+{
+	gml_pragma("forceinline");
+	return forms_get_root().get_result(_id);
+}
+
+/// @func forms_peek_result(_id)
+///
+/// @desc
+///
+/// @param {String} _id
+///
+/// @return {Any}
+function forms_peek_result(_id)
+{
+	gml_pragma("forceinline");
+	return forms_get_root().peek_result(_id);
 }

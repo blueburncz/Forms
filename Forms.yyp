@@ -22,6 +22,7 @@
   "resources": [
     {"id":{"name":"FORMS_CompoundWidget","path":"scripts/FORMS_CompoundWidget/FORMS_CompoundWidget.yy",},},
     {"id":{"name":"Object1","path":"objects/Object1/Object1.yy",},},
+    {"id":{"name":"FORMS_Dropdown","path":"scripts/FORMS_Dropdown/FORMS_Dropdown.yy",},},
     {"id":{"name":"FORMS_Pen","path":"scripts/FORMS_Pen/FORMS_Pen.yy",},},
     {"id":{"name":"FORMS_Box","path":"scripts/FORMS_Box/FORMS_Box.yy",},},
     {"id":{"name":"FORMS_Container","path":"scripts/FORMS_Container/FORMS_Container.yy",},},

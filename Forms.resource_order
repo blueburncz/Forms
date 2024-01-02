@@ -5,6 +5,7 @@
   "ResourceOrderSettings": [
     {"name":"FORMS_CompoundWidget","order":4,"path":"scripts/FORMS_CompoundWidget/FORMS_CompoundWidget.yy",},
     {"name":"Object1","order":2,"path":"objects/Object1/Object1.yy",},
+    {"name":"FORMS_Dropdown","order":9,"path":"scripts/FORMS_Dropdown/FORMS_Dropdown.yy",},
     {"name":"FORMS_Pen","order":2,"path":"scripts/FORMS_Pen/FORMS_Pen.yy",},
     {"name":"FORMS_Box","order":6,"path":"scripts/FORMS_Box/FORMS_Box.yy",},
     {"name":"FORMS_Container","order":8,"path":"scripts/FORMS_Container/FORMS_Container.yy",},

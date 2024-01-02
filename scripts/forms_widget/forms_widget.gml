@@ -286,7 +286,21 @@ function FORMS_Widget(_props=undefined) constructor
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static layout = function ()
 	{
+		if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight))
+		{
+			forms_get_root().WidgetHovered = self;
+		}
 		return self;
+	};
+
+	/// @func is_mouse_over()
+	///
+	/// @desc
+	///
+	/// @return {Bool}
+	static is_mouse_over = function ()
+	{
+		return forms_get_root().WidgetHovered == self;
 	};
 
 	/// @func update(_deltaTime)
