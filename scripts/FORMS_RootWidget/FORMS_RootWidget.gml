@@ -59,6 +59,8 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 
 	__results = {};
 
+	__widgetsToDestroy = [];
+
 	/// @func return_result(_id, _value)
 	///
 	/// @desc
@@ -209,6 +211,19 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 			window_set_cursor(__cursor);
 			__cursorLast = __cursor;
 		}
+
+		for (var i = array_length(__widgetsToDestroy) - 1; i >= 0; --i)
+		{
+			with (__widgetsToDestroy[i])
+			{
+				if (has_parent())
+				{
+					remove_self();
+				}
+				destroy();
+			}
+		}
+		__widgetsToDestroy = [];
 
 		global.__formsRoot = undefined;
 		return self;

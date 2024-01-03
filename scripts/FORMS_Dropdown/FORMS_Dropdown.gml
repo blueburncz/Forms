@@ -88,7 +88,7 @@ function FORMS_DropdownContent()
 			{
 				draw_rectangle(_x, _y, _x + _valueWidth - 1, _y + _lineHeight - 1, true);
 			}
-			
+
 			draw_text(_x, _y, _value);
 
 			_y += _lineHeight;
@@ -97,8 +97,7 @@ function FORMS_DropdownContent()
 		if (_select != undefined)
 		{
 			forms_return_result(Container.DropdownId, _select);
-			Container.remove_self();
-			Container.destroy();
+			Container.destroy_later();
 		}
 
 		Width = _dropdownWidth;

@@ -144,7 +144,8 @@ function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 	static update = function (_deltaTime)
 	{
 		Widget_update(_deltaTime);
-		for (var i = array_length(Children) - 1; i >= 0; --i)
+		var _count = array_length(Children);
+		for (var i = 0; i < _count; ++i)
 		{
 			Children[i].update(_deltaTime);
 		}

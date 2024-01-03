@@ -139,8 +139,6 @@ function forms_get_prop(_props, _name)
 
 /// @func FORMS_Widget([_props])
 ///
-/// @implements {FORMS_IDestructible}
-///
 /// @desc
 ///
 /// @param {Struct.FORMS_WidgetProps, Undefined} [_props]
@@ -184,6 +182,10 @@ function FORMS_Widget(_props=undefined) constructor
 	/// @var {Real} The widget's actual height.
 	/// @private
 	__realHeight = 0;
+
+	/// @var {Bool}
+	/// @private
+	__toDestroy = false;
 
 	/// @func get_x()
 	///
@@ -325,6 +327,26 @@ function FORMS_Widget(_props=undefined) constructor
 		return self;
 	};
 
+	/// @func destroy_later()
+	///
+	/// @desc
+	///
+	/// @return {Undefined}
+	static destroy_later = function ()
+	{
+		if (!__toDestroy)
+		{
+			array_push(forms_get_root().__widgetsToDestroy, self);
+			__toDestroy = true;
+		}
+		return undefined;
+	};
+
+	/// @func destroy()
+	///
+	/// @desc
+	///
+	/// @return {Undefined}
 	static destroy = function ()
 	{
 		return undefined;
