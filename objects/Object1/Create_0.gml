@@ -65,7 +65,7 @@ testContent = new (function () : FORMS_Content() constructor
 
 		if (Pen.input("input-string", InputString, { Placeholder: "Some text here..." }))
 			InputString = Pen.get_result();
-		Pen.text(" String input").nl();
+		Pen.text(" String input").nl(200);
 
 		if (Pen.input("input-real", InputReal, { Tooltip: "This one has a tooltip!" }))
 			InputReal = Pen.get_result();
@@ -90,3 +90,12 @@ var _container = new FORMS_Container(testContent, {
 });
 
 gui.add_child(_container);
+
+var _scrollbarV = new FORMS_VScrollbar(_container, {
+	X: 50,
+	XUnit: FORMS_EUnit.Percent,
+	Y: 32,
+	Height: 200,
+});
+
+gui.add_child(_scrollbarV);

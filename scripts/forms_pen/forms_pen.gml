@@ -125,7 +125,7 @@ function FORMS_Pen(_content) constructor
 	static link = function (_text, _props=undefined)
 	{
 		__assert_started();
-		var _c = forms_get_prop(_props, "Color") ?? c_aqua;
+		var _c = forms_get_prop(_props, "Color") ?? c_orange;
 		var _a = forms_get_prop(_props, "Alpha") ?? 1.0;
 		var _textWidth = string_width(_text);
 		var _textHeight = string_height(_text);

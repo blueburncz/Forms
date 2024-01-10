@@ -8,6 +8,7 @@
     {"name":"FORMS_Dropdown","order":9,"path":"scripts/FORMS_Dropdown/FORMS_Dropdown.yy",},
     {"name":"FORMS_Pen","order":2,"path":"scripts/FORMS_Pen/FORMS_Pen.yy",},
     {"name":"FORMS_Box","order":6,"path":"scripts/FORMS_Box/FORMS_Box.yy",},
+    {"name":"FORMS_Scrollbar","order":10,"path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},
     {"name":"FORMS_Container","order":8,"path":"scripts/FORMS_Container/FORMS_Container.yy",},
     {"name":"__forms","order":1,"path":"scripts/__forms/__forms.yy",},
     {"name":"FORMS_RootWidget","order":5,"path":"scripts/FORMS_RootWidget/FORMS_RootWidget.yy",},

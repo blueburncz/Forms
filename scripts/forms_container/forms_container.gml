@@ -39,9 +39,13 @@ function FORMS_Container(_content=undefined, _props=undefined)
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
 	/// @var {Real}
+	/// @readonly
+	/// @see FORMS_Container.set_scroll_x
 	ScrollX = 0;
 
 	/// @var {Real}
+	/// @readonly
+	/// @see FORMS_Container.set_scroll_y
 	ScrollY = 0;
 
 	/// @var {Bool}
@@ -69,6 +73,32 @@ function FORMS_Container(_content=undefined, _props=undefined)
 		return self;
 	};
 
+	/// @func set_scroll_x(_scroll)
+	///
+	/// @desc
+	///
+	/// @param {Real} _scroll
+	///
+	/// @return {Struct.FORMS_Container} Returns `self`.
+	static set_scroll_x = function (_scroll)
+	{
+		ScrollX = clamp(_scroll, 0, max(Content.Width - __realWidth, 0));
+		return self;
+	};
+
+	/// @func set_scroll_y(_scroll)
+	///
+	/// @desc
+	///
+	/// @param {Real} _scroll
+	///
+	/// @return {Struct.FORMS_Container} Returns `self`.
+	static set_scroll_y = function (_scroll)
+	{
+		ScrollY = clamp(_scroll, 0, max(Content.Height - __realHeight, 0));
+		return self;
+	};
+
 	static update = function ()
 	{
 		if (Content != undefined)
@@ -82,14 +112,17 @@ function FORMS_Container(_content=undefined, _props=undefined)
 			{
 				ScrollY += _scroll;
 			}
-			ScrollX = clamp(ScrollX, 0, max(Content.Width - __realWidth, 0));
-			ScrollY = clamp(ScrollY, 0, max(Content.Height - __realHeight, 0));
 		}
 		//else
 		//{
 		//	ScrollX = 0;
 		//	ScrollY = 0;
 		//}
+
+		// Clamp scroll
+		set_scroll_x(ScrollX);
+		set_scroll_y(ScrollY);
+
 		return self;
 	};
 
