@@ -44,6 +44,9 @@ function FORMS_Container(_content=undefined, _props=undefined)
 	/// @var {Real}
 	ScrollY = 0;
 
+	/// @var {Bool}
+	IsDefaultScrollVertical = true;
+
 	/// @func set_content(_content)
 	///
 	/// @desc
@@ -71,7 +74,7 @@ function FORMS_Container(_content=undefined, _props=undefined)
 		if (Content != undefined)
 		{
 			var _scroll = is_mouse_over() * (mouse_wheel_down() - mouse_wheel_up()) * string_height("M");
-			if (keyboard_check(vk_control))
+			if (keyboard_check(vk_control) == IsDefaultScrollVertical)
 			{
 				ScrollX += _scroll;
 			}
