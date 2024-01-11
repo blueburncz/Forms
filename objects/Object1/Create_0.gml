@@ -3,7 +3,7 @@ draw_set_font(FORMS_FntNormal);
 
 gui = new FORMS_RootWidget();
 
-testContent = new (function () : FORMS_Content() constructor
+function TestContent() : FORMS_Content() constructor
 {
 	Checked1 = false;
 	Checked2 = true;
@@ -79,18 +79,31 @@ testContent = new (function () : FORMS_Content() constructor
 
 		return self;
 	};
-})();
+}
 
-var _container = new FORMS_Container(testContent, {
+var _container = new FORMS_Container(new TestContent(), {
 	X: 10,
 	XUnit: FORMS_EUnit.Percent,
 	Y: 32,
 	Width: 300,
 	Height: 200,
-	BackgroundColor: #202020,
+	BackgroundColor: c_lime,
+	BackgroundAlpha: 0.5,
 });
 
 gui.add_child(_container);
+
+var _container2 = new FORMS_Container(new TestContent(), {
+	X: 20,
+	XUnit: FORMS_EUnit.Percent,
+	Y: 64,
+	Width: 300,
+	Height: 200,
+	BackgroundColor: c_red,
+	BackgroundAlpha: 0.5,
+});
+
+gui.add_child(_container2);
 
 var _scrollbarV = new FORMS_VScrollbar(_container, {
 	X: 50,

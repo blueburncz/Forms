@@ -165,6 +165,9 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	{
 		global.__formsRoot = self;
 
+		gpu_push_state();
+		gpu_set_blendmode_ext_sepalpha(bm_src_alpha, bm_inv_src_alpha, bm_one, bm_inv_src_alpha);
+
 		CompoundWidget_draw();
 
 		if (__tooltip != undefined && WidgetActive == undefined)
@@ -221,6 +224,8 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 			}
 		}
 		__widgetsToDestroy = [];
+
+		gpu_pop_state();
 
 		global.__formsRoot = undefined;
 		return self;

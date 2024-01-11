@@ -297,7 +297,7 @@ function FORMS_Pen(_content) constructor
 		}
 
 		forms_draw_rectangle(_x, _y, _width, _height, c_white, 0.5);
-	
+
 		if (__inputId == _id)
 		{
 			var _displayString = keyboard_string + "|";
