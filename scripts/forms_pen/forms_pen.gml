@@ -9,7 +9,8 @@ function FORMS_Pen(_content) constructor
 	/// @readonly
 	Content = _content;
 
-	Font = -1;
+	/// @var {Asset.GMFont, Undefined}
+	Font = undefined;
 
 	LineHeight = undefined;
 
@@ -86,7 +87,10 @@ function FORMS_Pen(_content) constructor
 		MaxY = _y;
 		__columnX = _x;
 		__fontBackup = draw_get_font();
-		draw_set_font(Font);
+		if (Font != undefined)
+		{
+			draw_set_font(Font);
+		}
 		__lineHeight = LineHeight ?? string_height("M");
 		return self;
 	};

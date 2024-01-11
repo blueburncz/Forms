@@ -3,6 +3,7 @@
     {"name":"Forms","order":3,"path":"folders/Forms.yy",},
     {"name":"Scripts","order":11,"path":"folders/Forms/Scripts.yy",},
     {"name":"Sprites","order":12,"path":"folders/Forms/Sprites.yy",},
+    {"name":"Fonts","order":13,"path":"folders/Forms/Fonts.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"FORMS_CompoundWidget","order":2,"path":"scripts/FORMS_CompoundWidget/FORMS_CompoundWidget.yy",},
