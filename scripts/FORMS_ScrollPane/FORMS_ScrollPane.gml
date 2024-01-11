@@ -62,11 +62,13 @@ function FORMS_ScrollPane(_content=undefined, _props=undefined)
 		var _scrollbarH = HScrollbar;
 		var _scrollbarV = VScrollbar;
 
-		_scrollbarV.__realWidth = _scrollbarV.Width.get_absolute(_parentWidth, _scrollbarV.get_auto_width());
+		_scrollbarV.__realWidth = (_container.Content.Height > __realHeight)
+			? _scrollbarV.Width.get_absolute(_parentWidth, _scrollbarV.get_auto_width()) : 0;
 		_scrollbarV.__realX = __realX + __realWidth - _scrollbarV.__realWidth;
 		_scrollbarV.__realY = __realY;
 
-		_scrollbarH.__realHeight = _scrollbarH.Height.get_absolute(_parentHeight, _scrollbarH.get_auto_height());
+		_scrollbarH.__realHeight = (_container.Content.Width > __realWidth)
+			? _scrollbarH.Height.get_absolute(_parentHeight, _scrollbarH.get_auto_height()) : 0;
 		_scrollbarH.__realX = __realX;
 		_scrollbarH.__realY = __realY + __realHeight - _scrollbarH.__realHeight;
 

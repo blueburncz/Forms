@@ -100,7 +100,7 @@ var _scrollPane2 = new FORMS_ScrollPane(new TestContent(), {
 	XUnit: FORMS_EUnit.Percent,
 	Y: 64,
 	Width: 300,
-	Height: 200,
+	Height: 400,
 	Container: {
 		BackgroundColor: c_red,
 		BackgroundAlpha: 0.5,
