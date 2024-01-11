@@ -166,6 +166,7 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 		global.__formsRoot = self;
 
 		gpu_push_state();
+		gpu_set_tex_filter(true);
 		gpu_set_blendmode_ext_sepalpha(bm_src_alpha, bm_inv_src_alpha, bm_one, bm_inv_src_alpha);
 
 		CompoundWidget_draw();
