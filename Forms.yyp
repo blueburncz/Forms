@@ -12,9 +12,9 @@
   "defaultScriptType": 1,
   "Folders": [
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Forms","folderPath":"folders/Forms.yy",},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Fonts","folderPath":"folders/Forms/Fonts.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Scripts","folderPath":"folders/Forms/Scripts.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Sprites","folderPath":"folders/Forms/Sprites.yy",},
-    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Fonts","folderPath":"folders/Forms/Fonts.yy",},
   ],
   "IncludedFiles": [],
   "isEcma": false,
@@ -27,6 +27,7 @@
     {"id":{"name":"Object1","path":"objects/Object1/Object1.yy",},},
     {"id":{"name":"FORMS_Dropdown","path":"scripts/FORMS_Dropdown/FORMS_Dropdown.yy",},},
     {"id":{"name":"FORMS_Pen","path":"scripts/FORMS_Pen/FORMS_Pen.yy",},},
+    {"id":{"name":"FORMS_ScrollPane","path":"scripts/FORMS_ScrollPane/FORMS_ScrollPane.yy",},},
     {"id":{"name":"FORMS_Box","path":"scripts/FORMS_Box/FORMS_Box.yy",},},
     {"id":{"name":"FORMS_Scrollbar","path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},},
     {"id":{"name":"FORMS_Container","path":"scripts/FORMS_Container/FORMS_Container.yy",},},

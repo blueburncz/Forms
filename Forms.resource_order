@@ -1,15 +1,16 @@
 {
   "FolderOrderSettings": [
     {"name":"Forms","order":3,"path":"folders/Forms.yy",},
+    {"name":"Fonts","order":13,"path":"folders/Forms/Fonts.yy",},
     {"name":"Scripts","order":11,"path":"folders/Forms/Scripts.yy",},
     {"name":"Sprites","order":12,"path":"folders/Forms/Sprites.yy",},
-    {"name":"Fonts","order":13,"path":"folders/Forms/Fonts.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"FORMS_CompoundWidget","order":2,"path":"scripts/FORMS_CompoundWidget/FORMS_CompoundWidget.yy",},
     {"name":"Object1","order":2,"path":"objects/Object1/Object1.yy",},
     {"name":"FORMS_Dropdown","order":5,"path":"scripts/FORMS_Dropdown/FORMS_Dropdown.yy",},
     {"name":"FORMS_Pen","order":6,"path":"scripts/FORMS_Pen/FORMS_Pen.yy",},
+    {"name":"FORMS_ScrollPane","order":10,"path":"scripts/FORMS_ScrollPane/FORMS_ScrollPane.yy",},
     {"name":"FORMS_Box","order":1,"path":"scripts/FORMS_Box/FORMS_Box.yy",},
     {"name":"FORMS_Scrollbar","order":8,"path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},
     {"name":"FORMS_Container","order":3,"path":"scripts/FORMS_Container/FORMS_Container.yy",},

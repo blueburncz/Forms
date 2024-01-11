@@ -81,44 +81,30 @@ function TestContent() : FORMS_Content() constructor
 	};
 }
 
-var _container = new FORMS_Container(new TestContent(), {
+var _scrollPane1 = new FORMS_ScrollPane(new TestContent(), {
 	X: 10,
 	XUnit: FORMS_EUnit.Percent,
 	Y: 32,
 	Width: 300,
 	Height: 200,
-	BackgroundColor: c_lime,
-	BackgroundAlpha: 0.5,
+	Container: {
+		BackgroundColor: c_lime,
+		BackgroundAlpha: 0.5,
+	}
 });
 
-gui.add_child(_container);
+gui.add_child(_scrollPane1);
 
-var _container2 = new FORMS_Container(new TestContent(), {
+var _scrollPane2 = new FORMS_ScrollPane(new TestContent(), {
 	X: 20,
 	XUnit: FORMS_EUnit.Percent,
 	Y: 64,
 	Width: 300,
 	Height: 200,
-	BackgroundColor: c_red,
-	BackgroundAlpha: 0.5,
+	Container: {
+		BackgroundColor: c_red,
+		BackgroundAlpha: 0.5,
+	}
 });
 
-gui.add_child(_container2);
-
-var _scrollbarV = new FORMS_VScrollbar(_container, {
-	X: 50,
-	XUnit: FORMS_EUnit.Percent,
-	Y: 32,
-	Height: 200,
-});
-
-gui.add_child(_scrollbarV);
-
-var _scrollbarH = new FORMS_HScrollbar(_container, {
-	X: 10,
-	XUnit: FORMS_EUnit.Percent,
-	Width: 300,
-	Y: 400,
-});
-
-gui.add_child(_scrollbarH);
+gui.add_child(_scrollPane2);
