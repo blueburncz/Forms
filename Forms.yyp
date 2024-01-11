@@ -35,6 +35,7 @@
     {"id":{"name":"FORMS_RootWidget","path":"scripts/FORMS_RootWidget/FORMS_RootWidget.yy",},},
     {"id":{"name":"FORMS_Widget","path":"scripts/FORMS_Widget/FORMS_Widget.yy",},},
     {"id":{"name":"FORMS_FntNormal","path":"fonts/FORMS_FntNormal/FORMS_FntNormal.yy",},},
+    {"id":{"name":"FORMS_SprRadioButton","path":"sprites/FORMS_SprRadioButton/FORMS_SprRadioButton.yy",},},
     {"id":{"name":"FORMS_Content","path":"scripts/FORMS_Content/FORMS_Content.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
   ],

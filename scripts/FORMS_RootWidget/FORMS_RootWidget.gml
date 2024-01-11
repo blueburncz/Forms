@@ -344,8 +344,8 @@ function forms_mouse_in_rectangle(_x, _y, _width, _height)
 {
 	var _mouseX = forms_mouse_get_x();
 	var _mouseY = forms_mouse_get_y();
-	return (_mouseX >= _x && _mouseX <= _x + _width
-		&& _mouseY >= _y && _mouseY <= _y + _height);
+	return (_mouseX >= _x && _mouseX < _x + _width
+		&& _mouseY >= _y && _mouseY < _y + _height);
 }
 
 /// @func forms_mouse_check_button_pressed(_button)

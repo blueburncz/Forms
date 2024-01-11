@@ -86,7 +86,7 @@ function FORMS_DropdownContent()
 
 			if (Pen.is_mouse_over(_x, _y, _valueWidth, _lineHeight))
 			{
-				draw_rectangle(_x, _y, _x + _valueWidth - 1, _y + _lineHeight - 1, true);
+				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, c_white, 0.3);
 				if (forms_mouse_check_button_pressed(mb_left))
 				{
 					_select = i;
@@ -95,7 +95,7 @@ function FORMS_DropdownContent()
 			}
 			else if (i == _index)
 			{
-				draw_rectangle(_x, _y, _x + _valueWidth - 1, _y + _lineHeight - 1, true);
+				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, c_white, 0.1);
 			}
 
 			draw_text(_x, _y, _value);

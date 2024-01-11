@@ -162,7 +162,7 @@ function FORMS_Pen(_content) constructor
 		var _mouseOver = is_mouse_over(X, Y, _textWidth, _textHeight);
 		if (_mouseOver)
 		{
-			draw_rectangle(X, Y, X + _textWidth - 1, Y + _textHeight - 1, true);
+			forms_draw_rectangle(X, Y, _textWidth, _textHeight, c_white, 0.3);
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 		}
@@ -177,7 +177,7 @@ function FORMS_Pen(_content) constructor
 		var _width = __lineHeight;
 		var _height = __lineHeight;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
-		draw_rectangle(X, Y, X + _width - 1, Y + _height - 1, !_checked);
+		forms_draw_rectangle(X, Y, _width, _height, _checked ? c_orange : c_white);
 		if (_mouseOver)
 		{
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
@@ -192,9 +192,8 @@ function FORMS_Pen(_content) constructor
 		__assert_started();
 		var _width = __lineHeight;
 		var _height = __lineHeight;
-		var _radius = _width / 2;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
-		draw_circle(X + _radius, Y + _radius, _radius, !_selected);
+		draw_sprite_stretched_ext(FORMS_SprRadioButton, 0, X, Y, _width, _height, _selected ? c_orange : c_white, 1.0);
 		if (_mouseOver)
 		{
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
@@ -211,7 +210,8 @@ function FORMS_Pen(_content) constructor
 		var _width = forms_get_prop(_props, "Width") ?? 200;
 		var _height = __lineHeight;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height, _id);
-		draw_rectangle(X, Y, X + _width - 1, Y + _height - 1, true);
+		forms_draw_rectangle(X, Y, _width, _height, c_white, 0.5);
+		forms_draw_rectangle(X, Y, ((_valueNew - _min) / (_max - _min)) * _width, _height, c_orange, 0.5);
 		draw_text(X, Y, (forms_get_prop(_props, "Pre") ?? "") + string(_value) + (forms_get_prop(_props, "Post") ?? ""));
 		if (_mouseOver)
 		{
@@ -249,7 +249,7 @@ function FORMS_Pen(_content) constructor
 		var _width = forms_get_prop(_props, "Width") ?? 200;
 		var _height = __lineHeight;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height, _id);
-		draw_rectangle(X, Y, X + _width - 1, Y + _height - 1, true);
+		forms_draw_rectangle(X, Y, _width, _height, c_white, 0.5);
 		if (_index >= 0 && _index < array_length(_values))
 		{
 			draw_text(X, Y, _values[_index]);
@@ -296,7 +296,7 @@ function FORMS_Pen(_content) constructor
 			forms_set_cursor(cr_beam);
 		}
 
-		draw_rectangle(_x, _y, _x + _width - 1, _y + _height - 1, true);
+		forms_draw_rectangle(_x, _y, _width, _height, c_white, 0.5);
 	
 		if (__inputId == _id)
 		{

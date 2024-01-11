@@ -56,7 +56,7 @@ testContent = new (function () : FORMS_Content() constructor
 			Radio = 2;
 		Pen.nl();
 
-		if (Pen.slider("slider", Slider, 0, 100, { Pre: "X: ", Post: "%", Integers: true, Tooltip: "This is the best slider ever!" }))
+		if (Pen.slider("slider", Slider, -100, 100, { Pre: "X: ", Post: "%", Integers: true, Tooltip: "This is the best slider ever!" }))
 			Slider = Pen.get_result();
 		Pen.text(" Slider").nl();
 
