@@ -6,6 +6,30 @@
 function FORMS_ScrollbarProps()
 	: FORMS_WidgetProps() constructor
 {
+	/// @var {Constant.Color, Undefined}
+	BackgroundColor = undefined;
+
+	/// @var {Real, Undefined}
+	BackgroundAlpha = undefined;
+
+	/// @var {Constant.Color, Undefined}
+	ThumbColor = undefined;
+
+	/// @var {Real, Undefined}
+	ThumbAlpha = undefined;
+
+	/// @var {Constant.Color, Undefined}
+	ThumbColorHover = undefined;
+
+	/// @var {Real, Undefined}
+	ThumbAlphaHover = undefined;
+
+	/// @var {Constant.Color, Undefined}
+	ThumbColorActive = undefined;
+
+	/// @var {Real, Undefined}
+	ThumbAlphaActive = undefined;
+
 	/// @var {Real, Undefined}
 	ThumbSizeMin = undefined;
 }
@@ -24,11 +48,36 @@ function FORMS_Scrollbar(_target, _props=undefined)
 	/// @var {Struct.FORMS_Container}
 	Target = _target;
 
+	/// @var {Constant.Color}
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? c_silver;
+
+	/// @var {Real}
+	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
+
+	/// @var {Constant.Color}
+	ThumbColor = forms_get_prop(_props, "ThumbColor") ?? c_maroon;
+
+	/// @var {Real}
+	ThumbAlpha = forms_get_prop(_props, "ThumbAlpha") ?? 1.0;
+
+	/// @var {Constant.Color}
+	ThumbColorHover = forms_get_prop(_props, "ThumbColorHover") ?? c_red;
+
+	/// @var {Real}
+	ThumbAlphaHover = forms_get_prop(_props, "ThumbAlphaHover") ?? 0.5;
+
+	/// @var {Constant.Color}
+	ThumbColorActive = forms_get_prop(_props, "ThumbColorActive") ?? c_orange;
+
+	/// @var {Real}
+	ThumbAlphaActive = forms_get_prop(_props, "ThumbAlphaActive") ?? 1.0;
+
 	/// @var {Real}
 	ThumbSizeMin = forms_get_prop(_props, "ThumbSizeMin") ?? 32;
 
 	__thumbPos = 0;
 	__thumbSize = 0;
+	__thumbIsHovered = false;
 	__mouseOffset = 0;
 
 	/// @func __handle_scrolling(_scroll, _mousePos, _scrollbarPos, _scrollbarSize, _contentSize, _containerSize)
@@ -58,19 +107,20 @@ function FORMS_Scrollbar(_target, _props=undefined)
 		var _scrollNew = _scroll;
 		var _scrollMax = _contentSize - _containerSize;
 		var _scrollLinear = clamp(_scroll / _scrollMax, 0, 1);
+		var _isMouseOver = is_mouse_over();
+		var _root = forms_get_root();
 
 		__thumbSize = (_containerSize / _contentSize) * _scrollbarSize;
 		__thumbSize = max(__thumbSize, ThumbSizeMin);
 		__thumbSize = min(__thumbSize, _scrollbarSize);
 		__thumbPos = _scrollbarPos + (_scrollbarSize - __thumbSize) * _scrollLinear;
-
-		var _isMouseOver = is_mouse_over();
-		var _root = forms_get_root();
+		__thumbIsHovered = (_isMouseOver
+			&& _mousePos > __thumbPos
+			&& _mousePos < __thumbPos + __thumbSize);
 
 		if (_isMouseOver && forms_mouse_check_button_pressed(mb_left))
 		{
-			if (_mousePos > __thumbPos
-				&& _mousePos < __thumbPos + __thumbSize)
+			if (__thumbIsHovered)
 			{
 				__mouseOffset = __thumbPos - _mousePos;
 			}
@@ -137,11 +187,13 @@ function FORMS_HScrollbar(_target, _props=undefined)
 
 	static draw = function ()
 	{
-		draw_rectangle_color(__realX, __realY, __realX + __realWidth, __realY + __realHeight,
-			c_silver, c_silver, c_silver, c_silver, false);
-		var _color = (forms_get_root().WidgetActive == self) ? c_orange : c_maroon;
-		draw_rectangle_color(__thumbPos, __realY, __thumbPos + __thumbSize, __realY + __realHeight,
-			_color, _color, _color, _color, false);
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
+		var _root = forms_get_root();
+		var _color = (_root.WidgetActive == self) ? ThumbColorActive
+			: (__thumbIsHovered ? ThumbColorHover : ThumbColor);
+		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive
+			: (__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
+		forms_draw_rectangle(__thumbPos, __realY, __thumbSize, __realHeight, _color, _alpha);
 		return self;
 	};
 }
@@ -180,11 +232,13 @@ function FORMS_VScrollbar(_target, _props=undefined)
 
 	static draw = function ()
 	{
-		draw_rectangle_color(__realX, __realY, __realX + __realWidth, __realY + __realHeight,
-			c_silver, c_silver, c_silver, c_silver, false);
-		var _color = (forms_get_root().WidgetActive == self) ? c_orange : c_maroon;
-		draw_rectangle_color(__realX, __thumbPos, __realX + __realWidth, __thumbPos + __thumbSize,
-			_color, _color, _color, _color, false);
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
+		var _root = forms_get_root();
+		var _color = (_root.WidgetActive == self) ? ThumbColorActive
+			: (__thumbIsHovered ? ThumbColorHover : ThumbColor);
+		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive
+			: (__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
+		forms_draw_rectangle(__realX, __thumbPos, __realWidth, __thumbSize, _color, _alpha);
 		return self;
 	};
 }

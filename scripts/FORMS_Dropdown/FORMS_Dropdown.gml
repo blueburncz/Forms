@@ -2,10 +2,10 @@
 ///
 /// @extends FORMS_Container
 ///
-/// @param {String} _id
-/// @param {Array} _values
-/// @param {Real} _index
-/// @param {Real} _width
+/// @param {String} _id The ID of the dropdown that opened this.
+/// @param {Array} _values An array of values to select from.
+/// @param {Real} _index The index of the currently selected value.
+/// @param {Real} _width The width of the dropdown that opened this.
 /// @param {Struct.FORMS_ContainerProps, Undefined} [_props]
 function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 	: FORMS_Container(undefined, _props) constructor
@@ -15,18 +15,25 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 
 	set_content(new FORMS_DropdownContent());
 
-	/// @var {String}
+	/// @var {String} The ID of the dropdown that opened this.
+	/// @readonly
 	DropdownId = _id;
 
-	/// @var {Array}
+	/// @var {Array} An array of values to select from.
+	/// @readonly
 	DropdownValues = _values;
 
-	/// @var {Real}
+	/// @var {Real} The index of the currently selected value.
+	/// @readonly
 	DropdownIndex = _index;
 
-	/// @var {Real}
+	/// @var {Real} The width of the dropdown that opened this.
+	/// @readonly
 	DropdownWidth = _width;
 
+	/// @var {Bool} If true then the size of the dropdown is recomputed from its
+	/// contents.
+	/// @private
 	__contentFit = true;
 
 	static layout = function ()
@@ -57,6 +64,8 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 /// @func FORMS_DropdownContent()
 ///
 /// @extends FORMS_Content
+///
+/// @desc Draws contents of a {@link FORMS_Dropdown} widget.
 function FORMS_DropdownContent()
 	: FORMS_Content() constructor
 {

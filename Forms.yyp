@@ -12,6 +12,8 @@
   "defaultScriptType": 1,
   "Folders": [
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Forms","folderPath":"folders/Forms.yy",},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Scripts","folderPath":"folders/Forms/Scripts.yy",},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Sprites","folderPath":"folders/Forms/Sprites.yy",},
   ],
   "IncludedFiles": [],
   "isEcma": false,
@@ -27,6 +29,7 @@
     {"id":{"name":"FORMS_Box","path":"scripts/FORMS_Box/FORMS_Box.yy",},},
     {"id":{"name":"FORMS_Scrollbar","path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},},
     {"id":{"name":"FORMS_Container","path":"scripts/FORMS_Container/FORMS_Container.yy",},},
+    {"id":{"name":"FORMS_SprRectangle","path":"sprites/FORMS_SprRectangle/FORMS_SprRectangle.yy",},},
     {"id":{"name":"__forms","path":"scripts/__forms/__forms.yy",},},
     {"id":{"name":"FORMS_RootWidget","path":"scripts/FORMS_RootWidget/FORMS_RootWidget.yy",},},
     {"id":{"name":"FORMS_Widget","path":"scripts/FORMS_Widget/FORMS_Widget.yy",},},

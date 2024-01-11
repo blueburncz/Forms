@@ -182,16 +182,13 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 				var _tooltipX = forms_mouse_get_x() + 16;
 				var _tooltipY = forms_mouse_get_y() + 16;
 				var _tooltipAlpha = min((__tooltipTimer - 500) / 100, 1);
-				var _a = draw_get_alpha();
-				draw_set_alpha(_tooltipAlpha);
-				draw_rectangle_color(
+				forms_draw_rectangle(
 					_tooltipX,
 					_tooltipY,
-					_tooltipX + string_width(__tooltip) - 1,
-					_tooltipY + string_height(__tooltip) - 1,
-					c_black, c_black, c_black, c_black,
-					false);
-				draw_set_alpha(_a);
+					string_width(__tooltip),
+					string_height(__tooltip),
+					c_black,
+					_tooltipAlpha);
 				draw_text_color(
 					_tooltipX,
 					_tooltipY,
