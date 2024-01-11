@@ -203,9 +203,16 @@ function FORMS_Pen(_content) constructor
 		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
 	};
 
+	static __make_id = function (_id)
+	{
+		gml_pragma("forceinline");
+		return Content.Container.Id + "#" + _id;
+	};
+
 	static slider = function (_id, _value, _min, _max, _props=undefined)
 	{
 		__assert_started();
+		_id = __make_id(_id);
 		var _valueNew = clamp(_value, _min, _max);
 		var _width = forms_get_prop(_props, "Width") ?? 200;
 		var _height = __lineHeight;
@@ -246,6 +253,7 @@ function FORMS_Pen(_content) constructor
 	static dropdown = function (_id, _index, _values, _props=undefined)
 	{
 		__assert_started();
+		_id = __make_id(_id);
 		var _width = forms_get_prop(_props, "Width") ?? 200;
 		var _height = __lineHeight;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height, _id);
@@ -274,6 +282,7 @@ function FORMS_Pen(_content) constructor
 	static input = function (_id, _value, _props=undefined)
 	{
 		__assert_started();
+		_id = __make_id(_id);
 
 		var _x = X;
 		var _y = Y;
