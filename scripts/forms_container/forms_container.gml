@@ -4,6 +4,12 @@
 function FORMS_ContainerProps()
 	: FORMS_WidgetProps() constructor
 {
+	/// @var {Asset.GMSprite, Undefined}
+	BackgroundSprite = undefined;
+
+	/// @var {Real, Undefined}
+	BackgroundIndex = undefined;
+
 	/// @var {Constant.Color, Undefined}
 	BackgroundColor = undefined;
 
@@ -31,6 +37,12 @@ function FORMS_Container(_content=undefined, _props=undefined)
 	/// @var {Id.Surface}
 	/// @readonly
 	Surface = -1;
+
+	/// @var {Asset.GMSprite}
+	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRectangle;
+
+	/// @var {Real}
+	BackgroundIndex = forms_get_prop(_props, "BackgroundIndex") ?? 0;
 
 	/// @var {Constant.Color}
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? c_black;
@@ -146,7 +158,12 @@ function FORMS_Container(_content=undefined, _props=undefined)
 		}
 
 		surface_set_target(Surface);
-		draw_clear_alpha(BackgroundColor, BackgroundAlpha);
+		draw_clear_alpha(BackgroundColor, 0);
+		draw_sprite_stretched_ext(
+			BackgroundSprite, BackgroundIndex,
+			0, 0, __realWidth, __realHeight,
+			BackgroundColor, BackgroundAlpha);
+
 		if (Content != undefined)
 		{
 			forms_push_mouse_coordinates(__realX - ScrollX, __realY - ScrollY);
