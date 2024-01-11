@@ -33,11 +33,17 @@ function FORMS_VScrollbar(_target, _props=undefined)
 		Target.set_scroll_y(Target.ScrollY + _scrollWheel);
 
 		if (is_mouse_over()
-			&& forms_mouse_get_y() > __thumbPos
-			&& forms_mouse_get_y() < __thumbPos + __thumbSize
 			&& forms_mouse_check_button_pressed(mb_left))
 		{
-			__mouseOffset = __thumbPos - forms_mouse_get_y();
+			if (forms_mouse_get_y() > __thumbPos
+				&& forms_mouse_get_y() < __thumbPos + __thumbSize)
+			{
+				__mouseOffset = __thumbPos - forms_mouse_get_y();
+			}
+			else
+			{
+				__mouseOffset = -__thumbSize / 2;
+			}
 			forms_get_root().WidgetActive = self;
 		}
 
