@@ -54,8 +54,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 		Container_update(_deltaTime);
 		if (!is_mouse_over() && mouse_check_button_pressed(mb_left))
 		{
-			remove_self();
-			destroy();
+			destroy_later();
 		}
 		return self;
 	};

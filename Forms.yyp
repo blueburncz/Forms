@@ -24,6 +24,7 @@
   },
   "resources": [
     {"id":{"name":"FORMS_CompoundWidget","path":"scripts/FORMS_CompoundWidget/FORMS_CompoundWidget.yy",},},
+    {"id":{"name":"FORMS_SprRound4","path":"sprites/FORMS_SprRound4/FORMS_SprRound4.yy",},},
     {"id":{"name":"Object1","path":"objects/Object1/Object1.yy",},},
     {"id":{"name":"FORMS_Dropdown","path":"scripts/FORMS_Dropdown/FORMS_Dropdown.yy",},},
     {"id":{"name":"FORMS_Pen","path":"scripts/FORMS_Pen/FORMS_Pen.yy",},},
@@ -31,8 +32,10 @@
     {"id":{"name":"FORMS_Box","path":"scripts/FORMS_Box/FORMS_Box.yy",},},
     {"id":{"name":"FORMS_Scrollbar","path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},},
     {"id":{"name":"FORMS_Container","path":"scripts/FORMS_Container/FORMS_Container.yy",},},
+    {"id":{"name":"FORMS_KeyboardShortcut","path":"scripts/FORMS_KeyboardShortcut/FORMS_KeyboardShortcut.yy",},},
     {"id":{"name":"FORMS_SprRectangle","path":"sprites/FORMS_SprRectangle/FORMS_SprRectangle.yy",},},
     {"id":{"name":"__forms","path":"scripts/__forms/__forms.yy",},},
+    {"id":{"name":"FORMS_ContextMenu","path":"scripts/FORMS_ContextMenu/FORMS_ContextMenu.yy",},},
     {"id":{"name":"FORMS_RootWidget","path":"scripts/FORMS_RootWidget/FORMS_RootWidget.yy",},},
     {"id":{"name":"FORMS_Widget","path":"scripts/FORMS_Widget/FORMS_Widget.yy",},},
     {"id":{"name":"FORMS_FntNormal","path":"fonts/FORMS_FntNormal/FORMS_FntNormal.yy",},},

@@ -113,7 +113,7 @@ function FORMS_Container(_content=undefined, _props=undefined)
 		return self;
 	};
 
-	static update = function ()
+	static update = function (_deltaTime)
 	{
 		if (Content != undefined)
 		{
@@ -158,7 +158,7 @@ function FORMS_Container(_content=undefined, _props=undefined)
 		}
 
 		surface_set_target(Surface);
-		draw_clear_alpha(BackgroundColor, 0);
+		draw_clear_alpha(0, 0);
 		draw_sprite_stretched_ext(
 			BackgroundSprite, BackgroundIndex,
 			0, 0, __realWidth, __realHeight,
