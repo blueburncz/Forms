@@ -107,7 +107,7 @@ _flexBox.add_child(_scrollPane1);
 var _scrollPane2 = new FORMS_ScrollPane(new TestContent(), {
 	Width: 100,
 	WidthUnit: FORMS_EUnit.Percent,
-	Height: 400,
+	Height: 300,
 	Container: {
 		BackgroundSprite: FORMS_SprRound8,
 		BackgroundColor: c_red,
@@ -133,7 +133,7 @@ _flexBox.add_child(_scrollPane3);
 var _scrollPane4 = new FORMS_ScrollPane(new TestContent(), {
 	Width: 100,
 	WidthUnit: FORMS_EUnit.Percent,
-	Flex: 1,
+	Flex: 2,
 	Container: {
 		BackgroundSprite: FORMS_SprRound8,
 		BackgroundColor: c_yellow,
