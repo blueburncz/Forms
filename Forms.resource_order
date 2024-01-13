@@ -11,6 +11,7 @@
     {"name":"Object1","order":2,"path":"objects/Object1/Object1.yy",},
     {"name":"FORMS_Dropdown","order":5,"path":"scripts/FORMS_Dropdown/FORMS_Dropdown.yy",},
     {"name":"FORMS_Pen","order":6,"path":"scripts/FORMS_Pen/FORMS_Pen.yy",},
+    {"name":"FORMS_Window","order":13,"path":"scripts/FORMS_Window/FORMS_Window.yy",},
     {"name":"FORMS_ScrollPane","order":10,"path":"scripts/FORMS_ScrollPane/FORMS_ScrollPane.yy",},
     {"name":"FORMS_Box","order":1,"path":"scripts/FORMS_Box/FORMS_Box.yy",},
     {"name":"FORMS_Scrollbar","order":8,"path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},

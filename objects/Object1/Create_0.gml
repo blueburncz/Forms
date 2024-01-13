@@ -144,3 +144,10 @@ var _scrollPane4 = new FORMS_ScrollPane(new TestContent(), {
 });
 
 _flexBox.add_child(_scrollPane4);
+
+var _window = new FORMS_Window(new TestContent(), {
+	X: 100,
+	Y: 100,
+});
+
+gui.add_child(_window);
