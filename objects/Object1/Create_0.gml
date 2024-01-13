@@ -107,8 +107,7 @@ _flexBox.add_child(_scrollPane1);
 var _scrollPane2 = new FORMS_ScrollPane(new TestContent(), {
 	Width: 100,
 	WidthUnit: FORMS_EUnit.Percent,
-	//Height: 400,
-	Flex: 1,
+	Height: 400,
 	Container: {
 		BackgroundSprite: FORMS_SprRound8,
 		BackgroundColor: c_red,
@@ -117,3 +116,29 @@ var _scrollPane2 = new FORMS_ScrollPane(new TestContent(), {
 });
 
 _flexBox.add_child(_scrollPane2);
+
+var _scrollPane3 = new FORMS_ScrollPane(new TestContent(), {
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
+	Flex: 1,
+	Container: {
+		BackgroundSprite: FORMS_SprRound8,
+		BackgroundColor: c_blue,
+		BackgroundAlpha: 0.5,
+	}
+});
+
+_flexBox.add_child(_scrollPane3);
+
+var _scrollPane4 = new FORMS_ScrollPane(new TestContent(), {
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
+	Flex: 1,
+	Container: {
+		BackgroundSprite: FORMS_SprRound8,
+		BackgroundColor: c_yellow,
+		BackgroundAlpha: 0.5,
+	}
+});
+
+_flexBox.add_child(_scrollPane4);

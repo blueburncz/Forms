@@ -188,7 +188,10 @@ function FORMS_FlexBox(_props=undefined, _children=undefined)
 			forms_get_root().WidgetHovered = self;
 		}
 
+		// First pass
 		var _flexSize = (_isHorizontal ? __realWidth : __realHeight) - (max(_count - 1, 0) * _spacing);
+		var _flexCount = 0;
+		var _staticSize = 0;
 		var _flexSum = 0;
 		for (var i = 0; i < _count; ++i)
 		{
@@ -199,6 +202,7 @@ function FORMS_FlexBox(_props=undefined, _children=undefined)
 
 				if (Flex > 0)
 				{
+					++_flexCount;
 					_flexSum += Flex;
 
 					if (_isHorizontal)
@@ -216,11 +220,41 @@ function FORMS_FlexBox(_props=undefined, _children=undefined)
 					__realHeight = floor(Height.get_absolute(_parentHeight, _autoHeight));
 
 					_flexSize -= _isHorizontal ? __realWidth : __realHeight;
+					_staticSize += _isHorizontal ? __realWidth : __realHeight;
 				}
 			}
 		}
 		var _flexPos = _isHorizontal ? _parentX : _parentY;
 
+		// Adjust sizes if there's not enough space
+		if (_flexSize < 0)
+		{
+			var _adjustTotal = -_flexSize - _spacing * _flexCount;
+
+			for (var i = 0; i < _count; ++i)
+			{
+				with (Children[i])
+				{
+					if (Flex <= 0)
+					{
+						var _adjustSize = _adjustTotal * (_isHorizontal ? (__realWidth / _staticSize) : (__realHeight / _staticSize));
+
+						if (_isHorizontal)
+						{
+							__realWidth -= _adjustSize;
+						}
+						else
+						{
+							__realHeight -= _adjustSize;
+						}
+
+						_flexSize += _adjustSize;
+					}
+				}
+			}
+		}
+
+		// Positions and flex sizes
 		for (var i = 0; i < _count; ++i)
 		{
 			with (Children[i])

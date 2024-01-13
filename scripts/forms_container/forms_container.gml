@@ -95,7 +95,7 @@ function FORMS_Container(_content=undefined, _props=undefined)
 	static set_scroll_x = function (_scroll)
 	{
 		gml_pragma("forceinline");
-		ScrollX = clamp(floor(_scroll), 0, max(Content.Width - __realWidth, 0));
+		ScrollX = round(clamp(_scroll, 0, max(Content.Width - __realWidth, 0)));
 		return self;
 	};
 
@@ -109,7 +109,7 @@ function FORMS_Container(_content=undefined, _props=undefined)
 	static set_scroll_y = function (_scroll)
 	{
 		gml_pragma("forceinline");
-		ScrollY = clamp(floor(_scroll), 0, max(Content.Height - __realHeight, 0));
+		ScrollY = round(clamp(_scroll, 0, max(Content.Height - __realHeight, 0)));
 		return self;
 	};
 
