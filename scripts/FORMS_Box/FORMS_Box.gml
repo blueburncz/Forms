@@ -155,6 +155,18 @@ function FORMS_FlexBoxProps()
 {
 	/// @var {Bool, Undefined}
 	IsHorizontal = undefined;
+
+	/// @var {Real, Undefined}
+	PaddingX = undefined;
+
+	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
+	PaddingXUnit = undefined;
+
+	/// @var {Real, Undefined}
+	PaddingY = undefined;
+
+	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
+	PaddingYUnit = undefined;
 }
 
 /// @func FORMS_FlexBox([_props[, _children]])
@@ -168,19 +180,25 @@ function FORMS_FlexBoxProps()
 function FORMS_FlexBox(_props=undefined, _children=undefined)
 	: FORMS_Box(_props, _children) constructor
 {
-	//static Box_layout = layout;
-
 	/// @var {Bool}
 	IsHorizontal = forms_get_prop(_props, "IsHorizontal") ?? true;
 
+	/// @var {Struct.FORMS_WidgetUnitValue}
+	PaddingX = new FORMS_WidgetUnitValue().from_props(_props, "PaddingX");
+
+	/// @var {Struct.FORMS_WidgetUnitValue}
+	PaddingY = new FORMS_WidgetUnitValue().from_props(_props, "PaddingY");
+
 	static layout = function ()
 	{
-		var _parentX = __realX;
-		var _parentY = __realY;
-		var _parentWidth = __realWidth;
-		var _parentHeight = __realHeight;
 		var _isHorizontal = IsHorizontal;
+		var _paddingX = PaddingX.get_absolute(__realWidth);
+		var _paddingY = PaddingY.get_absolute(__realHeight);
 		var _spacing = Spacing.get_absolute(_isHorizontal ? __realWidth : __realHeight);
+		var _parentX = __realX + _paddingX;
+		var _parentY = __realY + _paddingY;
+		var _parentWidth = __realWidth - _paddingX * 2;
+		var _parentHeight = __realHeight - _paddingY * 2;
 		var _count = array_length(Children);
 
 		if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight))
@@ -189,7 +207,7 @@ function FORMS_FlexBox(_props=undefined, _children=undefined)
 		}
 
 		// First pass
-		var _flexSize = (_isHorizontal ? __realWidth : __realHeight) - (max(_count - 1, 0) * _spacing);
+		var _flexSize = (_isHorizontal ? _parentWidth : _parentHeight) - (max(_count - 1, 0) * _spacing);
 		var _flexCount = 0;
 		var _staticSize = 0;
 		var _flexSum = 0;

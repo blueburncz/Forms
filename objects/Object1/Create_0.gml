@@ -87,6 +87,8 @@ var _flexBox = new FORMS_FlexBox({
 	Height: 100,
 	HeightUnit: FORMS_EUnit.Percent,
 	Spacing: 10,
+	PaddingX: 10,
+	PaddingY: 10,
 	IsHorizontal: false,
 });
 
