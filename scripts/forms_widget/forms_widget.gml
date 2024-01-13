@@ -121,6 +121,9 @@ function FORMS_WidgetProps() constructor
 
 	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
 	HeightUnit = undefined;
+
+	/// @var {Real, Undefined}
+	Flex = undefined;
 }
 
 /// @func forms_get_prop(_props, _name)
@@ -182,6 +185,9 @@ function FORMS_Widget(_props=undefined) constructor
 	/// @var {Real} The widget's actual height.
 	/// @private
 	__realHeight = 0;
+
+	/// @var {Real}
+	Flex = forms_get_prop(_props, "Flex") ?? 0;
 
 	/// @var {Bool}
 	/// @private

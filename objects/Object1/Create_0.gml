@@ -81,11 +81,20 @@ function TestContent() : FORMS_Content() constructor
 	};
 }
 
+var _flexBox = new FORMS_FlexBox({
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
+	Height: 100,
+	HeightUnit: FORMS_EUnit.Percent,
+	Spacing: 10,
+	IsHorizontal: false,
+});
+
+gui.add_child(_flexBox);
+
 var _scrollPane1 = new FORMS_ScrollPane(new TestContent(), {
-	X: 10,
-	XUnit: FORMS_EUnit.Percent,
-	Y: 32,
-	Width: 300,
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
 	Height: 200,
 	Container: {
 		BackgroundColor: c_lime,
@@ -93,14 +102,13 @@ var _scrollPane1 = new FORMS_ScrollPane(new TestContent(), {
 	}
 });
 
-gui.add_child(_scrollPane1);
+_flexBox.add_child(_scrollPane1);
 
 var _scrollPane2 = new FORMS_ScrollPane(new TestContent(), {
-	X: 20,
-	XUnit: FORMS_EUnit.Percent,
-	Y: 64,
-	Width: 300,
-	Height: 400,
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
+	//Height: 400,
+	Flex: 1,
 	Container: {
 		BackgroundSprite: FORMS_SprRound8,
 		BackgroundColor: c_red,
@@ -108,4 +116,4 @@ var _scrollPane2 = new FORMS_ScrollPane(new TestContent(), {
 	}
 });
 
-gui.add_child(_scrollPane2);
+_flexBox.add_child(_scrollPane2);
