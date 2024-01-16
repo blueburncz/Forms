@@ -75,7 +75,6 @@ function FORMS_ContextMenuOption(_text)
 function FORMS_ContextMenu(_options=[], _props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
-	static Container_layout = layout;
 	static Container_update = update;
 	static Container_destroy = destroy;
 
@@ -99,23 +98,7 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	/// @private
 	__submenuIndex = -1;
 
-	/// @var {Bool} If true then the size of the dropdown is recomputed from its
-	/// contents.
-	/// @private
-	__contentFit = true;
-
-	static layout = function ()
-	{
-		if (__contentFit)
-		{
-			Content.fetch_size();
-			__contentFit = false;
-		}
-		__realWidth = Content.Width;
-		__realHeight = Content.Height;
-		Container_layout();
-		return self;
-	};
+	ContentFit = true;
 
 	static update = function (_deltaTime)
 	{

@@ -3,7 +3,7 @@ draw_set_font(FORMS_FntNormal);
 
 gui = new FORMS_RootWidget();
 
-function TestContent() : FORMS_Content() constructor
+function TestContent() : FORMS_Content("Test Content") constructor
 {
 	Checked1 = false;
 	Checked2 = true;

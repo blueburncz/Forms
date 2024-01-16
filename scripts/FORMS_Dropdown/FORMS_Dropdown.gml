@@ -31,23 +31,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 	/// @readonly
 	DropdownWidth = _width;
 
-	/// @var {Bool} If true then the size of the dropdown is recomputed from its
-	/// contents.
-	/// @private
-	__contentFit = true;
-
-	static layout = function ()
-	{
-		if (__contentFit)
-		{
-			Content.fetch_size();
-			__contentFit = false;
-		}
-		__realWidth = Content.Width;
-		__realHeight = Content.Height;
-		Container_layout();
-		return self;
-	};
+	ContentFit = true;
 
 	static update = function (_deltaTime)
 	{

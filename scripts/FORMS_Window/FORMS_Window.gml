@@ -41,9 +41,9 @@ function FORMS_Window(_content=undefined, _props=undefined)
 
 	__widthMin = 128;
 	Width.from_props(_props, "Width", 400);
-	__heightMin = 32;
+	__heightMin = 64;
 	Height.from_props(_props, "Height", 300);
-	__padding = 8;
+	__padding = 4;
 	PaddingX.from_props(_props, "PaddingX", __padding);
 	PaddingY.from_props(_props, "PaddingY", __padding);
 	IsHorizontal = false;
@@ -56,6 +56,12 @@ function FORMS_Window(_content=undefined, _props=undefined)
 
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
+	__move = false;
+	__resize = FORMS_EWindowResize.None;
+	__mouseOffset = [0, 0];
+
+	Titlebar = new FORMS_WindowTitle();
+
 	ScrollPane = new FORMS_ScrollPane(_content, {
 		Width: 100,
 		WidthUnit: FORMS_EUnit.Percent,
@@ -65,10 +71,7 @@ function FORMS_Window(_content=undefined, _props=undefined)
 		}
 	});
 
-	__move = false;
-	__resize = FORMS_EWindowResize.None;
-	__mouseOffset = [0, 0];
-
+	add_child(Titlebar);
 	add_child(ScrollPane);
 
 	static update = function (_deltaTime)
@@ -147,6 +150,18 @@ function FORMS_Window(_content=undefined, _props=undefined)
 			}
 		}
 
+		if (__move)
+		{
+			X.Value = forms_mouse_get_x() + __mouseOffset[0];
+			Y.Value = forms_mouse_get_y() + __mouseOffset[1];
+
+			if (!mouse_check_button(mb_left))
+			{
+				forms_get_root().WidgetActive = undefined;
+				__move = false;
+			}
+		}
+
 		if ((_resize & FORMS_EWindowResize.Left && _resize & FORMS_EWindowResize.Top)
 			|| (_resize & FORMS_EWindowResize.Right && _resize & FORMS_EWindowResize.Bottom))
 		{
@@ -176,6 +191,53 @@ function FORMS_Window(_content=undefined, _props=undefined)
 			__realX, __realY, __realWidth, __realHeight,
 			BackgroundColor, BackgroundAlpha);
 		FlexBox_draw();
+		return self;
+	};
+}
+
+/// @func FORMS_WindowTitle([_props])
+///
+/// @extends FORMS_Container
+///
+/// @desc
+///
+/// @params {Struct.FORMS_ContainerProps, Undefined} [_props]
+function FORMS_WindowTitle(_props=undefined)
+	: FORMS_Container(undefined, _props) constructor
+{
+	static Container_update = update;
+
+	Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
+	Height.from_props(_props, "Height", 24);
+
+	set_content(new FORMS_WindowTitleContent());
+
+	static update = function (_deltaTime)
+	{
+		if (is_mouse_over() && forms_mouse_check_button_pressed(mb_left))
+		{
+			forms_get_root().WidgetActive = Parent;
+			Parent.__mouseOffset[@ 0] = Parent.__realX - forms_mouse_get_x();
+			Parent.__mouseOffset[@ 1] = Parent.__realY - forms_mouse_get_y();
+			Parent.__move = true;
+		}
+		Container_update(_deltaTime);
+		return self;
+	};
+}
+
+/// @func FORMS_WindowTitleContent()
+///
+/// @extends FORMS_Content
+///
+/// @desc
+function FORMS_WindowTitleContent()
+	: FORMS_Content() constructor
+{
+	static draw = function ()
+	{
+		draw_text(0, floor((Container.__realHeight - string_height("M")) * 0.5),
+			Container.Parent.ScrollPane.Container.Content.Name);
 		return self;
 	};
 }

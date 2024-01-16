@@ -15,6 +15,12 @@ function FORMS_ContainerProps()
 
 	/// @var {Real, Undefined}
 	BackgroundAlpha = undefined;
+
+	/// @var {Bool, Undefined}
+	IsDefaultScrollVertical = undefined;
+
+	/// @var {Bool, Undefined}
+	ContentFit = undefined;
 }
 
 /// @func FORMS_Container([_content[, _props]])
@@ -28,6 +34,8 @@ function FORMS_ContainerProps()
 function FORMS_Container(_content=undefined, _props=undefined)
 	: FORMS_Widget(_props) constructor
 {
+	static Widget_layout = layout;
+
 	/// @var {Struct.FORMS_Content, Undefined}
 	/// @readonly
 	Content = undefined;
@@ -61,7 +69,11 @@ function FORMS_Container(_content=undefined, _props=undefined)
 	ScrollY = 0;
 
 	/// @var {Bool}
-	IsDefaultScrollVertical = true;
+	IsDefaultScrollVertical = forms_get_prop(_props, "IsDefaultScrollVertical") ?? true;
+
+	/// @var {Bool} If true then the size of the container is recomputed from its
+	/// contents. Default value is false.
+	ContentFit = forms_get_prop(_props, "ContentFit") ?? false;
 
 	/// @func set_content(_content)
 	///
@@ -110,6 +122,25 @@ function FORMS_Container(_content=undefined, _props=undefined)
 	{
 		gml_pragma("forceinline");
 		ScrollY = round(clamp(_scroll, 0, max(Content.Height - __realHeight, 0)));
+		return self;
+	};
+
+	static layout = function ()
+	{
+		if (ContentFit)
+		{
+			Content.fetch_size();
+
+			// TODO: Add setter
+			Width.Value = Content.Width; Width.Unit = FORMS_EUnit.Pixel;
+			Height.Value = Content.Height; Height.Unit = FORMS_EUnit.Pixel;
+
+			__realWidth = Content.Width;
+			__realHeight = Content.Height;
+
+			ContentFit = false;
+		}
+		Widget_layout();
 		return self;
 	};
 

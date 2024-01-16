@@ -1,8 +1,16 @@
-/// @func FORMS_Content()
+/// @func FORMS_Content([_name])
 ///
 /// @desc
-function FORMS_Content()
+///
+/// @param {String} [_name]
+function FORMS_Content(_name="")
 {
+	/// @var {String}
+	Name = _name;
+
+	// TODO: Content icons
+	Icon = undefined;
+
 	/// @var {Struct.FORMS_Container}
 	/// @readonly
 	Container = undefined;
