@@ -38,6 +38,15 @@ function FORMS_DockProps()
 	SplitterAlphaActive = undefined;
 }
 
+/// @func FORMS_Dock([_props[, _leftOrTop[, _rightOrBottom]]])
+///
+/// @extends FORMS_Widget
+///
+/// @desc
+///
+/// @param {Struct.FORMS_DockProps, Undefined} [_props]
+/// @param {Struct.FORMS_Widget, Undefined} [_leftOrTop]
+/// @param {Struct.FORMS_Widget, Undefined} [_rightOrBottom]
 function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undefined)
 	: FORMS_Widget(_props) constructor
 {
@@ -86,7 +95,12 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 	/// @private
 	__mouseOffset = 0;
 
+	/// @var {Real}
+	/// @private
 	__splitterPos = 0;
+
+	/// @var {Bool}
+	/// @private
 	__splitterIsHovered = false;
 
 	if (_leftOrTop != undefined)

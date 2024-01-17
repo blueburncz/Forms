@@ -25,15 +25,15 @@ enum FORMS_EWindowResize
 	Bottom = 8,
 };
 
-/// @func FORMS_Window([_content[, _props]])
+/// @func FORMS_Window([_widget[, _props]])
 ///
 /// @extends FORMS_FlexBox
 ///
 /// @desc
 ///
-/// @params {Struct.FORMS_Content, Undefined} [_content]
+/// @params {Struct.FORMS_Widget, Undefined} [_widget]
 /// @params {Struct.FORMS_WindowProps, Undefined} [_props]
-function FORMS_Window(_content=undefined, _props=undefined)
+function FORMS_Window(_widget, _props=undefined)
 	: FORMS_FlexBox(_props) constructor
 {
 	static FlexBox_layout = layout;
@@ -63,17 +63,12 @@ function FORMS_Window(_content=undefined, _props=undefined)
 
 	Titlebar = new FORMS_WindowTitle();
 
-	ScrollPane = new FORMS_ScrollPane(_content, {
-		Width: 100,
-		WidthUnit: FORMS_EUnit.Percent,
-		Flex: 1,
-		Container: {
-			BackgroundColor: #404040,
-		}
-	});
+	Widget = _widget;
 
 	add_child(Titlebar);
-	add_child(ScrollPane);
+	add_child(Widget);
+
+	// TODO: Disable adding of more children (don't inherit from FlexBox???)
 
 	static layout = function ()
 	{
@@ -245,7 +240,7 @@ function FORMS_WindowTitleContent()
 	static draw = function ()
 	{
 		draw_text(0, floor((Container.__realHeight - string_height("M")) * 0.5),
-			Container.Parent.ScrollPane.Container.Content.Name);
+			Container.Parent.Widget.Name);
 		return self;
 	};
 }

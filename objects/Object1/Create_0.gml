@@ -90,7 +90,18 @@ var _dock = new FORMS_Dock({
 
 gui.add_child(_dock);
 
-var _window = new FORMS_Window(new TestContent(), {
+var _scrollPane = new FORMS_ScrollPane(new TestContent(), {
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
+	Height: 100,
+	HeightUnit: FORMS_EUnit.Percent,
+	Container: {
+		BackgroundColor: #404040,
+	}
+});
+_scrollPane.Name = "Test Content";
+
+var _window = new FORMS_Window(_scrollPane, {
 	X: 100,
 	Y: 100,
 });
