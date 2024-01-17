@@ -48,6 +48,10 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	/// @readonly
 	WidgetActive = undefined;
 
+	__dockUnderCursor = undefined;
+	__dockTarget = undefined;
+	__dockPos = 0;
+
 	__mousePressed = {};
 
 	__tooltip = undefined;
@@ -129,6 +133,7 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 		__realHeight = floor(Height.get_absolute(_windowHeight));
 
 		WidgetHovered = undefined;
+		__dockUnderCursor = undefined;
 
 		CompoundWidget_layout();
 
@@ -170,6 +175,46 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 		gpu_set_blendmode_ext_sepalpha(bm_src_alpha, bm_inv_src_alpha, bm_one, bm_inv_src_alpha);
 
 		CompoundWidget_draw();
+
+		gpu_pop_state();
+
+		////////////////////////////////////////////////////////////////////////
+		// Docking
+
+		if (__dockUnderCursor != undefined
+			&& WidgetActive != undefined
+			&& is_instanceof(WidgetActive, FORMS_Window)
+			&& WidgetActive.__move)
+		{
+			var _dockX = __dockUnderCursor.__realX;
+			var _dockY = __dockUnderCursor.__realY;
+			var _dockWidth = __dockUnderCursor.__realWidth;
+			var _dockHeight = __dockUnderCursor.__realHeight;
+
+			var _anchorWidth = 32;
+			var _anchorHeight = 32;
+			var _anchorX = round(_dockX + _dockWidth * 0.5 - _anchorWidth);
+			var _anchorY = round(_dockY + _dockHeight * 0.5 - _anchorHeight);
+			var _anchorIsHovered = forms_mouse_in_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth);
+
+			forms_draw_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth, #0080FF, _anchorIsHovered ? 0.5 : 0.25);
+
+			if (_anchorIsHovered)
+			{
+				__dockTarget = WidgetActive;
+				__dockPos = 0;
+			}
+		}
+
+		if (__dockTarget != undefined && !mouse_check_button(mb_left))
+		{
+			__dockTarget.Widget.remove_self();
+			__dockUnderCursor.set_left(__dockTarget.Widget);
+			__dockTarget.destroy_later();
+			__dockTarget = undefined;
+		}
+
+		////////////////////////////////////////////////////////////////////////
 
 		if (__tooltip != undefined && WidgetActive == undefined)
 		{
@@ -225,8 +270,6 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 			}
 		}
 		__widgetsToDestroy = [];
-
-		gpu_pop_state();
 
 		global.__formsRoot = undefined;
 		return self;

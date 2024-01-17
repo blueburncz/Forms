@@ -90,19 +90,24 @@ var _dock = new FORMS_Dock({
 
 gui.add_child(_dock);
 
-var _scrollPane = new FORMS_ScrollPane(new TestContent(), {
-	Width: 100,
-	WidthUnit: FORMS_EUnit.Percent,
-	Flex: 1,
-	Container: {
-		BackgroundColor: #404040,
-	}
-});
-_scrollPane.Name = "Test Content";
+add_window = function ()
+{
+	var _scrollPane = new FORMS_ScrollPane(new TestContent(), {
+		Width: 100,
+		WidthUnit: FORMS_EUnit.Percent,
+		Flex: 1,
+		Container: {
+			BackgroundColor: #404040,
+		}
+	});
+	_scrollPane.Name = "Test Content";
 
-var _window = new FORMS_Window(_scrollPane, {
-	X: 100,
-	Y: 100,
-});
+	var _window = new FORMS_Window(_scrollPane, {
+		X: 100,
+		Y: 100,
+	});
 
-gui.add_child(_window);
+	gui.add_child(_window);
+};
+
+add_window();

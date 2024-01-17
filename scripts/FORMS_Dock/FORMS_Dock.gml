@@ -180,7 +180,9 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 
 		if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight))
 		{
-			forms_get_root().WidgetHovered = self;
+			var _root = forms_get_root();
+			_root.WidgetHovered = self;
+			_root.__dockUnderCursor = self;
 		}
 
 		if (SplitType == FORMS_EDockSplit.Horizontal)
