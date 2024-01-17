@@ -213,17 +213,18 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 	{
 		Widget_update(_deltaTime);
 
+		var _root = forms_get_root();
 		var _mousePos = (SplitType == FORMS_EDockSplit.Horizontal)
 			? forms_mouse_get_x() : forms_mouse_get_y();
 
 		__splitterIsHovered = (is_mouse_over()
+			&& _root.WidgetActive == undefined
 			&& _mousePos > __splitterPos
 			&& _mousePos < __splitterPos + SplitterSize);
 
-		var _root = forms_get_root();
 		var _resize = __resize;
 
-		if (__splitterIsHovered && _root.WidgetActive == undefined)
+		if (__splitterIsHovered)
 		{
 			_resize = true;
 

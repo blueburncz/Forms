@@ -115,6 +115,7 @@ function FORMS_Scrollbar(_target, _props=undefined)
 		__thumbSize = min(__thumbSize, _scrollbarSize);
 		__thumbPos = _scrollbarPos + (_scrollbarSize - __thumbSize) * _scrollLinear;
 		__thumbIsHovered = (_isMouseOver
+			&& _root.WidgetActive == undefined
 			&& _mousePos > __thumbPos
 			&& _mousePos < __thumbPos + __thumbSize);
 
