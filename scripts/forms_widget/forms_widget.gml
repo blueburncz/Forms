@@ -98,6 +98,9 @@ function FORMS_WidgetProps() constructor
 	/// @var {String, Undefined} A unique identifier of the widget.
 	Id = undefined;
 
+	/// @var {String, Undefined} The name of the widget.
+	Name = undefined;
+
 	/// @var {Real, Undefined} The widget's X position relative to its parent.
 	X = undefined;
 
@@ -151,6 +154,9 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @var {String} A unique identifier of the widget.
 	Id = forms_get_prop(_props, "Id") ?? $"Widget{__idNext++}";
+
+	/// @var {String} The name of the widget. Defaults to an empty string.
+	Name = forms_get_prop(_props, "Name") ?? "";
 
 	/// @var {Struct.FORMS_CompoundWidget, Undefined}
 	/// @readonly
