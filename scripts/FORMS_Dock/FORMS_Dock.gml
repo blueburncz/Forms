@@ -99,6 +99,15 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 		set_right(_rightOrBottom);
 	}
 
+	// TODO: Add FORMS_ParentWidget
+
+	/// @func set_left(_widget)
+	///
+	/// @desc
+	///
+	/// @param {Struct.FORMS_Widget} _widget
+	///
+	/// @return {Struct.FORMS_Dock} Returns `self`.
 	static set_left = function (_widget)
 	{
 		if (__left != undefined)
@@ -111,8 +120,22 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 		return self;
 	};
 
+	/// @func set_top(_widget)
+	///
+	/// @desc
+	///
+	/// @param {Struct.FORMS_Widget} _widget
+	///
+	/// @return {Struct.FORMS_Dock} Returns `self`.
 	static set_top = set_left;
 
+	/// @func set_right(_widget)
+	///
+	/// @desc
+	///
+	/// @param {Struct.FORMS_Widget} _widget
+	///
+	/// @return {Struct.FORMS_Dock} Returns `self`.
 	static set_right = function (_widget)
 	{
 		if (__right != undefined)
@@ -125,6 +148,13 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 		return self;
 	};
 
+	/// @func set_bottom(_widget)
+	///
+	/// @desc
+	///
+	/// @param {Struct.FORMS_Widget} _widget
+	///
+	/// @return {Struct.FORMS_Dock} Returns `self`.
 	static set_bottom = set_right;
 
 	static layout = function ()
