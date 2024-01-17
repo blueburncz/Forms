@@ -93,8 +93,7 @@ gui.add_child(_dock);
 var _scrollPane = new FORMS_ScrollPane(new TestContent(), {
 	Width: 100,
 	WidthUnit: FORMS_EUnit.Percent,
-	Height: 100,
-	HeightUnit: FORMS_EUnit.Percent,
+	Flex: 1,
 	Container: {
 		BackgroundColor: #404040,
 	}
