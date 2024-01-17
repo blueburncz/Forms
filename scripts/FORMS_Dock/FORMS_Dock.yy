@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "FORMS_Window",
+  "name": "FORMS_Dock",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

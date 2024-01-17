@@ -40,6 +40,7 @@
     {"id":{"name":"FORMS_RootWidget","path":"scripts/FORMS_RootWidget/FORMS_RootWidget.yy",},},
     {"id":{"name":"FORMS_Widget","path":"scripts/FORMS_Widget/FORMS_Widget.yy",},},
     {"id":{"name":"FORMS_FntNormal","path":"fonts/FORMS_FntNormal/FORMS_FntNormal.yy",},},
+    {"id":{"name":"FORMS_Dock","path":"scripts/FORMS_Dock/FORMS_Dock.yy",},},
     {"id":{"name":"FORMS_SprRound8","path":"sprites/FORMS_SprRound8/FORMS_SprRound8.yy",},},
     {"id":{"name":"FORMS_SprRadioButton","path":"sprites/FORMS_SprRadioButton/FORMS_SprRadioButton.yy",},},
     {"id":{"name":"FORMS_Content","path":"scripts/FORMS_Content/FORMS_Content.yy",},},

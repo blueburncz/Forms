@@ -81,69 +81,20 @@ function TestContent() : FORMS_Content("Test Content") constructor
 	};
 }
 
-var _flexBox = new FORMS_FlexBox({
-	Width: 100,
-	WidthUnit: FORMS_EUnit.Percent,
-	Height: 100,
-	HeightUnit: FORMS_EUnit.Percent,
-	Spacing: 10,
-	PaddingX: 10,
-	PaddingY: 10,
-	IsHorizontal: false,
-});
+var _dock = new FORMS_Dock(
+	{
+		X: 50,
+		Y: 50,
+		Width: 80,
+		WidthUnit: FORMS_EUnit.Percent,
+		Height: 80,
+		HeightUnit: FORMS_EUnit.Percent,
+	},
+	new FORMS_Dock({ SplitType: FORMS_EDockSplit.Vertical }, new FORMS_Dock({ SplitType: FORMS_EDockSplit.Horizontal }), new FORMS_Dock({ SplitType: FORMS_EDockSplit.Horizontal })),
+	new FORMS_Dock({ SplitType: FORMS_EDockSplit.Vertical }, new FORMS_Dock({ SplitType: FORMS_EDockSplit.Horizontal }), new FORMS_Dock({ SplitType: FORMS_EDockSplit.Horizontal }))
+);
 
-gui.add_child(_flexBox);
-
-var _scrollPane1 = new FORMS_ScrollPane(new TestContent(), {
-	Width: 100,
-	WidthUnit: FORMS_EUnit.Percent,
-	Height: 200,
-	Container: {
-		BackgroundColor: c_lime,
-		BackgroundAlpha: 0.5,
-	}
-});
-
-_flexBox.add_child(_scrollPane1);
-
-var _scrollPane2 = new FORMS_ScrollPane(new TestContent(), {
-	Width: 100,
-	WidthUnit: FORMS_EUnit.Percent,
-	Height: 300,
-	Container: {
-		BackgroundSprite: FORMS_SprRound8,
-		BackgroundColor: c_red,
-		BackgroundAlpha: 0.5,
-	}
-});
-
-_flexBox.add_child(_scrollPane2);
-
-var _scrollPane3 = new FORMS_ScrollPane(new TestContent(), {
-	Width: 100,
-	WidthUnit: FORMS_EUnit.Percent,
-	Flex: 1,
-	Container: {
-		BackgroundSprite: FORMS_SprRound8,
-		BackgroundColor: c_blue,
-		BackgroundAlpha: 0.5,
-	}
-});
-
-_flexBox.add_child(_scrollPane3);
-
-var _scrollPane4 = new FORMS_ScrollPane(new TestContent(), {
-	Width: 100,
-	WidthUnit: FORMS_EUnit.Percent,
-	Flex: 2,
-	Container: {
-		BackgroundSprite: FORMS_SprRound8,
-		BackgroundColor: c_yellow,
-		BackgroundAlpha: 0.5,
-	}
-});
-
-_flexBox.add_child(_scrollPane4);
+gui.add_child(_dock);
 
 var _window = new FORMS_Window(new TestContent(), {
 	X: 100,

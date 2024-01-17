@@ -20,6 +20,7 @@
     {"name":"FORMS_ContextMenu","order":11,"path":"scripts/FORMS_ContextMenu/FORMS_ContextMenu.yy",},
     {"name":"FORMS_RootWidget","order":7,"path":"scripts/FORMS_RootWidget/FORMS_RootWidget.yy",},
     {"name":"FORMS_Widget","order":9,"path":"scripts/FORMS_Widget/FORMS_Widget.yy",},
+    {"name":"FORMS_Dock","order":14,"path":"scripts/FORMS_Dock/FORMS_Dock.yy",},
     {"name":"FORMS_SprRound8","order":2,"path":"sprites/FORMS_SprRound8/FORMS_SprRound8.yy",},
     {"name":"FORMS_SprRadioButton","order":1,"path":"sprites/FORMS_SprRadioButton/FORMS_SprRadioButton.yy",},
     {"name":"FORMS_Content","order":4,"path":"scripts/FORMS_Content/FORMS_Content.yy",},

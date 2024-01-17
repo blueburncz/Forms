@@ -36,6 +36,7 @@ enum FORMS_EWindowResize
 function FORMS_Window(_content=undefined, _props=undefined)
 	: FORMS_FlexBox(_props) constructor
 {
+	static FlexBox_layout = layout;
 	static FlexBox_update = update;
 	static FlexBox_draw = draw;
 
@@ -74,51 +75,8 @@ function FORMS_Window(_content=undefined, _props=undefined)
 	add_child(Titlebar);
 	add_child(ScrollPane);
 
-	static update = function (_deltaTime)
+	static layout = function ()
 	{
-		FlexBox_update(_deltaTime);
-
-		var _resize = __resize;
-
-		if (is_mouse_over())
-		{
-			var _mouseX = forms_mouse_get_x();
-			var _mouseY = forms_mouse_get_y();
-			var _mouseOffsetX = 0;
-			var _mouseOffsetY = 0;
-
-			if (_mouseX < __realX + __padding)
-			{
-				_resize |= FORMS_EWindowResize.Left;
-				_mouseOffsetX = __realX - _mouseX;
-			}
-			else if (_mouseX >= __realX + __realWidth - __padding)
-			{
-				_resize |= FORMS_EWindowResize.Right;
-				_mouseOffsetX = __realX + __realWidth - _mouseX;
-			}
-
-			if (_mouseY < __realY + __padding)
-			{
-				_resize |= FORMS_EWindowResize.Top;
-				_mouseOffsetY = __realY - _mouseY;
-			}
-			else if (_mouseY >= __realY + __realHeight - __padding)
-			{
-				_resize |= FORMS_EWindowResize.Bottom;
-				_mouseOffsetY = __realY + __realHeight - _mouseY;
-			}
-
-			if (_resize != FORMS_EWindowResize.None
-				&& forms_mouse_check_button_pressed(mb_left))
-			{
-				forms_get_root().WidgetActive = self;
-				__resize = _resize;
-				__mouseOffset[@ 0] = _mouseOffsetX;
-				__mouseOffset[@ 1] = _mouseOffsetY;
-			}
-		}
-
 		if (__resize != FORMS_EWindowResize.None)
 		{
 			if (__resize & FORMS_EWindowResize.Left)
@@ -159,6 +117,56 @@ function FORMS_Window(_content=undefined, _props=undefined)
 			{
 				forms_get_root().WidgetActive = undefined;
 				__move = false;
+			}
+		}
+
+		FlexBox_layout();
+
+		return self;
+	};
+
+	static update = function (_deltaTime)
+	{
+		FlexBox_update(_deltaTime);
+
+		var _resize = __resize;
+
+		if (is_mouse_over() && forms_get_root().WidgetActive == undefined)
+		{
+			var _mouseX = forms_mouse_get_x();
+			var _mouseY = forms_mouse_get_y();
+			var _mouseOffsetX = 0;
+			var _mouseOffsetY = 0;
+
+			if (_mouseX < __realX + __padding)
+			{
+				_resize |= FORMS_EWindowResize.Left;
+				_mouseOffsetX = __realX - _mouseX;
+			}
+			else if (_mouseX >= __realX + __realWidth - __padding)
+			{
+				_resize |= FORMS_EWindowResize.Right;
+				_mouseOffsetX = __realX + __realWidth - _mouseX;
+			}
+
+			if (_mouseY < __realY + __padding)
+			{
+				_resize |= FORMS_EWindowResize.Top;
+				_mouseOffsetY = __realY - _mouseY;
+			}
+			else if (_mouseY >= __realY + __realHeight - __padding)
+			{
+				_resize |= FORMS_EWindowResize.Bottom;
+				_mouseOffsetY = __realY + __realHeight - _mouseY;
+			}
+
+			if (_resize != FORMS_EWindowResize.None
+				&& forms_mouse_check_button_pressed(mb_left))
+			{
+				forms_get_root().WidgetActive = self;
+				__resize = _resize;
+				__mouseOffset[@ 0] = _mouseOffsetX;
+				__mouseOffset[@ 1] = _mouseOffsetY;
 			}
 		}
 
