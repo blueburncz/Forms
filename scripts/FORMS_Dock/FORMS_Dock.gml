@@ -113,7 +113,7 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 		set_right(_rightOrBottom);
 	}
 
-	// TODO: Add FORMS_ParentWidget
+	// TODO: Inherit from FORMS_CompoundWidget and fix add_child etc.
 
 	/// @func set_left(_widget)
 	///
