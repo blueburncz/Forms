@@ -81,18 +81,12 @@ function TestContent() : FORMS_Content("Test Content") constructor
 	};
 }
 
-var _dock = new FORMS_Dock(
-	{
-		X: 50,
-		Y: 50,
-		Width: 80,
-		WidthUnit: FORMS_EUnit.Percent,
-		Height: 80,
-		HeightUnit: FORMS_EUnit.Percent,
-	},
-	new FORMS_Dock({ SplitType: FORMS_EDockSplit.Vertical }, new FORMS_Dock({ SplitType: FORMS_EDockSplit.Horizontal }), new FORMS_Dock({ SplitType: FORMS_EDockSplit.Horizontal })),
-	new FORMS_Dock({ SplitType: FORMS_EDockSplit.Vertical }, new FORMS_Dock({ SplitType: FORMS_EDockSplit.Horizontal }), new FORMS_Dock({ SplitType: FORMS_EDockSplit.Horizontal }))
-);
+var _dock = new FORMS_Dock({
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
+	Height: 100,
+	HeightUnit: FORMS_EUnit.Percent,
+});
 
 gui.add_child(_dock);
 

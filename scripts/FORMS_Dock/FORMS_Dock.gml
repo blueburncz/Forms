@@ -168,7 +168,14 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 
 		if (__left != undefined)
 		{
-			if (SplitType == FORMS_EDockSplit.Horizontal)
+			if (__right == undefined)
+			{
+				__left.__realX = __realX;
+				__left.__realY = __realY;
+				__left.__realWidth = __realWidth;
+				__left.__realHeight = __realHeight;
+			}
+			else if (SplitType == FORMS_EDockSplit.Horizontal)
 			{
 				__left.__realX = __realX;
 				__left.__realY = __realY;
@@ -188,7 +195,14 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 
 		if (__right != undefined)
 		{
-			if (SplitType == FORMS_EDockSplit.Horizontal)
+			if (__left == undefined)
+			{
+				__right.__realX = __realX;
+				__right.__realY = __realY;
+				__right.__realWidth = __realWidth;
+				__right.__realHeight = __realHeight;
+			}
+			else if (SplitType == FORMS_EDockSplit.Horizontal)
 			{
 				__right.__realX = __splitterPos + SplitterSize;
 				__right.__realY = __realY;
@@ -217,7 +231,9 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 		var _mousePos = (SplitType == FORMS_EDockSplit.Horizontal)
 			? forms_mouse_get_x() : forms_mouse_get_y();
 
-		__splitterIsHovered = (is_mouse_over()
+		__splitterIsHovered = (__left != undefined
+			&& __right != undefined
+			&& is_mouse_over()
 			&& _root.WidgetActive == undefined
 			&& _mousePos > __splitterPos
 			&& _mousePos < __splitterPos + SplitterSize);
@@ -262,15 +278,18 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 		var _alpha = (_root.WidgetActive == self) ? SplitterAlphaActive
 			: (__splitterIsHovered ? SplitterAlphaHover : SplitterAlpha);
 
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, c_white, 0.1);
+		//forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, c_white, 0.1);
 
-		if (SplitType == FORMS_EDockSplit.Horizontal)
+		if (__left != undefined && __right != undefined)
 		{
-			forms_draw_rectangle(__splitterPos, __realY, SplitterSize, __realHeight, _color, _alpha);
-		}
-		else
-		{
-			forms_draw_rectangle(__realX, __splitterPos, __realWidth, SplitterSize, _color, _alpha);
+			if (SplitType == FORMS_EDockSplit.Horizontal)
+			{
+				forms_draw_rectangle(__splitterPos, __realY, SplitterSize, __realHeight, _color, _alpha);
+			}
+			else
+			{
+				forms_draw_rectangle(__realX, __splitterPos, __realWidth, SplitterSize, _color, _alpha);
+			}
 		}
 
 		if (__left != undefined)
