@@ -101,6 +101,8 @@ function FORMS_WidgetProps() constructor
 	/// @var {String, Undefined} The name of the widget.
 	Name = undefined;
 
+	// TODO: Icon
+
 	/// @var {Real, Undefined} The widget's X position relative to its parent.
 	X = undefined;
 
