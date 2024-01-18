@@ -1,4 +1,19 @@
 /// @enum
+enum FORMS_EDockDest
+{
+	/// @member
+	Tab = $1,
+	/// @member
+	Left = $10,
+	/// @member
+	Right = $20,
+	/// @member
+	Top = $40,
+	/// @member
+	Bottom = $80,
+};
+
+/// @enum
 enum FORMS_EDockSplit
 {
 	/// @member
@@ -103,73 +118,95 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 	/// @private
 	__splitterIsHovered = false;
 
-	if (_leftOrTop != undefined)
-	{
-		set_left(_leftOrTop);
-	}
+	//if (_leftOrTop != undefined)
+	//{
+	//	forms_assert(__left.Parent == undefined, "Widget already has a parent!");
+	//	__left = _leftOrTop;
+	//	_leftOrTop.Parent = self;
+	//}
 
-	if (_rightOrBottom != undefined)
-	{
-		set_right(_rightOrBottom);
-	}
+	//if (_rightOrBottom != undefined)
+	//{
+	//	forms_assert(__right.Parent == undefined, "Widget already has a parent!");
+	//	__right = _rightOrBottom;
+	//	_rightOrBottom.Parent = self;
+	//}
 
-	// TODO: Inherit from FORMS_CompoundWidget and fix add_child etc.
-
-	/// @func set_left(_widget)
+	/// @func dock_widget(_widget, _dest)
 	///
 	/// @desc
 	///
 	/// @param {Struct.FORMS_Widget} _widget
-	///
-	/// @return {Struct.FORMS_Dock} Returns `self`.
-	static set_left = function (_widget)
+	/// @param {Real} _dest Use values from {@link FORMS_EDockDest}.
+	static dock_widget = function (_widget, _dest)
 	{
-		if (__left != undefined)
-		{
-			__left.remove_self();
-		}
 		forms_assert(_widget.Parent == undefined, "Widget already has a parent!");
-		__left = _widget;
-		_widget.Parent = self;
+
+		switch (_dest)
+		{
+		case FORMS_EDockDest.Tab:
+			{
+				forms_assert(__right == undefined, "Dock cannot be split when adding a tab!");
+				__left = _widget;
+				__left.Parent = self;
+			}
+			break;
+
+		case FORMS_EDockDest.Left:
+		case FORMS_EDockDest.Top:
+			{
+				var _clone = new FORMS_Dock();
+				_clone.Parent = self;
+				_clone.SplitType = SplitType;
+				_clone.SplitSize = SplitSize;
+				_clone.__left = __left;
+				if (_clone.__left != undefined) { _clone.__left.Parent = _clone; }
+				_clone.__right = __right;
+				if (_clone.__right != undefined) { _clone.__right.Parent = _clone; }
+
+				SplitType = (_dest == FORMS_EDockDest.Left)
+					? FORMS_EDockSplit.Horizontal
+					: FORMS_EDockSplit.Vertical;
+
+				__left = new FORMS_Dock();
+				__left.Parent = self;
+				__left.dock_widget(_widget, FORMS_EDockDest.Tab);
+
+				__right = _clone;
+			}
+			break;
+
+		case FORMS_EDockDest.Right:
+		case FORMS_EDockDest.Bottom:
+			{
+				var _clone = new FORMS_Dock();
+				_clone.Parent = self;
+				_clone.SplitType = SplitType;
+				_clone.SplitSize = SplitSize;
+				_clone.__left = __left;
+				if (_clone.__left != undefined) { _clone.__left.Parent = _clone; }
+				_clone.__right = __right;
+				if (_clone.__right != undefined) { _clone.__right.Parent = _clone; }
+
+				SplitType = (_dest == FORMS_EDockDest.Right)
+					? FORMS_EDockSplit.Horizontal
+					: FORMS_EDockSplit.Vertical;
+
+				__left = _clone;
+
+				__right = new FORMS_Dock();
+				__right.Parent = self;
+				__right.dock_widget(_widget, FORMS_EDockDest.Tab);
+			}
+			break;
+
+		default:
+			forms_assert(false, "Invalid dock destination!");
+			break;
+		}
+
 		return self;
 	};
-
-	/// @func set_top(_widget)
-	///
-	/// @desc
-	///
-	/// @param {Struct.FORMS_Widget} _widget
-	///
-	/// @return {Struct.FORMS_Dock} Returns `self`.
-	static set_top = set_left;
-
-	/// @func set_right(_widget)
-	///
-	/// @desc
-	///
-	/// @param {Struct.FORMS_Widget} _widget
-	///
-	/// @return {Struct.FORMS_Dock} Returns `self`.
-	static set_right = function (_widget)
-	{
-		if (__right != undefined)
-		{
-			__right.remove_self();
-		}
-		forms_assert(_widget.Parent == undefined, "Widget already has a parent!");
-		__right = _widget;
-		_widget.Parent = self;
-		return self;
-	};
-
-	/// @func set_bottom(_widget)
-	///
-	/// @desc
-	///
-	/// @param {Struct.FORMS_Widget} _widget
-	///
-	/// @return {Struct.FORMS_Dock} Returns `self`.
-	static set_bottom = set_right;
 
 	static layout = function ()
 	{
@@ -182,7 +219,20 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 		{
 			var _root = forms_get_root();
 			_root.WidgetHovered = self;
-			_root.__dockUnderCursor = self;
+			if (!is_instanceof(Parent, FORMS_Dock))
+			{
+				_root.__dockRoot = self;
+			}
+
+			var _mousePos = (SplitType == FORMS_EDockSplit.Horizontal)
+				? forms_mouse_get_x() : forms_mouse_get_y();
+
+			if (__right == undefined
+				|| _mousePos < __splitterPos
+				|| _mousePos > __splitterPos + SplitterSize)
+			{
+				_root.__dockUnderCursor = self;
+			}
 		}
 
 		if (SplitType == FORMS_EDockSplit.Horizontal)

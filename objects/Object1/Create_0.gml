@@ -82,9 +82,13 @@ function TestContent() : FORMS_Content("Test Content") constructor
 }
 
 var _dock = new FORMS_Dock({
-	Width: 100,
+	X: 5,
+	XUnit: FORMS_EUnit.Percent,
+	Y: 5,
+	YUnit: FORMS_EUnit.Percent,
+	Width: 90,
 	WidthUnit: FORMS_EUnit.Percent,
-	Height: 100,
+	Height: 90,
 	HeightUnit: FORMS_EUnit.Percent,
 });
 
@@ -97,7 +101,7 @@ add_window = function ()
 		WidthUnit: FORMS_EUnit.Percent,
 		Flex: 1,
 		Container: {
-			BackgroundColor: #404040,
+			BackgroundColor: make_color_hsv(random(255), 255, 50),
 		}
 	});
 	_scrollPane.Name = "Test Content";
