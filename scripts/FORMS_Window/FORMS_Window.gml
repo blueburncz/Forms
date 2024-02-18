@@ -53,7 +53,7 @@ function FORMS_Window(_widget, _props=undefined)
 
 	BackgroundIndex = forms_get_prop(_props, "BackgroundIndex") ?? 0;
 
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? #202020;
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x303030;
 
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
@@ -189,11 +189,22 @@ function FORMS_Window(_widget, _props=undefined)
 
 	static draw = function ()
 	{
+		var _shadowOffset = 16;
+		draw_sprite_stretched_ext(
+			FORMS_SprShadow, 0,
+			__realX - _shadowOffset,
+			__realY - _shadowOffset,
+			__realWidth + _shadowOffset * 2,
+			__realHeight + _shadowOffset * 2,
+			c_black, 0.5);
+
 		draw_sprite_stretched_ext(
 			BackgroundSprite, BackgroundIndex,
 			__realX, __realY, __realWidth, __realHeight,
 			BackgroundColor, BackgroundAlpha);
+
 		FlexBox_draw();
+
 		return self;
 	};
 }

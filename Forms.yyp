@@ -23,6 +23,7 @@
     "IDEVersion": "2023.11.1.129",
   },
   "resources": [
+    {"id":{"name":"FORMS_SprShadow","path":"sprites/FORMS_SprShadow/FORMS_SprShadow.yy",},},
     {"id":{"name":"FORMS_CompoundWidget","path":"scripts/FORMS_CompoundWidget/FORMS_CompoundWidget.yy",},},
     {"id":{"name":"FORMS_SprRound4","path":"sprites/FORMS_SprRound4/FORMS_SprRound4.yy",},},
     {"id":{"name":"Object1","path":"objects/Object1/Object1.yy",},},

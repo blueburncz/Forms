@@ -1,19 +1,4 @@
 /// @enum
-enum FORMS_EDockDest
-{
-	/// @member
-	Tab = $1,
-	/// @member
-	Left = $10,
-	/// @member
-	Right = $20,
-	/// @member
-	Top = $40,
-	/// @member
-	Bottom = $80,
-};
-
-/// @enum
 enum FORMS_EDockSplit
 {
 	/// @member
@@ -25,6 +10,12 @@ enum FORMS_EDockSplit
 function FORMS_DockProps()
 	: FORMS_WidgetProps() constructor
 {
+	/// @var {Constant.Color, Undefined}
+	BackgroundColor = undefined;
+
+	/// @var {Real, Undefined}
+	BackgroundAlpha = undefined;
+
 	/// @var {Real, Undefined} Use values from {@link FORMS_EDockSplit}.
 	SplitType = undefined;
 
@@ -64,6 +55,12 @@ function FORMS_Dock(_props=undefined)
 	: FORMS_Widget(_props) constructor
 {
 	static Widget_update = update;
+
+	/// @var {Constant.Color}
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x202020;
+
+	/// @var {Real}
+	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
 	/// @var {Real} Default is {@link FORMS_EDockSplit.Horizontal}.
 	SplitType = forms_get_prop(_props, "SplitType") ?? FORMS_EDockSplit.Horizontal;
@@ -129,6 +126,39 @@ function FORMS_Dock(_props=undefined)
 	/// @private
 	__splitterIsHovered = false;
 
+	/// @func get_first()
+	///
+	/// @desc
+	///
+	/// @return {Struct.FORMS_Dock}
+	static get_first = function () { return __left; };
+
+	/// @func get_second()
+	///
+	/// @desc
+	///
+	/// @return {Struct.FORMS_Dock}
+	static get_second = function () { return __right; };
+
+	/// @func set_tab(_tabs)
+	///
+	/// @desc
+	///
+	/// @param {Array<Struct.FORMS_Widget>} _tabs
+	///
+	/// @return {Struct.FORMS_Dock} Returns `self`.
+	static set_tabs = function (_tabs)
+	{
+		forms_assert(array_length(__tabs) == 0, "Dock already has tabs!");
+		__tabs = _tabs;
+		var i = 0;
+		repeat (array_length(__tabs))
+		{
+			__tabs[i++].Parent = self;
+		}
+		return self;
+	};
+
 	/// @func add_tab(_widget)
 	///
 	/// @desc
@@ -142,6 +172,71 @@ function FORMS_Dock(_props=undefined)
 		forms_assert(__left == undefined && __right == undefined, "Cannot add tabs to a dock that is split!");
 		array_push(__tabs, _widget);
 		_widget.Parent = self;
+		return self;
+	};
+
+	static __split = function (_type)
+	{
+		forms_assert(__left == undefined && __right == undefined, "Dock is already split!");
+
+		SplitType = _type;
+
+		__left = new FORMS_Dock();
+		__left.Parent = self;
+
+		__right = new FORMS_Dock();
+		__right.Parent = self;
+	};
+
+	/// @func split_left()
+	///
+	/// @desc
+	///
+	/// @return {Struct.FORMS_Dock} Returns `self`.
+	static split_left = function ()
+	{
+		__split(FORMS_EDockSplit.Horizontal);
+		__left.set_tabs(__tabs);
+		__tabs = [];
+		return self;
+	};
+
+	/// @func split_right()
+	///
+	/// @desc
+	///
+	/// @return {Struct.FORMS_Dock} Returns `self`.
+	static split_right = function ()
+	{
+		__split(FORMS_EDockSplit.Horizontal);
+		__right.set_tabs(__tabs);
+		__tabs = [];
+		return self;
+	};
+
+	/// @func split_up()
+	///
+	/// @desc
+	///
+	/// @return {Struct.FORMS_Dock} Returns `self`.
+	static split_up = function ()
+	{
+		__split(FORMS_EDockSplit.Vertical);
+		__left.set_tabs(__tabs);
+		__tabs = [];
+		return self;
+	};
+
+	/// @func split_down()
+	///
+	/// @desc
+	///
+	/// @return {Struct.FORMS_Dock} Returns `self`.
+	static split_down = function ()
+	{
+		__split(FORMS_EDockSplit.Vertical);
+		__right.set_tabs(__tabs);
+		__tabs = [];
 		return self;
 	};
 
@@ -332,6 +427,8 @@ function FORMS_Dock(_props=undefined)
 			: (__splitterIsHovered ? SplitterColorHover : SplitterColor);
 		var _alpha = (_root.WidgetActive == self) ? SplitterAlphaActive
 			: (__splitterIsHovered ? SplitterAlphaHover : SplitterAlpha);
+
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
 
 		if (__left != undefined && __right != undefined)
 		{

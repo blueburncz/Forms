@@ -76,13 +76,14 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
 	static Container_update = update;
+	static Container_draw = draw;
 	static Container_destroy = destroy;
 
 	set_content(new FORMS_ContextMenuContent());
 
 	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRound8;
 
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? #202020;
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x202020;
 
 	/// @var {Array<Struct.FORMS_ContextMenuItem>}
 	Options = _options;
@@ -108,6 +109,22 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 		{
 			destroy_later();
 		}
+		return self;
+	};
+
+	static draw = function ()
+	{
+		var _shadowOffset = 16;
+		draw_sprite_stretched_ext(
+			FORMS_SprShadow, 0,
+			__realX - _shadowOffset,
+			__realY - _shadowOffset,
+			__realWidth + _shadowOffset * 2,
+			__realHeight + _shadowOffset * 2,
+			c_black, 0.5);
+
+		Container_draw();
+
 		return self;
 	};
 

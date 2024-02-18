@@ -3,7 +3,7 @@ draw_set_font(FORMS_FntNormal);
 
 gui = new FORMS_RootWidget();
 
-function TestContent() : FORMS_Content("Test Content") constructor
+function TestContent() : FORMS_Content() constructor
 {
 	Checked1 = false;
 	Checked2 = true;
@@ -112,6 +112,7 @@ _scrollPane2.Name = "Test Content 2";
 
 _dock.add_tab(_scrollPane1);
 _dock.add_tab(_scrollPane2);
+_dock.split_left();
 
 var _scrollPane3 = new FORMS_ScrollPane(new TestContent(), {
 	Width: 100,

@@ -6,6 +6,7 @@
     {"name":"Sprites","order":12,"path":"folders/Forms/Sprites.yy",},
   ],
   "ResourceOrderSettings": [
+    {"name":"FORMS_SprShadow","order":4,"path":"sprites/FORMS_SprShadow/FORMS_SprShadow.yy",},
     {"name":"FORMS_CompoundWidget","order":2,"path":"scripts/FORMS_CompoundWidget/FORMS_CompoundWidget.yy",},
     {"name":"FORMS_SprRound4","order":3,"path":"sprites/FORMS_SprRound4/FORMS_SprRound4.yy",},
     {"name":"Object1","order":2,"path":"objects/Object1/Object1.yy",},
