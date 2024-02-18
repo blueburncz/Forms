@@ -48,11 +48,6 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	/// @readonly
 	WidgetActive = undefined;
 
-	__dockRoot = undefined;
-	__dockUnderCursor = undefined;
-	__dockTarget = undefined;
-	__dockDest = FORMS_EDockDest.Tab;
-
 	__mousePressed = {};
 
 	__tooltip = undefined;
@@ -134,7 +129,6 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 		__realHeight = floor(Height.get_absolute(_windowHeight));
 
 		WidgetHovered = undefined;
-		__dockUnderCursor = undefined;
 
 		CompoundWidget_layout();
 
@@ -178,120 +172,6 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 		CompoundWidget_draw();
 
 		gpu_pop_state();
-
-		////////////////////////////////////////////////////////////////////////
-		// Docking
-
-		if (__dockUnderCursor != undefined
-			&& WidgetActive != undefined
-			&& is_instanceof(WidgetActive, FORMS_Window)
-			&& WidgetActive.__move)
-		{
-			var _dock = __dockUnderCursor;
-			var _dockX = _dock.__realX;
-			var _dockY = _dock.__realY;
-			var _dockWidth = _dock.__realWidth;
-			var _dockHeight = _dock.__realHeight;
-			var _dockLeft = _dock.__left;
-			var _dockRight = _dock.__right;
-			var _dockSplitType = _dock.SplitType;
-			var _dockSplitSize = _dock.SplitSize;
-			var _dockSplitterSize = _dock.SplitterSize;
-			var _dockSplitterPos = _dock.__splitterPos;
-
-			var _anchorWidth = 32;
-			var _anchorHeight = 32;
-			var _anchorSpacing = 8;
-
-			// Center
-			{
-				var _anchorX = round(_dockX + _dockWidth * 0.5 - _anchorWidth);
-				var _anchorY = round(_dockY + _dockHeight * 0.5 - _anchorHeight);
-				var _anchorIsHovered = forms_mouse_in_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth);
-
-				forms_draw_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth, #0080FF, _anchorIsHovered ? 0.5 : 0.25);
-
-				if (_anchorIsHovered)
-				{
-					__dockTarget = WidgetActive;
-					__dockDest = FORMS_EDockDest.Tab;
-				}
-			}
-
-			if (__dockUnderCursor.__left != undefined
-				|| __dockUnderCursor.__right != undefined)
-			{
-				// Left
-				{
-					var _anchorX = round(_dockX + _dockWidth * 0.5 - _anchorWidth) - _anchorSpacing - _anchorWidth;
-					var _anchorY = round(_dockY + _dockHeight * 0.5 - _anchorHeight);
-					var _anchorIsHovered = forms_mouse_in_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth);
-
-					forms_draw_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth, #0080FF, _anchorIsHovered ? 0.5 : 0.25);
-
-					if (_anchorIsHovered)
-					{
-						__dockTarget = WidgetActive;
-						__dockDest = FORMS_EDockDest.Left;
-					}
-				}
-
-				// Right
-				{
-					var _anchorX = round(_dockX + _dockWidth * 0.5 - _anchorWidth) + _anchorWidth + _anchorSpacing;
-					var _anchorY = round(_dockY + _dockHeight * 0.5 - _anchorHeight);
-					var _anchorIsHovered = forms_mouse_in_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth);
-
-					forms_draw_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth, #0080FF, _anchorIsHovered ? 0.5 : 0.25);
-
-					if (_anchorIsHovered)
-					{
-						__dockTarget = WidgetActive;
-						__dockDest = FORMS_EDockDest.Right;
-					}
-				}
-
-				// Top
-				{
-					var _anchorX = round(_dockX + _dockWidth * 0.5 - _anchorWidth);
-					var _anchorY = round(_dockY + _dockHeight * 0.5 - _anchorHeight) - _anchorSpacing - _anchorHeight;
-					var _anchorIsHovered = forms_mouse_in_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth);
-
-					forms_draw_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth, #0080FF, _anchorIsHovered ? 0.5 : 0.25);
-
-					if (_anchorIsHovered)
-					{
-						__dockTarget = WidgetActive;
-						__dockDest = FORMS_EDockDest.Top;
-					}
-				}
-
-				// Bottom
-				{
-					var _anchorX = round(_dockX + _dockWidth * 0.5 - _anchorWidth);
-					var _anchorY = round(_dockY + _dockHeight * 0.5 - _anchorHeight) + _anchorHeight + _anchorSpacing;
-					var _anchorIsHovered = forms_mouse_in_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth);
-
-					forms_draw_rectangle(_anchorX, _anchorY, _anchorWidth, _anchorWidth, #0080FF, _anchorIsHovered ? 0.5 : 0.25);
-
-					if (_anchorIsHovered)
-					{
-						__dockTarget = WidgetActive;
-						__dockDest = FORMS_EDockDest.Bottom;
-					}
-				}
-			}
-		}
-
-		if (__dockTarget != undefined && !mouse_check_button(mb_left))
-		{
-			__dockTarget.Widget.remove_self();
-			__dockTarget.destroy_later();
-			(keyboard_check(vk_shift) ? __dockRoot : __dockUnderCursor).dock_widget(__dockTarget.Widget, __dockDest);
-			__dockTarget = undefined;
-		}
-
-		////////////////////////////////////////////////////////////////////////
 
 		if (__tooltip != undefined && WidgetActive == undefined)
 		{

@@ -104,16 +104,13 @@ function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 	/// @return {Struct.FORMS_CompoundWidget} Returns `self`.
 	static layout = function ()
 	{
+		FORMS_LAYOUT_GENERATED;
+
 		var _parentX = __realX;
 		var _parentY = __realY;
 		var _parentWidth = __realWidth;
 		var _parentHeight = __realHeight;
 		var _count = array_length(Children);
-
-		if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight))
-		{
-			forms_get_root().WidgetHovered = self;
-		}
 
 		for (var i = 0; i < _count; ++i)
 		{

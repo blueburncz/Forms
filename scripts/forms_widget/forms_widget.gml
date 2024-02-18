@@ -145,6 +145,14 @@ function forms_get_prop(_props, _name)
 	return ((_props != undefined) ? _props[$ _name] : undefined);
 }
 
+/// @macro
+/// @private
+#macro FORMS_LAYOUT_GENERATED \
+	if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight)) \
+	{ \
+		forms_get_root().WidgetHovered = self; \
+	}
+
 /// @func FORMS_Widget([_props])
 ///
 /// @desc
@@ -302,10 +310,7 @@ function FORMS_Widget(_props=undefined) constructor
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static layout = function ()
 	{
-		if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight))
-		{
-			forms_get_root().WidgetHovered = self;
-		}
+		FORMS_LAYOUT_GENERATED;
 		return self;
 	};
 

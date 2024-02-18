@@ -48,6 +48,8 @@ function FORMS_VBox(_props=undefined, _children=undefined)
 {
 	static layout = function ()
 	{
+		FORMS_LAYOUT_GENERATED;
+
 		var _parentX = __realX;
 		var _parentY = __realY;
 		var _parentWidth = __realWidth;
@@ -56,11 +58,6 @@ function FORMS_VBox(_props=undefined, _children=undefined)
 		var _spacing = Spacing.get_absolute(Parent.get_height());
 		var _autoWidth = 0;
 		var _count = array_length(Children);
-
-		if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight))
-		{
-			forms_get_root().WidgetHovered = self;
-		}
 
 		for (var i = 0; i < _count; ++i)
 		{
@@ -103,6 +100,8 @@ function FORMS_HBox(_props=undefined, _children=undefined)
 {
 	static layout = function ()
 	{
+		FORMS_LAYOUT_GENERATED;
+
 		var _parentX = __realX;
 		var _parentY = __realY;
 		var _parentWidth = __realWidth;
@@ -111,11 +110,6 @@ function FORMS_HBox(_props=undefined, _children=undefined)
 		var _spacing = Spacing.get_absolute(Parent.get_width());
 		var _autoHeight = 0;
 		var _count = array_length(Children);
-
-		if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight))
-		{
-			forms_get_root().WidgetHovered = self;
-		}
 
 		for (var i = 0; i < _count; ++i)
 		{
@@ -191,6 +185,8 @@ function FORMS_FlexBox(_props=undefined, _children=undefined)
 
 	static layout = function ()
 	{
+		FORMS_LAYOUT_GENERATED;
+
 		var _isHorizontal = IsHorizontal;
 		var _paddingX = PaddingX.get_absolute(__realWidth);
 		var _paddingY = PaddingY.get_absolute(__realHeight);
@@ -200,11 +196,6 @@ function FORMS_FlexBox(_props=undefined, _children=undefined)
 		var _parentWidth = __realWidth - _paddingX * 2;
 		var _parentHeight = __realHeight - _paddingY * 2;
 		var _count = array_length(Children);
-
-		if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight))
-		{
-			forms_get_root().WidgetHovered = self;
-		}
 
 		// First pass
 		var _flexSize = (_isHorizontal ? _parentWidth : _parentHeight) - (max(_count - 1, 0) * _spacing);

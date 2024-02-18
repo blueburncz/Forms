@@ -47,17 +47,13 @@ function FORMS_ScrollPane(_content=undefined, _props=undefined)
 
 	static layout = function ()
 	{
+		FORMS_LAYOUT_GENERATED;
+
 		var _parentX = __realX;
 		var _parentY = __realY;
 		var _parentWidth = __realWidth;
 		var _parentHeight = __realHeight;
 		var _count = array_length(Children);
-
-		if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight))
-		{
-			forms_get_root().WidgetHovered = self;
-		}
-
 		var _container = Container;
 		var _scrollbarH = HScrollbar;
 		var _scrollbarV = VScrollbar;

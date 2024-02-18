@@ -82,36 +82,50 @@ function TestContent() : FORMS_Content("Test Content") constructor
 }
 
 var _dock = new FORMS_Dock({
-	X: 5,
-	XUnit: FORMS_EUnit.Percent,
-	Y: 5,
-	YUnit: FORMS_EUnit.Percent,
-	Width: 90,
+	Width: 100,
 	WidthUnit: FORMS_EUnit.Percent,
-	Height: 90,
+	Height: 100,
 	HeightUnit: FORMS_EUnit.Percent,
 });
 
 gui.add_child(_dock);
 
-add_window = function ()
-{
-	var _scrollPane = new FORMS_ScrollPane(new TestContent(), {
-		Width: 100,
-		WidthUnit: FORMS_EUnit.Percent,
-		Flex: 1,
-		Container: {
-			BackgroundColor: make_color_hsv(random(255), 255, 50),
-		}
-	});
-	_scrollPane.Name = "Test Content";
+var _scrollPane1 = new FORMS_ScrollPane(new TestContent(), {
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
+	Flex: 1,
+	Container: {
+		BackgroundColor: make_color_hsv(random(255), 255, 50),
+	}
+});
+_scrollPane1.Name = "Test Content 1";
 
-	var _window = new FORMS_Window(_scrollPane, {
-		X: 100,
-		Y: 100,
-	});
+var _scrollPane2 = new FORMS_ScrollPane(new TestContent(), {
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
+	Flex: 1,
+	Container: {
+		BackgroundColor: make_color_hsv(random(255), 255, 50),
+	}
+});
+_scrollPane2.Name = "Test Content 2";
 
-	gui.add_child(_window);
-};
+_dock.add_tab(_scrollPane1);
+_dock.add_tab(_scrollPane2);
 
-add_window();
+var _scrollPane3 = new FORMS_ScrollPane(new TestContent(), {
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
+	Flex: 1,
+	Container: {
+		BackgroundColor: make_color_hsv(random(255), 255, 50),
+	}
+});
+_scrollPane3.Name = "Test Content 3";
+
+var _window = new FORMS_Window(_scrollPane3, {
+	X: 100,
+	Y: 100,
+});
+
+gui.add_child(_window);

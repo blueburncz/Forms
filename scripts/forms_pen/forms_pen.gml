@@ -95,7 +95,14 @@ function FORMS_Pen(_content) constructor
 		return self;
 	};
 
-	static __move = function (_x)
+	static move = function (_x)
+	{
+		X += _x;
+		MaxX = max(MaxX, X);
+		return self;
+	};
+
+	static __move_or_nl = function (_x)
 	{
 		if (AutoNewline)
 		{
@@ -103,8 +110,7 @@ function FORMS_Pen(_content) constructor
 		}
 		else
 		{
-			X += _x;
-			MaxX = max(MaxX, X);
+			move(_x);
 		}
 	};
 
@@ -122,7 +128,7 @@ function FORMS_Pen(_content) constructor
 			forms_set_cursor(forms_get_prop(_props, "Cursor") ?? forms_get_cursor());
 		}
 		draw_text_color(X, Y, _text, _c, _c, _c, _c, _a);
-		__move(string_width(_text));
+		__move_or_nl(string_width(_text));
 		return self;
 	};
 
@@ -140,7 +146,7 @@ function FORMS_Pen(_content) constructor
 			forms_set_cursor(forms_get_prop(_props, "Cursor") ?? cr_handpoint);
 		}
 		draw_text_color(X, Y, _text, _c, _c, _c, _c, _a);
-		__move(string_width(_text));
+		__move_or_nl(string_width(_text));
 		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
 	};
 
@@ -167,7 +173,7 @@ function FORMS_Pen(_content) constructor
 			forms_set_cursor(cr_handpoint);
 		}
 		draw_text_color(X, Y, _text, _c, _c, _c, _c, _a);
-		__move(_textWidth);
+		__move_or_nl(_textWidth);
 		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
 	};
 
@@ -183,7 +189,7 @@ function FORMS_Pen(_content) constructor
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 		}
-		__move(_width);
+		__move_or_nl(_width);
 		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
 	};
 
@@ -199,7 +205,7 @@ function FORMS_Pen(_content) constructor
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 		}
-		__move(_width);
+		__move_or_nl(_width);
 		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
 	};
 
@@ -246,7 +252,7 @@ function FORMS_Pen(_content) constructor
 		{
 			forms_return_result(_id, _valueNew);
 		}
-		__move(_width);
+		__move_or_nl(_width);
 		return __consume_result(_id);
 	};
 
@@ -275,7 +281,7 @@ function FORMS_Pen(_content) constructor
 			}
 			forms_set_cursor(cr_handpoint);
 		}
-		__move(_width);
+		__move_or_nl(_width);
 		return __consume_result(_id);
 	};
 
@@ -347,7 +353,7 @@ function FORMS_Pen(_content) constructor
 			}
 		}
 
-		__move(_width);
+		__move_or_nl(_width);
 
 		if (__inputId == _id && (keyboard_check_pressed(vk_enter)
 			|| (!_mouseOver && mouse_check_button_pressed(mb_left))))

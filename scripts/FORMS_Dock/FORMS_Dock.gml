@@ -53,16 +53,14 @@ function FORMS_DockProps()
 	SplitterAlphaActive = undefined;
 }
 
-/// @func FORMS_Dock([_props[, _leftOrTop[, _rightOrBottom]]])
+/// @func FORMS_Dock([_props])
 ///
 /// @extends FORMS_Widget
 ///
 /// @desc
 ///
 /// @param {Struct.FORMS_DockProps, Undefined} [_props]
-/// @param {Struct.FORMS_Widget, Undefined} [_leftOrTop]
-/// @param {Struct.FORMS_Widget, Undefined} [_rightOrBottom]
-function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undefined)
+function FORMS_Dock(_props=undefined)
 	: FORMS_Widget(_props) constructor
 {
 	static Widget_update = update;
@@ -94,11 +92,24 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 	/// @var {Real}
 	SplitterAlphaActive = forms_get_prop(_props, "SplitterAlphaActive") ?? 1.0;
 
-	/// @var {Struct.FORMS_Widget, Undefined}
+	/// @var {Struct.FORMS_DockTabs}
+	/// @private
+	__tabContainer = new FORMS_DockTabs();
+	__tabContainer.Parent = self;
+
+	/// @var {Array<Struct.FORMS_Widget>}
+	/// @private
+	__tabs = [];
+
+	/// @var {Real}
+	/// @private
+	__tabCurrent = 0;
+
+	/// @var {Struct.FORMS_Dock, Undefined}
 	/// @private
 	__left = undefined;
 
-	/// @var {Struct.FORMS_Widget, Undefined}
+	/// @var {Struct.FORMS_Dock, Undefined}
 	/// @private
 	__right = undefined;
 
@@ -118,122 +129,30 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 	/// @private
 	__splitterIsHovered = false;
 
-	//if (_leftOrTop != undefined)
-	//{
-	//	forms_assert(__left.Parent == undefined, "Widget already has a parent!");
-	//	__left = _leftOrTop;
-	//	_leftOrTop.Parent = self;
-	//}
-
-	//if (_rightOrBottom != undefined)
-	//{
-	//	forms_assert(__right.Parent == undefined, "Widget already has a parent!");
-	//	__right = _rightOrBottom;
-	//	_rightOrBottom.Parent = self;
-	//}
-
-	/// @func dock_widget(_widget, _dest)
+	/// @func add_tab(_widget)
 	///
 	/// @desc
 	///
 	/// @param {Struct.FORMS_Widget} _widget
-	/// @param {Real} _dest Use values from {@link FORMS_EDockDest}.
-	static dock_widget = function (_widget, _dest)
+	///
+	/// @return {Struct.FORMS_Dock} Returns `self`.
+	static add_tab = function (_widget)
 	{
 		forms_assert(_widget.Parent == undefined, "Widget already has a parent!");
-
-		switch (_dest)
-		{
-		case FORMS_EDockDest.Tab:
-			{
-				forms_assert(__right == undefined, "Dock cannot be split when adding a tab!");
-				__left = _widget;
-				__left.Parent = self;
-			}
-			break;
-
-		case FORMS_EDockDest.Left:
-		case FORMS_EDockDest.Top:
-			{
-				var _clone = new FORMS_Dock();
-				_clone.Parent = self;
-				_clone.SplitType = SplitType;
-				_clone.SplitSize = SplitSize;
-				_clone.__left = __left;
-				if (_clone.__left != undefined) { _clone.__left.Parent = _clone; }
-				_clone.__right = __right;
-				if (_clone.__right != undefined) { _clone.__right.Parent = _clone; }
-
-				SplitType = (_dest == FORMS_EDockDest.Left)
-					? FORMS_EDockSplit.Horizontal
-					: FORMS_EDockSplit.Vertical;
-
-				__left = new FORMS_Dock();
-				__left.Parent = self;
-				__left.dock_widget(_widget, FORMS_EDockDest.Tab);
-
-				__right = _clone;
-			}
-			break;
-
-		case FORMS_EDockDest.Right:
-		case FORMS_EDockDest.Bottom:
-			{
-				var _clone = new FORMS_Dock();
-				_clone.Parent = self;
-				_clone.SplitType = SplitType;
-				_clone.SplitSize = SplitSize;
-				_clone.__left = __left;
-				if (_clone.__left != undefined) { _clone.__left.Parent = _clone; }
-				_clone.__right = __right;
-				if (_clone.__right != undefined) { _clone.__right.Parent = _clone; }
-
-				SplitType = (_dest == FORMS_EDockDest.Right)
-					? FORMS_EDockSplit.Horizontal
-					: FORMS_EDockSplit.Vertical;
-
-				__left = _clone;
-
-				__right = new FORMS_Dock();
-				__right.Parent = self;
-				__right.dock_widget(_widget, FORMS_EDockDest.Tab);
-			}
-			break;
-
-		default:
-			forms_assert(false, "Invalid dock destination!");
-			break;
-		}
-
+		forms_assert(__left == undefined && __right == undefined, "Cannot add tabs to a dock that is split!");
+		array_push(__tabs, _widget);
+		_widget.Parent = self;
 		return self;
 	};
 
 	static layout = function ()
 	{
+		FORMS_LAYOUT_GENERATED;
+
 		var _parentX = __realX;
 		var _parentY = __realY;
 		var _parentWidth = __realWidth;
 		var _parentHeight = __realHeight;
-
-		if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight))
-		{
-			var _root = forms_get_root();
-			_root.WidgetHovered = self;
-			if (!is_instanceof(Parent, FORMS_Dock))
-			{
-				_root.__dockRoot = self;
-			}
-
-			var _mousePos = (SplitType == FORMS_EDockSplit.Horizontal)
-				? forms_mouse_get_x() : forms_mouse_get_y();
-
-			if (__right == undefined
-				|| _mousePos < __splitterPos
-				|| _mousePos > __splitterPos + SplitterSize)
-			{
-				_root.__dockUnderCursor = self;
-			}
-		}
 
 		if (SplitType == FORMS_EDockSplit.Horizontal)
 		{
@@ -262,58 +181,91 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 			__resize = false;
 		}
 
-		if (__left != undefined)
+		if (__left == undefined && __right == undefined)
 		{
-			if (__right == undefined)
+			var _parentX = __realX;
+			var _parentY = __realY;
+			var _parentWidth = __realWidth;
+			var _parentHeight = __realHeight;
+
+			with (__tabContainer)
 			{
-				__left.__realX = __realX;
-				__left.__realY = __realY;
-				__left.__realWidth = __realWidth;
-				__left.__realHeight = __realHeight;
-			}
-			else if (SplitType == FORMS_EDockSplit.Horizontal)
-			{
-				__left.__realX = __realX;
-				__left.__realY = __realY;
-				__left.__realWidth = __splitterPos - __realX;
-				__left.__realHeight = __realHeight;
-			}
-			else
-			{
-				__left.__realX = __realX;
-				__left.__realY = __realY;
-				__left.__realWidth = __realWidth;
-				__left.__realHeight = __splitterPos - __realY;
+				var _autoWidth = get_auto_width();
+				var _autoHeight = get_auto_height();
+
+				__realWidth = floor(Width.get_absolute(_parentWidth, _autoWidth));
+				__realHeight = floor(Height.get_absolute(_parentHeight, _autoHeight));
+				__realX = floor(_parentX + X.get_absolute(_parentWidth, _autoWidth));
+				__realY = floor(_parentY + Y.get_absolute(_parentHeight, _autoHeight));
+
+				layout();
 			}
 
-			__left.layout();
+			if (__tabCurrent < array_length(__tabs))
+			{
+				var _tab = __tabs[__tabCurrent];
+				_tab.__realX = _parentX;
+				_tab.__realY = _parentY + __tabContainer.__realHeight;
+				_tab.__realWidth = _parentWidth;
+				_tab.__realHeight = _parentHeight - __tabContainer.__realHeight;
+				_tab.layout();
+			}
 		}
-
-		if (__right != undefined)
+		else
 		{
-			if (__left == undefined)
+			if (__left != undefined)
 			{
-				__right.__realX = __realX;
-				__right.__realY = __realY;
-				__right.__realWidth = __realWidth;
-				__right.__realHeight = __realHeight;
-			}
-			else if (SplitType == FORMS_EDockSplit.Horizontal)
-			{
-				__right.__realX = __splitterPos + SplitterSize;
-				__right.__realY = __realY;
-				__right.__realWidth = __realWidth - __right.__realX + __realX;
-				__right.__realHeight = __realHeight;
-			}
-			else
-			{
-				__right.__realX = __realX;
-				__right.__realY = __splitterPos + SplitterSize;
-				__right.__realWidth = __realWidth;
-				__right.__realHeight = __realHeight - __right.__realY + __realY;
+				if (__right == undefined)
+				{
+					__left.__realX = __realX;
+					__left.__realY = __realY;
+					__left.__realWidth = __realWidth;
+					__left.__realHeight = __realHeight;
+				}
+				else if (SplitType == FORMS_EDockSplit.Horizontal)
+				{
+					__left.__realX = __realX;
+					__left.__realY = __realY;
+					__left.__realWidth = __splitterPos - __realX;
+					__left.__realHeight = __realHeight;
+				}
+				else
+				{
+					__left.__realX = __realX;
+					__left.__realY = __realY;
+					__left.__realWidth = __realWidth;
+					__left.__realHeight = __splitterPos - __realY;
+				}
+
+				__left.layout();
 			}
 
-			__right.layout();
+			if (__right != undefined)
+			{
+				if (__left == undefined)
+				{
+					__right.__realX = __realX;
+					__right.__realY = __realY;
+					__right.__realWidth = __realWidth;
+					__right.__realHeight = __realHeight;
+				}
+				else if (SplitType == FORMS_EDockSplit.Horizontal)
+				{
+					__right.__realX = __splitterPos + SplitterSize;
+					__right.__realY = __realY;
+					__right.__realWidth = __realWidth - __right.__realX + __realX;
+					__right.__realHeight = __realHeight;
+				}
+				else
+				{
+					__right.__realX = __realX;
+					__right.__realY = __splitterPos + SplitterSize;
+					__right.__realWidth = __realWidth;
+					__right.__realHeight = __realHeight - __right.__realY + __realY;
+				}
+
+				__right.layout();
+			}
 		}
 
 		return self;
@@ -353,14 +305,21 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 			forms_set_cursor((SplitType == FORMS_EDockSplit.Horizontal) ? cr_size_we : cr_size_ns);
 		}
 
-		if (__left != undefined)
+		if (__left == undefined && __right == undefined)
 		{
-			__left.update(_deltaTime);
+			__tabContainer.update(_deltaTime);
 		}
-
-		if (__right != undefined)
+		else
 		{
-			__right.update(_deltaTime);
+			if (__left != undefined)
+			{
+				__left.update(_deltaTime);
+			}
+
+			if (__right != undefined)
+			{
+				__right.update(_deltaTime);
+			}
 		}
 
 		return self;
@@ -374,8 +333,6 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 		var _alpha = (_root.WidgetActive == self) ? SplitterAlphaActive
 			: (__splitterIsHovered ? SplitterAlphaHover : SplitterAlpha);
 
-		//forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, c_white, 0.1);
-
 		if (__left != undefined && __right != undefined)
 		{
 			if (SplitType == FORMS_EDockSplit.Horizontal)
@@ -388,15 +345,82 @@ function FORMS_Dock(_props=undefined, _leftOrTop=undefined, _rightOrBottom=undef
 			}
 		}
 
-		if (__left != undefined)
+		if (__left == undefined && __right == undefined)
 		{
-			__left.draw();
+			var _tabCurrent = __tabCurrent; // Backup before it changes!
+
+			__tabContainer.draw();
+
+			if (__tabCurrent < array_length(__tabs))
+			{
+				__tabs[_tabCurrent].draw();
+			}
+		}
+		else
+		{
+			if (__left != undefined)
+			{
+				__left.draw();
+			}
+
+			if (__right != undefined)
+			{
+				__right.draw();
+			}
 		}
 
-		if (__right != undefined)
+		return self;
+	};
+}
+
+/// @func FORMS_DockTabs([_props])
+///
+/// @extends FORMS_Container
+///
+/// @desc
+///
+/// @params {Struct.FORMS_ContainerProps, Undefined} [_props]
+function FORMS_DockTabs(_props=undefined)
+	: FORMS_Container(undefined, _props) constructor
+{
+	Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
+	Height.from_props(_props, "Height", 24);
+
+	set_content(new FORMS_DockTabsContent());
+}
+
+/// @func FORMS_DockTabsContent()
+///
+/// @extends FORMS_Content
+///
+/// @desc
+function FORMS_DockTabsContent()
+	: FORMS_Content() constructor
+{
+	static draw = function ()
+	{
+		var _dock = Container.Parent;
+		var _tabs = _dock.__tabs;
+		var _tabCurrent = _dock.__tabCurrent;
+		var _tabIndex = 0;
+
+		Pen.start(10, 3);
+
+		repeat (array_length(_tabs))
 		{
-			__right.draw();
+			var _tab = _tabs[_tabIndex];
+			if (Pen.link(_tab.Name, { Color: (_tabIndex == _tabCurrent) ? c_orange : c_silver }))
+			{
+				_tabCurrent = _tabIndex;
+				_dock.__tabCurrent = _tabIndex;
+			}
+			Pen.move(10);
+			++_tabIndex;
 		}
+
+		Pen.finish();
+
+		Width = Pen.MaxX;
 
 		return self;
 	};
