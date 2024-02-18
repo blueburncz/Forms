@@ -509,7 +509,7 @@ function FORMS_DockTabsContent()
 			if (Pen.link(_tab.Name, { Color: (_tabIndex == _tabCurrent) ? c_orange : c_silver }))
 			{
 				_tabCurrent = _tabIndex;
-				_dock.__tabCurrent = _tabIndex;
+				_dock.__tabCurrent = _tabCurrent;
 			}
 			Pen.move(10);
 			++_tabIndex;

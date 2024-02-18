@@ -147,7 +147,15 @@ function FORMS_Pen(_content) constructor
 		}
 		draw_text_color(X, Y, _text, _c, _c, _c, _c, _a);
 		__move_or_nl(string_width(_text));
-		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
+		if (_mouseOver)
+		{
+			if (forms_mouse_check_button_pressed(mb_left))
+			{
+				return 1;
+			}
+			return -1;
+		}
+		return 0;
 	};
 
 	static is_mouse_over = function (_x, _y, _width, _height, _id=undefined)
