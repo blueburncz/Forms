@@ -19,6 +19,7 @@
     {"name":"FORMS_Scrollbar","order":8,"path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},
     {"name":"FORMS_Container","order":3,"path":"scripts/FORMS_Container/FORMS_Container.yy",},
     {"name":"FORMS_KeyboardShortcut","order":12,"path":"scripts/FORMS_KeyboardShortcut/FORMS_KeyboardShortcut.yy",},
+    {"name":"FORMS_Workspace","order":16,"path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},
     {"name":"FORMS_ContextMenu","order":11,"path":"scripts/FORMS_ContextMenu/FORMS_ContextMenu.yy",},
     {"name":"FORMS_RootWidget","order":7,"path":"scripts/FORMS_RootWidget/FORMS_RootWidget.yy",},
     {"name":"FORMS_Widget","order":9,"path":"scripts/FORMS_Widget/FORMS_Widget.yy",},

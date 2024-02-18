@@ -164,14 +164,23 @@ function TestContent() : FORMS_Content() constructor
 	};
 }
 
+var _workspace = new FORMS_Workspace({
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
+	Height: 100,
+	HeightUnit: FORMS_EUnit.Percent,
+	Flex: 1,
+});
+_vbox.add_child(_workspace);
+
 var _dock = new FORMS_Dock({
+	Name: "Workspace 1",
 	Width: 100,
 	WidthUnit: FORMS_EUnit.Percent,
 	Height: 100,
 	HeightUnit: FORMS_EUnit.Percent,
 });
-
-_vbox.add_child(_dock);
+_workspace.add_tab(_dock);
 
 var _scrollPane1 = new FORMS_ScrollPane(new TestContent(), {
 	Width: 100,
@@ -213,3 +222,14 @@ var _window = new FORMS_Window(_scrollPane3, {
 });
 
 gui.add_child(_window);
+
+var _scrollPane4 = new FORMS_ScrollPane(new TestContent(), {
+	Width: 100,
+	WidthUnit: FORMS_EUnit.Percent,
+	Flex: 1,
+	Container: {
+		BackgroundColor: make_color_hsv(random(255), 255, 50),
+	}
+});
+_scrollPane4.Name = "Workspace 2";
+_workspace.add_tab(_scrollPane4);

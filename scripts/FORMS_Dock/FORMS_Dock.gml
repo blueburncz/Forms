@@ -403,6 +403,12 @@ function FORMS_Dock(_props=undefined)
 		if (__left == undefined && __right == undefined)
 		{
 			__tabContainer.update(_deltaTime);
+
+			if (__tabCurrent < array_length(__tabs))
+			{
+				var _tab = __tabs[__tabCurrent];
+				_tab.update(_deltaTime);
+			}
 		}
 		else
 		{
