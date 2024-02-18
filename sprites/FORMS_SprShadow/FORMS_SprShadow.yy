@@ -88,8 +88,8 @@
   "swatchColours": null,
   "swfPrecision": 2.525,
   "textureGroupId": {
-    "name": "Default",
-    "path": "texturegroups/Default",
+    "name": "Forms",
+    "path": "texturegroups/Forms",
   },
   "type": 0,
   "VTile": false,
