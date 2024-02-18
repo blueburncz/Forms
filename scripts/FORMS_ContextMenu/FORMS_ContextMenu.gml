@@ -75,6 +75,7 @@ function FORMS_ContextMenuOption(_text)
 function FORMS_ContextMenu(_options=[], _props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
+	static Container_layout = layout;
 	static Container_update = update;
 	static Container_draw = draw;
 	static Container_destroy = destroy;
@@ -100,6 +101,14 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	__submenuIndex = -1;
 
 	ContentFit = true;
+
+	static layout = function ()
+	{
+		__realX = clamp(__realX, 0, window_get_width() - __realWidth);
+		__realY = clamp(__realY, 0, window_get_height() - __realHeight);
+		Container_layout();
+		return self;
+	};
 
 	static update = function (_deltaTime)
 	{
