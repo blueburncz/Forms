@@ -106,8 +106,7 @@ function FORMS_Window(_widget, _props=undefined)
 				__resize = FORMS_EWindowResize.None;
 			}
 		}
-
-		if (__move)
+		else if (__move)
 		{
 			X.Value = forms_mouse_get_x() + __mouseOffset[0];
 			Y.Value = forms_mouse_get_y() + __mouseOffset[1];
@@ -116,6 +115,26 @@ function FORMS_Window(_widget, _props=undefined)
 			{
 				forms_get_root().WidgetActive = undefined;
 				__move = false;
+			}
+		}
+		else
+		{
+			if (X.Value + __realWidth <= 0)
+			{
+				X.Value = 0;
+			}
+			else if (X.Value >= window_get_width())
+			{
+				X.Value = window_get_width() - __realWidth;
+			}
+
+			if (Y.Value + __realHeight <= 0)
+			{
+				Y.Value = 0;
+			}
+			else if (Y.Value >= window_get_height())
+			{
+				Y.Value = window_get_height() - __realHeight;
 			}
 		}
 
