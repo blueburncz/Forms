@@ -1,3 +1,8 @@
+/// @func FORMS_WorkspaceProps()
+///
+/// @extends FORMS_WidgetProps
+///
+/// @desc
 function FORMS_WorkspaceProps()
 	: FORMS_WidgetProps() constructor
 {

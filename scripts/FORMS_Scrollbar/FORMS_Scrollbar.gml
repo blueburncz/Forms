@@ -154,6 +154,16 @@ function FORMS_Scrollbar(_target, _props=undefined)
 	};
 }
 
+/// @func FORMS_HScrollbarProps()
+///
+/// @extends FORMS_ScrollbarProps
+///
+/// @desc
+function FORMS_HScrollbarProps()
+	: FORMS_ScrollbarProps() constructor
+{
+}
+
 /// @func FORMS_HScrollbar(_target[, _props])
 ///
 /// @extends FORMS_Scrollbar
@@ -161,7 +171,7 @@ function FORMS_Scrollbar(_target, _props=undefined)
 /// @desc
 ///
 /// @param {Struct.FORMS_Container} _target
-/// @param {Struct.FORMS_ScrollbarProps, Undefined} [_props]
+/// @param {Struct.FORMS_HScrollbarProps, Undefined} [_props]
 function FORMS_HScrollbar(_target, _props=undefined)
 	: FORMS_Scrollbar(_target, _props) constructor
 {
@@ -199,6 +209,16 @@ function FORMS_HScrollbar(_target, _props=undefined)
 	};
 }
 
+/// @func FORMS_VScrollbarProps()
+///
+/// @extends FORMS_ScrollbarProps
+///
+/// @desc
+function FORMS_VScrollbarProps()
+	: FORMS_ScrollbarProps() constructor
+{
+}
+
 /// @func FORMS_VScrollbar(_target[, _props])
 ///
 /// @extends FORMS_Scrollbar
@@ -206,7 +226,7 @@ function FORMS_HScrollbar(_target, _props=undefined)
 /// @desc
 ///
 /// @param {Struct.FORMS_Container} _target
-/// @param {Struct.FORMS_ScrollbarProps, Undefined} [_props]
+/// @param {Struct.FORMS_VScrollbarProps, Undefined} [_props]
 function FORMS_VScrollbar(_target, _props=undefined)
 	: FORMS_Scrollbar(_target, _props) constructor
 {

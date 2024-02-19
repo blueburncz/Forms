@@ -1,10 +1,20 @@
+/// @func FORMS_CompoundWidgetProps()
+///
+/// @extends FORMS_WidgetProps
+///
+/// @desc
+function FORMS_CompoundWidgetProps()
+	: FORMS_WidgetProps() constructor
+{
+}
+
 /// @func FORMS_CompoundWidget([_props[, _children]])
 ///
 /// @extends FORMS_Widget
 ///
 /// @desc
 ///
-/// @param {Struct.FORMS_WidgetProps, Undefined} [_props]
+/// @param {Struct.FORMS_CompoundWidgetProps, Undefined} [_props]
 /// @param {Array<Struct.FORMS_Widget>, Undefined} [_children]
 function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 	: FORMS_Widget(_props) constructor

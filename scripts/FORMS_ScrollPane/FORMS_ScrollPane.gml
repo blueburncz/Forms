@@ -1,10 +1,10 @@
 /// @func FORMS_ScrollPaneProps()
 ///
-/// @extends FORMS_WidgetProps
+/// @extends FORMS_CompoundWidgetProps
 ///
 /// @desc
 function FORMS_ScrollPaneProps()
-	: FORMS_WidgetProps() constructor
+	: FORMS_CompoundWidgetProps() constructor
 {
 	/// @var {Struct.FORMS_ContainerProps, Undefined}
 	Container = undefined;

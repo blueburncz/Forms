@@ -1,3 +1,13 @@
+/// @func FORMS_MenuBarProps()
+///
+/// @extends
+///
+/// @desc
+function FORMS_MenuBarProps()
+	: FORMS_ContainerProps() constructor
+{
+}
+
 /// @func FORMS_MenuBar([_items[, _props]])
 ///
 /// @extends FORMS_Container
@@ -5,7 +15,7 @@
 /// @desc
 ///
 /// @param {Array<Struct.FORMS_MenuBarItem>} [_items]
-/// @param {Struct.FORMS_ContainerProps, Undefined} [_props]
+/// @param {Struct.FORMS_MenuBarProps, Undefined} [_props]
 function FORMS_MenuBar(_items=[], _props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {

@@ -14,13 +14,23 @@ function forms_get_root()
 	return global.__formsRoot;
 }
 
+/// @func FORMS_RootWidgetProps()
+///
+/// @extends FORMS_CompoundWidgetProps
+///
+/// @desc
+function FORMS_RootWidgetProps()
+	: FORMS_CompoundWidget() constructor
+{
+}
+
 /// @func FORMS_RootWidget([_props[, _children]])
 ///
 /// @extends FORMS_CompoundWidget
 ///
 /// @desc
 ///
-/// @param {Struct.FORMS_WidgetProps, Undefined} [_props]
+/// @param {Struct.FORMS_RootWidgetProps, Undefined} [_props]
 /// @param {Array<Struct.FORMS_Widget>, Undefined} [_children]
 function FORMS_RootWidget(_props=undefined, _children=undefined)
 	: FORMS_CompoundWidget(_props, _children) constructor

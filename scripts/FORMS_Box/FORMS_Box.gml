@@ -35,13 +35,23 @@ function FORMS_Box(_props=undefined, _children=undefined)
 	static get_auto_height = function () { return 0; };
 }
 
+/// @func FORMS_VBoxProps()
+///
+/// @extends FORMS_BoxProps
+///
+/// @desc
+function FORMS_VBoxProps()
+	: FORMS_BoxProps() constructor
+{
+}
+
 /// @func FORMS_VBox([_props[, _children]])
 ///
 /// @extends FORMS_Box
 ///
 /// @desc
 ///
-/// @param {Struct.FORMS_BoxProps, Undefined} [_props]
+/// @param {Struct.FORMS_VBoxProps, Undefined} [_props]
 /// @param {Array<Struct.FORMS_Widget>, Undefined} [_children]
 function FORMS_VBox(_props=undefined, _children=undefined)
 	: FORMS_Box(_props, _children) constructor
@@ -87,13 +97,23 @@ function FORMS_VBox(_props=undefined, _children=undefined)
 	};
 }
 
+/// @func FORMS_HBoxProps()
+///
+/// @extends FORMS_BoxProps
+///
+/// @desc
+function FORMS_HBoxProps()
+	: FORMS_BoxProps() constructor
+{
+}
+
 /// @func FORMS_HBox([_props[, _children]])
 ///
 /// @extends FORMS_Box
 ///
 /// @desc
 ///
-/// @param {Struct.FORMS_FlexBoxProps, Undefined} [_props]
+/// @param {Struct.FORMS_HBoxProps, Undefined} [_props]
 /// @param {Array<Struct.FORMS_Widget>, Undefined} [_children]
 function FORMS_HBox(_props=undefined, _children=undefined)
 	: FORMS_Box(_props, _children) constructor
@@ -169,8 +189,8 @@ function FORMS_FlexBoxProps()
 ///
 /// @desc
 ///
-/// @param {Struct.FORMS_WidgetProps, Undefined} [_props]
-/// @param {Array<Struct.FORMS_FlexBoxProps>, Undefined} [_children]
+/// @param {Struct.FORMS_FlexBoxProps, Undefined} [_props]
+/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children]
 function FORMS_FlexBox(_props=undefined, _children=undefined)
 	: FORMS_Box(_props, _children) constructor
 {

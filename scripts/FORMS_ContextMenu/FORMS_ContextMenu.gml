@@ -64,6 +64,16 @@ function FORMS_ContextMenuOption(_text)
 	};
 }
 
+/// @func FORMS_ContextMenuProps()
+///
+/// @extends FORMS_ContainerProps
+///
+/// @desc
+function FORMS_ContextMenuProps()
+	: FORMS_ContainerProps() constructor
+{
+}
+
 /// @func FORMS_ContextMenu([_options[, _props]])
 ///
 /// @extends FORMS_Container
@@ -71,7 +81,7 @@ function FORMS_ContextMenuOption(_text)
 /// @desc
 ///
 /// @param {Array<Struct.FORMS_ContextMenuItem>} [_options]
-/// @param {Struct.FORMS_ContainerProps, Undefined} [_props]
+/// @param {Struct.FORMS_ContextMenuProps, Undefined} [_props]
 function FORMS_ContextMenu(_options=[], _props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {

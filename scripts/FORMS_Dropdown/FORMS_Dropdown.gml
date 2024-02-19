@@ -1,3 +1,13 @@
+/// @func FORMS_DropdownProps()
+///
+/// @extends FORMS_ContainerProps
+///
+/// @desc
+function FORMS_DropdownProps()
+	: FORMS_ContainerProps() constructor
+{
+}
+
 /// @func FORMS_Dropdown(_id, _values, _index, _width[, _props])
 ///
 /// @extends FORMS_Container
@@ -6,7 +16,7 @@
 /// @param {Array} _values An array of values to select from.
 /// @param {Real} _index The index of the currently selected value.
 /// @param {Real} _width The width of the dropdown that opened this.
-/// @param {Struct.FORMS_ContainerProps, Undefined} [_props]
+/// @param {Struct.FORMS_DropdownProps, Undefined} [_props]
 function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {

@@ -7,6 +7,11 @@ enum FORMS_EDockSplit
 	Vertical,
 };
 
+/// @func FORMS_DockProps()
+///
+/// @extends FORMS_WidgetProps
+///
+/// @desc
 function FORMS_DockProps()
 	: FORMS_WidgetProps() constructor
 {
@@ -476,13 +481,23 @@ function FORMS_Dock(_props=undefined)
 	};
 }
 
+/// @func FORMS_DockTabsProps()
+///
+/// @extends FORMS_ContainerProps
+///
+/// @desc
+function FORMS_DockTabsProps()
+	: FORMS_ContainerProps() constructor
+{
+}
+
 /// @func FORMS_DockTabs([_props])
 ///
 /// @extends FORMS_Container
 ///
 /// @desc
 ///
-/// @params {Struct.FORMS_ContainerProps, Undefined} [_props]
+/// @params {Struct.FORMS_DockTabsProps, Undefined} [_props]
 function FORMS_DockTabs(_props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
