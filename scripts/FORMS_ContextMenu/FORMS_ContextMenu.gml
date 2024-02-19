@@ -90,8 +90,6 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	static Container_draw = draw;
 	static Container_destroy = destroy;
 
-	set_content(new FORMS_ContextMenuContent());
-
 	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRound8;
 
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x202020;
@@ -111,6 +109,10 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	__submenuIndex = -1;
 
 	ContentFit = true;
+
+	{
+		set_content(new FORMS_ContextMenuContent());
+	}
 
 	static layout = function ()
 	{

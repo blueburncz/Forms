@@ -21,11 +21,6 @@ function FORMS_MenuBar(_items=[], _props=undefined)
 {
 	static Container_update = update;
 
-	set_content(new FORMS_MenuBarContent());
-
-	Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
-	Height.from_props(_props, "Height", 24, FORMS_EUnit.Pixel);
-
 	/// @var {Array<Struct.FORMS_MenuBarItem>}
 	/// @private
 	__items = _items;
@@ -36,6 +31,13 @@ function FORMS_MenuBar(_items=[], _props=undefined)
 
 	/// @private
 	__contextMenu = undefined;
+
+	{
+		Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
+		Height.from_props(_props, "Height", 24, FORMS_EUnit.Pixel);
+
+		set_content(new FORMS_MenuBarContent());
+	}
 
 	static update = function (_deltaTime)
 	{

@@ -34,7 +34,6 @@ function FORMS_Workspace(_props=undefined)
 	/// @var {Struct.FORMS_WorkspaceTabs}
 	/// @private
 	__tabContainer = new FORMS_WorkspaceTabs();
-	__tabContainer.Parent = self;
 
 	/// @var {Array<Struct.FORMS_Widget>}
 	/// @private
@@ -43,6 +42,10 @@ function FORMS_Workspace(_props=undefined)
 	/// @var {Real}
 	/// @private
 	__tabCurrent = 0;
+
+	{
+		__tabContainer.Parent = self;
+	}
 
 	/// @func set_tab(_tabs)
 	///
@@ -116,26 +119,23 @@ function FORMS_Workspace(_props=undefined)
 	static update = function (_deltaTime)
 	{
 		Widget_update(_deltaTime);
-
 		__tabContainer.update(_deltaTime);
-
 		if (__tabCurrent < array_length(__tabs))
 		{
 			var _tab = __tabs[__tabCurrent];
 			_tab.update(_deltaTime);
 		}
-
 		return self;
 	};
 
 	static draw = function ()
 	{
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
+		forms_draw_rectangle(
+			__realX, __realY, __realWidth, __realHeight,
+			BackgroundColor, BackgroundAlpha);
 
 		var _tabCurrent = __tabCurrent; // Backup before it changes!
-
 		__tabContainer.draw();
-
 		if (__tabCurrent < array_length(__tabs))
 		{
 			__tabs[_tabCurrent].draw();
@@ -155,10 +155,13 @@ function FORMS_Workspace(_props=undefined)
 function FORMS_WorkspaceTabs(_props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
-	Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
-	Height.from_props(_props, "Height", 32);
+	// Initialize
+	{
+		Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
+		Height.from_props(_props, "Height", 32);
 
-	set_content(new FORMS_WorkspaceTabsContent());
+		set_content(new FORMS_WorkspaceTabsContent());
+	}
 }
 
 /// @func FORMS_WorkspaceTabsContent()

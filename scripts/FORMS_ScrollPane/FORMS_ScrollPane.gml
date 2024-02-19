@@ -41,9 +41,11 @@ function FORMS_ScrollPane(_content=undefined, _props=undefined)
 	/// @readonly
 	VScrollbar = new FORMS_VScrollbar(Container, forms_get_prop(_props, "VScrollbar"));
 
-	add_child(Container);
-	add_child(HScrollbar);
-	add_child(VScrollbar);
+	{
+		add_child(Container);
+		add_child(HScrollbar);
+		add_child(VScrollbar);
+	}
 
 	static layout = function ()
 	{

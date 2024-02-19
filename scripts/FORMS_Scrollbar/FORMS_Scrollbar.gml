@@ -177,7 +177,9 @@ function FORMS_HScrollbar(_target, _props=undefined)
 {
 	static Scrollbar_update = update;
 
-	Height.from_props(_props, "Height", 8);
+	{
+		Height.from_props(_props, "Height", 8);
+	}
 
 	static update = function (_deltaTime)
 	{
@@ -232,7 +234,9 @@ function FORMS_VScrollbar(_target, _props=undefined)
 {
 	static Scrollbar_update = update;
 
-	Width.from_props(_props, "Width", 8);
+	{
+		Width.from_props(_props, "Width", 8);
+	}
 
 	static update = function (_deltaTime)
 	{

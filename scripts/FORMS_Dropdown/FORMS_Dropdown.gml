@@ -23,8 +23,6 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 	static Container_layout = layout;
 	static Container_update = update;
 
-	set_content(new FORMS_DropdownContent());
-
 	/// @var {String} The ID of the dropdown that opened this.
 	/// @readonly
 	DropdownId = _id;
@@ -42,6 +40,10 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 	DropdownWidth = _width;
 
 	ContentFit = true;
+
+	{
+		set_content(new FORMS_DropdownContent());
+	}
 
 	static update = function (_deltaTime)
 	{

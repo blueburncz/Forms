@@ -26,12 +26,14 @@ function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 	/// @readonly
 	Children = [];
 
-	if (is_array(_children))
 	{
-		var _count = array_length(_children);
-		for (var i = 0; i < _count; ++i)
+		if (is_array(_children))
 		{
-			add_child(_children[i]);
+			var _count = array_length(_children);
+			for (var i = 0; i < _count; ++i)
+			{
+				add_child(_children[i]);
+			}
 		}
 	}
 

@@ -97,7 +97,6 @@ function FORMS_Dock(_props=undefined)
 	/// @var {Struct.FORMS_DockTabs}
 	/// @private
 	__tabContainer = new FORMS_DockTabs();
-	__tabContainer.Parent = self;
 
 	/// @var {Array<Struct.FORMS_Widget>}
 	/// @private
@@ -130,6 +129,10 @@ function FORMS_Dock(_props=undefined)
 	/// @var {Bool}
 	/// @private
 	__splitterIsHovered = false;
+
+	{
+		__tabContainer.Parent = self;
+	}
 
 	/// @func get_first()
 	///
@@ -283,11 +286,6 @@ function FORMS_Dock(_props=undefined)
 
 		if (__left == undefined && __right == undefined)
 		{
-			var _parentX = __realX;
-			var _parentY = __realY;
-			var _parentWidth = __realWidth;
-			var _parentHeight = __realHeight;
-
 			with (__tabContainer)
 			{
 				var _autoWidth = get_auto_width();
@@ -501,10 +499,12 @@ function FORMS_DockTabsProps()
 function FORMS_DockTabs(_props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
-	Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
-	Height.from_props(_props, "Height", 24);
+	{
+		Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
+		Height.from_props(_props, "Height", 24);
 
-	set_content(new FORMS_DockTabsContent());
+		set_content(new FORMS_DockTabsContent());
+	}
 }
 
 /// @func FORMS_DockTabsContent()

@@ -14,19 +14,21 @@ function FORMS_KeyboardShortcut(_keys=undefined, _mouseButtons=undefined) constr
 	/// @readonly
 	MouseButtons = [];
 
-	if (_keys != undefined)
 	{
-		for (var i = array_length(_keys) - 1; i >= 0; --i)
+		if (_keys != undefined)
 		{
-			add_key(_keys[i]);
+			for (var i = array_length(_keys) - 1; i >= 0; --i)
+			{
+				add_key(_keys[i]);
+			}
 		}
-	}
 
-	if (_mouseButtons != undefined)
-	{
-		for (var i = array_length(_mouseButtons) - 1; i >= 0; --i)
+		if (_mouseButtons != undefined)
 		{
-			add_mouse_button(_mouseButtons[i]);
+			for (var i = array_length(_mouseButtons) - 1; i >= 0; --i)
+			{
+				add_mouse_button(_mouseButtons[i]);
+			}
 		}
 	}
 

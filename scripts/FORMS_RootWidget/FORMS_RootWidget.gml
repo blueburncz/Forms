@@ -39,9 +39,6 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	static CompoundWidget_update = update;
 	static CompoundWidget_draw = draw;
 
-	Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
-	Height.from_props(_props, "Height", 100, FORMS_EUnit.Percent);
-
 	/// @var {Real}
 	/// @readonly
 	MouseX = 0;
@@ -70,6 +67,11 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	__results = {};
 
 	__widgetsToDestroy = [];
+
+	{
+		Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
+		Height.from_props(_props, "Height", 100, FORMS_EUnit.Percent);
+	}
 
 	/// @func return_result(_id, _value)
 	///

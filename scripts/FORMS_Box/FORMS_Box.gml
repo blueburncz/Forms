@@ -24,11 +24,13 @@ function FORMS_BoxProps()
 function FORMS_Box(_props=undefined, _children=undefined)
 	: FORMS_CompoundWidget(_props, _children) constructor
 {
-	Width.from_props(_props, "Width", 0, FORMS_EUnit.Auto);
-	Height.from_props(_props, "Height", 0, FORMS_EUnit.Auto);
-
 	/// @var {Struct.FORMS_WidgetUnitValue}
 	Spacing = new FORMS_WidgetUnitValue().from_props(_props, "Spacing");
+
+	{
+		Width.from_props(_props, "Width", 0, FORMS_EUnit.Auto);
+		Height.from_props(_props, "Height", 0, FORMS_EUnit.Auto);
+	}
 
 	static get_auto_width = function () { return 0; };
 

@@ -41,12 +41,9 @@ function FORMS_Window(_widget, _props=undefined)
 	static FlexBox_draw = draw;
 
 	__widthMin = 128;
-	Width.from_props(_props, "Width", 400);
 	__heightMin = 64;
-	Height.from_props(_props, "Height", 300);
 	__padding = 4;
-	PaddingX.from_props(_props, "PaddingX", __padding);
-	PaddingY.from_props(_props, "PaddingY", __padding);
+
 	IsHorizontal = false;
 
 	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRound4;
@@ -65,8 +62,15 @@ function FORMS_Window(_widget, _props=undefined)
 
 	Widget = _widget;
 
-	add_child(Titlebar);
-	add_child(Widget);
+	{
+		Width.from_props(_props, "Width", 400);
+		Height.from_props(_props, "Height", 300);
+		PaddingX.from_props(_props, "PaddingX", __padding);
+		PaddingY.from_props(_props, "PaddingY", __padding);
+
+		add_child(Titlebar);
+		add_child(Widget);
+	}
 
 	// TODO: Disable adding of more children (don't inherit from FlexBox???)
 

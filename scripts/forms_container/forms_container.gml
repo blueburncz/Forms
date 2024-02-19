@@ -40,8 +40,6 @@ function FORMS_Container(_content=undefined, _props=undefined)
 	/// @readonly
 	Content = undefined;
 
-	set_content(_content);
-
 	/// @var {Id.Surface}
 	/// @readonly
 	Surface = -1;
@@ -74,6 +72,10 @@ function FORMS_Container(_content=undefined, _props=undefined)
 	/// @var {Bool} If true then the size of the container is recomputed from its
 	/// contents. Default value is false.
 	ContentFit = forms_get_prop(_props, "ContentFit") ?? false;
+
+	{
+		set_content(_content);
+	}
 
 	/// @func set_content(_content)
 	///
