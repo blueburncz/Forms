@@ -153,7 +153,7 @@ function FORMS_Container(_content=undefined, _props=undefined)
 			var _scroll = is_mouse_over() * (mouse_wheel_down() - mouse_wheel_up()) * string_height("M");
 			if (keyboard_check(vk_control) == IsDefaultScrollVertical)
 			{
-				ScrollX -= _scroll;
+				ScrollX += _scroll;
 			}
 			else
 			{
