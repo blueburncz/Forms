@@ -1,13 +1,13 @@
 {
   "FolderOrderSettings": [
+    {"name":"FontAwesome6.5.1","order":4,"path":"folders/FontAwesome6.5.1.yy",},
     {"name":"Forms","order":3,"path":"folders/Forms.yy",},
     {"name":"Fonts","order":13,"path":"folders/Forms/Fonts.yy",},
     {"name":"Scripts","order":11,"path":"folders/Forms/Scripts.yy",},
     {"name":"Sprites","order":12,"path":"folders/Forms/Sprites.yy",},
-    {"name":"FontAwesome6.5.1","order":4,"path":"folders/FontAwesome6.5.1.yy",},
   ],
   "ResourceOrderSettings": [
-    {"name":"FA_Brands12","order":2,"path":"fonts/FA_Brands12/FA_Brands12.yy",},
+    {"name":"FA_FntBrands12","order":2,"path":"fonts/FA_FntBrands12/FA_FntBrands12.yy",},
     {"name":"FORMS_SprShadow","order":4,"path":"sprites/FORMS_SprShadow/FORMS_SprShadow.yy",},
     {"name":"FORMS_CompoundWidget","order":2,"path":"scripts/FORMS_CompoundWidget/FORMS_CompoundWidget.yy",},
     {"name":"FORMS_SprRound4","order":3,"path":"sprites/FORMS_SprRound4/FORMS_SprRound4.yy",},
@@ -22,7 +22,7 @@
     {"name":"FORMS_Scrollbar","order":8,"path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},
     {"name":"FORMS_Container","order":3,"path":"scripts/FORMS_Container/FORMS_Container.yy",},
     {"name":"FORMS_KeyboardShortcut","order":12,"path":"scripts/FORMS_KeyboardShortcut/FORMS_KeyboardShortcut.yy",},
-    {"name":"FA_Solid12","order":1,"path":"fonts/FA_Solid12/FA_Solid12.yy",},
+    {"name":"FA_FntSolid12","order":1,"path":"fonts/FA_FntSolid12/FA_FntSolid12.yy",},
     {"name":"FORMS_Workspace","order":16,"path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},
     {"name":"FORMS_NodeGraph","order":17,"path":"scripts/FORMS_NodeGraph/FORMS_NodeGraph.yy",},
     {"name":"FORMS_ContextMenu","order":11,"path":"scripts/FORMS_ContextMenu/FORMS_ContextMenu.yy",},

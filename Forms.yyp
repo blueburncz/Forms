@@ -6,16 +6,16 @@
     {"resourceType":"GMAudioGroup","resourceVersion":"1.3","name":"audiogroup_default","targets":-1,},
   ],
   "configs": {
-    "name": "Default",
     "children": [],
+    "name": "Default",
   },
   "defaultScriptType": 1,
   "Folders": [
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"FontAwesome6.5.1","folderPath":"folders/FontAwesome6.5.1.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Forms","folderPath":"folders/Forms.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Fonts","folderPath":"folders/Forms/Fonts.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Scripts","folderPath":"folders/Forms/Scripts.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Sprites","folderPath":"folders/Forms/Sprites.yy",},
-    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"FontAwesome6.5.1","folderPath":"folders/FontAwesome6.5.1.yy",},
   ],
   "IncludedFiles": [
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"._LICENSE-FontAwesome.txt","CopyToMask":-1,"filePath":"datafiles",},
@@ -27,7 +27,7 @@
     "IDEVersion": "2023.11.1.129",
   },
   "resources": [
-    {"id":{"name":"FA_Brands12","path":"fonts/FA_Brands12/FA_Brands12.yy",},},
+    {"id":{"name":"FA_FntBrands12","path":"fonts/FA_FntBrands12/FA_FntBrands12.yy",},},
     {"id":{"name":"FORMS_SprShadow","path":"sprites/FORMS_SprShadow/FORMS_SprShadow.yy",},},
     {"id":{"name":"FORMS_CompoundWidget","path":"scripts/FORMS_CompoundWidget/FORMS_CompoundWidget.yy",},},
     {"id":{"name":"FORMS_SprRound4","path":"sprites/FORMS_SprRound4/FORMS_SprRound4.yy",},},
@@ -42,8 +42,8 @@
     {"id":{"name":"FORMS_Scrollbar","path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},},
     {"id":{"name":"FORMS_Container","path":"scripts/FORMS_Container/FORMS_Container.yy",},},
     {"id":{"name":"FORMS_KeyboardShortcut","path":"scripts/FORMS_KeyboardShortcut/FORMS_KeyboardShortcut.yy",},},
-    {"id":{"name":"FA_Regular12","path":"fonts/FA_Regular12/FA_Regular12.yy",},},
-    {"id":{"name":"FA_Solid12","path":"fonts/FA_Solid12/FA_Solid12.yy",},},
+    {"id":{"name":"FA_FntRegular12","path":"fonts/FA_FntRegular12/FA_FntRegular12.yy",},},
+    {"id":{"name":"FA_FntSolid12","path":"fonts/FA_FntSolid12/FA_FntSolid12.yy",},},
     {"id":{"name":"FORMS_Workspace","path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},},
     {"id":{"name":"FORMS_SprRectangle","path":"sprites/FORMS_SprRectangle/FORMS_SprRectangle.yy",},},
     {"id":{"name":"__forms","path":"scripts/__forms/__forms.yy",},},

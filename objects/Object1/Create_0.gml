@@ -153,6 +153,13 @@ function TestContent() : FORMS_Content() constructor
 			InputReal = Pen.get_result();
 		Pen.text(" Real input").nl();
 
+		Pen.icon_regular(FA_ERegular.AddressBook);
+		Pen.move(2);
+		Pen.icon_solid(FA_ESolid.TruckFast);
+		Pen.move(2);
+		Pen.icon_brands(FA_EBrands.Github);
+		Pen.nl();
+
 		Pen.finish();
 
 		Width = Pen.MaxX + 8;

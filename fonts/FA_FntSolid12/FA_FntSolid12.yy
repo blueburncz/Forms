@@ -1,7 +1,7 @@
 {
   "resourceType": "GMFont",
   "resourceVersion": "1.0",
-  "name": "FA_Solid12",
+  "name": "FA_FntSolid12",
   "AntiAlias": 1,
   "applyKerning": 0,
   "ascender": 16,

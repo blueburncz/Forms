@@ -248,6 +248,78 @@ function FORMS_Pen(_content) constructor
 			&& (_root.WidgetActive == _id || _root.WidgetActive == undefined));
 	};
 
+	/// @private
+	static __icon = function (_icon, _font, _props=undefined)
+	{
+		__assert_started();
+		var _string = chr(_icon);
+		var _fontPrev = draw_get_font();
+		draw_set_font(_font);
+		var _c = forms_get_prop(_props, "Color") ?? c_white;
+		var _a = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _width = string_width(_string);
+		var _height = string_height(_string);
+		var _mouseOver = is_mouse_over(X, Y, _width, _height);
+		if (_mouseOver)
+		{
+			forms_draw_rectangle(X, Y, _width, _height, c_white, 0.3);
+			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
+			forms_set_cursor(cr_handpoint);
+		}
+		draw_text_color(X, Y, _string, _c, _c, _c, _c, _a);
+		draw_set_font(_fontPrev);
+		__move_or_nl(_width);
+		if (_mouseOver)
+		{
+			return forms_mouse_check_button_pressed(mb_left)
+				? FORMS_EPenAction.Click
+				: FORMS_EPenAction.MouseOver;
+		}
+		return FORMS_EPenAction.None;
+	};
+
+	/// @func icon_regular(_icon[, _props])
+	///
+	/// @desc
+	///
+	/// @param {Real} _icon Use values from {@link FA_ERegular}.
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Real} Returns a value from {@link FORMS_EPenAction}.
+	static icon_regular = function (_icon, _props=undefined)
+	{
+		gml_pragma("forceinline");
+		return __icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntRegular12, _props);
+	};
+
+	/// @func icon_solid(_icon[, _props])
+	///
+	/// @desc
+	///
+	/// @param {Real} _icon Use values from {@link FA_ESolid}.
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Real} Returns a value from {@link FORMS_EPenAction}.
+	static icon_solid = function (_icon, _props=undefined)
+	{
+		gml_pragma("forceinline");
+		return __icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntSolid12, _props);
+	};
+
+	/// @func icon_brands(_icon[, _props])
+	///
+	/// @desc
+	///
+	/// @param {Real} _icon Use values from {@link FA_EBrands}.
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Real} Returns a value from {@link FORMS_EPenAction}.
+	static icon_brands = function (_icon, _props=undefined)
+	{
+		gml_pragma("forceinline");
+		return __icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntBrands12, _props);
+	};
+
 	/// @func button(_text[, _props])
 	///
 	/// @desc

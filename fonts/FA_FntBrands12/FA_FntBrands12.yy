@@ -1,7 +1,7 @@
 {
   "resourceType": "GMFont",
   "resourceVersion": "1.0",
-  "name": "FA_Brands12",
+  "name": "FA_FntBrands12",
   "AntiAlias": 1,
   "applyKerning": 0,
   "ascender": 17,
