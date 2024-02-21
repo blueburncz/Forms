@@ -27,15 +27,119 @@ function FORMS_WidgetUnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 	/// @see FORMS_EUnit
 	Unit = _unit;
 
-	/// @func from_string(_string)
+	/// @func from_string(_string[, _allowAuto])
 	///
 	/// @desc
 	///
 	/// @param {String} _string
 	///
 	/// @return {Struct.FORMS_WidgetUnitValue} Returns `self`.
-	static from_string = function (_string)
+	static from_string = function (_string, _allowAuto=true)
 	{
+		if (_string == "auto")
+		{
+			forms_assert(_allowAuto, "'auto' not allowed!");
+			Unit = FORMS_EUnit.Auto;
+			return self;
+		}
+
+		var _stateSign = 0;
+		var _stateInteger = 1;
+		var _stateDecimal = 2;
+		var _stateUnit = 3;
+		var _state = _stateSign;
+
+		var _sign = 1;
+		var _before = ""
+		var _number = "";
+		var _unit = "";
+
+		var _length = string_length(_string);
+		var _index = 1;
+
+		while (_index <= _length)
+		{
+			var _char = string_char_at(_string, _index++);
+
+			switch (_state)
+			{
+			case _stateSign:
+				if (_char == "+")
+				{
+				}
+				else if (_char == "-")
+				{
+					_sign *= -1;
+				}
+				else if (string_digits(_char) == _char)
+				{
+					_state = _stateInteger;
+					--_index;
+				}
+				else if (_char == ".")
+				{
+					_before = "0";
+					_number += ".";
+					_state = _stateDecimal;
+				}
+				else
+				{
+					forms_assert(false, $"Unexpected symbol '{_char}'!");
+				}
+				break;
+
+			case _stateInteger:
+				if (string_digits(_char) == _char)
+				{
+					_number += _char;
+				}
+				else if (_char == ".")
+				{
+					_number += _char;
+					_state = _stateDecimal;
+				}
+				else
+				{
+					_state = _stateUnit;
+					--_index;
+				}
+				break;
+
+			case _stateDecimal:
+				if (string_digits(_char) == _char)
+				{
+					_number += _char;
+				}
+				else
+				{
+					_state = _stateUnit;
+					--_index;
+				}
+				break;
+
+			case _stateUnit:
+				_unit += _char;
+				break;
+			}
+		}
+
+		if (_number == ".")
+		{
+			throw "Invalid number '.'!";
+		}
+
+		if (_unit != ""
+			&& _unit != "px"
+			&& _unit != "%")
+		{
+			throw $"Invalid unit '{_unit}'!";
+		}
+
+		Value = _sign * real(_before + _number);
+		Unit = (_unit == "" || _unit == "px")
+			? FORMS_EUnit.Pixel
+			: FORMS_EUnit.Percent;
+
 		return self;
 	};
 
@@ -58,8 +162,16 @@ function FORMS_WidgetUnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 		}
 		else
 		{
-			Value = _props[$ _name] ?? _valueDefault;
-			Unit = _props[$ _name + "Unit"] ?? _unitDefault;
+			var _value = _props[$ _name];
+			if (is_string(_value))
+			{
+				from_string(_value);
+			}
+			else
+			{
+				Value = _props[$ _name] ?? _valueDefault;
+				Unit = _props[$ _name + "Unit"] ?? _unitDefault;
+			}
 		}
 		return self;
 	};
@@ -103,25 +215,27 @@ function FORMS_WidgetProps() constructor
 
 	// TODO: Icon
 
-	/// @var {Real, Undefined} The widget's X position relative to its parent.
+	/// @var {Real, String, Undefined} The widget's X position relative to its
+	/// parent.
 	X = undefined;
 
 	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
 	XUnit = undefined;
 
-	/// @var {Real, Undefined} The widget's Y position relative to its parent.
+	/// @var {Real, String, Undefined} The widget's Y position relative to its
+	/// parent.
 	Y = undefined;
 
 	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
 	YUnit = undefined;
 
-	/// @var {Real, Undefined} The widget's width.
+	/// @var {Real, String, Undefined} The widget's width.
 	Width = undefined;
 
 	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
 	WidthUnit = undefined;
 
-	/// @var {Real, Undefined} The widget's height.
+	/// @var {Real, String, Undefined} The widget's height.
 	Height = undefined;
 
 	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
@@ -160,6 +274,7 @@ function forms_get_prop(_props, _name)
 /// @param {Struct.FORMS_WidgetProps, Undefined} [_props]
 function FORMS_Widget(_props=undefined) constructor
 {
+	/// @private
 	static __idNext = 0;
 
 	/// @var {String} A unique identifier of the widget.

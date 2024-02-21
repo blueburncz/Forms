@@ -50,6 +50,8 @@ function FORMS_KeyboardShortcut(_keys=undefined, _mouseButtons=undefined) constr
 	/// @param {Constant.VirtualKey} _key
 	///
 	/// @return {Real}
+	///
+	/// @private
 	static __get_key_index = function (_key)
 	{
 		for (var i = array_length(Keys) - 1; i >= 0; --i)
@@ -69,6 +71,8 @@ function FORMS_KeyboardShortcut(_keys=undefined, _mouseButtons=undefined) constr
 	/// @param {Constant.MouseButton} _button
 	///
 	/// @return {Real}
+	///
+	/// @private
 	static __get_mouse_button_index = function (_button)
 	{
 		for (var i = array_length(MouseButtons) - 1; i >= 0; --i)

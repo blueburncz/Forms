@@ -29,6 +29,7 @@ function FORMS_MenuBar(_items=[], _props=undefined)
 	/// @private
 	__itemCurrent = -1;
 
+	/// @var {Struct.WeakRef<Struct.FORMS_Widget>, Undefined}
 	/// @private
 	__contextMenu = undefined;
 

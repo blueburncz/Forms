@@ -6,7 +6,7 @@
 function FORMS_BoxProps()
 	: FORMS_WidgetProps() constructor
 {
-	/// @var {Real, Undefined}
+	/// @var {Real, String, Undefined}
 	Spacing = undefined;
 
 	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit}.
@@ -172,13 +172,13 @@ function FORMS_FlexBoxProps()
 	/// @var {Bool, Undefined}
 	IsHorizontal = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, String, Undefined}
 	PaddingX = undefined;
 
 	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.
 	PaddingXUnit = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, String, Undefined}
 	PaddingY = undefined;
 
 	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit.Pixel}.

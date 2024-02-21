@@ -183,6 +183,7 @@ function FORMS_Dock(_props=undefined)
 		return self;
 	};
 
+	/// @private
 	static __split = function (_type)
 	{
 		forms_assert(__left == undefined && __right == undefined, "Dock is already split!");

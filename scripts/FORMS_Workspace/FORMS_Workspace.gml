@@ -155,7 +155,6 @@ function FORMS_Workspace(_props=undefined)
 function FORMS_WorkspaceTabs(_props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
-	// Initialize
 	{
 		Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 		Height.from_props(_props, "Height", 32);
