@@ -406,7 +406,7 @@ function forms_set_cursor(_cursor)
 /// @desc
 ///
 /// @return {Constant.Cursor}
-function forms_get_cursor(_cursor)
+function forms_get_cursor()
 {
 	gml_pragma("forceinline");
 	return forms_get_root().get_cursor();
