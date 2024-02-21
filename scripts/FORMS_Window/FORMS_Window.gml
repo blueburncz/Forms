@@ -1,3 +1,14 @@
+/// @enum
+enum FORMS_EWindowResize
+{
+	None   = 0b0000,
+	Left   = 0b0001,
+	Right  = 0b0010,
+	Top    = 0b0100,
+	Bottom = 0b1000,
+	All    = 0b1111,
+};
+
 /// @func FORMS_WindowProps()
 ///
 /// @extends FORMS_FlexBoxProps
@@ -6,24 +17,26 @@
 function FORMS_WindowProps()
 	: FORMS_FlexBoxProps() constructor
 {
+	/// @var {Bool, Undefined} Whether the window can be moved. Default value is true.
+	Movable = undefined;
+
+	/// @var {Real, Undefined} Bitwise OR between directions in which the window
+	/// can be resized. Use values from {@link FORMS_EWindowResize}. Default
+	/// value is {@link FORMS_EWindowResize.All}.
+	Resizable = undefined;
+
+	/// @var {Asset.GMSprite}
 	BackgroundSprite = undefined;
 
+	/// @var {Real}
 	BackgroundIndex = undefined;
 
+	/// @var {Constant.Color}
 	BackgroundColor = undefined;
 
+	/// @var {Real}
 	BackgroundAlpha = undefined;
 }
-
-/// @enum
-enum FORMS_EWindowResize
-{
-	None = 0,
-	Left = 1,
-	Right = 2,
-	Top = 4,
-	Bottom = 8,
-};
 
 /// @func FORMS_Window([_widget[, _props]])
 ///
@@ -40,29 +53,55 @@ function FORMS_Window(_widget, _props=undefined)
 	static FlexBox_update = update;
 	static FlexBox_draw = draw;
 
-	__widthMin = 128;
-	__heightMin = 64;
-	__padding = 4;
+	/// @var {Bool} Whether the window can be moved. Default value is true.
+	Movable = forms_get_prop(_props, "Movable") ?? true;
 
-	IsHorizontal = false;
+	/// @var {Real} Bitwise OR between directions in which the window can be
+	/// resized. Use values from {@link FORMS_EWindowResize}. Default value is
+	/// {@link FORMS_EWindowResize.All}.
+	Resizable = forms_get_prop(_props, "Resizable") ?? FORMS_EWindowResize.All;
 
+	/// @var {Asset.GMSprite}
 	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRound4;
 
+	/// @var {Real}
 	BackgroundIndex = forms_get_prop(_props, "BackgroundIndex") ?? 0;
 
+	/// @var {Constant.Color}
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x303030;
 
+	/// @var {Real}
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
-	__move = false;
-	__resize = FORMS_EWindowResize.None;
-	__mouseOffset = [0, 0];
-
+	/// @var {Struct.FORMS_WindowTitle}
+	/// @readonly
 	Titlebar = new FORMS_WindowTitle();
 
+	/// @var {Struct.BBMOD_Widget}
+	/// @readonly
 	Widget = _widget;
 
+	/// @private
+	__widthMin = 128;
+
+	/// @private
+	__heightMin = 64;
+
+	/// @private
+	__padding = 4;
+
+	/// @private
+	__move = false;
+
+	/// @private
+	__resize = FORMS_EWindowResize.None;
+
+	/// @var {Array<Real>}
+	/// @private
+	__mouseOffset = [0, 0];
+
 	{
+		IsHorizontal = false;
 		Width.from_props(_props, "Width", 400);
 		Height.from_props(_props, "Height", 300);
 		PaddingX.from_props(_props, "PaddingX", __padding);
@@ -156,23 +195,27 @@ function FORMS_Window(_widget, _props=undefined)
 			var _mouseOffsetX = 0;
 			var _mouseOffsetY = 0;
 
-			if (_mouseX < __realX + __padding)
+			if (_mouseX < __realX + __padding
+				&& Resizable & FORMS_EWindowResize.Left)
 			{
 				_resize |= FORMS_EWindowResize.Left;
 				_mouseOffsetX = __realX - _mouseX;
 			}
-			else if (_mouseX >= __realX + __realWidth - __padding)
+			else if (_mouseX >= __realX + __realWidth - __padding
+				&& Resizable & FORMS_EWindowResize.Right)
 			{
 				_resize |= FORMS_EWindowResize.Right;
 				_mouseOffsetX = __realX + __realWidth - _mouseX;
 			}
 
-			if (_mouseY < __realY + __padding)
+			if (_mouseY < __realY + __padding
+				&& Resizable & FORMS_EWindowResize.Top)
 			{
 				_resize |= FORMS_EWindowResize.Top;
 				_mouseOffsetY = __realY - _mouseY;
 			}
-			else if (_mouseY >= __realY + __realHeight - __padding)
+			else if (_mouseY >= __realY + __realHeight - __padding
+				&& Resizable & FORMS_EWindowResize.Bottom)
 			{
 				_resize |= FORMS_EWindowResize.Bottom;
 				_mouseOffsetY = __realY + __realHeight - _mouseY;
@@ -251,7 +294,9 @@ function FORMS_WindowTitle(_props=undefined)
 
 	static update = function (_deltaTime)
 	{
-		if (is_mouse_over() && forms_mouse_check_button_pressed(mb_left))
+		if (Parent.Movable
+			&& is_mouse_over()
+			&& forms_mouse_check_button_pressed(mb_left))
 		{
 			forms_get_root().WidgetActive = Parent;
 			Parent.__mouseOffset[@ 0] = Parent.__realX - forms_mouse_get_x();
