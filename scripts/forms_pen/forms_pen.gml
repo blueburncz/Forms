@@ -1,3 +1,11 @@
+/// @enum
+enum FORMS_EPenAction
+{
+	MouseOver = -1,
+	None = 0,
+	Click = 1,
+};
+
 /// @func FORMS_Pen(_content)
 ///
 /// @desc
@@ -12,10 +20,13 @@ function FORMS_Pen(_content) constructor
 	/// @var {Asset.GMFont, Undefined}
 	Font = undefined;
 
+	/// @var {Real, Undefined}
 	LineHeight = undefined;
 
+	/// @var {Real}
 	LineSpace = 2;
 
+	/// @var {Bool}
 	AutoNewline = false;
 
 	/// @var {Real}
@@ -34,25 +45,53 @@ function FORMS_Pen(_content) constructor
 	/// @readonly
 	MaxY = 0;
 
+	/// @private
 	__started = false;
+
+	/// @private
 	__columnX = 0;
+
+	/// @private
 	__fontBackup = -1;
+
+	/// @private
 	__lineHeight = 0;
 
+	/// @private
 	__widgetActive = undefined;
 
+	/// @private
 	__dropdownId = undefined;
+
+	/// @private
 	__dropdownIndex = 0;
+
+	/// @private
 	__dropdownValues = undefined;
+
+	/// @private
 	__dropdownX = 0;
+
+	/// @private
 	__dropdownY = 0;
+
+	/// @private
 	__dropdownWidth = 0;
 
+	/// @private
 	__inputId = undefined;
+
+	/// @private
 	__inputValue = undefined;
 
+	/// @private
 	__result = undefined;
 
+	/// @func get_result()
+	///
+	/// @desc
+	///
+	/// @return {Any}
 	static get_result = function ()
 	{
 		var _result = __result;
@@ -60,6 +99,7 @@ function FORMS_Pen(_content) constructor
 		return _result;
 	};
 
+	/// @private
 	static __consume_result = function (_id)
 	{
 		if (forms_has_result(_id))
@@ -70,12 +110,21 @@ function FORMS_Pen(_content) constructor
 		return false;
 	};
 
+	/// @private
 	static __assert_started = function ()
 	{
 		gml_pragma("forceinline");
 		forms_assert(__started, "Must call method start first!");
 	};
 
+	/// @func start([_x[, _y]])
+	///
+	/// @desc
+	///
+	/// @param {Real} [_x]
+	/// @param {Real} [_y]
+	///
+	/// @return {Struct.FORMS_Pen} Returns `self`.
 	static start = function (_x=0, _y=0)
 	{
 		forms_assert(!__started, "Must use method finish first!");
@@ -95,6 +144,13 @@ function FORMS_Pen(_content) constructor
 		return self;
 	};
 
+	/// @func move([_x])
+	///
+	/// @desc
+	///
+	/// @param {Real} [_x]
+	///
+	/// @return {Struct.FORMS_Pen} Returns `self`.
 	static move = function (_x)
 	{
 		X += _x;
@@ -102,6 +158,7 @@ function FORMS_Pen(_content) constructor
 		return self;
 	};
 
+	/// @private
 	static __move_or_nl = function (_x)
 	{
 		if (AutoNewline)
@@ -114,6 +171,14 @@ function FORMS_Pen(_content) constructor
 		}
 	};
 
+	/// @func text(_text[, _props])
+	///
+	/// @desc
+	///
+	/// @param {String} _text
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Struct.FORMS_Pen} Returns `self`.
 	static text = function (_text, _props=undefined)
 	{
 		__assert_started();
@@ -132,6 +197,14 @@ function FORMS_Pen(_content) constructor
 		return self;
 	};
 
+	/// @func link(_text[, _props])
+	///
+	/// @desc
+	///
+	/// @param {String} _text
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Real} Returns a value from {@link FORMS_EPenAction}.
 	static link = function (_text, _props=undefined)
 	{
 		__assert_started();
@@ -149,15 +222,24 @@ function FORMS_Pen(_content) constructor
 		__move_or_nl(string_width(_text));
 		if (_mouseOver)
 		{
-			if (forms_mouse_check_button_pressed(mb_left))
-			{
-				return 1;
-			}
-			return -1;
+			return forms_mouse_check_button_pressed(mb_left)
+				? FORMS_EPenAction.Click
+				: FORMS_EPenAction.MouseOver;
 		}
-		return 0;
+		return FORMS_EPenAction.None;
 	};
 
+	/// @func is_mouse_over(_x, _y, _width, _height[, _id])
+	///
+	/// @desc
+	///
+	/// @param {Real} _x
+	/// @param {Real} _y
+	/// @param {Real} _width
+	/// @param {Real} _height
+	/// @param {String, Undefined} [_id]
+	///
+	/// @return {Bool}
 	static is_mouse_over = function (_x, _y, _width, _height, _id=undefined)
 	{
 		var _root = forms_get_root();
@@ -166,6 +248,14 @@ function FORMS_Pen(_content) constructor
 			&& (_root.WidgetActive == _id || _root.WidgetActive == undefined));
 	};
 
+	/// @func button(_text[, _props])
+	///
+	/// @desc
+	///
+	/// @param {String} _text
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Real} Returns a value from {@link FORMS_EPenAction}.
 	static button = function (_text, _props=undefined)
 	{
 		__assert_started();
@@ -182,9 +272,23 @@ function FORMS_Pen(_content) constructor
 		}
 		draw_text_color(X, Y, _text, _c, _c, _c, _c, _a);
 		__move_or_nl(_textWidth);
-		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
+		if (_mouseOver)
+		{
+			return forms_mouse_check_button_pressed(mb_left)
+				? FORMS_EPenAction.Click
+				: FORMS_EPenAction.MouseOver;
+		}
+		return FORMS_EPenAction.None;
 	};
 
+	/// @func checkbox(_checked[, _props])
+	///
+	/// @desc
+	///
+	/// @param {Bool} _checked
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Real} Returns a value from {@link FORMS_EPenAction}.
 	static checkbox = function (_checked, _props=undefined)
 	{
 		__assert_started();
@@ -198,9 +302,23 @@ function FORMS_Pen(_content) constructor
 			forms_set_cursor(cr_handpoint);
 		}
 		__move_or_nl(_width);
-		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
+		if (_mouseOver)
+		{
+			return forms_mouse_check_button_pressed(mb_left)
+				? FORMS_EPenAction.Click
+				: FORMS_EPenAction.MouseOver;
+		}
+		return FORMS_EPenAction.None;
 	};
 
+	/// @func radio(_selected[, _props])
+	///
+	/// @desc
+	///
+	/// @param {Bool} _selected
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Real} Returns a value from {@link FORMS_EPenAction}.
 	static radio = function (_selected, _props=undefined)
 	{
 		__assert_started();
@@ -214,15 +332,34 @@ function FORMS_Pen(_content) constructor
 			forms_set_cursor(cr_handpoint);
 		}
 		__move_or_nl(_width);
-		return (_mouseOver && forms_mouse_check_button_pressed(mb_left));
+		if (_mouseOver)
+		{
+			return forms_mouse_check_button_pressed(mb_left)
+				? FORMS_EPenAction.Click
+				: FORMS_EPenAction.MouseOver;
+		}
+		return FORMS_EPenAction.None;
 	};
 
+	/// @private
 	static __make_id = function (_id)
 	{
 		gml_pragma("forceinline");
 		return Content.Container.Id + "#" + _id;
 	};
 
+	/// @func slider(_id, _value, _min, _max[, _props])
+	///
+	/// @desc
+	///
+	/// @param {String} _id
+	/// @param {Real} _value
+	/// @param {Real} _min
+	/// @param {Real} _max
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Bool} Returns true if the value has changed. New value can be
+	/// retrieved using method {@link FORMS_Pen.get_result}.
 	static slider = function (_id, _value, _min, _max, _props=undefined)
 	{
 		__assert_started();
@@ -264,6 +401,17 @@ function FORMS_Pen(_content) constructor
 		return __consume_result(_id);
 	};
 
+	/// @func dropdown(_id, _index, _values[, _props])
+	///
+	/// @desc
+	///
+	/// @param {String} _id
+	/// @param {Real} _index
+	/// @param {Array} _values
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Bool} Returns true if the value has changed. New value can be
+	/// retrieved using method {@link FORMS_Pen.get_result}.
 	static dropdown = function (_id, _index, _values, _props=undefined)
 	{
 		__assert_started();
@@ -293,6 +441,16 @@ function FORMS_Pen(_content) constructor
 		return __consume_result(_id);
 	};
 
+	/// @func input(_id, _value[, _props])
+	///
+	/// @desc
+	///
+	/// @param {String} _id
+	/// @param {Array} _value
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Bool} Returns true if the value has changed. New value can be
+	/// retrieved using method {@link FORMS_Pen.get_result}.
 	static input = function (_id, _value, _props=undefined)
 	{
 		__assert_started();
@@ -377,6 +535,13 @@ function FORMS_Pen(_content) constructor
 		return __consume_result(_id);
 	};
 
+	/// @func nl([_count])
+	///
+	/// @desc
+	///
+	/// @param {Real} [_count]
+	///
+	/// @return {Struct.FORMS_Pen} Returns `self`.
 	static nl = function (_count=1)
 	{
 		gml_pragma("forceinline");
@@ -388,19 +553,16 @@ function FORMS_Pen(_content) constructor
 		return self;
 	};
 
+	/// @func finish()
+	///
+	/// @desc
+	///
+	/// @return {Struct.FORMS_Pen} Returns `self`.
 	static finish = function ()
 	{
 		__assert_started();
-
 		__started = false;
-
 		draw_set_font(__fontBackup);
-
 		return self;
-	};
-
-	static destroy = function ()
-	{
-		return undefined;
 	};
 }
