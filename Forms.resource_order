@@ -32,5 +32,6 @@
     {"name":"FORMS_SprRound8","order":2,"path":"sprites/FORMS_SprRound8/FORMS_SprRound8.yy",},
     {"name":"FORMS_SprRadioButton","order":1,"path":"sprites/FORMS_SprRadioButton/FORMS_SprRadioButton.yy",},
     {"name":"FORMS_Content","order":4,"path":"scripts/FORMS_Content/FORMS_Content.yy",},
+    {"name":"FORMS_Tree","order":18,"path":"scripts/FORMS_Tree/FORMS_Tree.yy",},
   ],
 }

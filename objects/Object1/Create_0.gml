@@ -102,6 +102,33 @@ function TestContent() : FORMS_Content() constructor
 	DropdownIndex = 0;
 	InputString = "";
 	InputReal = 0;
+	var _propsFolder = {
+		Icon: FA_ESolid.FolderOpen,
+		IconCollapsed: FA_ESolid.Folder,
+		IconFont: FA_FntSolid12,
+		IconColor: c_gray,
+	};
+	var _propsFile = {
+		Icon: FA_ESolid.File,
+		IconFont: FA_FntSolid12,
+	};
+	Tree = new FORMS_Tree([
+		new FORMS_TreeItem("Item 1", _propsFolder, [
+			new FORMS_TreeItem("Item A", _propsFile),
+			new FORMS_TreeItem("Item B", _propsFile),
+		]),
+		new FORMS_TreeItem("Item 2", _propsFolder, [
+			new FORMS_TreeItem("Item C", _propsFolder, [
+				new FORMS_TreeItem("Some", _propsFile),
+				new FORMS_TreeItem("Shit", _propsFolder, [
+					new FORMS_TreeItem("Oh", _propsFile),
+					new FORMS_TreeItem("Yeah", _propsFile),
+				]),
+				new FORMS_TreeItem("Here", _propsFile),
+			]),
+			new FORMS_TreeItem("Item D", _propsFile),
+		]),
+	]);
 
 	static draw = function ()
 	{
@@ -159,6 +186,8 @@ function TestContent() : FORMS_Content() constructor
 		Pen.move(2);
 		Pen.icon_brands(FA_EBrands.Github);
 		Pen.nl();
+
+		Tree.draw(Pen);
 
 		Pen.finish();
 

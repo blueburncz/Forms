@@ -45,11 +45,11 @@ function FORMS_Pen(_content) constructor
 	/// @readonly
 	MaxY = 0;
 
-	/// @private
-	__started = false;
+	/// @var {Real}
+	ColumnX = 0;
 
 	/// @private
-	__columnX = 0;
+	__started = false;
 
 	/// @private
 	__fontBackup = -1;
@@ -134,7 +134,7 @@ function FORMS_Pen(_content) constructor
 		Y = _y;
 		MaxX = _x;
 		MaxY = _y;
-		__columnX = _x;
+		ColumnX = _x;
 		__fontBackup = draw_get_font();
 		if (Font != undefined)
 		{
@@ -154,6 +154,20 @@ function FORMS_Pen(_content) constructor
 	static move = function (_x)
 	{
 		X += _x;
+		MaxX = max(MaxX, X);
+		return self;
+	};
+
+	/// @func set_x(_x)
+	///
+	/// @desc
+	///
+	/// @param {Real} _x
+	///
+	/// @return {Struct.FORMS_Pen} Returns `self`.
+	static set_x = function (_x)
+	{
+		X = _x;
 		MaxX = max(MaxX, X);
 		return self;
 	};
@@ -618,7 +632,7 @@ function FORMS_Pen(_content) constructor
 	{
 		gml_pragma("forceinline");
 		__assert_started();
-		X = __columnX;
+		X = ColumnX;
 		Y += (__lineHeight + LineSpace) * _count;
 		MaxX = max(MaxX, X);
 		MaxY = max(MaxY, Y);
