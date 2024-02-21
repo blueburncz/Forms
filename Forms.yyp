@@ -39,6 +39,7 @@
     {"id":{"name":"FORMS_Workspace","path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},},
     {"id":{"name":"FORMS_SprRectangle","path":"sprites/FORMS_SprRectangle/FORMS_SprRectangle.yy",},},
     {"id":{"name":"__forms","path":"scripts/__forms/__forms.yy",},},
+    {"id":{"name":"FORMS_NodeGraph","path":"scripts/FORMS_NodeGraph/FORMS_NodeGraph.yy",},},
     {"id":{"name":"FORMS_ContextMenu","path":"scripts/FORMS_ContextMenu/FORMS_ContextMenu.yy",},},
     {"id":{"name":"FORMS_RootWidget","path":"scripts/FORMS_RootWidget/FORMS_RootWidget.yy",},},
     {"id":{"name":"FORMS_Widget","path":"scripts/FORMS_Widget/FORMS_Widget.yy",},},
