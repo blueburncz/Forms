@@ -1,1 +1,7 @@
+# Old font files
+*.old.yy
+*.old.png
+
+# Mac stuff
 .DS_Store
+._*
