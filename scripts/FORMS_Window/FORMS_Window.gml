@@ -285,16 +285,18 @@ function FORMS_Window(_widget, _props=undefined)
 function FORMS_WindowTitle(_props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
-	static Container_update = update;
+	static Container_draw = draw;
 
 	Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 	Height.from_props(_props, "Height", 24);
 
 	set_content(new FORMS_WindowTitleContent());
 
-	static update = function (_deltaTime)
+	static draw = function (_deltaTime)
 	{
-		if (Parent.Movable
+		Container_draw();
+		if (!Parent.__toDestroy
+			&& Parent.Movable
 			&& is_mouse_over()
 			&& forms_mouse_check_button_pressed(mb_left))
 		{
@@ -303,7 +305,6 @@ function FORMS_WindowTitle(_props=undefined)
 			Parent.__mouseOffset[@ 1] = Parent.__realY - forms_mouse_get_y();
 			Parent.__move = true;
 		}
-		Container_update(_deltaTime);
 		return self;
 	};
 }
@@ -318,8 +319,15 @@ function FORMS_WindowTitleContent()
 {
 	static draw = function ()
 	{
-		draw_text(0, floor((Container.__realHeight - string_height("M")) * 0.5),
-			Container.Parent.Widget.Name);
+		Pen.start(8, round((Container.__realHeight - string_height("M")) / 2));
+		Pen.text(Container.Parent.Widget.Name);
+		var _iconWidth = 20;
+		Pen.set_x(Container.__realWidth - _iconWidth - 2);
+		if (Pen.icon_solid(FA_ESolid.Xmark, { Width: _iconWidth }))
+		{
+			Container.Parent.destroy_later();
+		}
+		Pen.finish();
 		return self;
 	};
 }
