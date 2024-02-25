@@ -262,8 +262,16 @@ function FORMS_Pen(_content) constructor
 			&& (_root.WidgetActive == _id || _root.WidgetActive == undefined));
 	};
 
-	/// @private
-	static __icon = function (_icon, _font, _props=undefined)
+	/// @func icon_regular(_icon, _font[, _props])
+	///
+	/// @desc
+	///
+	/// @param {Real} _icon Use values from {@link FA_ERegular}.
+	/// @param {Asset.GMFont} _font
+	/// @param {Struct, Undefined} [_props]
+	///
+	/// @return {Real} Returns a value from {@link FORMS_EPenAction}.
+	static icon = function (_icon, _font, _props=undefined)
 	{
 		__assert_started();
 		var _string = chr(_icon);
@@ -309,7 +317,7 @@ function FORMS_Pen(_content) constructor
 	static icon_regular = function (_icon, _props=undefined)
 	{
 		gml_pragma("forceinline");
-		return __icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntRegular12, _props);
+		return icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntRegular12, _props);
 	};
 
 	/// @func icon_solid(_icon[, _props])
@@ -323,7 +331,7 @@ function FORMS_Pen(_content) constructor
 	static icon_solid = function (_icon, _props=undefined)
 	{
 		gml_pragma("forceinline");
-		return __icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntSolid12, _props);
+		return icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntSolid12, _props);
 	};
 
 	/// @func icon_brands(_icon[, _props])
@@ -337,7 +345,7 @@ function FORMS_Pen(_content) constructor
 	static icon_brands = function (_icon, _props=undefined)
 	{
 		gml_pragma("forceinline");
-		return __icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntBrands12, _props);
+		return icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntBrands12, _props);
 	};
 
 	/// @func button(_text[, _props])

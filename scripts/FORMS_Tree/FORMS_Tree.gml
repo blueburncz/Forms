@@ -134,32 +134,29 @@ function FORMS_TreeItem(_text, _props=undefined, _children=[]) constructor
 	/// @return {Struct.FORMS_TreeItem} Returns `self`.
 	static draw = function (_pen)
 	{
-		var _iconWidth = 20;
+		var _iconWidth = 24;
 		var _penX = _pen.X;
 
 		// Caret
 		if (array_length(Children) > 0)
 		{
-			var _lineHeight = string_height("M");
 			var _iconProps = {
 				Color: CaretColor,
 				Alpha: CaretAlpha,
-				Width: _lineHeight,
+				Width: _iconWidth,
 			};
 			if (_pen.icon_solid(Collapsed ? FA_ESolid.CaretRight : FA_ESolid.CaretDown, _iconProps))
 			{
 				Collapsed = !Collapsed;
 			}
 		}
-		_pen.set_x(_penX + _iconWidth);
 
 		// Icon
 		var _icon = Collapsed ? (IconCollapsed ?? Icon) : Icon;
 		if (_icon != undefined)
 		{
 			var _iconFont = Collapsed ? (IconCollapsedFont ?? IconFont) : IconFont;
-			fa_draw(_iconFont, _icon, _pen.X, _pen.Y, IconColor, IconAlpha);
-			_pen.set_x(_pen.X + _iconWidth);
+			_pen.icon(_icon, _iconFont, { Color: IconColor, Alpha: IconAlpha, Width: _iconWidth });
 		}
 
 		// Text

@@ -455,10 +455,8 @@ function FORMS_Dock(_props=undefined)
 		if (__left == undefined && __right == undefined)
 		{
 			var _tabCurrent = __tabCurrent; // Backup before it changes!
-
 			__tabContainer.draw();
-
-			if (__tabCurrent < array_length(__tabs))
+			if (_tabCurrent < array_length(__tabs))
 			{
 				__tabs[_tabCurrent].draw();
 			}
@@ -520,18 +518,34 @@ function FORMS_DockTabsContent()
 	{
 		var _dock = Container.Parent;
 		var _tabs = _dock.__tabs;
+		var _tabCount = array_length(_tabs);
 		var _tabCurrent = _dock.__tabCurrent;
 		var _tabIndex = 0;
 
 		Pen.start(10, 3);
 
-		repeat (array_length(_tabs))
+		repeat (_tabCount)
 		{
 			var _tab = _tabs[_tabIndex];
 			if (Pen.link(_tab.Name, { Color: (_tabIndex == _tabCurrent) ? c_orange : c_silver }))
 			{
 				_tabCurrent = _tabIndex;
 				_dock.__tabCurrent = _tabCurrent;
+			}
+			if (_tabCount > 1)
+			{
+				Pen.move(4);
+				if (Pen.icon_solid(FA_ESolid.Xmark, { Width: 16, Color: c_gray }))
+				{
+					_tab.Parent = undefined;
+					_tab.destroy();
+
+					array_delete(_tabs, _tabIndex--, 1);
+					--_tabCount;
+
+					_tabCurrent = clamp(_tabCurrent, 0, _tabCount - 1);
+					_dock.__tabCurrent = _tabCurrent;
+				}
 			}
 			Pen.move(10);
 			++_tabIndex;
