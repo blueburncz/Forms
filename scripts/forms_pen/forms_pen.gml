@@ -84,6 +84,12 @@ function FORMS_Pen(_content) constructor
 	/// @private
 	__inputValue = undefined;
 
+	/// @var {String}
+	__inputString = "";
+
+	/// @var {Real}
+	__inputTimer = 0;
+
 	/// @private
 	__result = undefined;
 
@@ -568,11 +574,11 @@ function FORMS_Pen(_content) constructor
 			{
 				if (__inputId != undefined)
 				{
-					forms_return_result(__inputId, is_real(__inputValue) ? real(keyboard_string) : keyboard_string);
+					forms_return_result(__inputId, is_real(__inputValue) ? real(__inputString) : __inputString);
 				}
 				__inputId = _id;
 				__inputValue = _value;
-				keyboard_string = string(__inputValue);
+				__inputString = string(__inputValue);
 			}
 			forms_set_cursor(cr_beam);
 		}
@@ -581,12 +587,55 @@ function FORMS_Pen(_content) constructor
 
 		if (__inputId == _id)
 		{
-			var _displayString = keyboard_string + "|";
-			while (string_width(_displayString) > _width && _displayString != "")
+			var _stringToInsert = string_replace_all(keyboard_string, chr(127), "");
+			var _keyboardStringLength = string_length(_stringToInsert);
+			keyboard_string = "";
+
+			__inputString += _stringToInsert;
+
+			var _multitype = false;
+			if (keyboard_check_pressed(vk_anykey))
+			{
+				__inputTimer = -300;
+				_multitype = true;
+			}
+			else if (keyboard_check(vk_anykey))
+			{
+				__inputTimer += delta_time * 0.001;
+				if (__inputTimer >= 50)
+				{
+					__inputTimer = 0;
+					_multitype = true;
+				}
+			}
+
+			var _inputLength = string_length(__inputString);
+
+			if (_multitype
+				&& keyboard_check(vk_backspace)
+				&& __inputString != "")
+			{
+				__inputString = string_delete(__inputString, _inputLength, 1);
+				--_inputLength;
+			}
+			else if (_multitype
+				&& keyboard_check(vk_delete))
+			{
+				__inputString = string_delete(__inputString, _inputLength, 1);
+				--_inputLength;
+			}
+
+			var _displayString = __inputString;
+			var _stringWidth = string_width(_displayString);
+			while (_stringWidth > _width && _displayString != "")
 			{
 				_displayString = string_delete(_displayString, 1, 1);
+				_stringWidth = string_width(_displayString);
 			}
 			draw_text(_x, _y, _displayString);
+			var _alpha = (keyboard_check(vk_anykey) || mouse_check_button(mb_any))
+				? 1.0 : dsin(current_time * 0.5) * 0.5 + 0.5;
+			forms_draw_rectangle(_x + _stringWidth, _y, 2, __lineHeight, c_silver, _alpha);
 		}
 		else
 		{
@@ -624,7 +673,7 @@ function FORMS_Pen(_content) constructor
 		if (__inputId == _id && (keyboard_check_pressed(vk_enter)
 			|| (!_mouseOver && mouse_check_button_pressed(mb_left))))
 		{
-			var _valueNew = is_real(__inputValue) ? real(keyboard_string) : keyboard_string;
+			var _valueNew = is_real(__inputValue) ? real(__inputString) : __inputString;
 			if (__inputValue != _valueNew)
 			{
 				forms_return_result(_id, _valueNew);
