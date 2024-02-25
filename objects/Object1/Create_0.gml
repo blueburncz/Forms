@@ -180,11 +180,11 @@ function TestContent() : FORMS_Content() constructor
 			InputReal = Pen.get_result();
 		Pen.text(" Real input").nl();
 
-		Pen.icon_regular(FA_ERegular.AddressBook);
+		Pen.icon_regular(FA_ERegular.AddressBook, { Width: 24 });
 		Pen.move(2);
-		Pen.icon_solid(FA_ESolid.TruckFast);
+		Pen.icon_solid(FA_ESolid.TruckFast, { Width: 24 });
 		Pen.move(2);
-		Pen.icon_brands(FA_EBrands.Github);
+		Pen.icon_brands(FA_EBrands.Github, { Width: 24 });
 		Pen.nl();
 
 		Tree.draw(Pen);

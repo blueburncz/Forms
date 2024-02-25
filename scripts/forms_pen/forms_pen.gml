@@ -271,8 +271,10 @@ function FORMS_Pen(_content) constructor
 		draw_set_font(_font);
 		var _c = forms_get_prop(_props, "Color") ?? c_white;
 		var _a = forms_get_prop(_props, "Alpha") ?? 1.0;
-		var _width = string_width(_string);
-		var _height = string_height(_string);
+		var _iconWidth = string_width(_string);
+		var _iconHeight = string_height(_string);
+		var _width = forms_get_prop(_props, "Width") ?? _iconWidth;
+		var _height = forms_get_prop(_props, "Height") ?? _iconHeight;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
 		if (_mouseOver)
 		{
@@ -280,7 +282,11 @@ function FORMS_Pen(_content) constructor
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 		}
-		draw_text_color(X, Y, _string, _c, _c, _c, _c, _a);
+		draw_text_color(
+			round(X + (_width - _iconWidth) / 2),
+			round(Y + (_height - _iconHeight) / 2),
+			_string,
+			_c, _c, _c, _c, _a);
 		draw_set_font(_fontPrev);
 		__move_or_nl(_width);
 		if (_mouseOver)

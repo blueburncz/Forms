@@ -140,7 +140,13 @@ function FORMS_TreeItem(_text, _props=undefined, _children=[]) constructor
 		// Caret
 		if (array_length(Children) > 0)
 		{
-			if (_pen.icon_solid(Collapsed ? FA_ESolid.CaretRight : FA_ESolid.CaretDown, { Color: CaretColor, Alpha: CaretAlpha }))
+			var _lineHeight = string_height("M");
+			var _iconProps = {
+				Color: CaretColor,
+				Alpha: CaretAlpha,
+				Width: _lineHeight,
+			};
+			if (_pen.icon_solid(Collapsed ? FA_ESolid.CaretRight : FA_ESolid.CaretDown, _iconProps))
 			{
 				Collapsed = !Collapsed;
 			}
