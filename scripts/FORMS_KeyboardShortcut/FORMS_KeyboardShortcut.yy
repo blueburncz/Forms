@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "FORMS_KeyboardShortcut",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Scripts",
-    "path": "folders/Forms/Scripts.yy",
+  "$GMScript":"",
+  "%Name":"FORMS_KeyboardShortcut",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"FORMS_KeyboardShortcut",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Forms/Scripts.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

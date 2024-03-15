@@ -579,6 +579,7 @@ function FORMS_Pen(_content) constructor
 				__inputId = _id;
 				__inputValue = _value;
 				__inputString = string(__inputValue);
+				keyboard_string = "";
 			}
 			forms_set_cursor(cr_beam);
 		}
@@ -627,7 +628,7 @@ function FORMS_Pen(_content) constructor
 
 			var _displayString = __inputString;
 			var _stringWidth = string_width(_displayString);
-			while (_stringWidth > _width && _displayString != "")
+			while (_stringWidth > _width - 2 && _displayString != "")
 			{
 				_displayString = string_delete(_displayString, 1, 1);
 				_stringWidth = string_width(_displayString);
@@ -673,6 +674,7 @@ function FORMS_Pen(_content) constructor
 		if (__inputId == _id && (keyboard_check_pressed(vk_enter)
 			|| (!_mouseOver && mouse_check_button_pressed(mb_left))))
 		{
+			// FIXME: real can crash here!
 			var _valueNew = is_real(__inputValue) ? real(__inputString) : __inputString;
 			if (__inputValue != _valueNew)
 			{

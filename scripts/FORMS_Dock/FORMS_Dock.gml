@@ -74,22 +74,22 @@ function FORMS_Dock(_props=undefined)
 	SplitSize = forms_get_prop(_props, "SplitSize") ?? 0.5;
 
 	/// @var {Real}
-	SplitterSize = forms_get_prop(_props, "SplitterSize") ?? 8;
+	SplitterSize = forms_get_prop(_props, "SplitterSize") ?? 6;
 
 	/// @var {Constant.Color}
-	SplitterColor = forms_get_prop(_props, "SplitterColor") ?? c_maroon;
+	SplitterColor = forms_get_prop(_props, "SplitterColor") ?? 0x101010;
 
 	/// @var {Real}
 	SplitterAlpha = forms_get_prop(_props, "SplitterAlpha") ?? 1.0;
 
 	/// @var {Constant.Color}
-	SplitterColorHover = forms_get_prop(_props, "SplitterColorHover") ?? merge_color(c_red, c_silver, 0.5);
+	SplitterColorHover = forms_get_prop(_props, "SplitterColorHover") ?? 0x303030;
 
 	/// @var {Real}
 	SplitterAlphaHover = forms_get_prop(_props, "SplitterAlphaHover") ?? 1.0;
 
 	/// @var {Constant.Color}
-	SplitterColorActive = forms_get_prop(_props, "SplitterColorActive") ?? c_orange;
+	SplitterColorActive = forms_get_prop(_props, "SplitterColorActive") ?? 0x303030;
 
 	/// @var {Real}
 	SplitterAlphaActive = forms_get_prop(_props, "SplitterAlphaActive") ?? 1.0;

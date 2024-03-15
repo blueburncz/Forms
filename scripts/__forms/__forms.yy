@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "__forms",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Scripts",
-    "path": "folders/Forms/Scripts.yy",
+  "$GMScript":"",
+  "%Name":"__forms",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__forms",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Forms/Scripts.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

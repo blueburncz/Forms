@@ -67,19 +67,28 @@ function FORMS_TreeItemProps() constructor
 
 	/// @var {Bool, Undefined}
 	Collapsed = undefined;
+
+	/// @var {Any}
+	Data = undefined;
+
+	/// @var {Function, Undefined}
+	OnSelect = undefined;
 }
 
-/// @func FORMS_TreeItem(_text[, _props[, _children]])
+/// @func FORMS_TreeItem(_textOrGetter[, _props[, _children]])
 ///
 /// @desc
 ///
-/// @param {String} _text
+/// @param {String, Function} _textOrGetter
 /// @param {Struct.FORMS_TreeItemProps, Undefined} [_props]
-/// @param {Array<Struct.FORMS_TreeItem>} [_children]
-function FORMS_TreeItem(_text, _props=undefined, _children=[]) constructor
+/// @param {Array<Struct.FORMS_TreeItem>, Undefined} [_children]
+function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) constructor
 {
-	/// @var {String}
-	Text = _text;
+	/// @var {String, Undefined}
+	Text = is_string(_textOrGetter) ? _textOrGetter : undefined;
+
+	/// @var {Function, Undefined}
+	Getter = is_method(_textOrGetter) ? _textOrGetter : undefined;
 
 	/// @var {Real, Undefined}
 	Icon = forms_get_prop(_props, "Icon");
@@ -108,20 +117,29 @@ function FORMS_TreeItem(_text, _props=undefined, _children=[]) constructor
 	/// @var {Bool}
 	Collapsed = forms_get_prop(_props, "Collapsed") ?? false;
 
+	/// @var {Any}
+	Data = forms_get_prop(_props, "Data");
+
+	/// @var {Function, Undefined}
+	OnSelect = forms_get_prop(_props, "OnSelect");
+
 	/// @var {Struct.FORMS_TreeItem, Undefined}
 	/// @readonly
 	Parent = undefined;
 
-	/// @var {Array<Struct.FORMS_TreeItem>}
+	/// @var {Array<Struct.FORMS_TreeItem>, Undefined}
 	/// @readonly
 	Children = _children;
 
 	{
-		for (var i = array_length(Children) - 1; i >= 0; --i)
+		if (is_array(Children))
 		{
-			var _child = Children[i];
-			forms_assert(_child.Parent == undefined, "Tree child already has a parent!");
-			_child.Parent = self;
+			for (var i = array_length(Children) - 1; i >= 0; --i)
+			{
+				var _child = Children[i];
+				forms_assert(_child.Parent == undefined, "Tree child already has a parent!");
+				_child.Parent = self;
+			}
 		}
 	}
 
@@ -138,7 +156,7 @@ function FORMS_TreeItem(_text, _props=undefined, _children=[]) constructor
 		var _penX = _pen.X;
 
 		// Caret
-		if (array_length(Children) > 0)
+		if (is_array(Children))
 		{
 			var _iconProps = {
 				Color: CaretColor,
@@ -160,21 +178,32 @@ function FORMS_TreeItem(_text, _props=undefined, _children=[]) constructor
 		}
 
 		// Text
-		_pen.link(Text);
+		var _text = is_string(Text) ? Text : Getter(self);
+
+		if (_pen.link(_text))
+		{
+			if (OnSelect)
+			{
+				OnSelect(self);
+			}
+		}
 		_pen.nl();
 
 		// Children
-		if (!Collapsed)
+		if (is_array(Children))
 		{
-			_pen.move(_iconWidth);
-			var _columnX = _pen.ColumnX;
-			_pen.ColumnX = _pen.X;
-			var i = 0;
-			repeat (array_length(Children))
+			if (!Collapsed)
 			{
-				Children[i++].draw(_pen);
+				_pen.move(_iconWidth);
+				var _columnX = _pen.ColumnX;
+				_pen.ColumnX = _pen.X;
+				var i = 0;
+				repeat (array_length(Children))
+				{
+					Children[i++].draw(_pen);
+				}
+				_pen.ColumnX = _columnX;
 			}
-			_pen.ColumnX = _columnX;
 		}
 
 		_pen.set_x(_penX);

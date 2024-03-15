@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "FORMS_MenuBar",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Scripts",
-    "path": "folders/Forms/Scripts.yy",
+  "$GMScript":"",
+  "%Name":"FORMS_MenuBar",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"FORMS_MenuBar",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Forms/Scripts.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

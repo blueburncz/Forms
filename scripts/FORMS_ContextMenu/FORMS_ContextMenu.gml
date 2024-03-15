@@ -191,7 +191,7 @@ function FORMS_ContextMenuContent()
 
 				if (_option.Options != undefined)
 				{
-					_widthShortcut = max(string_width(">"), _widthShortcut);
+					_widthShortcut = max(24, _widthShortcut);
 				}
 				else if (_option.KeyboardShortcut != undefined)
 				{
@@ -263,8 +263,7 @@ function FORMS_ContextMenuContent()
 				if (_optionOptions != undefined)
 				{
 					draw_set_halign(fa_right);
-					draw_text_color(_x + _widthMax, _y, ">",
-						c_silver, c_silver, c_silver, c_silver, 1.0);
+					fa_draw(FA_FntSolid12, FA_ESolid.AngleRight, _x + _widthMax, _y, c_silver);
 					draw_set_halign(fa_left);
 				}
 				else if (_optionShortcut != undefined)
