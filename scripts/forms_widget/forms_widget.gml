@@ -213,7 +213,11 @@ function FORMS_WidgetProps() constructor
 	/// @var {String, Undefined} The name of the widget.
 	Name = undefined;
 
-	// TODO: Icon
+	/// @var {Real, Undefined}
+	Icon = undefined;
+
+	/// @var {Asset.GMFont, Undefined}
+	IconFont = undefined;
 
 	/// @var {Real, String, Undefined} The widget's X position relative to its
 	/// parent.
@@ -279,6 +283,12 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @var {String} A unique identifier of the widget.
 	Id = forms_get_prop(_props, "Id") ?? $"Widget{__idNext++}";
+
+	/// @var {Real, Undefined}
+	Icon = forms_get_prop(_props, "Icon");
+
+	/// @var {Asset.GMFont}
+	IconFont = forms_get_prop(_props, "IconFont") ?? FA_FntSolid12;
 
 	/// @var {String} The name of the widget. Defaults to an empty string.
 	Name = forms_get_prop(_props, "Name") ?? "";
@@ -402,6 +412,48 @@ function FORMS_Widget(_props=undefined) constructor
 	{
 		gml_pragma("forceinline");
 		return (Id == _id) ? self : undefined;
+	};
+
+	/// @func find_parent_type(_type)
+	///
+	/// @desc
+	///
+	/// @param {Function} _type
+	///
+	/// @return {Struct.FORMS_CompoundWidget, Undefined}
+	static find_parent_type = function (_type)
+	{
+		var _current = Parent;
+		while (_current)
+		{
+			if (is_instanceof(Parent, _type))
+			{
+				return Parent;
+			}
+			Parent = Parent.Parent;
+		}
+		return undefined;
+	};
+
+	/// @func find_parent_name(_name)
+	///
+	/// @desc
+	///
+	/// @param {String} _name
+	///
+	/// @return {Struct.FORMS_CompoundWidget, Undefined}
+	static find_parent_name = function (_name)
+	{
+		var _current = Parent;
+		while (_current)
+		{
+			if (Parent.Name == _name)
+			{
+				return Parent;
+			}
+			Parent = Parent.Parent;
+		}
+		return undefined;
 	};
 
 	/// @func get_auto_width()

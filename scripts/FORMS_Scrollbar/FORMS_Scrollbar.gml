@@ -49,25 +49,25 @@ function FORMS_Scrollbar(_target, _props=undefined)
 	Target = _target;
 
 	/// @var {Constant.Color}
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? c_silver;
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x232323;
 
 	/// @var {Real}
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
 	/// @var {Constant.Color}
-	ThumbColor = forms_get_prop(_props, "ThumbColor") ?? c_maroon;
+	ThumbColor = forms_get_prop(_props, "ThumbColor") ?? 0x4D4D4D;
 
 	/// @var {Real}
 	ThumbAlpha = forms_get_prop(_props, "ThumbAlpha") ?? 1.0;
 
 	/// @var {Constant.Color}
-	ThumbColorHover = forms_get_prop(_props, "ThumbColorHover") ?? c_red;
+	ThumbColorHover = forms_get_prop(_props, "ThumbColorHover") ?? 0x575757;
 
 	/// @var {Real}
-	ThumbAlphaHover = forms_get_prop(_props, "ThumbAlphaHover") ?? 0.5;
+	ThumbAlphaHover = forms_get_prop(_props, "ThumbAlphaHover") ?? 1.0;
 
 	/// @var {Constant.Color}
-	ThumbColorActive = forms_get_prop(_props, "ThumbColorActive") ?? c_orange;
+	ThumbColorActive = forms_get_prop(_props, "ThumbColorActive") ?? 0x898989;
 
 	/// @var {Real}
 	ThumbAlphaActive = forms_get_prop(_props, "ThumbAlphaActive") ?? 1.0;
@@ -206,7 +206,7 @@ function FORMS_HScrollbar(_target, _props=undefined)
 			: (__thumbIsHovered ? ThumbColorHover : ThumbColor);
 		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive
 			: (__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
-		forms_draw_rectangle(__thumbPos, __realY, __thumbSize, __realHeight, _color, _alpha);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __thumbPos, __realY, __thumbSize, __realHeight, _color, _alpha);
 		return self;
 	};
 }
@@ -263,7 +263,7 @@ function FORMS_VScrollbar(_target, _props=undefined)
 			: (__thumbIsHovered ? ThumbColorHover : ThumbColor);
 		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive
 			: (__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
-		forms_draw_rectangle(__realX, __thumbPos, __realWidth, __thumbSize, _color, _alpha);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __realX, __thumbPos, __realWidth, __thumbSize, _color, _alpha);
 		return self;
 	};
 }

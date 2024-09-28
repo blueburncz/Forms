@@ -22,6 +22,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 {
 	static Container_layout = layout;
 	static Container_update = update;
+	static Container_draw = draw;
 
 	/// @var {String} The ID of the dropdown that opened this.
 	/// @readonly
@@ -45,6 +46,16 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 		set_content(new FORMS_DropdownContent());
 	}
 
+	static layout = function ()
+	{
+		var _windowHeight = window_get_height();
+		__realHeight = min(__realHeight, _windowHeight);
+		__realX = clamp(__realX, 0, window_get_width() - __realWidth);
+		__realY = clamp(__realY, 0, _windowHeight - __realHeight);
+		Container_layout();
+		return self;
+	};
+
 	static update = function (_deltaTime)
 	{
 		Container_update(_deltaTime);
@@ -52,6 +63,20 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 		{
 			destroy_later();
 		}
+		return self;
+	};
+
+	static draw = function ()
+	{
+		var _shadowOffset = 16;
+		draw_sprite_stretched_ext(
+			FORMS_SprShadow, 0,
+			__realX - _shadowOffset,
+			__realY - _shadowOffset,
+			__realWidth + _shadowOffset * 2,
+			__realHeight + _shadowOffset * 2,
+			c_black, 0.5);
+		Container_draw();
 		return self;
 	};
 }
@@ -76,8 +101,14 @@ function FORMS_DropdownContent()
 
 		for (var i = 0; i < array_length(_values); ++i)
 		{
-			var _value = string(_values[i]);
-			var _valueWidth = max(string_width(_value), _dropdownWidth);
+			var _option = _values[i];
+			var _value = string(
+				is_struct(_option)
+					? (_option[$ "Text"] ?? _option.Value)
+					: _option
+			);
+			var _stringWidth = string_width(_value);
+			var _valueWidth = max(_stringWidth, _dropdownWidth);
 
 			if (Pen.is_mouse_over(_x, _y, _valueWidth, _lineHeight))
 			{
@@ -87,6 +118,10 @@ function FORMS_DropdownContent()
 					_select = i;
 				}
 				forms_set_cursor(cr_handpoint);
+				if (_stringWidth > Container.__realWidth)
+				{
+					forms_set_tooltip(_value);
+				}
 			}
 			else if (i == _index)
 			{
@@ -100,7 +135,9 @@ function FORMS_DropdownContent()
 
 		if (_select != undefined)
 		{
-			forms_return_result(Container.DropdownId, _select);
+			var _option = _values[_select];
+			var _value = is_struct(_option) ? _option.Value : _option;
+			forms_return_result(Container.DropdownId, _value);
 			Container.destroy_later();
 		}
 

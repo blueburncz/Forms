@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"FORMS_Box",
   "isCompatibility":false,
   "isDnD":false,

@@ -29,7 +29,7 @@ function FileContextMenu() : FORMS_ContextMenu() constructor
 	_option = new FORMS_ContextMenuOption("Recent Projects");
 	_option.Options = [
 		new FORMS_ContextMenuOption("Project 1"),
-		new FORMS_ContextMenuOption("Project 2").add_option(new FORMS_ContextMenuOption("Some shit")),
+		new FORMS_ContextMenuOption("Project 2"),
 		new FORMS_ContextMenuOption("Project 3"),
 	];
 	array_push(_options, _option);
@@ -92,7 +92,7 @@ function TestContent() : FORMS_Content() constructor
 	Slider = 0;
 	DropdownValues = [
 		"Some",
-		"Shit",
+		"Stuff",
 		"Here",
 		"That",
 		"You",
@@ -102,6 +102,7 @@ function TestContent() : FORMS_Content() constructor
 	DropdownIndex = 0;
 	InputString = "";
 	InputReal = 0;
+	Color = 0xAA000000 | c_orange;
 	var _propsFolder = {
 		Icon: FA_ESolid.FolderOpen,
 		IconCollapsed: FA_ESolid.Folder,
@@ -120,7 +121,7 @@ function TestContent() : FORMS_Content() constructor
 		new FORMS_TreeItem("Item 2", _propsFolder, [
 			new FORMS_TreeItem("Item C", _propsFolder, [
 				new FORMS_TreeItem("Some", _propsFile),
-				new FORMS_TreeItem("Shit", _propsFolder, [
+				new FORMS_TreeItem("Folder", _propsFolder, [
 					new FORMS_TreeItem("Oh", _propsFile),
 					new FORMS_TreeItem("Yeah", _propsFile),
 				]),
@@ -135,8 +136,8 @@ function TestContent() : FORMS_Content() constructor
 		var _props;
 
 		Pen.start(8, 8)
-			.text("Some shit ")
-			.text("Some other shit!", { Color: c_orange, Cursor: cr_handpoint, Tooltip: "Oh yeah!" })
+			.text("Some stuff ")
+			.text("Some other stuff!", { Color: c_orange, Cursor: cr_handpoint, Tooltip: "Oh yeah!" })
 			.nl();
 
 		if (Pen.button("Click me!", { Tooltip: "Click the button!" }))
@@ -187,6 +188,10 @@ function TestContent() : FORMS_Content() constructor
 		Pen.icon_brands(FA_EBrands.Github, { Width: 24 });
 		Pen.nl();
 
+		if (Pen.color("input-color", Color))
+			Color = Pen.get_result();
+		Pen.text(" Color input").nl();
+
 		Tree.draw(Pen);
 
 		Pen.finish();
@@ -215,18 +220,18 @@ _workspace.add_tab(_dock);
 var _scrollPane1 = new FORMS_ScrollPane(new TestContent(), {
 	Width: "100%",
 	Flex: 1,
-	Container: {
-		BackgroundColor: make_color_hsv(random(255), 255, 50),
-	}
+	//Container: {
+	//	BackgroundColor: make_color_hsv(random(255), 255, 50),
+	//}
 });
 _scrollPane1.Name = "Test Content 1";
 
 var _scrollPane2 = new FORMS_ScrollPane(new TestContent(), {
 	Width: "100%",
 	Flex: 1,
-	Container: {
-		BackgroundColor: make_color_hsv(random(255), 255, 50),
-	}
+	//Container: {
+	//	BackgroundColor: make_color_hsv(random(255), 255, 50),
+	//}
 });
 _scrollPane2.Name = "Test Content 2";
 
@@ -237,9 +242,9 @@ _dock.split_left();
 var _scrollPane3 = new FORMS_ScrollPane(new TestContent(), {
 	Width: "100%",
 	Flex: 1,
-	Container: {
-		BackgroundColor: make_color_hsv(random(255), 255, 50),
-	}
+	//Container: {
+	//	BackgroundColor: make_color_hsv(random(255), 255, 50),
+	//}
 });
 _scrollPane3.Name = "Test Content 3";
 
@@ -253,9 +258,9 @@ gui.add_child(_window);
 var _scrollPane4 = new FORMS_ScrollPane(new TestContent(), {
 	Width: "100%",
 	Flex: 1,
-	Container: {
-		BackgroundColor: make_color_hsv(random(255), 255, 50),
-	}
+	//Container: {
+	//	BackgroundColor: make_color_hsv(random(255), 255, 50),
+	//}
 });
 _scrollPane4.Name = "Workspace 2";
 _workspace.add_tab(_scrollPane4);

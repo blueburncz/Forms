@@ -1,7 +1,7 @@
 /// @func FORMS_Content()
 ///
 /// @desc
-function FORMS_Content()
+function FORMS_Content() constructor
 {
 	/// @var {Struct.FORMS_Container}
 	/// @readonly

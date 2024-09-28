@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"FORMS_Dropdown",
   "isCompatibility":false,
   "isDnD":false,

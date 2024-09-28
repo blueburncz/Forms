@@ -36,6 +36,7 @@ function FORMS_MenuBar(_items=[], _props=undefined)
 	{
 		Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 		Height.from_props(_props, "Height", 24, FORMS_EUnit.Pixel);
+		BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x272727;
 
 		set_content(new FORMS_MenuBarContent());
 	}
@@ -83,7 +84,8 @@ function FORMS_MenuBarContent()
 		var _itemIndex = 0;
 		var _contextMenuY = Container.__realY + Container.__realHeight;
 
-		Pen.start(8, 4);
+		Pen.PaddingY = 4;
+		Pen.start();
 
 		repeat (array_length(_items))
 		{
@@ -91,7 +93,7 @@ function FORMS_MenuBarContent()
 			var _itemX = Container.__realX + Pen.X - 8;
 
 			var _link = Pen.link(_item.Name, {
-				Color: (_itemIndex == _itemCurrent) ? c_orange : c_white,
+				Color: (_itemIndex == _itemCurrent) ? c_white : c_silver,
 				Disabled: (_item.ContextMenu == undefined),
 			});
 

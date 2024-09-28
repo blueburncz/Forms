@@ -9,12 +9,15 @@ function FORMS_Tree(_children=[]) constructor
 	/// @readonly
 	Children = _children;
 
+	/// @var {Struct.FORMS_TreeItem, Undefined}
+	Selected = undefined;
+
 	{
 		for (var i = array_length(Children) - 1; i >= 0; --i)
 		{
 			var _child = Children[i];
-			forms_assert(_child.Parent == undefined, "Tree child already has a parent!");
-			_child.Parent = self;
+			forms_assert(_child.Tree == undefined, "Item already added to a tree!");
+			_child.Tree = self;
 		}
 	}
 
@@ -123,6 +126,10 @@ function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) co
 	/// @var {Function, Undefined}
 	OnSelect = forms_get_prop(_props, "OnSelect");
 
+	/// @var {Struct.FORMS_Tree, Undefined}
+	/// @readonly
+	Tree = undefined;
+
 	/// @var {Struct.FORMS_TreeItem, Undefined}
 	/// @readonly
 	Parent = undefined;
@@ -137,7 +144,7 @@ function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) co
 			for (var i = array_length(Children) - 1; i >= 0; --i)
 			{
 				var _child = Children[i];
-				forms_assert(_child.Parent == undefined, "Tree child already has a parent!");
+				forms_assert(_child.Parent == undefined, "Item already added to a tree!");
 				_child.Parent = self;
 			}
 		}
@@ -154,6 +161,32 @@ function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) co
 	{
 		var _iconWidth = 24;
 		var _penX = _pen.X;
+
+		// Highlight selected
+		if (Tree == undefined)
+		{
+			var _current = Parent;
+			while (_current != undefined)
+			{
+				if (_current.Tree != undefined)
+				{
+					Tree = _current.Tree;
+					break;
+				}
+				_current = _current.Parent;
+			}
+		}
+
+		if (Tree.Selected == self)
+		{
+			var _spacingY = floor(_pen.SpacingY / 2);
+			forms_draw_rectangle(
+				_pen.Content.Container.ScrollX,
+				_pen.Y - _spacingY,
+				_pen.Width,
+				_pen.__lineHeight + _spacingY * 2,
+				0x766056, 1.0);
+		}
 
 		// Caret
 		if (is_array(Children))
@@ -182,6 +215,7 @@ function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) co
 
 		if (_pen.link(_text))
 		{
+			Tree.Selected = self;
 			if (OnSelect)
 			{
 				OnSelect(self);
@@ -195,14 +229,16 @@ function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) co
 			if (!Collapsed)
 			{
 				_pen.move(_iconWidth);
-				var _columnX = _pen.ColumnX;
-				_pen.ColumnX = _pen.X;
+				var _startX = _pen.StartX;
+				_pen.StartX = _pen.X;
 				var i = 0;
 				repeat (array_length(Children))
 				{
-					Children[i++].draw(_pen);
+					var _child = Children[i++];
+					_child.Tree = Tree;
+					_child.draw(_pen);
 				}
-				_pen.ColumnX = _columnX;
+				_pen.StartX = _startX;
 			}
 		}
 

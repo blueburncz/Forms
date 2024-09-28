@@ -51,7 +51,7 @@ function FORMS_Container(_content=undefined, _props=undefined)
 	BackgroundIndex = forms_get_prop(_props, "BackgroundIndex") ?? 0;
 
 	/// @var {Constant.Color}
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? c_black;
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
 
 	/// @var {Real}
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
@@ -208,6 +208,40 @@ function FORMS_Container(_content=undefined, _props=undefined)
 			_world[@ 12] += ScrollX;
 			_world[@ 13] += ScrollY;
 			matrix_set(matrix_world, _world);
+
+			var _size = 24;
+			var _color = c_black; //global.formsAccentColor;
+			var _alpha = 0.5;
+			if (ScrollX > 0)
+			{
+				draw_sprite_stretched_ext(
+					FORMS_SprScrollableX, 0,
+					0, 0, _size, __realHeight,
+					_color, _alpha);
+			}
+			if (Content.Width - ScrollX > __realWidth)
+			{
+				draw_sprite_stretched_ext(
+					FORMS_SprScrollableX, 1,
+					__realWidth - _size, 0, _size, __realHeight,
+					_color, _alpha);
+			}
+
+			if (ScrollY > 0)
+			{
+				draw_sprite_stretched_ext(
+					FORMS_SprScrollableY, 0,
+					0, 0, __realWidth, _size,
+					_color, _alpha);
+			}
+			if (Content.Height - ScrollY > __realHeight)
+			{
+				draw_sprite_stretched_ext(
+					FORMS_SprScrollableY, 1,
+					0, __realHeight - _size, __realWidth, _size,
+					_color, _alpha);
+			}
+
 			forms_push_mouse_coordinates(-(__realX - ScrollX), -(__realY - ScrollY));
 		}
 		surface_reset_target();

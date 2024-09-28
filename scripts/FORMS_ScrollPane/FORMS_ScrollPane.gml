@@ -32,7 +32,7 @@ function FORMS_ScrollPane(_content=undefined, _props=undefined)
 	/// @var {Struct.FORMS_Container}
 	/// @readonly
 	Container = new FORMS_Container(_content, forms_get_prop(_props, "Container") ?? {
-		BackgroundColor: 0x202020, // TODO: struct_join()
+		BackgroundColor: 0x272727, // TODO: struct_join()
 	});
 
 	/// @var {Struct.FORMS_HScrollbar}

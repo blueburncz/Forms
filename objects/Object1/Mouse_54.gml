@@ -14,7 +14,7 @@ array_push(_options, _option);
 _option = new FORMS_ContextMenuOption("Recent Projects");
 _option.Options = [
 	new FORMS_ContextMenuOption("Project 1"),
-	new FORMS_ContextMenuOption("Project 2").add_option(new FORMS_ContextMenuOption("Some shit")),
+	new FORMS_ContextMenuOption("Project 2"),
 	new FORMS_ContextMenuOption("Project 3"),
 ];
 array_push(_options, _option);

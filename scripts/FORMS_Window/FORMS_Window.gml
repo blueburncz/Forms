@@ -25,6 +25,9 @@ function FORMS_WindowProps()
 	/// value is {@link FORMS_EWindowResize.All}.
 	Resizable = undefined;
 
+	/// @var {Bool, Undefined}
+	Closable = undefined;
+
 	/// @var {Asset.GMSprite}
 	BackgroundSprite = undefined;
 
@@ -61,6 +64,9 @@ function FORMS_Window(_widget, _props=undefined)
 	/// {@link FORMS_EWindowResize.All}.
 	Resizable = forms_get_prop(_props, "Resizable") ?? FORMS_EWindowResize.All;
 
+	/// @var {Bool}
+	Closable = forms_get_prop(_props, "Closable") ?? true;
+
 	/// @var {Asset.GMSprite}
 	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRound4;
 
@@ -77,7 +83,7 @@ function FORMS_Window(_widget, _props=undefined)
 	/// @readonly
 	Titlebar = new FORMS_WindowTitle();
 
-	/// @var {Struct.BBMOD_Widget}
+	/// @var {Struct.BBMOD_Widget, Undefined}
 	/// @readonly
 	Widget = _widget;
 
@@ -108,10 +114,32 @@ function FORMS_Window(_widget, _props=undefined)
 		PaddingY.from_props(_props, "PaddingY", __padding);
 
 		add_child(Titlebar);
-		add_child(Widget);
+		if (Widget != undefined)
+		{
+			add_child(Widget);
+		}
 	}
 
 	// TODO: Disable adding of more children (don't inherit from FlexBox???)
+
+	/// @func set_widget(_widget)
+	///
+	/// @desc
+	///
+	/// @param {Struct.FORMS_Widget} _widget
+	///
+	/// @return {Struct.FORMS_Window} Returns `self`.
+	static set_widget = function (_widget)
+	{
+		if (Widget != undefined)
+		{
+			Widget.remove_self();
+			Widget.destroy_later();
+		}
+		add_child(_widget);
+		Widget = _widget;
+		return self;
+	};
 
 	static layout = function ()
 	{
@@ -287,10 +315,11 @@ function FORMS_WindowTitle(_props=undefined)
 {
 	static Container_draw = draw;
 
-	Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
-	Height.from_props(_props, "Height", 24);
-
-	set_content(new FORMS_WindowTitleContent());
+	{
+		Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
+		Height.from_props(_props, "Height", 24);
+		set_content(new FORMS_WindowTitleContent());
+	}
 
 	static draw = function (_deltaTime)
 	{
@@ -319,11 +348,13 @@ function FORMS_WindowTitleContent()
 {
 	static draw = function ()
 	{
-		Pen.start(8, round((Container.__realHeight - string_height("M")) / 2));
+		Pen.PaddingY = round((Container.__realHeight - string_height("M")) / 2);
+		Pen.start();
 		Pen.text(Container.Parent.Widget.Name);
 		var _iconWidth = 20;
 		Pen.set_x(Container.__realWidth - _iconWidth - 2);
-		if (Pen.icon_solid(FA_ESolid.Xmark, { Width: _iconWidth }))
+		if (Container.Parent.Closable
+			&& Pen.icon_solid(FA_ESolid.Xmark, { Width: _iconWidth }))
 		{
 			Container.Parent.destroy_later();
 		}

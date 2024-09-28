@@ -90,10 +90,6 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	static Container_draw = draw;
 	static Container_destroy = destroy;
 
-	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRound8;
-
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x202020;
-
 	/// @var {Array<Struct.FORMS_ContextMenuItem>}
 	Options = _options;
 
@@ -108,9 +104,10 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	/// @private
 	__submenuIndex = -1;
 
-	ContentFit = true;
-
 	{
+		BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRound8;
+		BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x101010;
+		ContentFit = true;
 		set_content(new FORMS_ContextMenuContent());
 	}
 

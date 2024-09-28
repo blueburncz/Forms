@@ -197,21 +197,37 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 			}
 			if (__tooltipTimer >= 500)
 			{
-				var _tooltipX = forms_mouse_get_x() + 16;
-				var _tooltipY = forms_mouse_get_y() + 16;
+				var _tooltipPaddingX = 8;
+				var _tooltipPaddingY = 4;
+				var _tooltipWidth = string_width(__tooltip) + _tooltipPaddingX * 2;
+				var _tooltipHeight = string_height(__tooltip) + _tooltipPaddingY * 2;
+				var _tooltipX = clamp(forms_mouse_get_x() + 16, 0, window_get_width() - _tooltipWidth);
+				var _tooltipY = clamp(forms_mouse_get_y() + 16, 0, window_get_height() - _tooltipHeight);
 				var _tooltipAlpha = min((__tooltipTimer - 500) / 100, 1);
-				forms_draw_rectangle(
+
+				var _shadowOffset = 16;
+				draw_sprite_stretched_ext(
+					FORMS_SprShadow, 0,
+					_tooltipX - _shadowOffset,
+					_tooltipY - _shadowOffset,
+					_tooltipWidth + _shadowOffset * 2,
+					_tooltipHeight + _shadowOffset * 2,
+					c_black, 0.5);
+
+				draw_sprite_stretched_ext(
+					FORMS_SprRound4,
+					0,
 					_tooltipX,
 					_tooltipY,
-					string_width(__tooltip),
-					string_height(__tooltip),
-					c_black,
+					_tooltipWidth,
+					_tooltipHeight,
+					0xB3DCE9,
 					_tooltipAlpha);
 				draw_text_color(
-					_tooltipX,
-					_tooltipY,
+					_tooltipX + _tooltipPaddingX,
+					_tooltipY + _tooltipPaddingY,
 					__tooltip,
-					c_white, c_white, c_white, c_white,
+					c_black, c_black, c_black, c_black,
 					_tooltipAlpha);
 			}
 		}

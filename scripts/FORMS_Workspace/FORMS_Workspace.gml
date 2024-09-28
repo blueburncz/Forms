@@ -179,12 +179,34 @@ function FORMS_WorkspaceTabsContent()
 		var _tabCurrent = _workspace.__tabCurrent;
 		var _tabIndex = 0;
 
-		Pen.start(10, 8);
+		var _tabPadding = 9;
+		Pen.PaddingX = 4;
+		Pen.start();
 
 		repeat (_tabCount)
 		{
 			var _tab = _tabs[_tabIndex];
-			if (Pen.link(_tab.Name, { Color: (_tabIndex == _tabCurrent) ? c_orange : c_silver }))
+			var _iconSpace = ((_tab.Icon != undefined) ? 24 : 0);
+			if (_tabCurrent == _tabIndex)
+			{
+				draw_sprite_stretched_ext(
+					FORMS_SprTabWorkspace, 0,
+					Pen.X, 0,
+					_tabPadding
+						+ _iconSpace
+						+ string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0)
+						+ _tabPadding,
+					Container.__realHeight,
+					0x282828, 1.0
+				);
+			}
+			Pen.move(_tabPadding);
+			if (_tab.Icon != undefined)
+			{
+				fa_draw(_tab.IconFont, _tab.Icon, Pen.X, Pen.Y);
+				Pen.move(_iconSpace);
+			}
+			if (Pen.link(_tab.Name, { Color: (_tabIndex == _tabCurrent) ? c_white : c_silver }))
 			{
 				_tabCurrent = _tabIndex;
 				_workspace.__tabCurrent = _tabCurrent;
@@ -204,13 +226,19 @@ function FORMS_WorkspaceTabsContent()
 					_workspace.__tabCurrent = _tabCurrent;
 				}
 			}
-			Pen.move(10);
+			Pen.move(_tabPadding);
 			++_tabIndex;
+		}
+
+		Pen.move(2);
+		if (Pen.icon_solid(FA_ESolid.Plus, { Width: 24 }))
+		{
+			// TODO: Open context menu with workspaces
 		}
 
 		Pen.finish();
 
-		Width = Pen.MaxX;
+		Width = Pen.get_max_x()
 
 		return self;
 	};

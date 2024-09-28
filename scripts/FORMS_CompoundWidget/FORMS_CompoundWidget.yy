@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"FORMS_CompoundWidget",
   "isCompatibility":false,
   "isDnD":false,

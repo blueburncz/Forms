@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"FORMS_ScrollPane",
   "isCompatibility":false,
   "isDnD":false,

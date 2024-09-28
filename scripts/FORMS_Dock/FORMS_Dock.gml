@@ -62,7 +62,7 @@ function FORMS_Dock(_props=undefined)
 	static Widget_update = update;
 
 	/// @var {Constant.Color}
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x202020;
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x101010;
 
 	/// @var {Real}
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
@@ -89,7 +89,7 @@ function FORMS_Dock(_props=undefined)
 	SplitterAlphaHover = forms_get_prop(_props, "SplitterAlphaHover") ?? 1.0;
 
 	/// @var {Constant.Color}
-	SplitterColorActive = forms_get_prop(_props, "SplitterColorActive") ?? 0x303030;
+	SplitterColorActive = forms_get_prop(_props, "SplitterColorActive") ?? global.formsAccentColor;
 
 	/// @var {Real}
 	SplitterAlphaActive = forms_get_prop(_props, "SplitterAlphaActive") ?? 1.0;
@@ -522,12 +522,35 @@ function FORMS_DockTabsContent()
 		var _tabCurrent = _dock.__tabCurrent;
 		var _tabIndex = 0;
 
-		Pen.start(10, 3);
+		var _tabPadding = 9;
+		Pen.PaddingX = 0;
+		Pen.PaddingY = 3;
+		Pen.start();
 
 		repeat (_tabCount)
 		{
 			var _tab = _tabs[_tabIndex];
-			if (Pen.link(_tab.Name, { Color: (_tabIndex == _tabCurrent) ? c_orange : c_silver }))
+			var _iconSpace = ((_tab.Icon != undefined) ? 24 : 0);
+			if (_tabCurrent == _tabIndex)
+			{
+				draw_sprite_stretched_ext(
+					FORMS_SprTab, 0,
+					Pen.X, 0,
+					_tabPadding
+						+ _iconSpace
+						+ string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0)
+						+ _tabPadding,
+					Container.__realHeight,
+					0x282828, 1.0
+				);
+			}
+			Pen.move(_tabPadding);
+			if (_tab.Icon != undefined)
+			{
+				fa_draw(_tab.IconFont, _tab.Icon, Pen.X, Pen.Y);
+				Pen.move(_iconSpace);
+			}
+			if (Pen.link(_tab.Name, { Color: (_tabIndex == _tabCurrent) ? c_white : c_silver }))
 			{
 				_tabCurrent = _tabIndex;
 				_dock.__tabCurrent = _tabCurrent;
@@ -547,13 +570,13 @@ function FORMS_DockTabsContent()
 					_dock.__tabCurrent = _tabCurrent;
 				}
 			}
-			Pen.move(10);
+			Pen.move(_tabPadding);
 			++_tabIndex;
 		}
 
 		Pen.finish();
 
-		Width = Pen.MaxX;
+		Width = Pen.get_max_x();
 
 		return self;
 	};
