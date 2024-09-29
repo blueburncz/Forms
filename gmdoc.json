@@ -1,0 +1,16 @@
+{
+  "_version": 2,
+  "project": "Forms",
+  "project_name": "Forms",
+  "version": "0.1.0",
+  "title": "Forms Docs",
+  "author": "BlueBurn and contributors",
+  "prefix": ["FORMS_", "forms_", "__forms"],
+  "analytics": "",
+  "api": {
+    "rating": ""
+  },
+  "toc": {
+    "Forms Docs": "index.md"
+  }
+}
