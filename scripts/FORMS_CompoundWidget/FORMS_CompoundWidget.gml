@@ -2,7 +2,7 @@
 ///
 /// @extends FORMS_WidgetProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_CompoundWidget}.
 function FORMS_CompoundWidgetProps()
 	: FORMS_WidgetProps() constructor
 {
@@ -12,36 +12,40 @@ function FORMS_CompoundWidgetProps()
 ///
 /// @extends FORMS_Widget
 ///
-/// @desc
+/// @desc Base struct for widgets that have an array of child widgets.
 ///
-/// @param {Struct.FORMS_CompoundWidgetProps, Undefined} [_props]
-/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children]
+/// @param {Struct.FORMS_CompoundWidgetProps, Undefined} [_props] Properties to
+/// create the compound widget with or `undefined` (default).
+/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
+/// widgets to add to the compund widget or `undefined` (default).
 function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 	: FORMS_Widget(_props) constructor
 {
 	static Widget_update = update;
 	static Widget_destroy = destroy;
 
-	/// @var {Array<Struct.FORMS_Widget>}
+	/// @var {Array<Struct.FORMS_Widget>} An array of child widgets.
 	/// @readonly
+	/// @see FORMS_CompoundWidget.add_child
+	/// @see FORMS_CompoundWidget.has_child
+	/// @see FORMS_CompoundWidget.remove_child
 	Children = [];
 
+	if (is_array(_children))
 	{
-		if (is_array(_children))
+		var _count = array_length(_children);
+		for (var i = 0; i < _count; ++i)
 		{
-			var _count = array_length(_children);
-			for (var i = 0; i < _count; ++i)
-			{
-				add_child(_children[i]);
-			}
+			add_child(_children[i]);
 		}
 	}
 
 	/// @func add_child(_child)
 	///
-	/// @desc
+	/// @desc Adds a child to this widget.
 	///
-	/// @param {Struct.FORMS_Widget} _child
+	/// @param {Struct.FORMS_Widget} _child The child widget to be added. Must
+	/// not have a [parent](./FORMS_Widget.Parent)!
 	///
 	/// @return {Struct.FORMS_CompoundWidget} Returns `self`.
 	static add_child = function (_child)
@@ -54,11 +58,12 @@ function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 
 	/// @func has_child(_child)
 	///
-	/// @desc
+	/// @desc Checks whether given widget is a child of this widget.
 	///
-	/// @param {Struct.FORMS_Widget} _child
+	/// @param {Struct.FORMS_Widget} _child The widget to check.
 	///
-	/// @return {Bool}
+	/// @return {Bool} Returns `true` if this widget is the parent of given
+	/// child widget.
 	static has_child = function (_child)
 	{
 		gml_pragma("forceinline");
@@ -67,9 +72,9 @@ function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 
 	/// @func remove_child(_child)
 	///
-	/// @desc
+	/// @desc Removes a child from this widget.
 	///
-	/// @param {Struct.FORMS_Widget} _child
+	/// @param {Struct.FORMS_Widget} _child The child widget to remove.
 	///
 	/// @return {Struct.FORMS_CompoundWidget} Returns `self`.
 	static remove_child = function (_child)
@@ -109,11 +114,6 @@ function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 		return undefined;
 	};
 
-	/// @func layout()
-	///
-	/// @desc
-	///
-	/// @return {Struct.FORMS_CompoundWidget} Returns `self`.
 	static layout = function ()
 	{
 		FORMS_LAYOUT_GENERATED;
@@ -143,13 +143,6 @@ function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 		return self;
 	};
 
-	/// @func update(_deltaTime)
-	///
-	/// @desc
-	///
-	/// @param {Real} _deltaTime
-	///
-	/// @return {Struct.FORMS_CompoundWidget} Returns `self`.
 	static update = function (_deltaTime)
 	{
 		Widget_update(_deltaTime);
@@ -161,11 +154,6 @@ function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 		return self;
 	};
 
-	/// @func draw()
-	///
-	/// @desc
-	///
-	/// @return {Struct.FORMS_CompoundWidget} Returns `self`.
 	static draw = function ()
 	{
 		var _count = array_length(Children);

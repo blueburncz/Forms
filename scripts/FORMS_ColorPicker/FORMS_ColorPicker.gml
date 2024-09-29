@@ -2,7 +2,7 @@
 ///
 /// @extends FORMS_WindowProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_ColorPicker}.
 function FORMS_ColorPickerProps()
 	: FORMS_WindowProps() constructor
 {
@@ -12,45 +12,53 @@ function FORMS_ColorPickerProps()
 ///
 /// @extends FORMS_Window
 ///
-/// @desc
+/// @desc A floating window used to mix colors. Opened by clicking on a
+/// [color input](./FORMS_Pen.color.html).
 ///
-/// @param {String} _id
-/// @param {Real} _color ABGR encoded color.
-/// @param {Struct.FORMS_ColorPickerProps, Undefined} [_props]
+/// @param {String} _id The ID of the color input that opened this widget.
+/// @param {Real} _color An ABGR-encoded color to mix.
+/// @param {Struct.FORMS_ColorPickerProps, Undefined} [_props] Properties to
+/// create the color picker with or `undefined`.
 function FORMS_ColorPicker(_id, _color, _props=undefined)
 	: FORMS_Window(undefined, _props) constructor
 {
-	{
-		Closable = false;
-		Resizable = false;
-		set_widget(new FORMS_ScrollPane(new FORMS_ColorPickerContent(_id, _color), {
-			Name: "Color Picker",
-			Width: "100%",
-			Height: "100%",
-		}));
-	}
+	/// @var {Bool} Whether the color picker has a close button. Defaults to
+	/// `false`.
+	Closable = false;
+
+	/// @var {Bool} Whether the color picker is resizable. Defaults to `false`.
+	Resizable = false;
+
+	set_widget(new FORMS_ScrollPane(new FORMS_ColorPickerContent(_id, _color), {
+		Name: "Color Picker",
+		Width: "100%",
+		Height: "100%",
+	}));
 }
 
 /// @func FORMS_ColorPickerContent(_id, _color)
 ///
 /// @extends FORMS_Content
 ///
-/// @desc
+/// @desc Content of the {@link FORMS_ColorPicker} widget. Draws control using
+/// which you can mix a new color.
 ///
-/// @param {String} _id
-/// @param {Real} _color ABGR encoded color.
+/// @param {String} _id The ID of the color input that opened the color picker
+/// widget.
+/// @param {Real} _color An ABGR-encoded color to mix.
 function FORMS_ColorPickerContent(_id, _color)
 	: FORMS_Content() constructor
 {
-	/// @var {String}
+	/// @var {String} The ID of the color input that opened the color picker
+	/// widget.
 	/// @readonly
 	Id = _id;
 
-	/// @var {Real}
+	/// @var {Real} An ABGR-encoded color to mix.
 	/// @readonly
 	Color = _color;
 
-	/// @var {Real}
+	/// @var {Real} The new mixed color (ABGR-encoded).
 	/// @readonly
 	ColorNew = _color;
 

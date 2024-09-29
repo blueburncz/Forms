@@ -1,12 +1,14 @@
-/// @var {Constant.Color}
+/// @var {Constant.Color} The accent color. Used for example as color of the
+/// tick icon in selected checboxes or the circle icon in selected radio buttons.
+/// Default value is `0x5B9D00` ("GameMaker green").
 global.formsAccentColor = 0x5B9D00;
 
 /// @func forms_assert(_expr, _message)
 ///
-/// @desc
+/// @desc Shows an error if given expression doesn't evaluate to `true`.
 ///
-/// @param {Bool} _expr
-/// @param {String} _message
+/// @param {Bool} _expr The expression to check.
+/// @param {String} _message The error message to show if expression is `false`.
 function forms_assert(_expr, _message)
 {
 	gml_pragma("forceinline");
@@ -18,14 +20,15 @@ function forms_assert(_expr, _message)
 
 /// @func forms_draw_rectangle(_x, _y, _width, _height[, _color[, _alpha]])
 ///
-/// @desc
+/// @desc Draws a rectangle using a stretched sprite to save on batch breaks.
 ///
-/// @param {Real} _x
-/// @param {Real} _y
-/// @param {Real} _width
-/// @param {Real} _height
-/// @param {Constant.Color} [_color] Defaults to `c_white`.
-/// @param {Real} [_alpha] Defaults to 1.
+/// @param {Real} _x The X position of the rectangle.
+/// @param {Real} _y The Y position of the rectangle.
+/// @param {Real} _width The width of the rectangle.
+/// @param {Real} _height The height of the rectangle.
+/// @param {Constant.Color} [_color] The color of the rectangle. Defaults to
+/// `c_white`.
+/// @param {Real} [_alpha] The alpha value of the rectangle. Defaults to 1.
 function forms_draw_rectangle(_x, _y, _width, _height, _color=c_white, _alpha=1.0)
 {
 	gml_pragma("forceinline");
@@ -34,7 +37,9 @@ function forms_draw_rectangle(_x, _y, _width, _height, _color=c_white, _alpha=1.
 
 /// @func forms_char_is_digit(_char)
 ///
-/// @param {String} _char The character.
+/// @desc Checks whether given character is a digit.
+///
+/// @param {String} _char The character to check.
 ///
 /// @return {Bool} Returns `true` if the character is a digit.
 function forms_char_is_digit(_char)
@@ -44,6 +49,8 @@ function forms_char_is_digit(_char)
 }
 
 /// @func forms_char_is_letter(_char)
+///
+/// @desc Checks whether given character is a letter.
 ///
 /// @param {String} _char The character.
 ///
@@ -57,12 +64,20 @@ function forms_char_is_letter(_char)
 
 /// @func forms_parse_real(_string)
 ///
-/// @desc Parses a real number from a string.
+/// @desc Tries to parse a real number from a string.
 ///
 /// @param {String} _string The string to parse the number from.
 ///
 /// @return {Real, Undefined} The parsed number or `undefined` if the string
 /// does not represent a number.
+///
+/// @example
+/// The following code tries to parse a number from a variable `_userInput`
+/// (string) and stores the result into `_number`. If parsing fails, it defaults
+/// to 0.
+/// ```gml
+/// var _number = forms_parse_real(_userInput) ?? 0;
+/// ```
 function forms_parse_real(_string)
 {
 	var _sign = 1;
