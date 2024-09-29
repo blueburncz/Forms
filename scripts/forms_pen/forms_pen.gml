@@ -690,9 +690,14 @@ function FORMS_Pen(_content) constructor
 		var _width = __lineHeight;
 		var _height = __lineHeight;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
-		draw_sprite_stretched_ext(FORMS_SprRadioButton, 0, X, Y, _width, _height, _selected ? c_orange : c_white, 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRadioButton, 0, X, Y, _width, _height, 0x171717, 1.0);
+		if (_selected)
+		{
+			draw_sprite_stretched_ext(FORMS_SprRadioButton, 2, X, Y, _width, _height, global.formsAccentColor, 1.0);
+		}
 		if (_mouseOver)
 		{
+			draw_sprite_stretched_ext(FORMS_SprRadioButton, 1, X, Y, _width, _height, 0x9D9D9D, 1.0);
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 		}
