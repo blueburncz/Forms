@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "title": "Forms Docs",
   "author": "BlueBurn and contributors",
-  "prefix": ["FORMS_", "forms_", "__forms"],
+  "prefix": ["FORMS_", "forms_", "__forms", "__FA"],
   "analytics": "",
   "api": {
     "rating": ""
