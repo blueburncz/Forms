@@ -43,7 +43,7 @@
   "option_xboxseriesxs_support_4k_sx":false,
   "option_xboxseriesxs_texture_page":"2048x2048",
   "option_xboxseriesxs_title_id":"01234567",
-  "option_xboxseriesxs_version":"1.0.0.0",
+  "option_xboxseriesxs_version":"0.1.0.0",
   "resourceType":"GMXboxSeriesXSOptions",
   "resourceVersion":"2.0",
 }
