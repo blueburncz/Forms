@@ -1,6 +1,6 @@
 /// @func FORMS_MenuBarProps()
 ///
-/// @extends
+/// @extends FORMS_ContainerProps
 ///
 /// @desc
 function FORMS_MenuBarProps()

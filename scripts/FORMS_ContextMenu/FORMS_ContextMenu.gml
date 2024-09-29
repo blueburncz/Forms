@@ -7,7 +7,7 @@ function FORMS_ContextMenuItem() constructor
 
 /// @func FORMS_ContextMenuSeparator()
 ///
-/// @extends FORMS_ContextMenuItem()
+/// @extends FORMS_ContextMenuItem
 ///
 /// @desc
 function FORMS_ContextMenuSeparator()
@@ -17,7 +17,7 @@ function FORMS_ContextMenuSeparator()
 
 /// @func FORMS_ContextMenuOption(_text)
 ///
-/// @extends FORMS_ContextMenuItem()
+/// @extends FORMS_ContextMenuItem
 ///
 /// @desc
 ///
