@@ -1,6 +1,8 @@
 /// @func FORMS_ContextMenuItem()
 ///
-/// @desc
+/// @desc Base struct for context menu items.
+///
+/// @see FORMS_ContextMenu
 function FORMS_ContextMenuItem() constructor
 {
 }
@@ -9,51 +11,107 @@ function FORMS_ContextMenuItem() constructor
 ///
 /// @extends FORMS_ContextMenuItem
 ///
-/// @desc
+/// @desc A separator used to divide context menus into categories. Displayed
+/// as a horizontal line.
+///
+/// @see FORMS_ContextMenu
 function FORMS_ContextMenuSeparator()
 	: FORMS_ContextMenuItem() constructor
 {
 }
 
-/// @func FORMS_ContextMenuOption(_text)
+/// @func FORMS_ContextMenuOptionProps()
+///
+/// @desc Properties accepted by the constructor of
+/// {@link FORMS_ContextMenuOption}.
+function FORMS_ContextMenuOptionProps() constructor
+{
+	/// @var {String} The option's text.
+	Text = "";
+
+	/// @var {String, Undefined} The tooltip displayed on mouse-over.
+	Tooltip = undefined;
+
+	/// @var {Function, Undefined} A function executed when the option is
+	/// clicked.
+	Action = undefined;
+
+	/// @var {Array, Undefined} An array of arguments passed to `Action` when
+	/// the option is clicked.
+	Arguments = undefined;
+
+	// TODO: Implement context menu icons
+	Icon = undefined;
+
+	IconFont = undefined;
+
+	/// @var {Bool, Undefined} Whether the option is disabled (`true`) or
+	/// enabled (`false`).
+	Disabled = undefined;
+
+	/// @var {Array<Struct.FORMS_ContextMenuItem>, Undefined} An array of
+	/// sub-options opened on mouse-over.
+	Options = undefined;
+
+	/// @var {Struct.FORMS_KeyboardShortcut, Undefined} A keyboard shortcut
+	/// drawn next to the option.
+	KeyboardShortcut = undefined;
+}
+
+/// @func FORMS_ContextMenuOption(_textOrProps)
 ///
 /// @extends FORMS_ContextMenuItem
 ///
-/// @desc
+/// @desc An option in a context menu.
 ///
-/// @param {String} _text
-function FORMS_ContextMenuOption(_text)
+/// @param {String, Struct.FORMS_ContextMenuOptionProps} _textOrProps Either
+/// text (the name of the option) or properties to create the context menu
+/// option with.
+///
+/// @see FORMS_ContextMenu
+function FORMS_ContextMenuOption(_textOrProps)
 	: FORMS_ContextMenuItem() constructor
 {
-	/// @var {String}
-	Text = _text;
+	var _isProps = is_struct(_textOrProps);
 
-	/// @var {String}
-	Tooltip = "";
+	/// @var {String} The option's text.
+	Text = _isProps ? _textOrProps.Text : _textOrProps;
 
-	/// @var {Function, Undefined}
-	Action = undefined;
+	/// @var {String} The tooltip displayed on mouse-over. Defaults to an empty
+	/// string.
+	Tooltip = (_isProps ? forms_get_prop(_textOrProps, "Tooltip") : undefined) ?? "";
 
-	/// @var {Array, Undefined}
-	Arguments = undefined;
+	/// @var {Function, Undefined} A function executed when the option is
+	/// clicked or `undefined` (default).
+	Action = (_isProps ? forms_get_prop(_textOrProps, "Action") : undefined);
 
-	// TODO: Context menu icons
+	/// @var {Array, Undefined} An array of arguments passed to `Action` when
+	/// the option is clicked or `undefined` (no arguments, default).
+	Arguments = (_isProps ? forms_get_prop(_textOrProps, "Arguments") : undefined);
+
+	// TODO: Implement context menu icons
 	Icon = undefined;
 
-	/// @var {Bool}
-	Disabled = false;
+	IconFont = FA_FntSolid12;
 
-	/// @var {Array<Struct.FORMS_ContextMenuItem>, Undefined}
-	Options = undefined;
+	/// @var {Bool} Whether the option is disabled (`true`) or enabled (`false`).
+	/// Defaults to `false`.
+	Disabled = (_isProps ? forms_get_prop(_textOrProps, "Disabled") : undefined) ?? false;
 
-	/// @var {Struct.FORMS_KeyboardShortcut, Undefined}
-	KeyboardShortcut = undefined;
+	/// @var {Array<Struct.FORMS_ContextMenuItem>, Undefined} An array of
+	/// sub-options opened on mouse-over or `undefined` (default).
+	Options = (_isProps ? forms_get_prop(_textOrProps, "Options") : undefined);
+
+	/// @var {Struct.FORMS_KeyboardShortcut, Undefined} A keyboard shortcut
+	/// drawn next to the option or `undefined` (default).
+	KeyboardShortcut = (_isProps ? forms_get_prop(_textOrProps, "KeyboardShortcut") : undefined);
 
 	/// @func add_option(_option)
 	///
-	/// @desc
+	/// @desc Adds a sub-option. These are displayed in another context menu
+	/// on mouse-over.
 	///
-	/// @param {Struct.FORMS_ContextMenuItem} _option
+	/// @param {Struct.FORMS_ContextMenuItem} _option The option to add.
 	///
 	/// @return {Struct.FORMS_ContextMenuItem} Returns `self`.
 	static add_option = function (_option)
@@ -68,7 +126,7 @@ function FORMS_ContextMenuOption(_text)
 ///
 /// @extends FORMS_ContainerProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_ContextMenu}.
 function FORMS_ContextMenuProps()
 	: FORMS_ContainerProps() constructor
 {
@@ -78,10 +136,13 @@ function FORMS_ContextMenuProps()
 ///
 /// @extends FORMS_Container
 ///
-/// @desc
+/// @desc A context menu with support for unlimited sub-menus. Its position is
+/// automatically adjusted to be always visible inside the window.
 ///
-/// @param {Array<Struct.FORMS_ContextMenuItem>} [_options]
-/// @param {Struct.FORMS_ContextMenuProps, Undefined} [_props]
+/// @param {Array<Struct.FORMS_ContextMenuItem>} [_options] An array of context
+/// menu options.
+/// @param {Struct.FORMS_ContextMenuProps, Undefined} [_props] Properties to
+/// create the context menu with or `undefined` (default).
 function FORMS_ContextMenu(_options=[], _props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
@@ -90,10 +151,12 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	static Container_draw = draw;
 	static Container_destroy = destroy;
 
-	/// @var {Array<Struct.FORMS_ContextMenuItem>}
+	/// @var {Array<Struct.FORMS_ContextMenuItem>} An array of context menu
+	/// options.
 	Options = _options;
 
-	/// @var {Bool}
+	/// @var {Bool} Whether the context menu should close on mouse leave.
+	/// Defaults to `false`.
 	CloseOnMouseLeave = false;
 	
 	/// @var {Struct.FORMS_ContextMenu, Undefined}
@@ -108,12 +171,20 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	/// @private
 	__submenuIndex = -1;
 
-	{
-		BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRound8;
-		BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x101010;
-		ContentFit = true;
-		set_content(new FORMS_ContextMenuContent());
-	}
+	/// @var {Asset.GMSprite} The background sprite of the context menu,
+	/// stretched over its entire size. Defaults to `FORMS_SprRound8`.
+	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRound8;
+
+	/// @var {Constant.Color} The tint color of the background sprite. Defaults
+	/// to `0x101010`.
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x101010;
+
+	/// @var {Bool} If `true` then the size of the context menu is recomputed
+	/// from its contents the next time method
+	/// [layout](./FORMS_Widget.layout.html) is called. Defaults to `true`.
+	ContentFit = true;
+
+	set_content(new FORMS_ContextMenuContent());
 
 	static layout = function ()
 	{
