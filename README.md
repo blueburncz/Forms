@@ -10,6 +10,7 @@
 ## Table of Contents
 
 * [About](#about)
+* [Contributing](#contributing)
 
 ## About
 
