@@ -127,7 +127,8 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 				{
 					X.Value = __parentMenu.__realX - __realWidth - 2;
 				}
-				else {
+				else 
+				{
 					var _parentMenuRightX = __parentMenu.__realX + __parentMenu.__realWidth + 2;			
 					if ((window_get_width() - _parentMenuRightX) < __realWidth)
 					{

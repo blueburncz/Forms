@@ -8,10 +8,12 @@ array_push(_options, new FORMS_ContextMenuOption("Menu Item 3"));
 var _submenu = new FORMS_ContextMenuOption("Menu Item 4");
 array_push(_options, _submenu);
 
-for (var m = 0; m < 3; ++m) {
+for (var m = 0; m < 3; ++m) 
+{
 	var _op = -1;
 	_submenu.Options = [];
-	for (var o = 0; o < 4; ++o) {
+	for (var o = 0; o < 4; ++o) 
+	{
 		_op = new FORMS_ContextMenuOption(string(m)+": Option "+string(o));
 		array_push(_submenu.Options, _op);
 	}
