@@ -95,6 +95,10 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 
 	/// @var {Bool}
 	CloseOnMouseLeave = false;
+	
+	/// @var {Struct.FORMS_ContextMenu, Undefined}
+	/// @private
+	__parentMenu = undefined;
 
 	/// @var {Struct.FORMS_ContextMenu, Undefined}
 	/// @private
@@ -113,6 +117,32 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 
 	static layout = function ()
 	{
+		if (__realWidth == 0) //run initial positioning
+		{
+			Container_layout(); //run first to determine menu size
+			if (__parentMenu != undefined) 
+			{
+				//Check if parent menu has parent menu and check if its on the left
+				if (__parentMenu.__parentMenu != undefined) && (__parentMenu.__realX < __parentMenu.__parentMenu.__realX) 
+				{
+					X.Value = __parentMenu.__realX - __realWidth - 2;
+				}
+				else 
+				{
+					var _parentMenuRightX = __parentMenu.__realX + __parentMenu.__realWidth + 2;			
+					if ((window_get_width() - _parentMenuRightX) < __realWidth)
+					{
+						X.Value = __parentMenu.__realX - __realWidth - 2;
+					}
+					else 
+					{
+						X.Value = _parentMenuRightX;
+					}
+				}
+				__realX = floor(Parent.__realX + X.get_absolute());
+			}
+		}
+		
 		__realX = clamp(__realX, 0, window_get_width() - __realWidth);
 		__realY = clamp(__realY, 0, window_get_height() - __realHeight);
 		Container_layout();
@@ -244,10 +274,11 @@ function FORMS_ContextMenuContent()
 						&& _optionOptions != undefined)
 					{
 						var _submenu = new FORMS_ContextMenu(_optionOptions, {
-							X: Container.__realX + _x + _widthMax + 8,
+							X: _x,
 							Y: Container.__realY + _y,
 						});
 						forms_get_root().add_child(_submenu);
+						_submenu.__parentMenu = Container;
 						Container.__submenu = _submenu;
 						Container.__submenuIndex = i;
 					}

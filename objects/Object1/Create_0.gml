@@ -135,7 +135,7 @@ function TestContent() : FORMS_Content() constructor
 	{
 		var _props;
 
-		Pen.start(8, 8)
+		Pen.start()
 			.text("Some stuff ")
 			.text("Some other stuff!", { Color: c_orange, Cursor: cr_handpoint, Tooltip: "Oh yeah!" })
 			.nl();
