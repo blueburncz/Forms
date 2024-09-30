@@ -1,25 +1,30 @@
 /// @func FORMS_ContainerProps()
 ///
 /// @extends FORMS_WidgetProps
+///
+/// @desc Properties accepted by the constructor of {@link FORMS_Container}.
 function FORMS_ContainerProps()
 	: FORMS_WidgetProps() constructor
 {
-	/// @var {Asset.GMSprite, Undefined}
+	/// @var {Asset.GMSprite, Undefined} The background sprite of the container,
+	/// stretched over its entire size.
 	BackgroundSprite = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The subimage of the background sprite to use.
 	BackgroundIndex = undefined;
 
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The tint color of the background sprite.
 	BackgroundColor = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the background sprite.
 	BackgroundAlpha = undefined;
 
-	/// @var {Bool, Undefined}
+	/// @var {Bool, Undefined} Whether the default scrolling direction of the
+	/// container is vertical (`true`) or horizontal (`false`).
 	IsDefaultScrollVertical = undefined;
 
-	/// @var {Bool, Undefined}
+	/// @var {Bool, Undefined} Whether the container should be automatically
+	/// resized to fit its content upon its creation.
 	ContentFit = undefined;
 }
 
@@ -27,61 +32,68 @@ function FORMS_ContainerProps()
 ///
 /// @extends FORMS_Widget
 ///
-/// @desc
+/// @desc A widget that draws a scrollable content defined by
+/// {@link FORMS_Content} into a surface.
 ///
-/// @param {Struct.FORMS_Content, Undefined} [_content]
-/// @param {Struct.FORMS_ContainerProps, Undefined} [_props]
+/// @param {Struct.FORMS_Content, Undefined} [_content] The content to draw
+/// inside of the container's surface or `undefined` (default).
+/// @param {Struct.FORMS_ContainerProps, Undefined} [_props] Properties to
+/// create the container with or `undefined` (default).
 function FORMS_Container(_content=undefined, _props=undefined)
 	: FORMS_Widget(_props) constructor
 {
 	static Widget_layout = layout;
 
-	/// @var {Struct.FORMS_Content, Undefined}
+	/// @var {Struct.FORMS_Content, Undefined} The content to draw inside of the
+	/// container's surface or `undefined` (default).
 	/// @readonly
 	Content = undefined;
 
-	/// @var {Id.Surface}
+	/// @var {Id.Surface} The ID of the container's surface.
 	/// @readonly
 	Surface = -1;
 
-	/// @var {Asset.GMSprite}
+	/// @var {Asset.GMSprite} The background sprite of the container, stretched
+	/// over its entire size. Defaults to `FORMS_SprRectangle`.
 	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRectangle;
 
-	/// @var {Real}
+	/// @var {Real} The subimage of the background sprite to use.
 	BackgroundIndex = forms_get_prop(_props, "BackgroundIndex") ?? 0;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color} The tint color of the background sprite. Defaults
+	/// to `0x181818`.
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
 
-	/// @var {Real}
+	/// @var {Real} The alpha value of the background sprite. Defaults to 1.
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
-	/// @var {Real}
+	/// @var {Real} The scroll of the contents on the X axis. Defaults to 0.
 	/// @readonly
 	/// @see FORMS_Container.set_scroll_x
 	ScrollX = 0;
 
-	/// @var {Real}
+	/// @var {Real} The scroll of the contents on the Y axis. Defaults to 0.
 	/// @readonly
 	/// @see FORMS_Container.set_scroll_y
 	ScrollY = 0;
 
-	/// @var {Bool}
+	/// @var {Bool} Whether the default scrolling direction of the container is
+	/// vertical (`true`) or horizontal (`false`). Defaults to `true`.
 	IsDefaultScrollVertical = forms_get_prop(_props, "IsDefaultScrollVertical") ?? true;
 
-	/// @var {Bool} If true then the size of the container is recomputed from its
-	/// contents. Default value is false.
+	/// @var {Bool} If `true` then the size of the container is recomputed from
+	/// its contents the next time method [layout](./FORMS_Widget.layout.html)
+	/// is called. Defaults to `false`.
 	ContentFit = forms_get_prop(_props, "ContentFit") ?? false;
 
-	{
-		set_content(_content);
-	}
+	set_content(_content);
 
 	/// @func set_content(_content)
 	///
-	/// @desc
+	/// @desc Changes the container's content.
 	///
-	/// @param {Struct.FORMS_Content, Undefined} _content
+	/// @param {Struct.FORMS_Content, Undefined} _content The new content or
+	/// `undefined`.
 	///
 	/// @return {Struct.FORMS_Container} Returns `self`.
 	static set_content = function (_content)
@@ -101,9 +113,10 @@ function FORMS_Container(_content=undefined, _props=undefined)
 
 	/// @func set_scroll_x(_scroll)
 	///
-	/// @desc
+	/// @desc Changes the container's scroll on the X axis.
 	///
-	/// @param {Real} _scroll
+	/// @param {Real} _scroll The new scroll value. Clamped between 0 and the
+	/// width of the container's content.
 	///
 	/// @return {Struct.FORMS_Container} Returns `self`.
 	static set_scroll_x = function (_scroll)
@@ -115,9 +128,10 @@ function FORMS_Container(_content=undefined, _props=undefined)
 
 	/// @func set_scroll_y(_scroll)
 	///
-	/// @desc
+	/// @desc Changes the container's scroll on the Y axis.
 	///
-	/// @param {Real} _scroll
+	/// @param {Real} _scroll The new scroll value. Clamped between 0 and the
+	/// height of the container's content.
 	///
 	/// @return {Struct.FORMS_Container} Returns `self`.
 	static set_scroll_y = function (_scroll)

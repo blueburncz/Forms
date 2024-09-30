@@ -19,8 +19,8 @@ function FORMS_BoxProps()
 ///
 /// @extends FORMS_CompoundWidget
 ///
-/// @desc The base struct for "box" widgets. These draw their children in a
-/// linear (horizontal or vertical) layout.
+/// @desc Base struct for "box" widgets. These draw their children in a linear
+/// (horizontal or vertical) layout.
 ///
 /// @param {Struct.FORMS_BoxProps, Undefined} [_props] Properties to create the
 /// box with or `undefined` (default).

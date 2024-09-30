@@ -17,6 +17,7 @@
     {"$GMFolder":"","%Name":"Sprites","folderPath":"folders/Forms/Sprites.yy","name":"Sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
+    {"$GMIncludedFile":"","%Name":"._LICENSE-FontAwesome.txt","CopyToMask":-1,"filePath":"datafiles","name":"._LICENSE-FontAwesome.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"LICENSE-FontAwesome.txt","CopyToMask":-1,"filePath":"datafiles","name":"LICENSE-FontAwesome.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
   ],
   "isEcma":false,
