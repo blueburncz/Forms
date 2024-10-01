@@ -51,7 +51,7 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	/// @readonly
 	WidgetHovered = undefined;
 
-	/// @var {Struct.FORMS_Widget, Undefined}
+	/// @var {Struct.FORMS_Widget, String, Undefined}
 	/// @readonly
 	WidgetActive = undefined;
 
