@@ -403,9 +403,10 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func get_x()
 	///
-	/// @desc
+	/// @desc Retrieves the actual X position of the widget computed in
+	/// [layout](./FORMS_Widget.layout.html).
 	///
-	/// @return {Real}
+	/// @return {Real} The actual widget's position on the X axis.
 	static get_x = function ()
 	{
 		gml_pragma("forceinline");
@@ -414,9 +415,10 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func get_y()
 	///
-	/// @desc
+	/// @desc Retrieves the actual Y position of the widget computed in
+	/// [layout](./FORMS_Widget.layout.html).
 	///
-	/// @return {Real}
+	/// @return {Real} The actual widget's position on the Y axis.
 	static get_y = function ()
 	{
 		gml_pragma("forceinline");
@@ -425,9 +427,10 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func get_width()
 	///
-	/// @desc
+	/// @desc Retrieves the actual width of the widget computed in
+	/// [layout](./FORMS_Widget.layout.html).
 	///
-	/// @return {Real}
+	/// @return {Real} The actual widget's width.
 	static get_width = function ()
 	{
 		gml_pragma("forceinline");
@@ -436,9 +439,10 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func get_height()
 	///
-	/// @desc
+	/// @desc Retrieves the actual height of the widget computed in
+	/// [layout](./FORMS_Widget.layout.html).
 	///
-	/// @return {Real}
+	/// @return {Real} The actual widget's height.
 	static get_height = function ()
 	{
 		gml_pragma("forceinline");
@@ -447,9 +451,9 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func has_parent()
 	///
-	/// @desc
+	/// @desc Checks whether the widget has a parent.
 	///
-	/// @return {Bool}
+	/// @return {Bool} Returns `true` if the widget has a parent.
 	static has_parent = function ()
 	{
 		gml_pragma("forceinline");
@@ -458,7 +462,7 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func remove_self()
 	///
-	/// @desc
+	/// @desc Removes the widgets from its parent, which must not be `undefined`!
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static remove_self = function ()
@@ -470,11 +474,11 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func find_widget(_id)
 	///
-	/// @desc
+	/// @desc Recursively looks for a widget with given ID.
 	///
-	/// @param {String} _id
+	/// @param {String} _id The ID of the widget to find.
 	///
-	/// @return {Struct.FORMS_Widget, Undefined}
+	/// @return {Struct.FORMS_Widget, Undefined} The found widget or `undefined`.
 	static find_widget = function (_id)
 	{
 		gml_pragma("forceinline");
@@ -483,11 +487,14 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func find_parent_type(_type)
 	///
-	/// @desc
+	/// @desc Recursively looks for a node of given type up in the widget
+	/// hierarchy and returns the first one found.
 	///
-	/// @param {Function} _type
+	/// @param {Function} _type A constructor that the widget must be an
+	/// instance of (tested with `is_instanceof()`).
 	///
-	/// @return {Struct.FORMS_CompoundWidget, Undefined}
+	/// @return {Struct.FORMS_CompoundWidget, Undefined} The found widget or
+	/// `undefined`.
 	static find_parent_type = function (_type)
 	{
 		var _current = Parent;
@@ -504,11 +511,13 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func find_parent_name(_name)
 	///
-	/// @desc
+	/// @desc Recursively looks for a node with given name up in the widget
+	/// hierarchy and returns the first one found.
 	///
-	/// @param {String} _name
+	/// @param {String} _name The name of the widget to find.
 	///
-	/// @return {Struct.FORMS_CompoundWidget, Undefined}
+	/// @return {Struct.FORMS_CompoundWidget, Undefined} The widget found or
+	/// `undefined`.
 	static find_parent_name = function (_name)
 	{
 		var _current = Parent;
@@ -525,21 +534,23 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func get_auto_width()
 	///
-	/// @desc
+	/// @desc Return's the width of the widget when it's set to "auto".
 	///
-	/// @return {Real, Undefined}
+	/// @return {Real, Undefined} The widget's width or `undefined` if "auto"
+	/// is not supported.
 	static get_auto_width = function () { return undefined; };
 
 	/// @func get_auto_height()
 	///
-	/// @desc
+	/// @desc Return's the height of the widget when it's set to "auto".
 	///
-	/// @return {Real, Undefined}
+	/// @return {Real, Undefined} The widget's height or `undefined` if "auto"
+	/// is not supported.
 	static get_auto_height = function () { return undefined; };
 
 	/// @func layout()
 	///
-	/// @desc
+	/// @desc Updates the widget's layout.
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static layout = function ()
@@ -550,9 +561,9 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func is_mouse_over()
 	///
-	/// @desc
+	/// @desc Checks whether the mouse cursor is over the widget.
 	///
-	/// @return {Bool}
+	/// @return {Bool} Returns `true` if the mouse cursor is over the widget.
 	static is_mouse_over = function ()
 	{
 		return forms_get_root().WidgetHovered == self;
@@ -560,9 +571,10 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func update(_deltaTime)
 	///
-	/// @desc
+	/// @desc Updates the widget.
 	///
-	/// @param {Real} _deltaTime
+	/// @param {Real} _deltaTime Number of milliseconds passed since the last
+	/// frame.
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static update = function (_deltaTime)
@@ -572,7 +584,7 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func draw()
 	///
-	/// @desc
+	/// @desc Draws the widget.
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static draw = function ()
@@ -582,9 +594,9 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func destroy_later()
 	///
-	/// @desc
+	/// @desc Causes the widget to be destroyed at the end of the frame.
 	///
-	/// @return {Undefined}
+	/// @return {Undefined} Always returns `undefined`.
 	static destroy_later = function ()
 	{
 		if (!__toDestroy)
@@ -597,9 +609,9 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func destroy()
 	///
-	/// @desc
+	/// @desc Destroys the widget.
 	///
-	/// @return {Undefined}
+	/// @return {Undefined} Always returns `undefined`.
 	static destroy = function ()
 	{
 		return undefined;
