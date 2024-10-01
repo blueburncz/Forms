@@ -1,91 +1,122 @@
-/// @enum
+/// @enum Enumeration of all possible mouse interactions with a control drawn
+/// by {@link FORMS_Pen}.
 enum FORMS_EControlAction
 {
+	/// @member Mouse is above a control.
 	MouseOver = -2,
+	/// @member A control was right-clicked.
 	RightClick = -1,
+	/// @member No action.
 	None = 0,
+	/// @member A control was left-clicked.
 	Click = 1,
 };
 
-/// @enum
+/// @enum Enumeration of all layouts available for {@link FORMS_Pen}.
 enum FORMS_EPenLayout
 {
+	/// @member When {@link FORMS_Pen.next} is called, the pen stays on the same
+	/// line. New lines are added with {@link FORMS_Pen.nl}.
 	Horizontal,
+	/// @member When {@link FORMS_Pen.next} is called, the pen moves onto the
+	/// next line. 
 	Vertical,
+	/// @member There are two columns and when {@link FORMS_Pen.next} is called,
+	/// the pen cycles through them, automatically adding a new line after the
+	/// last column.
 	Column2,
 };
 
 /// @func FORMS_Pen(_content)
 ///
-/// @desc
+/// @desc A struct used to draw text and controls (buttons, checkboxes, inputs
+/// etc.) inside of {@link FORMS_Content}s.
 ///
-/// @param {Struct.FORMS_Content} _content
+/// @param {Struct.FORMS_Content} _content The content to which the pen belongs.
 function FORMS_Pen(_content) constructor
 {
-	/// @var {Struct.FORMS_Content}
+	/// @var {Struct.FORMS_Content} The content to which the pen belongs.
 	/// @readonly
 	Content = _content;
 
-	/// @var {Asset.GMFont, Undefined}
+	/// @var {Asset.GMFont, Undefined} The font to use or `undefined` (default)
+	/// to keep the one currently set by `draw_set_font()`.
 	Font = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The line height in pixels or `undefined` to
+	/// compute it automatically from the height of the character "M" when using
+	/// the currently set font.
 	LineHeight = undefined;
 
-	/// @var {Bool}
+	/// @var {Bool} Whether new lines should be added automatically after a text
+	/// or a control is drawn. Defaults to `false`.
 	AutoNewline = false;
 
-	/// @var {Real}
+	/// @var {Real} The X coordinate to start drawing at when
+	/// {@link FORMS_Pen.start} is called and value to add to the maximum
+	/// drawn-to X coordinate returned by {@link FORMS_Pen.get_max_x}.
 	PaddingX = 8;
 
-	/// @var {Real}
+	/// @var {Real} The Y coordinate to start drawing at when
+	/// {@link FORMS_Pen.start} is called and value to add to the maximum
+	/// drawn-to Y coordinate returned by {@link FORMS_Pen.get_max_y}.
 	PaddingY = 8;
 
-	/// @var {Real}
+	/// @var {Real} Spacing between drawn text and controls on the X axis.
+	/// Defaults to 0.
 	SpacingX = 0;
 
-	/// @var {Real}
+	/// @var {Real} Spacing between drawn text and controls on the Y axis.
+	/// Defaults to 0.
 	SpacingY = 8;
 
-	/// @var {Real}
+	/// @var {Real} The current X position of the pen.
 	/// @readonly
 	X = 0;
 
-	/// @var {Real}
+	/// @var {Real} The current Y position of the pen.
 	/// @readonly
 	Y = 0;
 
-	/// @var {Real}
+	/// @var {Real} The maximum drawn-to X coordinate, without padding.
 	/// @readonly
+	/// @see FORMS_Pen.get_max_x
 	MaxX = 0;
 
-	/// @var {Real}
+	/// @var {Real} The maximum drawn-to Y coordinate, without padding.
 	/// @readonly
+	/// @see FORMS_Pen.get_max_y
 	MaxY = 0;
 
-	/// @var {Real}
+	/// @var {Real} The X coordinate that the pen started drawing at, updated
+	/// when {@link FORMS_Pen.start} is called.
 	StartX = 0;
 
-	/// @var {Real}
+	/// @var {Real} The Y coordinate that the pen started drawing at, updated
+	/// when {@link FORMS_Pen.start} is called.
 	StartY = 0;
 
-	/// @var {Real}
+	/// @var {Real} The width of the container that the pen draws to minus
+	/// padding. Updated when {@link FORMS_Pen.start} is called.
 	/// @readonly
 	Width = 0;
 
-	/// @var {Real}
+	/// @var {Real} The X coordinate of the first column when
+	/// {@link FORMS_EPenLayout.Column2} is used.
 	ColumnX1 = 0;
 
-	/// @var {Real}
+	/// @var {Real} The Y coordinate of the second column when
+	/// {@link FORMS_EPenLayout.Column2} is used.
 	ColumnX2 = 0;
 
-	/// @var {Real}
+	/// @private
 	__columnWidth = 0;
 
 	/// @private
 	__columnCurrent = 0;
 
-	/// @var {Real}
+	/// @var {Real} The level of indentation used when drawing a new section
+	/// with {@link FORMS_Pen.section}, in pixels. Defaults to 20.
 	SectionIndent = 20;
 
 	/// @private
@@ -153,9 +184,9 @@ function FORMS_Pen(_content) constructor
 
 	/// @func get_column_width()
 	///
-	/// @desc
+	/// @desc Retrieves the current width of a single column.
 	///
-	/// @return {Real}
+	/// @return {Real} The current width of a single column.
 	static get_column_width = function ()
 	{
 		return __columnWidth;
@@ -163,9 +194,9 @@ function FORMS_Pen(_content) constructor
 
 	/// @func get_control_width()
 	///
-	/// @desc
+	/// @desc Retrieves the width of the control drawn at the current position.
 	///
-	/// @return {Real}
+	/// @return {Real} The width of the control drawn at the current position.
 	static get_control_width = function ()
 	{
 		switch (__layout)
@@ -181,9 +212,10 @@ function FORMS_Pen(_content) constructor
 
 	/// @func get_result()
 	///
-	/// @desc
+	/// @desc Retrieves the result returned by the last drawn control and then
+	/// forgets it (i.e. for each control this function can be called only once).
 	///
-	/// @return {Any}
+	/// @return {Any} The result returned by the last drawn control.
 	static get_result = function ()
 	{
 		var _result = __result;
@@ -211,9 +243,10 @@ function FORMS_Pen(_content) constructor
 
 	/// @func set_layout(_layout)
 	///
-	/// @desc
+	/// @desc Changes the layout used by the pen.
 	///
-	/// @param {Real} _layout Use values from {@link FORMS_EPenLayout}.
+	/// @param {Real} _layout The new layout to use. Use values from
+	/// {@link FORMS_EPenLayout}.
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
 	static set_layout = function (_layout)
@@ -239,7 +272,8 @@ function FORMS_Pen(_content) constructor
 
 	/// @func start([_layout])
 	///
-	/// @desc
+	/// @desc Starts drawing text and controls with given layout. Must be always
+	/// used first!
 	///
 	/// @param {Real} [_layout] Use values from {@link FORMS_EPenLayout}.
 	/// Defaults to {@link FORMS_EPenLayout.Horizontal}.
@@ -269,9 +303,11 @@ function FORMS_Pen(_content) constructor
 
 	/// @func move([_x])
 	///
-	/// @desc
+	/// @desc Moves the pen on the X axis by given amount, incremented by the
+	/// pen's current spacing configuration.
 	///
-	/// @param {Real} [_x]
+	/// @param {Real} [_x] The amount to move the pen by on the X axis, without
+	/// spacing.
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
 	///
@@ -285,9 +321,9 @@ function FORMS_Pen(_content) constructor
 
 	/// @func set_x(_x)
 	///
-	/// @desc
+	/// @desc Moves the pen to given X coordinate.
 	///
-	/// @param {Real} _x
+	/// @param {Real} _x The new X coordinate of the pen.
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
 	static set_x = function (_x)
@@ -299,9 +335,14 @@ function FORMS_Pen(_content) constructor
 
 	/// @func get_max_x()
 	///
-	/// @desc
+	/// @desc Retrieves the maximum drawn-to X coordiante, incremented by the
+	/// pen's current padding configuration.
 	///
-	/// @return {Real}
+	/// @return {Real} The maximum drawn-to X coordiante, incremented by the
+	/// pen's current padding configuration.
+	///
+	/// @see FORMS_Pen.MaxX
+	/// @see FORMS_Pen.PaddingX
 	static get_max_x = function ()
 	{
 		return MaxX + PaddingX;
@@ -309,9 +350,14 @@ function FORMS_Pen(_content) constructor
 
 	/// @func get_max_y()
 	///
-	/// @desc
+	/// @desc Retrieves the maximum drawn-to Y coordiante, incremented by the
+	/// pen's current padding configuration.
 	///
-	/// @return {Real}
+	/// @return {Real} The maximum drawn-to Y coordiante, incremented by the
+	/// pen's current padding configuration.
+	///
+	/// @see FORMS_Pen.MaxY
+	/// @see FORMS_Pen.PaddingY
 	static get_max_y = function ()
 	{
 		return MaxY + PaddingY;
@@ -366,14 +412,17 @@ function FORMS_Pen(_content) constructor
 
 	/// @func text(_text[, _props])
 	///
-	/// @desc
+	/// @desc Draws a text and moves the pen by its width (or adds a new line,
+	/// if {@link FORMS_Pen.AutoNewline} is enabled).
 	///
-	/// @param {String} _text
-	/// @param {Struct, Undefined} [_props]
+	/// @param {String} _text The text to draw.
+	/// @param {Struct, Undefined} [_props] Properties to apply to the text or
+	/// `undefined` (default).
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
 	static text = function (_text, _props=undefined)
 	{
+		// TODO: Add struct FORMS_PenTextProps
 		__assert_started();
 		var _textOriginal = _text;
 		var _c = forms_get_prop(_props, "Color") ?? c_white;
@@ -404,14 +453,17 @@ function FORMS_Pen(_content) constructor
 
 	/// @func link(_text[, _props])
 	///
-	/// @desc
+	/// @desc Draws an interactable text and moves the pen by its width (or adds
+	/// a new line, if {@link FORMS_Pen.AutoNewline} is enabled).
 	///
-	/// @param {String} _text
-	/// @param {Struct, Undefined} [_props]
+	/// @param {String} _text The text to draw.
+	/// @param {Struct, Undefined} [_props] Properties to apply to the text or
+	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static link = function (_text, _props=undefined)
 	{
+		// TODO: Add struct FORMS_PenLinkProps
 		__assert_started();
 		var _c = forms_get_prop(_props, "Color") ?? c_white;
 		var _a = forms_get_prop(_props, "Alpha") ?? 1.0;
@@ -427,24 +479,33 @@ function FORMS_Pen(_content) constructor
 		__move_or_nl(string_width(_text));
 		if (_mouseOver)
 		{
-			return forms_mouse_check_button_pressed(mb_left)
-				? FORMS_EControlAction.Click
-				: FORMS_EControlAction.MouseOver;
+			if (forms_mouse_check_button_pressed(mb_left))
+			{
+				return FORMS_EControlAction.Click;
+			}
+			if (forms_mouse_check_button_pressed(mb_right))
+			{
+				return FORMS_EControlAction.RightClick;
+			}
+			return FORMS_EControlAction.MouseOver;
 		}
 		return FORMS_EControlAction.None;
 	};
 
 	/// @func is_mouse_over(_x, _y, _width, _height[, _id])
 	///
-	/// @desc
+	/// @desc Checks whether the mouse cursor is over given rectangle.
 	///
-	/// @param {Real} _x
-	/// @param {Real} _y
-	/// @param {Real} _width
-	/// @param {Real} _height
-	/// @param {String, Undefined} [_id]
+	/// @param {Real} _x The X coordinate of the rectangle's top left corner.
+	/// @param {Real} _y The Y coordinate of the rectangle's top left corner.
+	/// @param {Real} _width The width of the rectangle.
+	/// @param {Real} _height The height of the rectangle.
+	/// @param {String, Undefined} [_id] An ID of a control. If defined, then
+	/// there either must be no active control or it must be the one with given
+	/// ID, otherwise the mouse-over is not registered.
 	///
-	/// @return {Bool}
+	/// @return {Bool} Returns `true` if the mouse cursor is above given
+	/// rectangle.
 	static is_mouse_over = function (_x, _y, _width, _height, _id=undefined)
 	{
 		var _root = forms_get_root();
@@ -455,12 +516,13 @@ function FORMS_Pen(_content) constructor
 
 	/// @func get_absolute_pos(_x, _y)
 	///
-	/// @desc
+	/// @desc Converts given coordinates within the current container to an
+	/// absolute position in window-space.
 	///
-	/// @param {Real} _x
-	/// @param {Real} _y
+	/// @param {Real} _x The X position to convert.
+	/// @param {Real} _y The Y position to convert.
 	///
-	/// @return {Array<Real>}
+	/// @return {Array<Real>} An array containing the converted x, y coordinates.
 	static get_absolute_pos = function (_x, _y)
 	{
 		var _world = matrix_get(matrix_world);
@@ -470,17 +532,23 @@ function FORMS_Pen(_content) constructor
 		];
 	};
 
-	/// @func icon_regular(_icon, _font[, _props])
+	/// @func icon(_icon, _font[, _props])
 	///
-	/// @desc
+	/// @desc Draws a Font Awesome icon using given font and moves the pen by
+	/// its width (or adds a new line, if {@link FORMS_Pen.AutoNewline} is
+	/// enabled).
 	///
-	/// @param {Real} _icon Use values from {@link FA_ERegular}.
-	/// @param {Asset.GMFont} _font
-	/// @param {Struct, Undefined} [_props]
+	/// @param {Real} _icon The icon to draw. Use values from {@link FA_ESolid},
+	/// {@link FA_ERegular} or {@link FA_EBrands}.
+	/// @param {Asset.GMFont} _font The font to use. Must correspond with the
+	/// icon to be drawn!
+	/// @param {Struct, Undefined} [_props] Properties to apply to the icon or
+	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static icon = function (_icon, _font, _props=undefined)
 	{
+		// TODO: Add struct FORMS_PenIconProps
 		__assert_started();
 		var _string = chr(_icon);
 		var _fontPrev = draw_get_font();
@@ -507,19 +575,29 @@ function FORMS_Pen(_content) constructor
 		__move_or_nl(_width);
 		if (_mouseOver)
 		{
-			return forms_mouse_check_button_pressed(mb_left)
-				? FORMS_EControlAction.Click
-				: FORMS_EControlAction.MouseOver;
+			if (forms_mouse_check_button_pressed(mb_left))
+			{
+				return FORMS_EControlAction.Click;
+			}
+			if (forms_mouse_check_button_pressed(mb_right))
+			{
+				return FORMS_EControlAction.RightClick;
+			}
+			return FORMS_EControlAction.MouseOver;
 		}
 		return FORMS_EControlAction.None;
 	};
 
 	/// @func icon_regular(_icon[, _props])
 	///
-	/// @desc
+	/// @desc Draws a Font Awesome icon using the "regular" font and moves the
+	/// pen by its width (or adds a new line, if {@link FORMS_Pen.AutoNewline}
+	/// is enabled).
 	///
-	/// @param {Real} _icon Use values from {@link FA_ERegular}.
-	/// @param {Struct, Undefined} [_props]
+	/// @param {Real} _icon The icon to draw. Use values from
+	/// {@link FA_ERegular}.
+	/// @param {Struct, Undefined} [_props] Properties to apply to the icon or
+	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static icon_regular = function (_icon, _props=undefined)
@@ -530,10 +608,13 @@ function FORMS_Pen(_content) constructor
 
 	/// @func icon_solid(_icon[, _props])
 	///
-	/// @desc
+	/// @desc Draws a Font Awesome icon using the "solid" font and moves the
+	/// pen by its width (or adds a new line, if {@link FORMS_Pen.AutoNewline}
+	/// is enabled).
 	///
-	/// @param {Real} _icon Use values from {@link FA_ESolid}.
-	/// @param {Struct, Undefined} [_props]
+	/// @param {Real} _icon The icon to draw. Use values from {@link FA_ESolid}.
+	/// @param {Struct, Undefined} [_props] Properties to apply to the icon or
+	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static icon_solid = function (_icon, _props=undefined)
@@ -544,10 +625,13 @@ function FORMS_Pen(_content) constructor
 
 	/// @func icon_brands(_icon[, _props])
 	///
-	/// @desc
+	/// @desc Draws a Font Awesome icon using the "brands" font and moves the
+	/// pen by its width (or adds a new line, if {@link FORMS_Pen.AutoNewline}
+	/// is enabled).
 	///
-	/// @param {Real} _icon Use values from {@link FA_EBrands}.
-	/// @param {Struct, Undefined} [_props]
+	/// @param {Real} _icon The icon to draw. Use values from {@link FA_EBrands}.
+	/// @param {Struct, Undefined} [_props] Properties to apply to the icon or
+	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static icon_brands = function (_icon, _props=undefined)
@@ -558,14 +642,17 @@ function FORMS_Pen(_content) constructor
 
 	/// @func button(_text[, _props])
 	///
-	/// @desc
+	/// @desc Draws a button and moves the pen by its width (or adds a new line,
+	/// if {@link FORMS_Pen.AutoNewline} is enabled).
 	///
-	/// @param {String} _text
-	/// @param {Struct, Undefined} [_props]
+	/// @param {String} _text The button's text.
+	/// @param {Struct, Undefined} [_props] Properties to apply to the button or
+	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static button = function (_text, _props=undefined)
 	{
+		// TODO: Add struct FORMS_PenButtonProps
 		__assert_started();
 		var _c = forms_get_prop(_props, "Color") ?? c_white;
 		var _a = forms_get_prop(_props, "Alpha") ?? 1.0;
@@ -585,25 +672,35 @@ function FORMS_Pen(_content) constructor
 		__move_or_nl(_width);
 		if (_mouseOver)
 		{
-			return forms_mouse_check_button_pressed(mb_left)
-				? FORMS_EControlAction.Click
-				: FORMS_EControlAction.MouseOver;
+			if (forms_mouse_check_button_pressed(mb_left))
+			{
+				return FORMS_EControlAction.Click;
+			}
+			if (forms_mouse_check_button_pressed(mb_right))
+			{
+				return FORMS_EControlAction.RightClick;
+			}
+			return FORMS_EControlAction.MouseOver;
 		}
 		return FORMS_EControlAction.None;
 	};
 
 	/// @func color(_id, _color[, _props])
 	///
-	/// @desc
+	/// @desc Draws a color input that opens a color picker when clicked and
+	/// moves the pen by its width (or adds a new line, if
+	/// {@link FORMS_Pen.AutoNewline} is enabled).
 	///
-	/// @func {String} _id
-	/// @func {Real} _color
-	/// @func {Struct, Undefined} [_props]
+	/// @func {String} _id The ID of the color input.
+	/// @func {Real} _color The color to be mixed.
+	/// @func {Struct, Undefined} [_props] Properties to apply to the color
+	/// input or `undefined`.
 	///
-	/// @return {Bool} Returns true if the value has changed. New value can be
-	/// retrieved using method {@link FORMS_Pen.get_result}.
+	/// @return {Bool} Returns `true` if the color has changed. The new color
+	/// can be retrieved using method {@link FORMS_Pen.get_result}.
 	static color = function (_id, _color, _props=undefined)
 	{
+		// TODO: Add struct FORMS_PenColorProps
 		__assert_started();
 		_id = __make_id(_id);
 		var _width = forms_get_prop(_props, "Width") ?? min(get_control_width(), 50);
@@ -640,14 +737,18 @@ function FORMS_Pen(_content) constructor
 
 	/// @func checkbox(_checked[, _props])
 	///
-	/// @desc
+	/// @desc Draws a checkbox and moves the pen by its width (or adds a new
+	/// line, if {@link FORMS_Pen.AutoNewline} is enabled).
 	///
-	/// @param {Bool} _checked
-	/// @param {Struct, Undefined} [_props]
+	/// @param {Bool} _checked Whether the checkbox is checked (`true`) or not
+	/// (`false`).
+	/// @param {Struct, Undefined} [_props] Properties to apply to the checkbox
+	/// or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static checkbox = function (_checked, _props=undefined)
 	{
+		// TODO: Add struct FORMS_PenCheckboxProps
 		__assert_started();
 		var _width = __lineHeight;
 		var _height = __lineHeight;
@@ -669,23 +770,33 @@ function FORMS_Pen(_content) constructor
 		__move_or_nl(_width);
 		if (_mouseOver)
 		{
-			return forms_mouse_check_button_pressed(mb_left)
-				? FORMS_EControlAction.Click
-				: FORMS_EControlAction.MouseOver;
+			if (forms_mouse_check_button_pressed(mb_left))
+			{
+				return FORMS_EControlAction.Click;
+			}
+			if (forms_mouse_check_button_pressed(mb_right))
+			{
+				return FORMS_EControlAction.RightClick;
+			}
+			return FORMS_EControlAction.MouseOver;
 		}
 		return FORMS_EControlAction.None;
 	};
 
 	/// @func radio(_selected[, _props])
 	///
-	/// @desc
+	/// @desc Draws a radio button and moves the pen by its width (or adds a new
+	/// line, if {@link FORMS_Pen.AutoNewline} is enabled).
 	///
-	/// @param {Bool} _selected
-	/// @param {Struct, Undefined} [_props]
+	/// @param {Bool} _selected Whether the radio button is selected (`true`)
+	/// or not (`false`).
+	/// @param {Struct, Undefined} [_props] Properties to apply to the radio
+	/// button or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static radio = function (_selected, _props=undefined)
 	{
+		// TODO: Add struct FORMS_PenRadioProps
 		__assert_started();
 		var _width = __lineHeight;
 		var _height = __lineHeight;
@@ -704,9 +815,15 @@ function FORMS_Pen(_content) constructor
 		__move_or_nl(_width);
 		if (_mouseOver)
 		{
-			return forms_mouse_check_button_pressed(mb_left)
-				? FORMS_EControlAction.Click
-				: FORMS_EControlAction.MouseOver;
+			if (forms_mouse_check_button_pressed(mb_left))
+			{
+				return FORMS_EControlAction.Click;
+			}
+			if (forms_mouse_check_button_pressed(mb_right))
+			{
+				return FORMS_EControlAction.RightClick;
+			}
+			return FORMS_EControlAction.MouseOver;
 		}
 		return FORMS_EControlAction.None;
 	};
@@ -720,18 +837,21 @@ function FORMS_Pen(_content) constructor
 
 	/// @func slider(_id, _value, _min, _max[, _props])
 	///
-	/// @desc
+	/// @desc Draws a slider and moves the pen by its width (or adds a new line,
+	/// if {@link FORMS_Pen.AutoNewline} is enabled).
 	///
-	/// @param {String} _id
-	/// @param {Real} _value
-	/// @param {Real} _min
-	/// @param {Real} _max
-	/// @param {Struct, Undefined} [_props]
+	/// @param {String} _id The ID of the slider.
+	/// @param {Real} _value The current slider value.
+	/// @param {Real} _min The minimum slider value.
+	/// @param {Real} _max The maximum slider value.
+	/// @param {Struct, Undefined} [_props] Properties to apply to the slider or
+	/// `undefined` (default).
 	///
-	/// @return {Bool} Returns true if the value has changed. New value can be
-	/// retrieved using method {@link FORMS_Pen.get_result}.
+	/// @return {Bool} Returns `true` if the slider value has changed. The new
+	/// value can be retrieved using method {@link FORMS_Pen.get_result}.
 	static slider = function (_id, _value, _min, _max, _props=undefined)
 	{
+		// TODO: Add struct FORMS_PenSliderProps
 		__assert_started();
 		_id = __make_id(_id);
 		var _valueNew = clamp(_value, _min, _max);
@@ -783,17 +903,22 @@ function FORMS_Pen(_content) constructor
 
 	/// @func dropdown(_id, _value, _options[, _props])
 	///
-	/// @desc
+	/// @desc Draws a dropdown then opens a menu with available options when
+	/// clicked and moves the pen by its width (or adds a new line, if
+	/// {@link FORMS_Pen.AutoNewline} is enabled).
 	///
-	/// @param {String} _id
-	/// @param {Real} _value
-	/// @param {Array} _options
-	/// @param {Struct, Undefined} [_props]
+	/// @param {String} _id The ID of the dropdown.
+	/// @param {Real} _value The index of the currently selected option.
+	/// @param {Array} _options An array of all available options.
+	/// @param {Struct, Undefined} [_props] Properties to apply to the dropdown
+	/// or `undefined` (default).
 	///
-	/// @return {Bool} Returns true if the value has changed. New value can be
-	/// retrieved using method {@link FORMS_Pen.get_result}.
+	/// @return {Bool} Returns `true` if a new option was selected. The new
+	/// index of the selected option can be retrieved using method
+	/// {@link FORMS_Pen.get_result}.
 	static dropdown = function (_id, _value, _options, _props=undefined)
 	{
+		// TODO: Add struct FORMS_PenDropdownProps
 		__assert_started();
 		_id = __make_id(_id);
 		var _width = forms_get_prop(_props, "Width") ?? get_control_width();
@@ -870,16 +995,19 @@ function FORMS_Pen(_content) constructor
 
 	/// @func input(_id, _value[, _props])
 	///
-	/// @desc
+	/// @desc Draws an input (text or numeric) and moves the pen by its width
+	/// (or adds a new line, if {@link FORMS_Pen.AutoNewline} is enabled).
 	///
-	/// @param {String} _id
-	/// @param {String, Real} _value
-	/// @param {Struct, Undefined} [_props]
+	/// @param {String} _id The ID of the input.
+	/// @param {String, Real} _value The value inside of the input.
+	/// @param {Struct, Undefined} [_props] Properties to apply to the input or
+	/// `undefined` (default).
 	///
-	/// @return {Bool} Returns true if the value has changed. New value can be
-	/// retrieved using method {@link FORMS_Pen.get_result}.
+	/// @return {Bool} Returns `true` if the input value has changed. The new
+	/// value can be retrieved using method {@link FORMS_Pen.get_result}.
 	static input = function (_id, _value, _props=undefined)
 	{
+		// TODO: Add struct FORMS_PenInputProps
 		__assert_started();
 		_id = __make_id(_id);
 
@@ -1036,14 +1164,20 @@ function FORMS_Pen(_content) constructor
 
 	/// @func section(_text[, _props])
 	///
-	/// @desc
+	/// @desc Draws a section, begins a new line and increases the current
+	/// indentation level.
 	///
-	/// @param {String} _text
-	/// @param {Struct, Undefined} [_props]
+	/// @param {String} _text The name of the section.
+	/// @param {Struct, Undefined} [_props] Properties to apply to the section
+	/// or `undefined` (default).
 	///
-	/// @return {Bool} Returns `true` if the section is expanded.
+	/// @return {Bool} Returns `true` if the section is expanded or `false` if 
+	/// it's collapsed.
+	///
+	/// @see FORMS_Pen.SectionIndent
 	static section = function (_text, _props=undefined)
 	{
+		// TODO: Add struct FORMS_PenSectionProps
 		__assert_started();
 		var _id = forms_get_prop(_props, "Id") ?? _text;
 		__sectionExpanded[$ _id] ??= !(forms_get_prop(_props, "Collapsed") ?? false);
@@ -1076,9 +1210,13 @@ function FORMS_Pen(_content) constructor
 
 	/// @func end_section()
 	///
-	/// @desc
+	/// @desc Ends a section previously started with {@link FORMS_Pen.section}
+	/// (which must have returned `true`) and decreased the current indentation
+	/// level.
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
+	///
+	/// @see FORMS_Pen.SectionIndent
 	static end_section = function ()
 	{
 		__assert_started();
@@ -1090,9 +1228,9 @@ function FORMS_Pen(_content) constructor
 
 	/// @func nl([_count])
 	///
-	/// @desc
+	/// @desc Adds given number of new lines.
 	///
-	/// @param {Real} [_count]
+	/// @param {Real} [_count] The number of new lines to add. Defaults to 1.
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
 	///
@@ -1119,7 +1257,8 @@ function FORMS_Pen(_content) constructor
 
 	/// @func finish()
 	///
-	/// @desc
+	/// @desc Finishes drawing with the pen. Must be always used before calling
+	/// {@link FORMS_Pen.start} again!
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
 	static finish = function ()
