@@ -2,7 +2,7 @@
 ///
 /// @extends FORMS_ContainerProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_MenuBar}.
 function FORMS_MenuBarProps()
 	: FORMS_ContainerProps() constructor
 {
@@ -12,10 +12,13 @@ function FORMS_MenuBarProps()
 ///
 /// @extends FORMS_Container
 ///
-/// @desc
+/// @desc A bar with dropdown menus, usually placed at the top of the
+/// application window.
 ///
-/// @param {Array<Struct.FORMS_MenuBarItem>} [_items]
-/// @param {Struct.FORMS_MenuBarProps, Undefined} [_props]
+/// @param {Array<Struct.FORMS_MenuBarItem>} [_items] An array of items in the
+/// menu bar.
+/// @param {Struct.FORMS_MenuBarProps, Undefined} [_props] Properties to create
+/// the menu bar with or `undefined` (default).
 function FORMS_MenuBar(_items=[], _props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
@@ -33,13 +36,18 @@ function FORMS_MenuBar(_items=[], _props=undefined)
 	/// @private
 	__contextMenu = undefined;
 
-	{
-		Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
-		Height.from_props(_props, "Height", 24, FORMS_EUnit.Pixel);
-		BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x272727;
+	/// @var {Struct.FORMS_WidgetUnitValue} The widget's width. Defaults to 100%.
+	Width = Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 
-		set_content(new FORMS_MenuBarContent());
-	}
+	/// @var {Struct.FORMS_WidgetUnitValue} The widget's height. Defaults to
+	/// 24px.
+	Height = Height.from_props(_props, "Height", 24, FORMS_EUnit.Pixel);
+
+	/// @var {Constant.Color} The tint color of the background sprite. Defaults
+	/// to `0x272727`.
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x272727;
+
+	set_content(new FORMS_MenuBarContent());
 
 	static update = function (_deltaTime)
 	{
@@ -55,16 +63,20 @@ function FORMS_MenuBar(_items=[], _props=undefined)
 
 /// @func FORMS_MenuBarItem(_name[, _contextMenu])
 ///
-/// @desc
+/// @desc An item in a {@link FORMS_MenuBar}.
 ///
-/// @param {String} _name
-/// @param {Function, Undefined} [_contextMenu]
+/// @param {String} _name The name of the menu item.
+/// @param {Function, Undefined} [_contextMenu] A constructor of a struct that
+/// inherits from {@link FORMS_ContextMenu} to be created when the menu item is
+/// selected, or `undefined` (default).
 function FORMS_MenuBarItem(_name, _contextMenu=undefined) constructor
 {
-	/// @var {String}
+	/// @var {String} The name of the menu item.
 	Name = _name;
 
-	/// @var {Function, Undefined}
+	/// @var {Function, Undefined} A constructor of a struct that inherits from
+	/// {@link FORMS_ContextMenu} to be created when the menu item is selected,
+	/// or `undefined` (default).
 	ContextMenu = _contextMenu;
 }
 
@@ -72,7 +84,7 @@ function FORMS_MenuBarItem(_name, _contextMenu=undefined) constructor
 ///
 /// @extends FORMS_Content
 ///
-/// @desc
+/// @desc Draws contents of a {@link FORMS_MenuBar}.
 function FORMS_MenuBarContent()
 	: FORMS_Content() constructor
 {
