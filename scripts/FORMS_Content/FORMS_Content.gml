@@ -1,4 +1,4 @@
-/// @macro {Code} A shorhand for
+/// @macro {Code} A shorthand for
 /// `Width = Pen.get_max_x(); Height = Pen.get_max_y();`. Useful in custom
 /// implementations of {@link FORMS_Content.draw}.
 #macro FORMS_CONTENT_UPDATE_SIZE \
