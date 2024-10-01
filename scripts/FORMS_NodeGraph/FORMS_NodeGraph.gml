@@ -1,6 +1,8 @@
 /// @func FORMS_NodeGraph()
 ///
 /// @desc
+///
+/// @private
 function FORMS_NodeGraph() constructor
 {
 	/// @var {Array<Struct.FORMS_Node>}
@@ -102,6 +104,8 @@ function FORMS_NodeGraph() constructor
 /// pins.
 /// @param {Array<Struct.FORMS_Pin>} [_pinsOut] An array of the node's output
 /// pins.
+///
+/// @private
 function FORMS_Node(_name, _pinsIn=[], _pinsOut=[]) constructor
 {
 	/// @var {Struct.NodeGrap, Undefined} The graph to which this node belongs.
@@ -218,6 +222,7 @@ function FORMS_Node(_name, _pinsIn=[], _pinsOut=[]) constructor
 }
 
 /// @enum
+/// @private
 enum FORMS_EPinType
 {
 	Real,
@@ -248,6 +253,8 @@ global.__formsPinColor = [
 /// @param {Real} _pinType The type of the pin. Use values from
 /// {@link FORMS_EPinType}.
 /// @param {Constant.Color} _color The new pin color.
+///
+/// @private
 function forms_pin_set_color(_pinType, _color)
 {
 	gml_pragma("forceinline");
@@ -262,6 +269,8 @@ function forms_pin_set_color(_pinType, _color)
 /// {@link FORMS_EPinType}.
 ///
 /// @return {Constant.Color} The pin color.
+///
+/// @private
 function forms_pin_get_color(_pinType)
 {
 	gml_pragma("forceinline");
@@ -276,6 +285,8 @@ function forms_pin_get_color(_pinType)
 /// @param {Real} _type The type of the pin. Use values from
 /// {@link FORMS_EPinType}.
 /// @param {Constant.AssetType, Undefined} [_assetType]
+///
+/// @private
 function FORMS_Pin(_name, _type, _assetType=undefined) constructor
 {
 	/// @var {Struct.FORMS_Node, Undefined} The node to which this pin belongs.
