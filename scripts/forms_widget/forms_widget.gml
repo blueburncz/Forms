@@ -474,7 +474,8 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func find_widget(_id)
 	///
-	/// @desc Recursively looks for a widget with given ID.
+	/// @desc Recursively looks for a widget with given ID down in the widget
+	/// hierarchy.
 	///
 	/// @param {String} _id The ID of the widget to find.
 	///
@@ -534,18 +535,20 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func get_auto_width()
 	///
-	/// @desc Return's the width of the widget when it's set to "auto".
+	/// @desc Returns the width used for child widgets whose width is set to
+	/// "auto".
 	///
-	/// @return {Real, Undefined} The widget's width or `undefined` if "auto"
-	/// is not supported.
+	/// @return {Real, Undefined} The width or `undefined` if this widget
+	/// does not support "auto" sizes.
 	static get_auto_width = function () { return undefined; };
 
 	/// @func get_auto_height()
 	///
-	/// @desc Return's the height of the widget when it's set to "auto".
+	/// @desc Returns the height used for child widgets whose height is set to
+	/// "auto".
 	///
-	/// @return {Real, Undefined} The widget's height or `undefined` if "auto"
-	/// is not supported.
+	/// @return {Real, Undefined} The height or `undefined` if this widget
+	/// does not support "auto" sizes.
 	static get_auto_height = function () { return undefined; };
 
 	/// @func layout()
