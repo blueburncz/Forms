@@ -44,37 +44,51 @@ function FORMS_Tree(_children=[]) constructor
 /// @desc Properties accepted by the constructor of {@link FORMS_TreeItem}.
 function FORMS_TreeItemProps() constructor
 {
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} A Font Awesome icon drawn next to the tree item
+	/// or `undefined`. Use values from {@link FA_ESolid}, {@link FA_ERefular}
+	/// or {@link FA_EBrands}.
 	Icon = undefined;
 
-	/// @var {Asset.GMFont, Undefined}
+	/// @var {Asset.GMFont, Undefined} The font used to draw the icon next to
+	/// the tree item.
 	IconFont = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} A Font Awesome icon drawn next to the tree item
+	/// when it's collapsed or `undefined`, in which case the same icon is used.
+	/// Use values from {@link FA_ESolid}, {@link FA_ERefular} or
+	/// {@link FA_EBrands}.
 	IconCollapsed = undefined;
 
-	/// @var {Asset.GMFont, Undefined}
+	/// @var {Asset.GMFont, Undefined} The font used to draw the icon next to
+	/// the tree item when it's collapsed or `undefined`, in which case the same
+	/// font is used.
 	IconCollapsedFont = undefined;
 
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The color of the icon draw next to the
+	/// tree item.
 	IconColor = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the icon drawn next to the
+	/// tree item.
 	IconAlpha = undefined;
 
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The color of the carent drawn next to
+	/// the tree item.
 	CaretColor = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the caret drawn next to the
+	/// tree item.
 	CaretAlpha = undefined;
 
-	/// @var {Bool, Undefined}
+	/// @var {Bool, Undefined} Whether the tree item is collapsed (`true`) or
+	/// not (`false`). Child items are not drawn when collapsed.
 	Collapsed = undefined;
 
-	/// @var {Any}
+	/// @var {Any} Data associated with the tree item.
 	Data = undefined;
 
-	/// @var {Function, Undefined}
+	/// @var {Function, Undefined} A function executed when the tree item is
+	/// selected or `undefined`.
 	OnSelect = undefined;
 }
 
@@ -117,8 +131,8 @@ function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) co
 	IconCollapsed = forms_get_prop(_props, "IconCollapsed");
 
 	/// @var {Asset.GMFont, Undefined} The font used to draw the icon next to
-	/// the tree item when it's collapsed or `undefined`, in which case the same
-	/// font is used.
+	/// the tree item when it's collapsed or `undefined` (default), in which
+	/// case the same font is used.
 	/// @see FORMS_TreeItem.IconFont
 	/// @see FORMS_TreeItem.Collapsed
 	IconCollapsedFont = forms_get_prop(_props, "IconCollapsedFont");
