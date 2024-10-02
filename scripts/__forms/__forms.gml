@@ -5,7 +5,8 @@ global.formsAccentColor = 0x5B9D00;
 
 /// @func forms_assert(_expr, _message)
 ///
-/// @desc Shows an error if given expression doesn't evaluate to `true`.
+/// @desc Calls `show_error(_message, true)` if given expression doesn't
+/// evaluate to `true`.
 ///
 /// @param {Bool} _expr The expression to check.
 /// @param {String} _message The error message to show if expression is `false`.
