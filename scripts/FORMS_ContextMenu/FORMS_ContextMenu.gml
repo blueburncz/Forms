@@ -92,7 +92,7 @@ function FORMS_ContextMenuOption(_textOrProps)
 	// TODO: Implement context menu icons
 	Icon = undefined;
 
-	IconFont = FA_FntSolid12;
+	IconFont = FA_FntRegular12;
 
 	/// @var {Bool} Whether the option is disabled (`true`) or enabled (`false`).
 	/// Defaults to `false`.

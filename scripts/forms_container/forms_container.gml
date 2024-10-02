@@ -57,7 +57,7 @@ function FORMS_Container(_content=undefined, _props=undefined)
 	/// over its entire size. Defaults to `FORMS_SprRectangle`.
 	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRectangle;
 
-	/// @var {Real} The subimage of the background sprite to use.
+	/// @var {Real} The subimage of the background sprite to use. Defaults to 0.
 	BackgroundIndex = forms_get_prop(_props, "BackgroundIndex") ?? 0;
 
 	/// @var {Constant.Color} The tint color of the background sprite. Defaults

@@ -36,10 +36,10 @@ function FORMS_MenuBar(_items=[], _props=undefined)
 	/// @private
 	__contextMenu = undefined;
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's width. Defaults to 100%.
+	/// @var {Struct.FORMS_UnitValue} The widget's width. Defaults to 100%.
 	Width = Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's height. Defaults to
+	/// @var {Struct.FORMS_UnitValue} The widget's height. Defaults to
 	/// 24px.
 	Height = Height.from_props(_props, "Height", 24, FORMS_EUnit.Pixel);
 

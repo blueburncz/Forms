@@ -2,52 +2,56 @@
 ///
 /// @extends FORMS_CompoundWidgetProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_ScrollPane}.
 function FORMS_ScrollPaneProps()
 	: FORMS_CompoundWidgetProps() constructor
 {
-	/// @var {Struct.FORMS_ContainerProps, Undefined}
-	Container = undefined;
+	/// @var {Struct.FORMS_ContainerProps, Undefined} Properties to create the
+	/// scroll pane's container with.
+	ContainerProps = undefined;
 
-	/// @var {Struct.FORMS_ScrollbarProps, Undefined}
-	HScrollbar = undefined;
+	/// @var {Struct.FORMS_HScrollbarProps, Undefined} Properties to create the
+	/// scroll pane's horizontal scrollbar with.
+	HScrollbarProps = undefined;
 
-	/// @var {Struct.FORMS_ScrollbarProps, Undefined}
-	VScrollbar = undefined;
+	/// @var {Struct.FORMS_VScrollbarProps, Undefined} Properties to create the
+	/// scroll pane's vertical scrollbar with.
+	VScrollbarProps = undefined;
 }
 
 /// @func FORMS_ScrollPane([_content[, _props]])
 ///
 /// @extends FORMS_CompoundWidget
 ///
-/// @desc
+/// @desc A widget that consists of a container and two scrollbars.
 ///
-/// @param {Struct.FORMS_Content, Undefined} [_content]
-/// @param {Struct.FORMS_ScrollPaneProps, Undefined} [_props]
+/// @param {Struct.FORMS_Content, Undefined} [_content] The content to draw in
+/// the scroll pane's container.
+/// @param {Struct.FORMS_ScrollPaneProps, Undefined} [_props] Properties to
+/// create the scroll pane with or `undefined` (default).
 function FORMS_ScrollPane(_content=undefined, _props=undefined)
 	: FORMS_CompoundWidget(_props, undefined) constructor
 {
 	//static CompoundWidget_layout = layout;
 
-	/// @var {Struct.FORMS_Container}
+	/// @var {Struct.FORMS_Container} The scroll pane's container. Its
+	/// background color defaults to `0x272727`.
 	/// @readonly
-	Container = new FORMS_Container(_content, forms_get_prop(_props, "Container") ?? {
+	Container = new FORMS_Container(_content, forms_get_prop(_props, "ContainerProps") ?? {
 		BackgroundColor: 0x272727, // TODO: struct_join()
 	});
 
-	/// @var {Struct.FORMS_HScrollbar}
+	/// @var {Struct.FORMS_HScrollbar} The scroll pane's horizontal scrollbar.
 	/// @readonly
-	HScrollbar = new FORMS_HScrollbar(Container, forms_get_prop(_props, "HScrollbar"));
+	HScrollbar = new FORMS_HScrollbar(Container, forms_get_prop(_props, "HScrollbarProps"));
 
-	/// @var {Struct.FORMS_VScrollbar}
+	/// @var {Struct.FORMS_VScrollbar} The scroll pane's vertical scrollbar.
 	/// @readonly
-	VScrollbar = new FORMS_VScrollbar(Container, forms_get_prop(_props, "VScrollbar"));
+	VScrollbar = new FORMS_VScrollbar(Container, forms_get_prop(_props, "VScrollbarProps"));
 
-	{
-		add_child(Container);
-		add_child(HScrollbar);
-		add_child(VScrollbar);
-	}
+	add_child(Container);
+	add_child(HScrollbar);
+	add_child(VScrollbar);
 
 	static layout = function ()
 	{

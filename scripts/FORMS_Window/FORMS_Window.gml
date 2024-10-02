@@ -1,11 +1,17 @@
-/// @enum
+/// @enum Enumeration of window resize directions.
 enum FORMS_EWindowResize
 {
+	/// @member Not resizing the window.
 	None   = 0b0000,
+	/// @member Resizing the left side of a window.
 	Left   = 0b0001,
+	/// @member Resizing the right side of a window.
 	Right  = 0b0010,
+	/// @member Resizing the top side of a window.
 	Top    = 0b0100,
+	/// @member Resizing the bottom side of a window.
 	Bottom = 0b1000,
+	/// @member Resizing the window on all sides.
 	All    = 0b1111,
 };
 
@@ -13,31 +19,33 @@ enum FORMS_EWindowResize
 ///
 /// @extends FORMS_FlexBoxProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_Window}.
 function FORMS_WindowProps()
 	: FORMS_FlexBoxProps() constructor
 {
-	/// @var {Bool, Undefined} Whether the window can be moved. Default value is true.
+	/// @var {Bool, Undefined} Whether the window can be moved (`true`) or not
+	/// (`false`).
 	Movable = undefined;
 
 	/// @var {Real, Undefined} Bitwise OR between directions in which the window
-	/// can be resized. Use values from {@link FORMS_EWindowResize}. Default
-	/// value is {@link FORMS_EWindowResize.All}.
+	/// can be resized. Use values from {@link FORMS_EWindowResize}.
 	Resizable = undefined;
 
-	/// @var {Bool, Undefined}
+	/// @var {Bool, Undefined} Whether the window can be closed (`true`) or not
+	/// (`false`).
 	Closable = undefined;
 
-	/// @var {Asset.GMSprite}
+	/// @var {Asset.GMSprite, Undefined} The background sprite of the window,
+	/// stretched over its entire size.
 	BackgroundSprite = undefined;
 
-	/// @var {Real}
+	/// @var {Real, Undefined} The subimage of the background sprite to use.
 	BackgroundIndex = undefined;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color, Undefined} The tint color of the background sprite.
 	BackgroundColor = undefined;
 
-	/// @var {Real}
+	/// @var {Real, Undefined} The alpha value of the background sprite.
 	BackgroundAlpha = undefined;
 }
 
@@ -56,34 +64,39 @@ function FORMS_Window(_widget, _props=undefined)
 	static FlexBox_update = update;
 	static FlexBox_draw = draw;
 
-	/// @var {Bool} Whether the window can be moved. Default value is true.
+	/// @var {Bool} Whether the window can be moved. Defaults to `true`.
 	Movable = forms_get_prop(_props, "Movable") ?? true;
 
 	/// @var {Real} Bitwise OR between directions in which the window can be
-	/// resized. Use values from {@link FORMS_EWindowResize}. Default value is
+	/// resized. Use values from {@link FORMS_EWindowResize}. Defaults to
 	/// {@link FORMS_EWindowResize.All}.
 	Resizable = forms_get_prop(_props, "Resizable") ?? FORMS_EWindowResize.All;
 
-	/// @var {Bool}
+	/// @var {Bool} Whether the window can be closed. Defaults to `true`.
 	Closable = forms_get_prop(_props, "Closable") ?? true;
 
-	/// @var {Asset.GMSprite}
+	/// @var {Asset.GMSprite} The background sprite of the window, stretched
+	/// over its entire size. Defaults to `FORMS_SprRound4`.
 	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRound4;
 
-	/// @var {Real}
+	/// @var {Real} The subimage of the background sprite to use. Defaults to 0.
 	BackgroundIndex = forms_get_prop(_props, "BackgroundIndex") ?? 0;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color} The tint color of the background sprite. Defaults
+	/// to `0x303030`.
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x303030;
 
-	/// @var {Real}
+	/// @var {Real} The alpha value of the background sprite. Defaults to 1.
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
-	/// @var {Struct.FORMS_WindowTitle}
+	/// @var {Struct.FORMS_WindowTitle} The window's title bar. Displays the
+	/// name of the widget attached to this window.
 	/// @readonly
+	/// @see FORMS_Window.Widget
 	Titlebar = new FORMS_WindowTitle();
 
-	/// @var {Struct.BBMOD_Widget, Undefined}
+	/// @var {Struct.BBMOD_Widget, Undefined} The widget attached to this window
+	/// or `undefined`.
 	/// @readonly
 	Widget = _widget;
 
@@ -106,29 +119,48 @@ function FORMS_Window(_widget, _props=undefined)
 	/// @private
 	__mouseOffset = [0, 0];
 
-	{
-		IsHorizontal = false;
-		Width.from_props(_props, "Width", 400);
-		Height.from_props(_props, "Height", 300);
-		PaddingX.from_props(_props, "PaddingX", __padding);
-		PaddingY.from_props(_props, "PaddingY", __padding);
+	/// @var {Bool} This property inherited from {@link FORMS_FlexBox} is set
+	/// to `false` to stack contained widget vertically.
+	IsHorizontal = false;
 
-		add_child(Titlebar);
-		if (Widget != undefined)
-		{
-			add_child(Widget);
-		}
+	/// @var {Struct.FORMS_UnitValue} The width of the window. Defaults to
+	/// 400.
+	Width = Width.from_props(_props, "Width", 400);
+
+	/// @var {Struct.FORMS_UnitValue} The height of the window. Defaults
+	/// to 300.
+	Height = Height.from_props(_props, "Height", 300);
+
+	/// @var {Struct.FORMS_UnitValue} This property inherited from
+	/// {@link FORMS_FlexBox} is used as the size of the window's border on the
+	/// X axis. Defaults to 4.
+	PaddingX = PaddingX.from_props(_props, "PaddingX", __padding);
+
+	/// @var {Struct.FORMS_UnitValue} This property inherited from
+	/// {@link FORMS_FlexBox} is used as the size of the window's border on the
+	/// Y axis. Defaults to 4.
+	PaddingY = PaddingY.from_props(_props, "PaddingY", __padding);
+
+	add_child(Titlebar);
+
+	if (Widget != undefined)
+	{
+		add_child(Widget);
 	}
 
 	// TODO: Disable adding of more children (don't inherit from FlexBox???)
 
 	/// @func set_widget(_widget)
 	///
-	/// @desc
+	/// @desc Changes the widget attached to the window.
 	///
-	/// @param {Struct.FORMS_Widget} _widget
+	/// @param {Struct.FORMS_Widget} _widget The new widget to attach.
 	///
 	/// @return {Struct.FORMS_Window} Returns `self`.
+	///
+	/// @note This **destroys** the widget attached previously! Remove it first
+	/// with {@link FORMS_Widget.remove_self} if you don't want it to be
+	/// destroyed.
 	static set_widget = function (_widget)
 	{
 		if (Widget != undefined)
@@ -303,23 +335,38 @@ function FORMS_Window(_widget, _props=undefined)
 	};
 }
 
+/// @func FORMS_WindowTitleProps()
+///
+/// @extends FORMS_ContainerProps
+///
+/// @desc Properties accepted by the constructor of {@link FORMS_WindowTitle}.
+function FORMS_WindowTitleProps()
+	: FORMS_ContainerProps() constructor
+{
+}
+
 /// @func FORMS_WindowTitle([_props])
 ///
 /// @extends FORMS_Container
 ///
-/// @desc
+/// @desc A title bar of a {@link FORMS_Window}.
 ///
-/// @params {Struct.FORMS_ContainerProps, Undefined} [_props]
+/// @params {Struct.FORMS_WindowTitleProps, Undefined} [_props] Properties to
+/// create the window title bar with or `undefined` (default).
 function FORMS_WindowTitle(_props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
 	static Container_draw = draw;
 
-	{
-		Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
-		Height.from_props(_props, "Height", 24);
-		set_content(new FORMS_WindowTitleContent());
-	}
+	/// @var {Struct.FORMS_UnitValue} The width of the title bar. Defaults
+	/// to 100%.
+	Width = Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
+
+	/// @var {Struct.FORMS_UnitValue} The height of the title bar.
+	/// Defaults to 24px.
+	Height = Height.from_props(_props, "Height", 24);
+
+	set_content(new FORMS_WindowTitleContent());
 
 	static draw = function (_deltaTime)
 	{
@@ -342,7 +389,7 @@ function FORMS_WindowTitle(_props=undefined)
 ///
 /// @extends FORMS_Content
 ///
-/// @desc
+/// @desc Draws contents of a {@link FORMS_WindowTitle}.
 function FORMS_WindowTitleContent()
 	: FORMS_Content() constructor
 {

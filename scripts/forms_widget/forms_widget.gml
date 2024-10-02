@@ -13,16 +13,16 @@ enum FORMS_EUnit
 	SIZE
 };
 
-/// @func FORMS_WidgetUnitValue([_value[, _unit]])
+/// @func FORMS_UnitValue([_value[, _unit]])
 ///
 /// @desc A value coupled with the type of units it uses.
 ///
 /// @param {Real} [_value] The value. Defaults to 0.
 /// @param {Real} [_unit] The type of the unit used. Use values from
 /// {@link FORMS_EUnit}. Defaults to {@link FORMS_EUnit.Pixel}.
-function FORMS_WidgetUnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
+function FORMS_UnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 {
-	/// @var {Real} The value. Ignored if {@link FORMS_WidgetUnitValue.Unit}
+	/// @var {Real} The value. Ignored if {@link FORMS_UnitValue.Unit}
 	/// is {@link FORMS_EUnit.Auto}!
 	Value = _value;
 
@@ -38,13 +38,13 @@ function FORMS_WidgetUnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 	/// Unit defaults to {@link FORSM_EUnit.Pixels} if not included in the
 	/// string.
 	///
-	/// @return {Struct.FORMS_WidgetUnitValue} Returns `self`.
+	/// @return {Struct.FORMS_UnitValue} Returns `self`.
 	///
 	/// @example
 	/// ```gml
-	/// var _sizePixels = new FORMS_WidgetUnitValue().from_string("100px"); // 100 pixels
-	/// var _sizePercent = new FORMS_WidgetUnitValue().from_string("100%"); // 100 percent
-	/// var _sizeAuto = new FORMS_WidgetUnitValue().from_string("auto");    // "auto"
+	/// var _sizePixels = new FORMS_UnitValue().from_string("100px"); // 100 pixels
+	/// var _sizePercent = new FORMS_UnitValue().from_string("100%"); // 100 percent
+	/// var _sizeAuto = new FORMS_UnitValue().from_string("auto");    // "auto"
 	/// ```
 	static from_string = function (_string, _allowAuto=true)
 	{
@@ -170,24 +170,24 @@ function FORMS_WidgetUnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 	/// `undefined` or it doesn't contain the unit key. Use values from
 	/// {@link FORMS_EUnit}. Defaults to {@link FORMS_EUnit.Pixel}.
 	///
-	/// @return {Struct.FORMS_WidgetUnitValue} Returns `self`.
+	/// @return {Struct.FORMS_UnitValue} Returns `self`.
 	///
 	/// @example
 	/// ```gml
 	/// // 100px:
-	/// var _sizePixels = new FORMS_WidgetUnitValue()
+	/// var _sizePixels = new FORMS_UnitValue()
 	///     .from_props({ Size: 100, SizeUnit: FORMS_EUnit.Pixel }, "Size");
 	///
 	/// // 100%:
-	/// var _sizePercent = new FORMS_WidgetUnitValue()
+	/// var _sizePercent = new FORMS_UnitValue()
 	///     .from_props({ Size: 100, SizeUnit: FORMS_EUnit.Percent }, "Size");
 	///
 	/// // "auto":
-	/// var _sizeAuto = new FORMS_WidgetUnitValue()
+	/// var _sizeAuto = new FORMS_UnitValue()
 	///     .from_props({ SizeUnit: FORMS_EUnit.Auto }, "Size");
 	///
 	/// // 0px:
-	/// var _sizeFromDefaults = new FORMS_WidgetUnitValue().from_props({}, "Size");
+	/// var _sizeFromDefaults = new FORMS_UnitValue().from_props({}, "Size");
 	/// ```
 	static from_props = function (_props, _name, _valueDefault=0, _unitDefault=FORMS_EUnit.Pixel)
 	{
@@ -362,31 +362,31 @@ function FORMS_Widget(_props=undefined) constructor
 	/// @readonly
 	Parent = undefined;
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's X position relative to
+	/// @var {Struct.FORMS_UnitValue} The widget's X position relative to
 	/// its parent widget.
-	X = new FORMS_WidgetUnitValue().from_props(_props, "X");
+	X = new FORMS_UnitValue().from_props(_props, "X");
 
 	/// @var {Real} The widget's actual X position.
 	/// @private
 	__realX = 0;
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's Y position relative to
+	/// @var {Struct.FORMS_UnitValue} The widget's Y position relative to
 	/// its parent widget.
-	Y = new FORMS_WidgetUnitValue().from_props(_props, "Y");
+	Y = new FORMS_UnitValue().from_props(_props, "Y");
 
 	/// @var {Real} The widget's actual Y position.
 	/// @private
 	__realY = 0;
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's width.
-	Width = new FORMS_WidgetUnitValue().from_props(_props, "Width");
+	/// @var {Struct.FORMS_UnitValue} The widget's width.
+	Width = new FORMS_UnitValue().from_props(_props, "Width");
 
 	/// @var {Real} The widget's actual width.
 	/// @private
 	__realWidth = 0;
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's height.
-	Height = new FORMS_WidgetUnitValue().from_props(_props, "Height");
+	/// @var {Struct.FORMS_UnitValue} The widget's height.
+	Height = new FORMS_UnitValue().from_props(_props, "Height");
 
 	/// @var {Real} The widget's actual height.
 	/// @private
@@ -553,7 +553,7 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func layout()
 	///
-	/// @desc Updates the widget's layout.
+	/// @desc Updates layout of the widget and its children.
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static layout = function ()
@@ -574,7 +574,7 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func update(_deltaTime)
 	///
-	/// @desc Updates the widget.
+	/// @desc Updates the widget and its children.
 	///
 	/// @param {Real} _deltaTime Number of milliseconds passed since the last
 	/// frame.
@@ -587,7 +587,7 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func draw()
 	///
-	/// @desc Draws the widget.
+	/// @desc Draws the widget and its children.
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static draw = function ()

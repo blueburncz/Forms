@@ -2,14 +2,14 @@
 ///
 /// @extends FORMS_WidgetProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_Workspace}.
 function FORMS_WorkspaceProps()
 	: FORMS_WidgetProps() constructor
 {
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The background color of the workspace.
 	BackgroundColor = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the bakground.
 	BackgroundAlpha = undefined;
 }
 
@@ -17,23 +17,29 @@ function FORMS_WorkspaceProps()
 ///
 /// @extends FORMS_Widget
 ///
-/// @desc
+/// @desc A container that widgets who represent inividual workspaces are added
+/// to as tabs.
 ///
-/// @param {Struct.FORMS_WorkspaceProps, Undefined} [_props]
+/// @param {Struct.FORMS_WorkspaceProps, Undefined} [_props] Properties to
+/// create the workspace with or `undefined` (default).
 function FORMS_Workspace(_props=undefined)
 	: FORMS_Widget(_props) constructor
 {
 	static Widget_update = update;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color} The background color of the workspace. Defaults
+	/// to `0x202020`.
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x202020;
 
-	/// @var {Real}
+	/// @var {Real} The alpha value of the background. Defaults to 1.
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
-	/// @var {Struct.FORMS_WorkspaceTabs}
-	/// @private
-	__tabContainer = new FORMS_WorkspaceTabs();
+	/// @var {Struct.FORMS_WorkspaceTabs} A container that displays the
+	/// workspace's tabs.
+	/// @readonly
+	TabContainer = new FORMS_WorkspaceTabs();
+
+	TabContainer.Parent = self;
 
 	/// @var {Array<Struct.FORMS_Widget>}
 	/// @private
@@ -43,20 +49,16 @@ function FORMS_Workspace(_props=undefined)
 	/// @private
 	__tabCurrent = 0;
 
-	{
-		__tabContainer.Parent = self;
-	}
-
 	/// @func set_tab(_tabs)
 	///
-	/// @desc
+	/// @desc Changes the array of widgets tabbed to the workspace.
 	///
-	/// @param {Array<Struct.FORMS_Widget>} _tabs
+	/// @param {Array<Struct.FORMS_Widget>} _tabs The new array tabbed widgets.
 	///
 	/// @return {Struct.FORMS_Workspace} Returns `self`.
 	static set_tabs = function (_tabs)
 	{
-		forms_assert(array_length(__tabs) == 0, "Dock already has tabs!");
+		forms_assert(array_length(__tabs) == 0, "Workspace already has tabs!"); // TODO: Why is this here? :thinking:
 		__tabs = _tabs;
 		var i = 0;
 		repeat (array_length(__tabs))
@@ -68,9 +70,10 @@ function FORMS_Workspace(_props=undefined)
 
 	/// @func add_tab(_widget)
 	///
-	/// @desc
+	/// @desc Tabs a new widget to the dock.
 	///
-	/// @param {Struct.FORMS_Widget} _widget
+	/// @param {Struct.FORMS_Widget} _widget The widget to add to the workspace's
+	/// tabs.
 	///
 	/// @return {Struct.FORMS_Workspace} Returns `self`.
 	static add_tab = function (_widget)
@@ -90,7 +93,7 @@ function FORMS_Workspace(_props=undefined)
 		var _parentWidth = __realWidth;
 		var _parentHeight = __realHeight;
 
-		with (__tabContainer)
+		with (TabContainer)
 		{
 			var _autoWidth = get_auto_width();
 			var _autoHeight = get_auto_height();
@@ -107,9 +110,9 @@ function FORMS_Workspace(_props=undefined)
 		{
 			var _tab = __tabs[__tabCurrent];
 			_tab.__realX = _parentX;
-			_tab.__realY = _parentY + __tabContainer.__realHeight;
+			_tab.__realY = _parentY + TabContainer.__realHeight;
 			_tab.__realWidth = _parentWidth;
-			_tab.__realHeight = _parentHeight - __tabContainer.__realHeight;
+			_tab.__realHeight = _parentHeight - TabContainer.__realHeight;
 			_tab.layout();
 		}
 
@@ -119,7 +122,7 @@ function FORMS_Workspace(_props=undefined)
 	static update = function (_deltaTime)
 	{
 		Widget_update(_deltaTime);
-		__tabContainer.update(_deltaTime);
+		TabContainer.update(_deltaTime);
 		if (__tabCurrent < array_length(__tabs))
 		{
 			var _tab = __tabs[__tabCurrent];
@@ -135,7 +138,7 @@ function FORMS_Workspace(_props=undefined)
 			BackgroundColor, BackgroundAlpha);
 
 		var _tabCurrent = __tabCurrent; // Backup before it changes!
-		__tabContainer.draw();
+		TabContainer.draw();
 		if (_tabCurrent < array_length(__tabs))
 		{
 			__tabs[_tabCurrent].draw();
@@ -145,29 +148,43 @@ function FORMS_Workspace(_props=undefined)
 	};
 }
 
+/// @func FORMS_WorkspaceTabsProps()
+///
+/// @extends FORMS_ContainerProps
+///
+/// @desc Properties accepted by the constructor of {@link FORMS_WorkspaceTabs}.
+function FORMS_WorkspaceTabsProps()
+	: FORMS_ContainerProps() constructor
+{
+}
+
 /// @func FORMS_WorkspaceTabs([_props])
 ///
 /// @extends FORMS_Container
 ///
-/// @desc
+/// @desc A container that displays tabs added to a {@link FORMS_Workspace}.
 ///
-/// @params {Struct.FORMS_ContainerProps, Undefined} [_props]
+/// @params {Struct.FORMS_WorkspaceTabsProps, Undefined} [_props] Properties to
+/// create the workspace tabs container with or `undefined` (default).
 function FORMS_WorkspaceTabs(_props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
-	{
-		Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
-		Height.from_props(_props, "Height", 32);
+	/// @var {Struct.FORMS_UnitValue} The width of the workspace tabs
+	/// container. Defaults to 100%.
+	Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 
-		set_content(new FORMS_WorkspaceTabsContent());
-	}
+	/// @var {Struct.FORMS_UnitValue} The height of the workspace tabs
+	/// container. Defaults to 32px.
+	Height.from_props(_props, "Height", 32);
+
+	set_content(new FORMS_WorkspaceTabsContent());
 }
 
 /// @func FORMS_WorkspaceTabsContent()
 ///
 /// @extends FORMS_Content
 ///
-/// @desc
+/// @desc Draws contents of {@link FORMS_WorkspaceTabs}.
 function FORMS_WorkspaceTabsContent()
 	: FORMS_Content() constructor
 {

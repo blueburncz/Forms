@@ -520,11 +520,11 @@ function FORMS_DockTabsProps()
 function FORMS_DockTabs(_props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
-	/// @var {Struct.FORMS_WidgetUnitValue} The containers's width. Defaults to
+	/// @var {Struct.FORMS_UnitValue} The containers's width. Defaults to
 	/// 100%.
 	Width = Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The container's height. Defaults to
+	/// @var {Struct.FORMS_UnitValue} The container's height. Defaults to
 	/// 24px.
 	Height = Height.from_props(_props, "Height", 24);
 

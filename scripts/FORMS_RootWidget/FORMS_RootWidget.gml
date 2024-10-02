@@ -8,7 +8,7 @@ global.__formsRoot = undefined;
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @return {Struct.FORMS_RootWidget} The root widget.
 function forms_get_root()
@@ -83,11 +83,11 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	/// @readonly
 	WidgetActive = undefined;
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's width. Defaults to 100%
+	/// @var {Struct.FORMS_UnitValue} The widget's width. Defaults to 100%
 	/// of the window width.
 	Width = Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's height. Defaults to 100%
+	/// @var {Struct.FORMS_UnitValue} The widget's height. Defaults to 100%
 	/// of the window height.
 	Height = Height.from_props(_props, "Height", 100, FORMS_EUnit.Percent);
 
@@ -363,7 +363,7 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {Real} _x The value to subtract from the mouse X position.
 /// @param {Real} _y The value to subtract from the mouse Y position.
@@ -386,7 +386,7 @@ function forms_push_mouse_coordinates(_x, _y)
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @return {Real} The current mouse X coordinate.
 ///
@@ -407,7 +407,7 @@ function forms_mouse_get_x()
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @return {Real} The current mouse Y coordinate.
 ///
@@ -429,7 +429,7 @@ function forms_mouse_get_y()
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {Real} _x The X coordinate of the rectangle's top left corner.
 /// @param {Real} _y The Y coordinate of the rectangle's top left corner.
@@ -455,7 +455,7 @@ function forms_mouse_in_rectangle(_x, _y, _width, _height)
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {Constant.MouseButton} _button The mouse button to check.
 ///
@@ -478,7 +478,7 @@ function forms_mouse_check_button_pressed(_button)
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {String, Undefined} _tooltip The new tooltip text or `undefined`.
 ///
@@ -498,7 +498,7 @@ function forms_set_tooltip(_tooltip)
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {Constant.Cursor} _cursor The new mouse cursor style.
 ///
@@ -518,7 +518,7 @@ function forms_set_cursor(_cursor)
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @return {Constant.Cursor} The current mouse cursor style.
 ///
@@ -538,7 +538,7 @@ function forms_get_cursor()
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {String} _id The ID of the control that returns a value.
 /// @param {Any} _value The value to return.
@@ -560,17 +560,17 @@ function forms_return_result(_id, _value)
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {String} _id The ID of the control.
 ///
 /// @return {Bool} Returns `true` if there's available result returned by a
 /// control with given ID.
 ///
-/// @note This is a shorthand for `forms_get_root().get_cursor()`.
+/// @note This is a shorthand for `forms_get_root().has_result(_id)`.
 ///
 /// @see forms_get_root
-/// @see FORMS_RootWidget.get_cursor
+/// @see FORMS_RootWidget.has_result
 function forms_has_result(_id)
 {
 	gml_pragma("forceinline");
@@ -584,7 +584,7 @@ function forms_has_result(_id)
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {String} _id The ID of the control.
 ///
@@ -608,7 +608,7 @@ function forms_peek_result(_id)
 ///
 /// Available only in scope of [update](./FORMS_Widget.update.html) and
 /// [draw](./FORMS_Widget.draw.html) of the
-/// [root widget](./FORMS_RootWidget.html), otherwise gives an error!
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {String} _id The ID of the control.
 ///
@@ -618,7 +618,7 @@ function forms_peek_result(_id)
 /// @note This is a shorthand for `forms_get_root().get_result(_id)`.
 ///
 /// @see forms_get_root
-/// @see FORMS_RootWidget.get_cursor
+/// @see FORMS_RootWidget.get_result
 function forms_get_result(_id)
 {
 	gml_pragma("forceinline");
