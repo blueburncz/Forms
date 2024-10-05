@@ -14,6 +14,7 @@
     {"$GMFolder":"","%Name":"Forms","folderPath":"folders/Forms.yy","name":"Forms","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Fonts","folderPath":"folders/Forms/Fonts.yy","name":"Fonts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Scripts","folderPath":"folders/Forms/Scripts.yy","name":"Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Shaders","folderPath":"folders/Forms/Shaders.yy","name":"Shaders","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Sprites","folderPath":"folders/Forms/Sprites.yy","name":"Sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
@@ -53,7 +54,10 @@
     {"id":{"name":"FORMS_Widget","path":"scripts/FORMS_Widget/FORMS_Widget.yy",},},
     {"id":{"name":"FORMS_Window","path":"scripts/FORMS_Window/FORMS_Window.yy",},},
     {"id":{"name":"FORMS_Workspace","path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},},
+    {"id":{"name":"FORMS_ShColorWheel","path":"shaders/FORMS_ShColorWheel/FORMS_ShColorWheel.yy",},},
     {"id":{"name":"FORMS_SprColor","path":"sprites/FORMS_SprColor/FORMS_SprColor.yy",},},
+    {"id":{"name":"FORMS_SprColorPickerCircle","path":"sprites/FORMS_SprColorPickerCircle/FORMS_SprColorPickerCircle.yy",},},
+    {"id":{"name":"FORMS_SprEyeDropper","path":"sprites/FORMS_SprEyeDropper/FORMS_SprEyeDropper.yy",},},
     {"id":{"name":"FORMS_SprRadioButton","path":"sprites/FORMS_SprRadioButton/FORMS_SprRadioButton.yy",},},
     {"id":{"name":"FORMS_SprRectangle","path":"sprites/FORMS_SprRectangle/FORMS_SprRectangle.yy",},},
     {"id":{"name":"FORMS_SprRound4","path":"sprites/FORMS_SprRound4/FORMS_SprRound4.yy",},},

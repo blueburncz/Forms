@@ -2,6 +2,15 @@
 /// @private
 global.__formsRoot = undefined;
 
+/// @enum Status for mouse buttons
+enum FORMS_EMouseButton
+{
+	Released = -1,
+	Off = 0,
+	Held = 1,
+	Pressed = 2,
+};
+
 /// @func forms_get_root()
 ///
 /// @desc
@@ -55,7 +64,7 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	/// @readonly
 	WidgetActive = undefined;
 
-	__mousePressed = {};
+	__mouseButtons = {};
 
 	__tooltip = undefined;
 	__tooltipLast = undefined;
@@ -159,7 +168,7 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 		global.__formsRoot = self;
 		MouseX = window_mouse_get_x();
 		MouseY = window_mouse_get_y();
-		__mousePressed = {};
+		__mouseButtons = {};
 		__tooltip = undefined;
 		__cursor = cr_default;
 		layout();
@@ -310,24 +319,56 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	{
 		return __cursor;
 	};
+	
+	/// @func __check_mouse_status(_button)
+	/// @param {Constant.MouseButton} _button
+	/// @return {real} FORMS_EMouseButton
+	static __check_mouse_status = function (_button)
+	{
+		if (!struct_exists(__mouseButtons, _button)) 
+		{ 
+			var _status = undefined;
+			_status ??= mouse_check_button_pressed(_button) ? FORMS_EMouseButton.Pressed : undefined;
+			_status ??= mouse_check_button(_button) ? FORMS_EMouseButton.Held : undefined;
+			_status ??= mouse_check_button_released(_button) ? FORMS_EMouseButton.Released : undefined;
+			_status ??= FORMS_EMouseButton.Off;
+			__mouseButtons[$ _button] = _status;
+		}
+		return __mouseButtons[$ _button];
+	}
 
 	/// @func check_mouse_pressed(_button)
-	///
-	/// @desc
-	///
 	/// @param {Constant.MouseButton} _button
-	///
 	/// @return {Bool}
 	static check_mouse_pressed = function (_button)
 	{
-		if (mouse_check_button_pressed(_button))
-		{
-			var _pressed = __mousePressed[$ _button] ?? true;
-			__mousePressed[$ _button] = false;
-			return _pressed;
-		}
-		return false;
+		return __check_mouse_status(_button) == FORMS_EMouseButton.Pressed;
 	};
+	
+	/// @func check_mouse(_button)
+	/// @param {Constant.MouseButton} _button
+	/// @return {Bool}
+	static check_mouse = function (_button)
+	{
+		var _button_status = __check_mouse_status(_button);
+		return (_button_status == FORMS_EMouseButton.Held || _button_status == FORMS_EMouseButton.Pressed);
+	};
+	
+	/// @func check_mouse_released(_button)
+	/// @param {Constant.MouseButton} _button
+	/// @return {Bool}
+	static check_mouse_released = function (_button)
+	{
+		return __check_mouse_status(_button) == FORMS_EMouseButton.Released;
+	};
+	
+	/// @func mouse_set_button_status(_button)
+	/// @param {Constant.MouseButton} _button
+	/// @param {Real} _status Value from Enum FORMS_EMouseButton
+	static mouse_set_button_status = function (_button, _status) 
+	{
+		__mouseButtons[$ _button] = _status;
+	}
 }
 
 /// forms_push_mouse_coordinates(_x, _y)
@@ -393,6 +434,43 @@ function forms_mouse_check_button_pressed(_button)
 {
 	gml_pragma("forceinline");
 	return forms_get_root().check_mouse_pressed(_button);
+}
+
+/// @func forms_mouse_check_button(_button)
+///
+/// @desc
+///
+/// @param {Constant.MouseButton} _button
+///
+/// @return {Bool}
+function forms_mouse_check_button(_button)
+{
+	gml_pragma("forceinline");
+	return forms_get_root().check_mouse(_button);
+}
+
+/// @func forms_mouse_check_button_released(_button)
+///
+/// @desc
+///
+/// @param {Constant.MouseButton} _button
+///
+/// @return {Bool}
+function forms_mouse_check_button_released(_button)
+{
+	gml_pragma("forceinline");
+	return forms_get_root().check_mouse_released(_button);
+}
+
+/// @func forms_mouse_set_button_status(_button, _status)
+/// @desc
+/// @param {Constant.MouseButton} _button
+/// @param {Real} _status Value from Enum FORMS_EMouseButton
+/// @return {Bool}
+function forms_mouse_set_button_status(_button, _status)
+{
+	gml_pragma("forceinline");
+	return forms_get_root().mouse_set_button_status(_button, _status);
 }
 
 /// @func forms_set_tooltip(_tooltip)

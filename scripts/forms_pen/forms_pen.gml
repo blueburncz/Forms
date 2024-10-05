@@ -575,7 +575,7 @@ function FORMS_Pen(_content) constructor
 		var _width = forms_get_prop(_props, "Width") ?? _textWidth + _padding * 2;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, 0x424242, 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _mouseOver ? 0x555555 : 0x424242, 1.0);
 		if (_mouseOver)
 		{
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
@@ -623,7 +623,7 @@ function FORMS_Pen(_content) constructor
 				var _world = matrix_get(matrix_world);
 				// TODO: Window auto fit content
 				var _colorPickerWidth = 200;
-				var _colorPickerHeight = 180;
+				var _colorPickerHeight = 360;
 				var _colorPickerPos = get_absolute_pos(X, Y + _height);
 				var _colorPicker = new FORMS_ColorPicker(_id, _color, {
 					Width: _colorPickerWidth,
