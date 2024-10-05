@@ -399,7 +399,6 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	{
 		__mouseButtons[$ _button] = _status;
 	}
-	};
 }
 
 /// @func forms_push_mouse_coordinates(_x, _y)
