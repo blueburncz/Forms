@@ -19,8 +19,8 @@ function FORMS_BoxProps()
 ///
 /// @extends FORMS_CompoundWidget
 ///
-/// @desc The base struct for "box" widgets. These draw their children in a
-/// linear (horizontal or vertical) layout.
+/// @desc Base struct for "box" widgets. These draw their children in a linear
+/// (horizontal or vertical) layout.
 ///
 /// @param {Struct.FORMS_BoxProps, Undefined} [_props] Properties to create the
 /// box with or `undefined` (default).
@@ -29,15 +29,15 @@ function FORMS_BoxProps()
 function FORMS_Box(_props=undefined, _children=undefined)
 	: FORMS_CompoundWidget(_props, _children) constructor
 {
-	/// @var {Struct.FORMS_WidgetUnitValue} Spacing between individual children.
+	/// @var {Struct.FORMS_UnitValue} Spacing between individual children.
 	/// Defaults to 0px.
-	Spacing = new FORMS_WidgetUnitValue().from_props(_props, "Spacing");
+	Spacing = new FORMS_UnitValue().from_props(_props, "Spacing");
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The width of the box. Defaults to
+	/// @var {Struct.FORMS_UnitValue} The width of the box. Defaults to
 	/// "auto".
 	Width = Width.from_props(_props, "Width", 0, FORMS_EUnit.Auto);
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The height of the box. Defaults to
+	/// @var {Struct.FORMS_UnitValue} The height of the box. Defaults to
 	/// "auto".
 	Height = Height.from_props(_props, "Height", 0, FORMS_EUnit.Auto);
 
@@ -224,13 +224,13 @@ function FORMS_FlexBox(_props=undefined, _children=undefined)
 	/// (`false`).
 	IsHorizontal = forms_get_prop(_props, "IsHorizontal") ?? true;
 
-	/// @var {Struct.FORMS_WidgetUnitValue} Padding around children on the X
+	/// @var {Struct.FORMS_UnitValue} Padding around children on the X
 	/// axis. Defaults to 0px.
-	PaddingX = new FORMS_WidgetUnitValue().from_props(_props, "PaddingX");
+	PaddingX = new FORMS_UnitValue().from_props(_props, "PaddingX");
 
-	/// @var {Struct.FORMS_WidgetUnitValue} Padding around children on the Y
+	/// @var {Struct.FORMS_UnitValue} Padding around children on the Y
 	/// axis. Defaults to 0px.
-	PaddingY = new FORMS_WidgetUnitValue().from_props(_props, "PaddingY");
+	PaddingY = new FORMS_UnitValue().from_props(_props, "PaddingY");
 
 	static layout = function ()
 	{

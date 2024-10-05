@@ -2,35 +2,39 @@
 ///
 /// @extends FORMS_WidgetProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_Scrollbar}.
 function FORMS_ScrollbarProps()
 	: FORMS_WidgetProps() constructor
 {
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The color of the scrollbar's background.
 	BackgroundColor = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the scrollbar's background.
 	BackgroundAlpha = undefined;
 
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The color of the scrollbar's thumb.
 	ThumbColor = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the scrollbar's thumb.
 	ThumbAlpha = undefined;
 
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The color of the scrollbar's thumb on
+	/// mouse-over.
 	ThumbColorHover = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the scrollbar's thumb on
+	/// mouse-over.
 	ThumbAlphaHover = undefined;
 
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The color of the scrollbar's thumb when
+	/// it's being dragged.
 	ThumbColorActive = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the scrollbar's thumb when
+	/// it's being dragged.
 	ThumbAlphaActive = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The minimum size of the scrollbar's thumb.
 	ThumbSizeMin = undefined;
 }
 
@@ -38,41 +42,49 @@ function FORMS_ScrollbarProps()
 ///
 /// @extends FORMS_Widget
 ///
-/// @desc
+/// @desc Base struct for scrollbars.
 ///
-/// @param {Struct.FORMS_Container} _target
-/// @param {Struct.FORMS_ScrollbarProps, Undefined} [_props]
+/// @param {Struct.FORMS_Container} _target The container that this scrollbar
+/// scrolls.
+/// @param {Struct.FORMS_ScrollbarProps, Undefined} [_props] Properties to
+/// create the scrollbar with or `undefined` (default).
 function FORMS_Scrollbar(_target, _props=undefined)
 	: FORMS_Widget(_props) constructor
 {
-	/// @var {Struct.FORMS_Container}
+	/// @var {Struct.FORMS_Container} The container that this scrollbar scrolls.
 	Target = _target;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color} The color of the scrollbar's background. Defaults
+	/// to `0x232323`.
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x232323;
 
-	/// @var {Real}
+	/// @var {Real} The alpha value of the scrollbar's background. Defaults to 1.
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color} The color of the scrollbar's thumb. Defaults to
+	/// `0x4D4D4D`.
 	ThumbColor = forms_get_prop(_props, "ThumbColor") ?? 0x4D4D4D;
 
-	/// @var {Real}
+	/// @var {Real} The alpha value of the scrollbar's thumb. Defaults to 1.
 	ThumbAlpha = forms_get_prop(_props, "ThumbAlpha") ?? 1.0;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color} The color of the scrollbar's thumb on mouse-over.
+	/// Defaults to `0x575757`.
 	ThumbColorHover = forms_get_prop(_props, "ThumbColorHover") ?? 0x575757;
 
-	/// @var {Real}
+	/// @var {Real} The alpha value of the scrollbar's thumb on mouse-over.
+	/// Defaults to 1.
 	ThumbAlphaHover = forms_get_prop(_props, "ThumbAlphaHover") ?? 1.0;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color} The color of the scrollbar's thumb when it's being
+	/// dragged. Defaults to `0x898989`.
 	ThumbColorActive = forms_get_prop(_props, "ThumbColorActive") ?? 0x898989;
 
-	/// @var {Real}
+	/// @var {Real} The alpha value of the scrollbar's thumb when it's being
+	/// dragged. Defaults to 1.
 	ThumbAlphaActive = forms_get_prop(_props, "ThumbAlphaActive") ?? 1.0;
 
-	/// @var {Real}
+	/// @var {Real} The minimum size of the scrollbar's thumb. Defaults to 32.
 	ThumbSizeMin = forms_get_prop(_props, "ThumbSizeMin") ?? 32;
 
 	__thumbPos = 0;
@@ -158,7 +170,7 @@ function FORMS_Scrollbar(_target, _props=undefined)
 ///
 /// @extends FORMS_ScrollbarProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_HScrollbar}.
 function FORMS_HScrollbarProps()
 	: FORMS_ScrollbarProps() constructor
 {
@@ -168,18 +180,20 @@ function FORMS_HScrollbarProps()
 ///
 /// @extends FORMS_Scrollbar
 ///
-/// @desc
+/// @desc A horizontal scrollbar.
 ///
-/// @param {Struct.FORMS_Container} _target
-/// @param {Struct.FORMS_HScrollbarProps, Undefined} [_props]
+/// @param {Struct.FORMS_Container} _target The container that this scrollbar
+/// scrolls on the X axis.
+/// @param {Struct.FORMS_HScrollbarProps, Undefined} [_props] Properties to
+/// create the scrollbar with or `undefined` (default).
 function FORMS_HScrollbar(_target, _props=undefined)
 	: FORMS_Scrollbar(_target, _props) constructor
 {
 	static Scrollbar_update = update;
 
-	{
-		Height.from_props(_props, "Height", 8);
-	}
+	/// @var {Struct.FORMS_UnitValue} The height of the scrollbar.
+	/// Defaults to 8px.
+	Height = Height.from_props(_props, "Height", 8);
 
 	static update = function (_deltaTime)
 	{
@@ -215,7 +229,7 @@ function FORMS_HScrollbar(_target, _props=undefined)
 ///
 /// @extends FORMS_ScrollbarProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_VScrollbar}.
 function FORMS_VScrollbarProps()
 	: FORMS_ScrollbarProps() constructor
 {
@@ -225,18 +239,20 @@ function FORMS_VScrollbarProps()
 ///
 /// @extends FORMS_Scrollbar
 ///
-/// @desc
+/// @desc A vertical scrollbar.
 ///
-/// @param {Struct.FORMS_Container} _target
-/// @param {Struct.FORMS_VScrollbarProps, Undefined} [_props]
+/// @param {Struct.FORMS_Container} _target The container that this scrollbar
+/// scrolls on the Y axis.
+/// @param {Struct.FORMS_VScrollbarProps, Undefined} [_props] Properties to
+/// create the scrollbar with or `undefined` (default).
 function FORMS_VScrollbar(_target, _props=undefined)
 	: FORMS_Scrollbar(_target, _props) constructor
 {
 	static Scrollbar_update = update;
 
-	{
-		Width.from_props(_props, "Width", 8);
-	}
+	/// @var {Struct.FORMS_UnitValue} The width of the scrollbar. Defaults
+	/// to 8px.
+	Width = Width.from_props(_props, "Width", 8);
 
 	static update = function (_deltaTime)
 	{

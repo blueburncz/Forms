@@ -1,9 +1,11 @@
-/// @enum
+/// @enum Enumeration of possible split direction of {@link FORMS_Dock}.
 enum FORMS_EDockSplit
 {
-	/// @member
+	/// @member Dock is split horizontally, i.e. it has one widget on the left
+	/// and one on the right.
 	Horizontal,
-	/// @member
+	/// @member Dock is split vertically, i.e. it has one widget at the top and
+	/// one at the bottom.
 	Vertical,
 };
 
@@ -11,41 +13,45 @@ enum FORMS_EDockSplit
 ///
 /// @extends FORMS_WidgetProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_Dock}.
 function FORMS_DockProps()
 	: FORMS_WidgetProps() constructor
 {
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The background color of the dock.
 	BackgroundColor = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the dock's background.
 	BackgroundAlpha = undefined;
 
-	/// @var {Real, Undefined} Use values from {@link FORMS_EDockSplit}.
+	/// @var {Real, Undefined} Whether the dock is split horizontally or
+	/// vertically. Use values from {@link FORMS_EDockSplit}.
 	SplitType = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The size of the split in range 0..1.
 	SplitSize = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The size of the splitter that can be dragged with
+	/// mouse to change the dock's split size.
 	SplitterSize = undefined;
 
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The color of the splitter.
 	SplitterColor = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the splitter.
 	SplitterAlpha = undefined;
 
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The color of the splitter on mouse-over.
 	SplitterColorHover = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the splitter on mouse-over.
 	SplitterAlphaHover = undefined;
 
-	/// @var {Constant.Color, Undefined}
+	/// @var {Constant.Color, Undefined} The color of the splitter when being
+	/// dragged.
 	SplitterColorActive = undefined;
 
-	/// @var {Real, Undefined}
+	/// @var {Real, Undefined} The alpha value of the splitter when being
+	/// dragged.
 	SplitterAlphaActive = undefined;
 }
 
@@ -53,50 +59,61 @@ function FORMS_DockProps()
 ///
 /// @extends FORMS_Widget
 ///
-/// @desc
+/// @desc A dock is a recursive structure that can be either split horizontally
+/// or vertically or host widgets as its tabs.
 ///
-/// @param {Struct.FORMS_DockProps, Undefined} [_props]
+/// @param {Struct.FORMS_DockProps, Undefined} [_props] Properties to create the
+/// dock with or `undefined` (default).
 function FORMS_Dock(_props=undefined)
 	: FORMS_Widget(_props) constructor
 {
 	static Widget_update = update;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color} The background color of the dock. Defaults to
+	/// `0x101010`.
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x101010;
 
-	/// @var {Real}
+	/// @var {Real} The alpha value of the dock's background. Defaults to 1.
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
-	/// @var {Real} Default is {@link FORMS_EDockSplit.Horizontal}.
+	/// @var {Real} Whether the dock is split horizontally or vertically. Use
+	/// values from {@link FORMS_EDockSplit}. Default is
+	/// {@link FORMS_EDockSplit.Horizontal}.
 	SplitType = forms_get_prop(_props, "SplitType") ?? FORMS_EDockSplit.Horizontal;
 
-	/// @var {Real} Defaults to 0.5.
+	/// @var {Real} The split size of the dock. Defaults to 0.5.
 	SplitSize = forms_get_prop(_props, "SplitSize") ?? 0.5;
 
-	/// @var {Real}
+	/// @var {Real} The size of the splitter that can be dragged with mouse to
+	/// change the dock's split size. Defaults to 6.
 	SplitterSize = forms_get_prop(_props, "SplitterSize") ?? 6;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color} The color of the splitter. Defaults to `0x101010`.
 	SplitterColor = forms_get_prop(_props, "SplitterColor") ?? 0x101010;
 
-	/// @var {Real}
+	/// @var {Real} The alpha value of the splitter. Defaults to 1.
 	SplitterAlpha = forms_get_prop(_props, "SplitterAlpha") ?? 1.0;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color} The color of the splitter on mouse-over. Defaults
+	/// to `0x303030`.
 	SplitterColorHover = forms_get_prop(_props, "SplitterColorHover") ?? 0x303030;
 
-	/// @var {Real}
+	/// @var {Real} The alpha value of the splitter on mouse-over. Defaults to 1.
 	SplitterAlphaHover = forms_get_prop(_props, "SplitterAlphaHover") ?? 1.0;
 
-	/// @var {Constant.Color}
+	/// @var {Constant.Color} The color of the splitter when it's being dragged.
+	/// Defaults to {@link global.formsAccentColor}.
 	SplitterColorActive = forms_get_prop(_props, "SplitterColorActive") ?? global.formsAccentColor;
 
-	/// @var {Real}
+	/// @var {Real} The alpha value of the splitter when it's being dragged.
+	/// Defaults to 1.
 	SplitterAlphaActive = forms_get_prop(_props, "SplitterAlphaActive") ?? 1.0;
 
 	/// @var {Struct.FORMS_DockTabs}
 	/// @private
 	__tabContainer = new FORMS_DockTabs();
+
+	__tabContainer.Parent = self;
 
 	/// @var {Array<Struct.FORMS_Widget>}
 	/// @private
@@ -130,34 +147,34 @@ function FORMS_Dock(_props=undefined)
 	/// @private
 	__splitterIsHovered = false;
 
-	{
-		__tabContainer.Parent = self;
-	}
-
 	/// @func get_first()
 	///
-	/// @desc
+	/// @desc Retrieves the first child (left or top, based on the dock's split
+	/// type) of the dock.
 	///
-	/// @return {Struct.FORMS_Dock}
+	/// @return {Struct.FORMS_Dock, Undefined} The first child of the dock or
+	/// `undefined`.
 	static get_first = function () { return __left; };
 
 	/// @func get_second()
 	///
-	/// @desc
+	/// @desc Retrieves the second child (right or bottom, based on the dock's
+	/// split type) of the dock.
 	///
-	/// @return {Struct.FORMS_Dock}
+	/// @return {Struct.FORMS_Dock, Undefined} The second child of the dock or
+	/// `undefined`.
 	static get_second = function () { return __right; };
 
 	/// @func set_tab(_tabs)
 	///
-	/// @desc
+	/// @desc Changes the array of widgets tabbed to the dock.
 	///
-	/// @param {Array<Struct.FORMS_Widget>} _tabs
+	/// @param {Array<Struct.FORMS_Widget>} _tabs The new array tabbed widgets.
 	///
 	/// @return {Struct.FORMS_Dock} Returns `self`.
 	static set_tabs = function (_tabs)
 	{
-		forms_assert(array_length(__tabs) == 0, "Dock already has tabs!");
+		forms_assert(array_length(__tabs) == 0, "Dock already has tabs!"); // TODO: Why is this here? :thinking:
 		__tabs = _tabs;
 		var i = 0;
 		repeat (array_length(__tabs))
@@ -169,9 +186,10 @@ function FORMS_Dock(_props=undefined)
 
 	/// @func add_tab(_widget)
 	///
-	/// @desc
+	/// @desc Tabs a new widget to the dock.
 	///
-	/// @param {Struct.FORMS_Widget} _widget
+	/// @param {Struct.FORMS_Widget} _widget The widget to add to the dock's
+	/// tabs.
 	///
 	/// @return {Struct.FORMS_Dock} Returns `self`.
 	static add_tab = function (_widget)
@@ -199,7 +217,8 @@ function FORMS_Dock(_props=undefined)
 
 	/// @func split_left()
 	///
-	/// @desc
+	/// @desc Splits the dock horizontally, moving itself to the left and
+	/// creating a new dock on the right.
 	///
 	/// @return {Struct.FORMS_Dock} Returns `self`.
 	static split_left = function ()
@@ -212,7 +231,8 @@ function FORMS_Dock(_props=undefined)
 
 	/// @func split_right()
 	///
-	/// @desc
+	/// @desc Splits the dock horizontally, moving itself to the right and
+	/// creating a new dock on the left.
 	///
 	/// @return {Struct.FORMS_Dock} Returns `self`.
 	static split_right = function ()
@@ -225,7 +245,8 @@ function FORMS_Dock(_props=undefined)
 
 	/// @func split_up()
 	///
-	/// @desc
+	/// @desc Splits the dock vertically, moving itself to the top and creating
+	/// a new dock at the bottom.
 	///
 	/// @return {Struct.FORMS_Dock} Returns `self`.
 	static split_up = function ()
@@ -238,7 +259,8 @@ function FORMS_Dock(_props=undefined)
 
 	/// @func split_down()
 	///
-	/// @desc
+	/// @desc Splits the dock vertically, moving itself to the bottom and
+	/// creating a new dock at the top.
 	///
 	/// @return {Struct.FORMS_Dock} Returns `self`.
 	static split_down = function ()
@@ -482,7 +504,7 @@ function FORMS_Dock(_props=undefined)
 ///
 /// @extends FORMS_ContainerProps
 ///
-/// @desc
+/// @desc Properties accepted by the constructor of {@link FORMS_DockTabs}.
 function FORMS_DockTabsProps()
 	: FORMS_ContainerProps() constructor
 {
@@ -492,25 +514,28 @@ function FORMS_DockTabsProps()
 ///
 /// @extends FORMS_Container
 ///
-/// @desc
+/// @desc A container for tabs added to a {@link FORMS_Dock}.
 ///
 /// @params {Struct.FORMS_DockTabsProps, Undefined} [_props]
 function FORMS_DockTabs(_props=undefined)
 	: FORMS_Container(undefined, _props) constructor
 {
-	{
-		Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
-		Height.from_props(_props, "Height", 24);
+	/// @var {Struct.FORMS_UnitValue} The containers's width. Defaults to
+	/// 100%.
+	Width = Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 
-		set_content(new FORMS_DockTabsContent());
-	}
+	/// @var {Struct.FORMS_UnitValue} The container's height. Defaults to
+	/// 24px.
+	Height = Height.from_props(_props, "Height", 24);
+
+	set_content(new FORMS_DockTabsContent());
 }
 
 /// @func FORMS_DockTabsContent()
 ///
 /// @extends FORMS_Content
 ///
-/// @desc
+/// @desc Draws contents of a {@link FORMS_DockTabs} container.
 function FORMS_DockTabsContent()
 	: FORMS_Content() constructor
 {

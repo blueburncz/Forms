@@ -199,8 +199,7 @@ function TestContent() : FORMS_Content() constructor
 
 		Pen.finish();
 
-		Width = Pen.MaxX + 8;
-		Height = Pen.MaxY + 8;
+		FORMS_CONTENT_UPDATE_SIZE;
 
 		return self;
 	};

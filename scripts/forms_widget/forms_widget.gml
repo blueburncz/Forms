@@ -13,16 +13,16 @@ enum FORMS_EUnit
 	SIZE
 };
 
-/// @func FORMS_WidgetUnitValue([_value[, _unit]])
+/// @func FORMS_UnitValue([_value[, _unit]])
 ///
 /// @desc A value coupled with the type of units it uses.
 ///
 /// @param {Real} [_value] The value. Defaults to 0.
 /// @param {Real} [_unit] The type of the unit used. Use values from
 /// {@link FORMS_EUnit}. Defaults to {@link FORMS_EUnit.Pixel}.
-function FORMS_WidgetUnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
+function FORMS_UnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 {
-	/// @var {Real} The value. Ignored if {@link FORMS_WidgetUnitValue.Unit}
+	/// @var {Real} The value. Ignored if {@link FORMS_UnitValue.Unit}
 	/// is {@link FORMS_EUnit.Auto}!
 	Value = _value;
 
@@ -38,13 +38,13 @@ function FORMS_WidgetUnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 	/// Unit defaults to {@link FORSM_EUnit.Pixels} if not included in the
 	/// string.
 	///
-	/// @return {Struct.FORMS_WidgetUnitValue} Returns `self`.
+	/// @return {Struct.FORMS_UnitValue} Returns `self`.
 	///
 	/// @example
 	/// ```gml
-	/// var _sizePixels = new FORMS_WidgetUnitValue().from_string("100px"); // 100 pixels
-	/// var _sizePercent = new FORMS_WidgetUnitValue().from_string("100%"); // 100 percent
-	/// var _sizeAuto = new FORMS_WidgetUnitValue().from_string("auto");    // "auto"
+	/// var _sizePixels = new FORMS_UnitValue().from_string("100px"); // 100 pixels
+	/// var _sizePercent = new FORMS_UnitValue().from_string("100%"); // 100 percent
+	/// var _sizeAuto = new FORMS_UnitValue().from_string("auto");    // "auto"
 	/// ```
 	static from_string = function (_string, _allowAuto=true)
 	{
@@ -170,24 +170,24 @@ function FORMS_WidgetUnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 	/// `undefined` or it doesn't contain the unit key. Use values from
 	/// {@link FORMS_EUnit}. Defaults to {@link FORMS_EUnit.Pixel}.
 	///
-	/// @return {Struct.FORMS_WidgetUnitValue} Returns `self`.
+	/// @return {Struct.FORMS_UnitValue} Returns `self`.
 	///
 	/// @example
 	/// ```gml
 	/// // 100px:
-	/// var _sizePixels = new FORMS_WidgetUnitValue()
+	/// var _sizePixels = new FORMS_UnitValue()
 	///     .from_props({ Size: 100, SizeUnit: FORMS_EUnit.Pixel }, "Size");
 	///
 	/// // 100%:
-	/// var _sizePercent = new FORMS_WidgetUnitValue()
+	/// var _sizePercent = new FORMS_UnitValue()
 	///     .from_props({ Size: 100, SizeUnit: FORMS_EUnit.Percent }, "Size");
 	///
 	/// // "auto":
-	/// var _sizeAuto = new FORMS_WidgetUnitValue()
+	/// var _sizeAuto = new FORMS_UnitValue()
 	///     .from_props({ SizeUnit: FORMS_EUnit.Auto }, "Size");
 	///
 	/// // 0px:
-	/// var _sizeFromDefaults = new FORMS_WidgetUnitValue().from_props({}, "Size");
+	/// var _sizeFromDefaults = new FORMS_UnitValue().from_props({}, "Size");
 	/// ```
 	static from_props = function (_props, _name, _valueDefault=0, _unitDefault=FORMS_EUnit.Pixel)
 	{
@@ -362,31 +362,31 @@ function FORMS_Widget(_props=undefined) constructor
 	/// @readonly
 	Parent = undefined;
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's X position relative to
+	/// @var {Struct.FORMS_UnitValue} The widget's X position relative to
 	/// its parent widget.
-	X = new FORMS_WidgetUnitValue().from_props(_props, "X");
+	X = new FORMS_UnitValue().from_props(_props, "X");
 
 	/// @var {Real} The widget's actual X position.
 	/// @private
 	__realX = 0;
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's Y position relative to
+	/// @var {Struct.FORMS_UnitValue} The widget's Y position relative to
 	/// its parent widget.
-	Y = new FORMS_WidgetUnitValue().from_props(_props, "Y");
+	Y = new FORMS_UnitValue().from_props(_props, "Y");
 
 	/// @var {Real} The widget's actual Y position.
 	/// @private
 	__realY = 0;
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's width.
-	Width = new FORMS_WidgetUnitValue().from_props(_props, "Width");
+	/// @var {Struct.FORMS_UnitValue} The widget's width.
+	Width = new FORMS_UnitValue().from_props(_props, "Width");
 
 	/// @var {Real} The widget's actual width.
 	/// @private
 	__realWidth = 0;
 
-	/// @var {Struct.FORMS_WidgetUnitValue} The widget's height.
-	Height = new FORMS_WidgetUnitValue().from_props(_props, "Height");
+	/// @var {Struct.FORMS_UnitValue} The widget's height.
+	Height = new FORMS_UnitValue().from_props(_props, "Height");
 
 	/// @var {Real} The widget's actual height.
 	/// @private
@@ -403,9 +403,10 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func get_x()
 	///
-	/// @desc
+	/// @desc Retrieves the actual X position of the widget computed in
+	/// [layout](./FORMS_Widget.layout.html).
 	///
-	/// @return {Real}
+	/// @return {Real} The actual widget's position on the X axis.
 	static get_x = function ()
 	{
 		gml_pragma("forceinline");
@@ -414,9 +415,10 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func get_y()
 	///
-	/// @desc
+	/// @desc Retrieves the actual Y position of the widget computed in
+	/// [layout](./FORMS_Widget.layout.html).
 	///
-	/// @return {Real}
+	/// @return {Real} The actual widget's position on the Y axis.
 	static get_y = function ()
 	{
 		gml_pragma("forceinline");
@@ -425,9 +427,10 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func get_width()
 	///
-	/// @desc
+	/// @desc Retrieves the actual width of the widget computed in
+	/// [layout](./FORMS_Widget.layout.html).
 	///
-	/// @return {Real}
+	/// @return {Real} The actual widget's width.
 	static get_width = function ()
 	{
 		gml_pragma("forceinline");
@@ -436,9 +439,10 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func get_height()
 	///
-	/// @desc
+	/// @desc Retrieves the actual height of the widget computed in
+	/// [layout](./FORMS_Widget.layout.html).
 	///
-	/// @return {Real}
+	/// @return {Real} The actual widget's height.
 	static get_height = function ()
 	{
 		gml_pragma("forceinline");
@@ -447,9 +451,9 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func has_parent()
 	///
-	/// @desc
+	/// @desc Checks whether the widget has a parent.
 	///
-	/// @return {Bool}
+	/// @return {Bool} Returns `true` if the widget has a parent.
 	static has_parent = function ()
 	{
 		gml_pragma("forceinline");
@@ -458,7 +462,7 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func remove_self()
 	///
-	/// @desc
+	/// @desc Removes the widgets from its parent, which must not be `undefined`!
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static remove_self = function ()
@@ -470,11 +474,12 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func find_widget(_id)
 	///
-	/// @desc
+	/// @desc Recursively looks for a widget with given ID down in the widget
+	/// hierarchy.
 	///
-	/// @param {String} _id
+	/// @param {String} _id The ID of the widget to find.
 	///
-	/// @return {Struct.FORMS_Widget, Undefined}
+	/// @return {Struct.FORMS_Widget, Undefined} The found widget or `undefined`.
 	static find_widget = function (_id)
 	{
 		gml_pragma("forceinline");
@@ -483,11 +488,14 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func find_parent_type(_type)
 	///
-	/// @desc
+	/// @desc Recursively looks for a node of given type up in the widget
+	/// hierarchy and returns the first one found.
 	///
-	/// @param {Function} _type
+	/// @param {Function} _type A constructor that the widget must be an
+	/// instance of (tested with `is_instanceof()`).
 	///
-	/// @return {Struct.FORMS_CompoundWidget, Undefined}
+	/// @return {Struct.FORMS_CompoundWidget, Undefined} The found widget or
+	/// `undefined`.
 	static find_parent_type = function (_type)
 	{
 		var _current = Parent;
@@ -504,11 +512,13 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func find_parent_name(_name)
 	///
-	/// @desc
+	/// @desc Recursively looks for a node with given name up in the widget
+	/// hierarchy and returns the first one found.
 	///
-	/// @param {String} _name
+	/// @param {String} _name The name of the widget to find.
 	///
-	/// @return {Struct.FORMS_CompoundWidget, Undefined}
+	/// @return {Struct.FORMS_CompoundWidget, Undefined} The widget found or
+	/// `undefined`.
 	static find_parent_name = function (_name)
 	{
 		var _current = Parent;
@@ -525,21 +535,25 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func get_auto_width()
 	///
-	/// @desc
+	/// @desc Returns the width used for child widgets whose width is set to
+	/// "auto".
 	///
-	/// @return {Real, Undefined}
+	/// @return {Real, Undefined} The width or `undefined` if this widget
+	/// does not support "auto" sizes.
 	static get_auto_width = function () { return undefined; };
 
 	/// @func get_auto_height()
 	///
-	/// @desc
+	/// @desc Returns the height used for child widgets whose height is set to
+	/// "auto".
 	///
-	/// @return {Real, Undefined}
+	/// @return {Real, Undefined} The height or `undefined` if this widget
+	/// does not support "auto" sizes.
 	static get_auto_height = function () { return undefined; };
 
 	/// @func layout()
 	///
-	/// @desc
+	/// @desc Updates layout of the widget and its children.
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static layout = function ()
@@ -550,9 +564,9 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func is_mouse_over()
 	///
-	/// @desc
+	/// @desc Checks whether the mouse cursor is over the widget.
 	///
-	/// @return {Bool}
+	/// @return {Bool} Returns `true` if the mouse cursor is over the widget.
 	static is_mouse_over = function ()
 	{
 		return forms_get_root().WidgetHovered == self;
@@ -560,9 +574,10 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func update(_deltaTime)
 	///
-	/// @desc
+	/// @desc Updates the widget and its children.
 	///
-	/// @param {Real} _deltaTime
+	/// @param {Real} _deltaTime Number of milliseconds passed since the last
+	/// frame.
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static update = function (_deltaTime)
@@ -572,7 +587,7 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func draw()
 	///
-	/// @desc
+	/// @desc Draws the widget and its children.
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static draw = function ()
@@ -582,9 +597,9 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func destroy_later()
 	///
-	/// @desc
+	/// @desc Causes the widget to be destroyed at the end of the frame.
 	///
-	/// @return {Undefined}
+	/// @return {Undefined} Always returns `undefined`.
 	static destroy_later = function ()
 	{
 		if (!__toDestroy)
@@ -597,9 +612,9 @@ function FORMS_Widget(_props=undefined) constructor
 
 	/// @func destroy()
 	///
-	/// @desc
+	/// @desc Destroys the widget.
 	///
-	/// @return {Undefined}
+	/// @return {Undefined} Always returns `undefined`.
 	static destroy = function ()
 	{
 		return undefined;
