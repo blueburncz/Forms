@@ -31,6 +31,7 @@
     {"name":"FORMS_Widget","order":17,"path":"scripts/FORMS_Widget/FORMS_Widget.yy",},
     {"name":"FORMS_Window","order":18,"path":"scripts/FORMS_Window/FORMS_Window.yy",},
     {"name":"FORMS_Workspace","order":19,"path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},
+    {"name":"Script22","order":5,"path":"scripts/Script22/Script22.yy",},
     {"name":"FORMS_SprColorPickerCircle","order":11,"path":"sprites/FORMS_SprColorPickerCircle/FORMS_SprColorPickerCircle.yy",},
     {"name":"FORMS_SprEyeDropper","order":12,"path":"sprites/FORMS_SprEyeDropper/FORMS_SprEyeDropper.yy",},
     {"name":"FORMS_SprRadioButton","order":1,"path":"sprites/FORMS_SprRadioButton/FORMS_SprRadioButton.yy",},

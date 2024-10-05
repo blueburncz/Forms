@@ -1,6 +1,3 @@
-cx = 0;
-cy = 0;
-
 application_surface_draw_enable(false);
 draw_set_font(FORMS_FntNormal);
 
@@ -105,7 +102,7 @@ function TestContent() : FORMS_Content() constructor
 	DropdownIndex = 0;
 	InputString = "";
 	InputReal = 0;
-	Color = 0xAA000000 | c_orange;
+	Color = new FORMS_Color(0xAA000000 | c_orange)
 	var _propsFolder = {
 		Icon: FA_ESolid.FolderOpen,
 		IconCollapsed: FA_ESolid.Folder,

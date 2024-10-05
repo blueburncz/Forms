@@ -692,7 +692,7 @@ function FORMS_Pen(_content) constructor
 	/// {@link FORMS_Pen.AutoNewline} is enabled).
 	///
 	/// @func {String} _id The ID of the color input.
-	/// @func {Real} _color The color to be mixed.
+	/// @func {Struct.FORMS_Color} _color The color to be mixed.
 	/// @func {Struct, Undefined} [_props] Properties to apply to the color
 	/// input or `undefined`.
 	///
@@ -711,7 +711,7 @@ function FORMS_Pen(_content) constructor
 			FORMS_SprRound4, 0,
 			X, Y,
 			_width, _height,
-			_color & 0xFFFFFF, ((_color >> 24) & 0xFF) / 255.0);
+			_color.get(), _color.get_alpha());
 		if (_mouseOver)
 		{
 			forms_set_cursor(cr_handpoint);

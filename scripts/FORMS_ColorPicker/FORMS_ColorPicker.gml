@@ -8,6 +8,176 @@ function FORMS_ColorPickerProps()
 {
 }
 
+function FORMS_Color(_color=c_white) constructor
+{
+	/// @var {Real} 32bit (8bit per channel) ABGR-encoded color.
+	__color = c_white;
+
+	/// @var {Real} Red component of the color, 0 - 1.
+	__red = 0;
+	
+	/// @var {Real} Green component of the color, 0 - 1.
+	__green = 0;
+	
+	/// @var {Real} Blue component of the color, 0 - 1.
+	__blue = 0;
+	
+	/// @var {Real} Alpha component of the color, 0 - 1.
+	__alpha = 1;
+	
+	self.set(_color);
+	
+	/// @func __calculate_color()
+	/// @desc Update the ABGR "__color" variable with the current component values
+	static __calculate_color = function() {
+		__color = ((__red * 255)) | ((__green * 255) << 8) | ((__blue * 255) << 16) | ((__alpha * 255) << 24);
+	}
+	
+	/// @func set(_color)
+	/// @desc Sets the color
+	/// @param {Color.Constant, Struct.FORMS_Color} _color Can either be a ABGR color, BGR color or FORMS_Color
+	/// @param {Real} _alpha Optional alpha value (if _color is BGR) with value between 0 - 1
+	static set = function(_color, _alpha = undefined) 
+	{
+		__red = is_struct(_color) ? _color.__red : (color_get_red(_color) / 255);
+		__green = is_struct(_color) ? _color.__green : (color_get_green(_color) / 255);
+		__blue = is_struct(_color) ? _color.__blue : (color_get_blue(_color) / 255);
+		__alpha = is_struct(_color) ? _color.__alpha : clamp(_alpha ?? (((_color >> 24) & 0xFF) / 255), 0, 1);
+		__calculate_color();
+	}
+	
+	/// @func set_from_rgba(_red, _green, _blue, _alpha)
+	/// @desc Sets the color from RGBA components
+	/// @param {Real} _red Red value between 0 - 1
+	/// @param {Real} _green Green value between 0 - 1
+	/// @param {Real} _blue Blue value between 0 - 1
+	/// @param {Real} _alpha Alpha value between 0 - 1
+	static set_from_rgba = function(_red, _green, _blue, _alpha)
+	{
+		__red = clamp(_red, 0, 1);
+		__green = clamp(_green, 0, 1);
+		__blue = clamp(_blue, 0, 1);
+		__alpha = clamp(_alpha, 0, 1);
+		__calculate_color();
+	}
+	
+	/// @func set_from_hsva(_hue, _saturation, _value, _alpha)
+	/// @desc Sets the color from HSVA components
+	/// @param {Real} _hue The hue component, 0 - 1
+	/// @param {Real} _saturation The saturation component, 0 - 1
+	/// @param {Real} _value The value component, 0 - 1
+	/// @param {Real} _alpha The alpha component, 0 - 1
+	static set_from_hsva = function(_hue, _saturation, _value, _alpha)
+	{
+		var _r, _g, _b;
+	    var _i = floor(_hue * 6);
+	    var _f = _hue * 6 - _i;
+	    var _p = _value * (1 - _saturation);
+	    var _q = _value * (1 - _f * _saturation);
+	    var _t = _value * (1 - (1 - _f) * _saturation);
+	    switch (_i) {
+	        case 0: _r = _value;		_g = _t;			_b = _p;			break;
+	        case 1: _r = _q;			_g = _value;		_b = _p;			break;
+	        case 2: _r = _p;			_g = _value;		_b = _t;			break;
+	        case 3: _r = _p;			_g = _q;			_b = _value;		break;
+	        case 4: _r = _t;			_g = _p;			_b = _value;		break;
+	        case 5: _r = _value;		_g = _p;			_b = _q;			break;
+	    }
+		__red = clamp(_r, 0, 1);
+		__green = clamp(_g, 0, 1);
+		__blue = clamp(_b, 0, 1);
+		__alpha = clamp(_alpha, 0, 1);
+		__calculate_color();
+	}
+	
+	/// @func set_from_hex(_hue, _saturation, _value, _alpha)
+	/// @desc Sets the color from a HEX string with format RGBA or RGB, can be preceded by # or 0x
+	/// @param {String} _hex_str The hex encoded color string
+	static set_from_hex = function(_hex_str) {
+		static __valid_chars = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"];
+		_hex_str = string_replace(string_replace(string_upper(_hex_str), "#", ""), "0X", "");
+		var _l = string_length(_hex_str);
+		// Validate Hex
+		if ((_l != 6) && (_l != 8)) { return false; }
+		for (var c = 1; c <= _l; ++c) 
+		{
+			if (!array_contains(__valid_chars, string_char_at(_hex_str, c))) { return undefined; }
+		}
+		// Convert to color components
+		__red = real("0x"+string_copy(_hex_str, 1, 2)) / 255;
+		__green = real("0x"+string_copy(_hex_str, 3, 2)) / 255;
+		__blue = real("0x"+string_copy(_hex_str, 5, 2)) / 255;
+		__alpha = (_l == 8) ? (real("0x"+string_copy(_hex_str, 7, 2)) / 255) : 1;
+		return true;
+	}
+	
+	/// @func get()
+	/// @desc Gets the color (ABGR)
+	/// @return Returns a ABGR color
+	static get = function()
+	{
+		__calculate_color();
+		return __color;
+	}
+	
+	/// @func get_alpha()
+	/// @desc Gets the alpha value
+	/// @return {Real} Returns alpha value between 0 - 1
+	static get_alpha = function()
+	{
+		return __alpha;
+	}
+	
+	/// @func get_hsva()
+	/// @return {Array} Returns array with format [H,S,V,A] with values between 0 - 1
+	static get_hsva = function() 
+	{
+	    var _max = max(__red, __green, __blue);
+		var _min = min(__red, __green, __blue);
+		var d = _max - _min;
+		var _h;
+		var _s = (_max == 0 ? 0 : d / _max);
+		var _v = _max;
+		switch (_max) {
+			case _min: _h = 0; break;
+			case __red: _h = (__green - __blue) + d * (__green < __blue ? 6: 0); _h /= 6 * d; break;
+			case __green: _h = (__blue - __red) + d * 2; _h /= 6 * d; break;
+			case __blue: _h = (__red - __green) + d * 4; _h /= 6 * d; break;
+		}
+		return [_h, _s, _v, __alpha];
+	}
+	
+	/// @func equal_to(_color, [_precise])
+	/// @param {Struct.FORMS_Color, Color.Constant} _color The color to compare to
+	/// @param {Bool} _precise Whether to compare colors more precisely (only when comparing to another FORMS_Color)
+	/// @return {Bool} Whether colors are equal
+	static equal_to = function(_color, _precise = true)
+	{
+		if (is_struct(_color) && _precise)
+		{
+			return (__red == _color.__red) && (__green == _color.__green) && (__blue == _color.__blue) && (__alpha == _color.__alpha);
+		}
+		else 
+		{
+			return __color == (is_struct(_color) ? _color.__color : _color);
+		}
+	}
+	
+	static __byte_to_hex_string = function(_byte) 
+	{
+		var _high = _byte >> 4;
+		var _low = _byte & 0x0F;
+		return chr(_high + ((_high < 10) ? 48 : 55)) + chr(_low + ((_low < 10) ? 48 : 55));
+	}
+	
+	/// @func toString()
+	/// @desc Returns #RGBA hex string
+	static toString = function()
+	{
+		return "#" + __byte_to_hex_string(color_get_red(__color)) + __byte_to_hex_string(color_get_green(__color)) + __byte_to_hex_string(color_get_blue(__color)) + __byte_to_hex_string((__color >> 24) & 0xFF);
+	}
+}
+
 /// @func FORMS_ColorPicker(_id, _color[, _props])
 ///
 /// @extends FORMS_Window
@@ -53,9 +223,9 @@ function FORMS_ColorPickerEyeDropper()
 			with (ColorPicker)
 			{
 				__hide_window(false);
-				ColorNew =  draw_getpixel(forms_mouse_get_x(), forms_mouse_get_y()) | (255 << 24);
+				Color.set(draw_getpixel(forms_mouse_get_x(), forms_mouse_get_y()), 1);
 				__update_wheel_from_color();
-				forms_return_result(Id, ColorNew);
+				forms_return_result(Id, Color);
 			}
 		}
 	}
@@ -91,7 +261,7 @@ function FORMS_ColorPickerEyeDropper()
 ///
 /// @param {String} _id The ID of the color input that opened the color picker
 /// widget.
-/// @param {Real} _color An ABGR-encoded color to mix.
+/// @param {Struct.FORMS_Color} _color A instance of FORMS_Color
 function FORMS_ColorPickerContent(_id, _color, _window)
 	: FORMS_Content() constructor
 {
@@ -100,17 +270,21 @@ function FORMS_ColorPickerContent(_id, _color, _window)
 	/// @readonly
 	Id = _id;
 
-	/// @var {Real} An ABGR-encoded color to mix.
+	/// @var {Struct.FORMS_Color} The original color when opening the picker.
 	/// @readonly
-	Color = _color;
+	OriginalColor = _color;
 
-	/// @var {Real} The new mixed color (ABGR-encoded).
+	/// @var {Struct.FORMS_Color} The current color.
 	/// @readonly
-	ColorNew = _color;
+	Color = new FORMS_Color(_color);
+	
+	/// @var {Struct.FORMS_Color} The new color.
+	/// @readonly
+	ColorNew = new FORMS_Color(_color);
 	
 	Hidden = false;
 
-	PickerMode = "RGB";
+	PickerMode = "HSV";
 
 	PickerHue = 0; //0 - 360
 	PickerSaturation = 0; // 0 - 100
@@ -133,53 +307,12 @@ function FORMS_ColorPickerContent(_id, _color, _window)
 			
 	__update_wheel_from_color();
 	
-	static __alpha_from_abgr = function(_abgr_color) {
-		return ((_abgr_color >> 24) & 0xFF) / 255.0;
-	}
-	
-	static __hsva_to_abgr_color = function(_hue, _sat, _val, _alpha) {
-		return make_color_hsv((_hue / 360) * 255, _sat * 2.55, _val * 2.55) | ((_alpha * 255) << 24);
-	}
-	
-	static __rgba_to_abgr_color = function(_red, _green, _blue, _alpha) {
-		return make_color_rgb(_red, _green, _blue) | ((_alpha * 255) << 24);
-	}
-	
-	static __abgr_to_hex_string = function(_abgr_color) {
-		return __byte_to_hex_string(color_get_red(_abgr_color)) + __byte_to_hex_string(color_get_green(_abgr_color)) + __byte_to_hex_string(color_get_blue(_abgr_color)) + __byte_to_hex_string((_abgr_color >> 24) & 0xFF);	
-	}
-	
-	static __byte_to_hex_string = function(_byte) {
-		var _high = _byte >> 4;
-		var _low = _byte & 0x0F;
-		return chr(_high + ((_high < 10) ? 48 : 55)) + chr(_low + ((_low < 10) ? 48 : 55));
-	}
-	
-	static __hex_string_to_abgr_color = function(_hex_str) {
-		static __valid_chars = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"];
-		var _l = string_length(_hex_str);
-		_hex_str = string_upper(_hex_str);
-		// Validate Hex
-		if ((_l != 6) && (_l != 8)) { return undefined; }
-		for (var c = 1; c <= _l; ++c) 
-		{
-			if (!array_contains(__valid_chars, string_char_at(_hex_str, c))) 
-			{
-				return undefined;
-			}
-		}
-		var _red = real("0x"+string_copy(_hex_str, 1, 2));
-		var _green = real("0x"+string_copy(_hex_str, 3, 2));
-		var _blue = real("0x"+string_copy(_hex_str, 5, 2));
-		var _alpha = (_l == 8) ? (real("0x"+string_copy(_hex_str, 7, 2)) / 255) : PickerAlpha;
-		return __rgba_to_abgr_color(_red, _green, _blue, _alpha);
-	}
-	
 	static __update_wheel_from_color = function() {
-		PickerHue = (color_get_hue(ColorNew) / 255) * 360;
-		PickerSaturation = (color_get_saturation(ColorNew) / 255) * 100;
-		PickerValue = (color_get_value(ColorNew) / 255) * 100;
-		PickerAlpha = __alpha_from_abgr(ColorNew);
+		var _hsva = Color.get_hsva();
+		PickerHue = _hsva[0] * 360;
+		PickerSaturation = _hsva[1] * 100;
+		PickerValue = _hsva[2] * 100;
+		PickerAlpha = _hsva[3];
 	}
 	
 	static __render_color_wheel = function(_x, _y) {
@@ -238,8 +371,8 @@ function FORMS_ColorPickerContent(_id, _color, _window)
 			PickerHue = _mdir;
 			PickerSaturation = floor((clamp(_mdist, 0, _colorWheelRadius) / _colorWheelRadius) * 100); 
 			PickerCursorSize = lerp(PickerCursorSize, 0.75, 0.25); // animate cursor
-			ColorNew = __hsva_to_abgr_color(PickerHue, PickerSaturation, PickerValue, PickerAlpha);
-			forms_return_result(Id, ColorNew);
+			Color.set_from_hsva(PickerHue / 360, PickerSaturation / 100, PickerValue / 100, PickerAlpha);
+			forms_return_result(Id, Color);
 		}
 		else 
 		{
@@ -249,7 +382,7 @@ function FORMS_ColorPickerContent(_id, _color, _window)
 		// Draw color wheel cursor
 		var _colorWheelCursorX = round(_colorWheelX + _colorWheelRadius + lengthdir_x((PickerSaturation / 100) * (_colorWheelRadius - 2), PickerHue));
 		var _colorWheelCursorY = round(_colorWheelY + _colorWheelRadius + lengthdir_y((PickerSaturation / 100) * (_colorWheelRadius - 2), PickerHue));
-		draw_sprite_ext(FORMS_SprColorPickerCircle, 1, _colorWheelCursorX, _colorWheelCursorY, PickerCursorSize, PickerCursorSize, 0, ColorNew, 1);
+		draw_sprite_ext(FORMS_SprColorPickerCircle, 1, _colorWheelCursorX, _colorWheelCursorY, PickerCursorSize, PickerCursorSize, 0, Color.get(), 1);
 		draw_sprite_ext(FORMS_SprColorPickerCircle, 0, _colorWheelCursorX, _colorWheelCursorY, PickerCursorSize, PickerCursorSize, 0, c_white, 1);
 		
 		// Draw value slider
@@ -280,8 +413,8 @@ function FORMS_ColorPickerContent(_id, _color, _window)
 		if (ValueSliderSelected) 
 		{
 			PickerValue = floor((1.0 - (clamp((forms_mouse_get_y() - _valueSliderY), 0, _valueSliderH) / _valueSliderH)) * 100);
-			ColorNew = __hsva_to_abgr_color(PickerHue, PickerSaturation, PickerValue, PickerAlpha);
-			forms_return_result(Id, ColorNew);
+			Color.set_from_hsva(PickerHue / 360, PickerSaturation / 100, PickerValue / 100, PickerAlpha);
+			forms_return_result(Id, Color);
 		}
 		
 		var _valueSliderHandleX = _valueSliderX - 2;
@@ -348,14 +481,12 @@ function FORMS_ColorPickerContent(_id, _color, _window)
 		
 		Pen.nl();
 		
-		var _colorNew = ColorNew;
-		
 		switch (PickerMode) 
 		{
 			
 			case "RGB":
 			
-				var _red = ColorNew & 0xFF;
+				var _red = Color.__red * 255;
 				Pen.text("Red").next();
 				if (Pen.slider("slider-red", _red, 0, 255, { Integers: true }))
 				{
@@ -363,7 +494,7 @@ function FORMS_ColorPickerContent(_id, _color, _window)
 				}
 				Pen.next();
 
-				var _green = (ColorNew >> 8) & 0xFF;
+				var _green = Color.__green * 255;
 				Pen.text("Green").next();
 				if (Pen.slider("slider-green", _green, 0, 255, { Integers: true }))
 				{
@@ -371,7 +502,7 @@ function FORMS_ColorPickerContent(_id, _color, _window)
 				}
 				Pen.next();
 
-				var _blue = (ColorNew >> 16) & 0xFF;
+				var _blue = Color.__blue * 255;
 				Pen.text("Blue").next();
 				if (Pen.slider("slider-blue", _blue, 0, 255, { Integers: true }))
 				{
@@ -386,11 +517,12 @@ function FORMS_ColorPickerContent(_id, _color, _window)
 				}
 				Pen.next();
 				
-				_colorNew = __rgba_to_abgr_color(_red, _green, _blue, PickerAlpha);
-				if (ColorNew != _colorNew)
+				ColorNew.set_from_rgba(_red / 255, _green / 255, _blue / 255, PickerAlpha);
+
+				if (!ColorNew.equal_to(Color))
 				{
-					ColorNew = _colorNew;
-					forms_return_result(Id, ColorNew);
+					Color.set(ColorNew);
+					forms_return_result(Id, Color);
 					__update_wheel_from_color();
 				}
 			break;
@@ -425,47 +557,47 @@ function FORMS_ColorPickerContent(_id, _color, _window)
 				}
 				Pen.next();
 				
-				_colorNew = __hsva_to_abgr_color(PickerHue, PickerSaturation, PickerValue, PickerAlpha);
-				if (ColorNew != _colorNew)
+				ColorNew.set_from_hsva(PickerHue / 360, PickerSaturation / 100, PickerValue / 100, PickerAlpha);
+
+				if (!ColorNew.equal_to(Color))
 				{
-					ColorNew = _colorNew;
+					Color.set(ColorNew);
 					forms_return_result(Id, ColorNew);
-				}
-				
-				//Update values to valid ABGR color on release (to keep color as close to desired as possible)
-				if (forms_mouse_check_button_released(mb_left)) {
-					__update_wheel_from_color();
 				}
 				
 			break;
 			
 			case "HEX":
 				Pen.text("Hex").next();
-				if (Pen.input("slider-hex", __abgr_to_hex_string(ColorNew)))
+				if (Pen.input("slider-hex", Color.toString()))
 				{
 					var _hex = Pen.get_result();
-					_colorNew = __hex_string_to_abgr_color(_hex) ?? _colorNew;
-					if (ColorNew != _colorNew)
+					var _valid_hex = ColorNew.set_from_hex(_hex);
+					if (!ColorNew.equal_to(Color))
 					{
-						ColorNew = _colorNew;
-						forms_return_result(Id, ColorNew);
+						Color.set(ColorNew);
+						forms_return_result(Id, Color);
 						__update_wheel_from_color();
 					}
 				}
 				Pen.next();
 				
+				Pen.nl(2);
+				
 				Pen.text("Alpha").next();
 				if (Pen.slider("slider-alpha", PickerAlpha, 0.0, 1.0))
 				{
 					PickerAlpha = Pen.get_result();
-					_colorNew = __hsva_to_abgr_color(PickerHue, PickerSaturation, PickerValue, PickerAlpha);
-					if (ColorNew != _colorNew)
+					ColorNew.set_from_hsva(PickerHue / 360, PickerSaturation / 100, PickerValue / 100, PickerAlpha);
+					if (!ColorNew.equal_to(Color))
 					{
-						ColorNew = _colorNew;
-						forms_return_result(Id, ColorNew);
+						Color.set(ColorNew);
+						forms_return_result(Id, Color);
 					}
 				}
 				Pen.next();
+				
+				
 				
 			break;
 		}
@@ -481,7 +613,7 @@ function FORMS_ColorPickerContent(_id, _color, _window)
 		{
 			surface_free(__ColorWheelSurface);
 			Window.remove_self().destroy_later();
-			forms_return_result(Id, Color);
+			forms_return_result(Id, OriginalColor);
 		}
 
 		Pen.finish();
