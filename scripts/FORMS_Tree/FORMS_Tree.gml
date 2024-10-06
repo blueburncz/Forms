@@ -268,8 +268,8 @@ function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) co
 			if (!Collapsed)
 			{
 				_pen.move(_iconWidth);
-				var _startX = _pen.StartX;
-				_pen.StartX = _pen.X;
+				var _startX = _pen.ColumnX1;
+				_pen.ColumnX1 = _pen.X;
 				var i = 0;
 				repeat (array_length(Children))
 				{
@@ -277,7 +277,7 @@ function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) co
 					_child.Tree = Tree;
 					_child.draw(_pen);
 				}
-				_pen.StartX = _startX;
+				_pen.ColumnX1 = _startX;
 			}
 		}
 
