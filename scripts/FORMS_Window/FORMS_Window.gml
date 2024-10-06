@@ -23,6 +23,11 @@ enum FORMS_EWindowResize
 function FORMS_WindowProps()
 	: FORMS_FlexBoxProps() constructor
 {
+	/// @var {Bool, Undefined} Whether the window should be moved to the center
+	/// of the application window next time [layout](./FORMS_Widget.layout.html]
+	/// is run.
+	Center = undefined;
+
 	/// @var {Bool, Undefined} Whether the window can be moved (`true`) or not
 	/// (`false`).
 	Movable = undefined;
@@ -63,6 +68,11 @@ function FORMS_Window(_widget, _props=undefined)
 	static FlexBox_layout = layout;
 	static FlexBox_update = update;
 	static FlexBox_draw = draw;
+
+	/// @var {Bool} Whether the window should be moved to the center of the
+	/// application window next time [layout](./FORMS_Widget.layout.html] is run.
+	/// Defaults to `false`.
+	Center = forms_get_prop(_props, "Center") ?? false;
 
 	/// @var {Bool} Whether the window can be moved. Defaults to `true`.
 	Movable = forms_get_prop(_props, "Movable") ?? true;
@@ -239,6 +249,15 @@ function FORMS_Window(_widget, _props=undefined)
 
 		FlexBox_layout();
 
+		if (Center)
+		{
+			X.Value = floor((window_get_width() - __realWidth) / 2);
+			Y.Value = floor((window_get_height() - __realHeight) / 2);
+			X.Unit = FORMS_EUnit.Pixel;
+			Y.Unit = FORMS_EUnit.Pixel;
+			Center = false;
+		}
+
 		return self;
 	};
 
@@ -354,7 +373,7 @@ function FORMS_WindowTitleProps()
 /// @params {Struct.FORMS_WindowTitleProps, Undefined} [_props] Properties to
 /// create the window title bar with or `undefined` (default).
 function FORMS_WindowTitle(_props=undefined)
-	: FORMS_Container(undefined, _props) constructor
+	: FORMS_Container(_props) constructor
 {
 	static Container_draw = draw;
 
@@ -366,7 +385,24 @@ function FORMS_WindowTitle(_props=undefined)
 	/// Defaults to 24px.
 	Height = Height.from_props(_props, "Height", 24);
 
-	set_content(new FORMS_WindowTitleContent());
+	// TODO: Docs
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
+
+	static draw_content = function ()
+	{
+		Pen.PaddingY = round((__realHeight - string_height("M")) / 2);
+		Pen.start();
+		Pen.text(Parent.Widget.Name);
+		var _iconWidth = 20;
+		Pen.set_x(__realWidth - _iconWidth - 2);
+		if (Parent.Closable
+			&& Pen.icon_solid(FA_ESolid.Xmark, { Width: _iconWidth }))
+		{
+			Parent.destroy_later();
+		}
+		Pen.finish();
+		return self;
+	};
 
 	static draw = function (_deltaTime)
 	{
@@ -381,31 +417,6 @@ function FORMS_WindowTitle(_props=undefined)
 			Parent.__mouseOffset[@ 1] = Parent.__realY - forms_mouse_get_y();
 			Parent.__move = true;
 		}
-		return self;
-	};
-}
-
-/// @func FORMS_WindowTitleContent()
-///
-/// @extends FORMS_Content
-///
-/// @desc Draws contents of a {@link FORMS_WindowTitle}.
-function FORMS_WindowTitleContent()
-	: FORMS_Content() constructor
-{
-	static draw = function ()
-	{
-		Pen.PaddingY = round((Container.__realHeight - string_height("M")) / 2);
-		Pen.start();
-		Pen.text(Container.Parent.Widget.Name);
-		var _iconWidth = 20;
-		Pen.set_x(Container.__realWidth - _iconWidth - 2);
-		if (Container.Parent.Closable
-			&& Pen.icon_solid(FA_ESolid.Xmark, { Width: _iconWidth }))
-		{
-			Container.Parent.destroy_later();
-		}
-		Pen.finish();
 		return self;
 	};
 }

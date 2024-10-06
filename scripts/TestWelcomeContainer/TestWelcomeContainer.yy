@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"TestWelcomeContainer",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"TestWelcomeContainer",
+  "parent":{
+    "name":"Widgets",
+    "path":"folders/Test/Widgets.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

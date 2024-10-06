@@ -22,7 +22,7 @@ function FORMS_DropdownProps()
 /// @param {Struct.FORMS_DropdownProps, Undefined} [_props] Properties to create
 /// the container with or `undefined`.
 function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
-	: FORMS_Container(undefined, _props) constructor
+	: FORMS_Container(_props) constructor
 {
 	static Container_layout = layout;
 	static Container_update = update;
@@ -49,7 +49,67 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 	/// is called. Defaults to `true`.
 	ContentFit = true;
 
-	set_content(new FORMS_DropdownContent());
+	/// @var {Constant.Color} The tint color of the background sprite. Defaults
+	/// to `0x181818`.
+	BackgroundColor = 0x181818;
+
+	static draw_content = function ()
+	{
+		var _x = 0;
+		var _y = 0;
+		var _values = DropdownValues;
+		var _index = DropdownIndex;
+		var _dropdownWidth = DropdownWidth;
+		var _lineHeight = string_height("M");
+		var _select = undefined;
+
+		for (var i = 0; i < array_length(_values); ++i)
+		{
+			var _option = _values[i];
+			var _value = string(
+				is_struct(_option)
+					? (_option[$ "Text"] ?? _option.Value)
+					: _option
+			);
+			var _stringWidth = string_width(_value);
+			var _valueWidth = max(_stringWidth, _dropdownWidth);
+
+			if (Pen.is_mouse_over(_x, _y, _valueWidth, _lineHeight))
+			{
+				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, c_white, 0.3);
+				if (forms_mouse_check_button_pressed(mb_left))
+				{
+					_select = i;
+				}
+				forms_set_cursor(cr_handpoint);
+				if (_stringWidth > __realWidth)
+				{
+					forms_set_tooltip(_value);
+				}
+			}
+			else if (i == _index)
+			{
+				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, c_white, 0.1);
+			}
+
+			draw_text(_x, _y, _value);
+
+			_y += _lineHeight;
+		}
+
+		if (_select != undefined)
+		{
+			var _option = _values[_select];
+			var _value = is_struct(_option) ? _option.Value : _option;
+			forms_return_result(DropdownId, _value);
+			destroy_later();
+		}
+
+		ContentWidth = _dropdownWidth;
+		ContentHeight = _y;
+
+		return self;
+	};
 
 	static layout = function ()
 	{
@@ -82,73 +142,6 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 			__realHeight + _shadowOffset * 2,
 			c_black, 0.5);
 		Container_draw();
-		return self;
-	};
-}
-
-/// @func FORMS_DropdownContent()
-///
-/// @extends FORMS_Content
-///
-/// @desc Draws contents of a {@link FORMS_Dropdown} widget.
-function FORMS_DropdownContent()
-	: FORMS_Content() constructor
-{
-	static draw = function ()
-	{
-		var _x = 0;
-		var _y = 0;
-		var _values = Container.DropdownValues;
-		var _index = Container.DropdownIndex;
-		var _dropdownWidth = Container.DropdownWidth;
-		var _lineHeight = string_height("M");
-		var _select = undefined;
-
-		for (var i = 0; i < array_length(_values); ++i)
-		{
-			var _option = _values[i];
-			var _value = string(
-				is_struct(_option)
-					? (_option[$ "Text"] ?? _option.Value)
-					: _option
-			);
-			var _stringWidth = string_width(_value);
-			var _valueWidth = max(_stringWidth, _dropdownWidth);
-
-			if (Pen.is_mouse_over(_x, _y, _valueWidth, _lineHeight))
-			{
-				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, c_white, 0.3);
-				if (forms_mouse_check_button_pressed(mb_left))
-				{
-					_select = i;
-				}
-				forms_set_cursor(cr_handpoint);
-				if (_stringWidth > Container.__realWidth)
-				{
-					forms_set_tooltip(_value);
-				}
-			}
-			else if (i == _index)
-			{
-				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, c_white, 0.1);
-			}
-
-			draw_text(_x, _y, _value);
-
-			_y += _lineHeight;
-		}
-
-		if (_select != undefined)
-		{
-			var _option = _values[_select];
-			var _value = is_struct(_option) ? _option.Value : _option;
-			forms_return_result(Container.DropdownId, _value);
-			Container.destroy_later();
-		}
-
-		Width = _dropdownWidth;
-		Height = _y;
-
 		return self;
 	};
 }

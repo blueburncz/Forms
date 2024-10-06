@@ -144,7 +144,7 @@ function FORMS_ContextMenuProps()
 /// @param {Struct.FORMS_ContextMenuProps, Undefined} [_props] Properties to
 /// create the context menu with or `undefined` (default).
 function FORMS_ContextMenu(_options=[], _props=undefined)
-	: FORMS_Container(undefined, _props) constructor
+	: FORMS_Container(_props) constructor
 {
 	static Container_layout = layout;
 	static Container_update = update;
@@ -184,7 +184,132 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	/// [layout](./FORMS_Widget.layout.html) is called. Defaults to `true`.
 	ContentFit = true;
 
-	set_content(new FORMS_ContextMenuContent());
+	static draw_content = function ()
+	{
+		var _options = Options;
+		var _select = undefined;
+
+		var _widthText = 0;
+		var _widthShortcut = 0;
+
+		for (var i = 0; i < array_length(_options); ++i)
+		{
+			var _option = _options[i];
+
+			if (is_instanceof(_option, FORMS_ContextMenuOption))
+			{
+				_widthText = max(string_width(_option.Text), _widthText);
+
+				if (_option.Options != undefined)
+				{
+					_widthShortcut = max(24, _widthShortcut);
+				}
+				else if (_option.KeyboardShortcut != undefined)
+				{
+					_widthShortcut = max(string_width(_option.KeyboardShortcut.to_string()), _widthShortcut);
+				}
+			}
+		}
+
+		var _widthMax = _widthText + ((_widthShortcut > 0) ? 16 : 0) + _widthShortcut;
+
+		var _x = 8;
+		var _y = 8;
+		var _lineHeight = string_height("M");
+
+		for (var i = 0; i < array_length(_options); ++i)
+		{
+			var _option = _options[i];
+
+			if (is_instanceof(_option, FORMS_ContextMenuSeparator))
+			{
+				var _height = floor(_lineHeight * 0.5);
+				forms_draw_rectangle(_x, _y + floor((_height - 1) * 0.5), _widthMax, 1, c_silver, 0.2);
+				_y += _height;
+			}
+			else
+			{
+				var _optionText = _option.Text;
+				var _optionShortcut = _option.KeyboardShortcut;
+				var _optionOptions = _option.Options;
+				var _mouseOver = Pen.is_mouse_over(_x, _y, _widthMax, _lineHeight);
+
+				if (_mouseOver || __submenuIndex == i)
+				{
+					draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, _widthMax, _lineHeight, c_white, 0.3);
+				}
+
+				if (_mouseOver)
+				{
+					if (forms_mouse_check_button_pressed(mb_left))
+					{
+						_select = _option;
+					}
+
+					if (__submenu != undefined
+						&& __submenuIndex != i)
+					{
+						__submenu.destroy_later();
+						__submenu = undefined;
+						__submenuIndex = -1;
+					}
+
+					if (__submenu == undefined
+						&& _optionOptions != undefined)
+					{
+						var _submenu = new FORMS_ContextMenu(_optionOptions, {
+							X: _x,
+							Y: __realY + _y,
+						});
+						forms_get_root().add_child(_submenu);
+						_submenu.__parentMenu = self;
+						__submenu = _submenu;
+						__submenuIndex = i;
+					}
+
+					forms_set_cursor(cr_handpoint);
+				}
+
+				draw_text(_x, _y, _optionText);
+
+				if (_optionOptions != undefined)
+				{
+					draw_set_halign(fa_right);
+					fa_draw(FA_FntSolid12, FA_ESolid.AngleRight, _x + _widthMax, _y, c_silver);
+					draw_set_halign(fa_left);
+				}
+				else if (_optionShortcut != undefined)
+				{
+					draw_set_halign(fa_right);
+					draw_text_color(_x + _widthMax, _y, _optionShortcut.to_string(),
+						c_silver, c_silver, c_silver, c_silver, 1.0);
+					draw_set_halign(fa_left);
+				}
+	
+				_y += _lineHeight;
+			}
+		}
+
+		if (_select != undefined)
+		{
+			if (_select.Action != undefined)
+			{
+				if (_select.Arguments != undefined)
+				{
+					script_execute_ext(_select.Action, _select.Arguments);
+				}
+				else
+				{
+					_select.Action();
+				}
+			}
+			destroy_later();
+		}
+
+		ContentWidth = _x + _widthMax + 8;
+		ContentHeight = _y + 8;
+		return self;
+	};
 
 	static layout = function ()
 	{
@@ -260,142 +385,5 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 		}
 		Container_destroy();
 		return undefined;
-	};
-}
-
-/// @func FORMS_ContextMenuContent()
-///
-/// @extends FORMS_Content
-///
-/// @desc
-function FORMS_ContextMenuContent()
-	: FORMS_Content() constructor
-{
-	static draw = function ()
-	{
-		var _options = Container.Options;
-		var _select = undefined;
-
-		var _widthText = 0;
-		var _widthShortcut = 0;
-
-		for (var i = 0; i < array_length(_options); ++i)
-		{
-			var _option = _options[i];
-
-			if (is_instanceof(_option, FORMS_ContextMenuOption))
-			{
-				_widthText = max(string_width(_option.Text), _widthText);
-
-				if (_option.Options != undefined)
-				{
-					_widthShortcut = max(24, _widthShortcut);
-				}
-				else if (_option.KeyboardShortcut != undefined)
-				{
-					_widthShortcut = max(string_width(_option.KeyboardShortcut.to_string()), _widthShortcut);
-				}
-			}
-		}
-
-		var _widthMax = _widthText + ((_widthShortcut > 0) ? 16 : 0) + _widthShortcut;
-
-		var _x = 8;
-		var _y = 8;
-		var _lineHeight = string_height("M");
-
-		for (var i = 0; i < array_length(_options); ++i)
-		{
-			var _option = _options[i];
-
-			if (is_instanceof(_option, FORMS_ContextMenuSeparator))
-			{
-				var _height = floor(_lineHeight * 0.5);
-				forms_draw_rectangle(_x, _y + floor((_height - 1) * 0.5), _widthMax, 1, c_silver, 0.2);
-				_y += _height;
-			}
-			else
-			{
-				var _optionText = _option.Text;
-				var _optionShortcut = _option.KeyboardShortcut;
-				var _optionOptions = _option.Options;
-				var _mouseOver = Pen.is_mouse_over(_x, _y, _widthMax, _lineHeight);
-
-				if (_mouseOver || Container.__submenuIndex == i)
-				{
-					draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, _widthMax, _lineHeight, c_white, 0.3);
-				}
-
-				if (_mouseOver)
-				{
-					if (forms_mouse_check_button_pressed(mb_left))
-					{
-						_select = _option;
-					}
-
-					if (Container.__submenu != undefined
-						&& Container.__submenuIndex != i)
-					{
-						Container.__submenu.destroy_later();
-						Container.__submenu = undefined;
-						Container.__submenuIndex = -1;
-					}
-
-					if (Container.__submenu == undefined
-						&& _optionOptions != undefined)
-					{
-						var _submenu = new FORMS_ContextMenu(_optionOptions, {
-							X: _x,
-							Y: Container.__realY + _y,
-						});
-						forms_get_root().add_child(_submenu);
-						_submenu.__parentMenu = Container;
-						Container.__submenu = _submenu;
-						Container.__submenuIndex = i;
-					}
-
-					forms_set_cursor(cr_handpoint);
-				}
-
-				draw_text(_x, _y, _optionText);
-
-				if (_optionOptions != undefined)
-				{
-					draw_set_halign(fa_right);
-					fa_draw(FA_FntSolid12, FA_ESolid.AngleRight, _x + _widthMax, _y, c_silver);
-					draw_set_halign(fa_left);
-				}
-				else if (_optionShortcut != undefined)
-				{
-					draw_set_halign(fa_right);
-					draw_text_color(_x + _widthMax, _y, _optionShortcut.to_string(),
-						c_silver, c_silver, c_silver, c_silver, 1.0);
-					draw_set_halign(fa_left);
-				}
-	
-				_y += _lineHeight;
-			}
-		}
-
-		if (_select != undefined)
-		{
-			if (_select.Action != undefined)
-			{
-				if (_select.Arguments != undefined)
-				{
-					script_execute_ext(_select.Action, _select.Arguments);
-				}
-				else
-				{
-					_select.Action();
-				}
-			}
-			Container.destroy_later();
-		}
-
-		Width = _x + _widthMax + 8;
-		Height = _y + 8;
-
-		return self;
 	};
 }

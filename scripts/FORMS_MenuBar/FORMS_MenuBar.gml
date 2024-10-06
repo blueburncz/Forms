@@ -20,7 +20,7 @@ function FORMS_MenuBarProps()
 /// @param {Struct.FORMS_MenuBarProps, Undefined} [_props] Properties to create
 /// the menu bar with or `undefined` (default).
 function FORMS_MenuBar(_items=[], _props=undefined)
-	: FORMS_Container(undefined, _props) constructor
+	: FORMS_Container(_props) constructor
 {
 	static Container_update = update;
 
@@ -43,58 +43,13 @@ function FORMS_MenuBar(_items=[], _props=undefined)
 	/// 24px.
 	Height = Height.from_props(_props, "Height", 24, FORMS_EUnit.Pixel);
 
-	/// @var {Constant.Color} The tint color of the background sprite. Defaults
-	/// to `0x272727`.
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x272727;
-
-	set_content(new FORMS_MenuBarContent());
-
-	static update = function (_deltaTime)
+	static draw_content = function ()
 	{
-		Container_update(_deltaTime);
-		if (__contextMenu != undefined && !weak_ref_alive(__contextMenu))
-		{
-			__contextMenu = undefined;
-			__itemCurrent = -1;
-		}
-		return self;
-	};
-}
-
-/// @func FORMS_MenuBarItem(_name[, _contextMenu])
-///
-/// @desc An item in a {@link FORMS_MenuBar}.
-///
-/// @param {String} _name The name of the menu item.
-/// @param {Function, Undefined} [_contextMenu] A constructor of a struct that
-/// inherits from {@link FORMS_ContextMenu} to be created when the menu item is
-/// selected, or `undefined` (default).
-function FORMS_MenuBarItem(_name, _contextMenu=undefined) constructor
-{
-	/// @var {String} The name of the menu item.
-	Name = _name;
-
-	/// @var {Function, Undefined} A constructor of a struct that inherits from
-	/// {@link FORMS_ContextMenu} to be created when the menu item is selected,
-	/// or `undefined` (default).
-	ContextMenu = _contextMenu;
-}
-
-/// @func FORMS_MenuBarContent()
-///
-/// @extends FORMS_Content
-///
-/// @desc Draws contents of a {@link FORMS_MenuBar}.
-function FORMS_MenuBarContent()
-	: FORMS_Content() constructor
-{
-	static draw = function ()
-	{
-		var _menu = Container;
+		var _menu = self;
 		var _items = _menu.__items;
 		var _itemCurrent = _menu.__itemCurrent;
 		var _itemIndex = 0;
-		var _contextMenuY = Container.__realY + Container.__realHeight;
+		var _contextMenuY = __realY + __realHeight;
 
 		Pen.PaddingY = 4;
 		Pen.start();
@@ -102,7 +57,7 @@ function FORMS_MenuBarContent()
 		repeat (array_length(_items))
 		{
 			var _item = _items[_itemIndex];
-			var _itemX = Container.__realX + Pen.X - 8;
+			var _itemX = __realX + Pen.X - 8;
 
 			var _link = Pen.link(_item.Name, {
 				Color: (_itemIndex == _itemCurrent) ? c_white : c_silver,
@@ -135,7 +90,36 @@ function FORMS_MenuBarContent()
 		}
 
 		Pen.finish();
-
 		return self;
 	};
+
+	static update = function (_deltaTime)
+	{
+		Container_update(_deltaTime);
+		if (__contextMenu != undefined && !weak_ref_alive(__contextMenu))
+		{
+			__contextMenu = undefined;
+			__itemCurrent = -1;
+		}
+		return self;
+	};
+}
+
+/// @func FORMS_MenuBarItem(_name[, _contextMenu])
+///
+/// @desc An item in a {@link FORMS_MenuBar}.
+///
+/// @param {String} _name The name of the menu item.
+/// @param {Function, Undefined} [_contextMenu] A constructor of a struct that
+/// inherits from {@link FORMS_ContextMenu} to be created when the menu item is
+/// selected, or `undefined` (default).
+function FORMS_MenuBarItem(_name, _contextMenu=undefined) constructor
+{
+	/// @var {String} The name of the menu item.
+	Name = _name;
+
+	/// @var {Function, Undefined} A constructor of a struct that inherits from
+	/// {@link FORMS_ContextMenu} to be created when the menu item is selected,
+	/// or `undefined` (default).
+	ContextMenu = _contextMenu;
 }

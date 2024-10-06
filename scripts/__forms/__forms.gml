@@ -1,3 +1,15 @@
+/// @macro {Real} The major version number of Forms.
+#macro FORMS_VERSION_MAJOR 0
+
+/// @macro {Real} The minor version number of Forms.
+#macro FORMS_VERSION_MINOR 1
+
+/// @macro {Real} The patch version number of Forms.
+#macro FORMS_VERSION_PATCH 0
+
+/// @macro {String} The version of Forms as a string "major.minor.patch".
+#macro FORMS_VERSION_STRING $"{FORMS_VERSION_MAJOR}.{FORMS_VERSION_MINOR}.{FORMS_VERSION_PATCH}"
+
 /// @var {Constant.Color} The accent color. Used for example as color of the
 /// tick icon in selected checboxes or the circle icon in selected radio buttons.
 /// Default value is `0x5B9D00` ("GameMaker green").

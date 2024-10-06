@@ -167,7 +167,7 @@ function FORMS_WorkspaceTabsProps()
 /// @params {Struct.FORMS_WorkspaceTabsProps, Undefined} [_props] Properties to
 /// create the workspace tabs container with or `undefined` (default).
 function FORMS_WorkspaceTabs(_props=undefined)
-	: FORMS_Container(undefined, _props) constructor
+	: FORMS_Container(_props) constructor
 {
 	/// @var {Struct.FORMS_UnitValue} The width of the workspace tabs
 	/// container. Defaults to 100%.
@@ -177,20 +177,12 @@ function FORMS_WorkspaceTabs(_props=undefined)
 	/// container. Defaults to 32px.
 	Height.from_props(_props, "Height", 32);
 
-	set_content(new FORMS_WorkspaceTabsContent());
-}
+	// TODO: Docs
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
 
-/// @func FORMS_WorkspaceTabsContent()
-///
-/// @extends FORMS_Content
-///
-/// @desc Draws contents of {@link FORMS_WorkspaceTabs}.
-function FORMS_WorkspaceTabsContent()
-	: FORMS_Content() constructor
-{
-	static draw = function ()
+	static draw_content = function ()
 	{
-		var _workspace = Container.Parent;
+		var _workspace = Parent;
 		var _tabs = _workspace.__tabs;
 		var _tabCount = array_length(_tabs);
 		var _tabCurrent = _workspace.__tabCurrent;
@@ -213,7 +205,7 @@ function FORMS_WorkspaceTabsContent()
 						+ _iconSpace
 						+ string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0)
 						+ _tabPadding,
-					Container.__realHeight,
+					__realHeight,
 					0x282828, 1.0
 				);
 			}
@@ -255,7 +247,7 @@ function FORMS_WorkspaceTabsContent()
 
 		Pen.finish();
 
-		Width = Pen.get_max_x()
+		ContentWidth = Pen.get_max_x();
 
 		return self;
 	};
