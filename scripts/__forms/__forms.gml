@@ -152,3 +152,65 @@ function forms_parse_real(_string)
 
 	return _sign * real(_number);
 }
+
+/// @var {Id.DsStack}
+/// @private
+global.__formsScissorStack = ds_stack_create();
+
+/// @var {Array<Real>, Undefined}
+/// @private
+global.__formsScissorRect = undefined;
+
+/// @func forms_scissor_rect_push(_x, _y, _width, _height)
+///
+/// @desc
+///
+/// @param {Real} _x
+/// @param {Real} _y
+/// @param {Real} _width
+/// @param {Real} _height
+function forms_scissor_rect_push(_x, _y, _width, _height)
+{
+	ds_stack_push(global.__formsScissorStack, global.__formsScissorRect);
+	if (global.__formsScissorRect == undefined)
+	{
+		global.__formsScissorRect = [_x, _y, _x + _width, _y + _height];
+	}
+	else
+	{
+		global.__formsScissorRect = [
+			max(global.__formsScissorRect[0], _x),
+			max(global.__formsScissorRect[1], _y),
+			min(global.__formsScissorRect[2], _x + _width),
+			min(global.__formsScissorRect[3], _y + _height)
+		];
+	}
+	gpu_set_scissor(
+		global.__formsScissorRect[0],
+		global.__formsScissorRect[1],
+		global.__formsScissorRect[2] - global.__formsScissorRect[0],
+		global.__formsScissorRect[3] - global.__formsScissorRect[1]
+	);
+}
+
+/// @func forms_scissor_rect_pop()
+///
+/// @desc
+function forms_scissor_rect_pop()
+{ 
+	global.__formsScissorRect = ds_stack_top(global.__formsScissorStack);
+	ds_stack_pop(global.__formsScissorStack);
+	if (global.__formsScissorRect == undefined)
+	{
+		gpu_set_scissor(0, 0, window_get_width(), window_get_height());
+	}
+	else
+	{
+		gpu_set_scissor(
+			global.__formsScissorRect[0],
+			global.__formsScissorRect[1],
+			global.__formsScissorRect[2] - global.__formsScissorRect[0],
+			global.__formsScissorRect[3] - global.__formsScissorRect[1]
+		);
+	}
+}
