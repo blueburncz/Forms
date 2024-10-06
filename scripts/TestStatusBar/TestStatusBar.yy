@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"TestStatusBar",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"TestStatusBar",
+  "parent":{
+    "name":"Widgets",
+    "path":"folders/Test/Widgets.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

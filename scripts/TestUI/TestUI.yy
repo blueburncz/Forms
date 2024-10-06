@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"FORMS_Content",
+  "%Name":"TestUI",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"FORMS_Content",
+  "name":"TestUI",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Forms/Scripts.yy",
+    "name":"Widgets",
+    "path":"folders/Test/Widgets.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

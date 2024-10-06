@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"Script22",
+  "%Name":"FORMS_Color",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"Script22",
+  "name":"FORMS_Color",
   "parent":{
-    "name":"Forms",
-    "path":"Forms.yyp",
+    "name":"Scripts",
+    "path":"folders/Forms/Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

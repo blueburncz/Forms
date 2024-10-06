@@ -220,7 +220,7 @@ function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) co
 		{
 			var _spacingY = floor(_pen.SpacingY / 2);
 			forms_draw_rectangle(
-				_pen.Content.Container.ScrollX,
+				_pen.Container.ScrollX,
 				_pen.Y - _spacingY,
 				_pen.Width,
 				_pen.__lineHeight + _spacingY * 2,

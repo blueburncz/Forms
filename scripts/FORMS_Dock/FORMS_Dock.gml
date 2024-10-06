@@ -518,7 +518,7 @@ function FORMS_DockTabsProps()
 ///
 /// @params {Struct.FORMS_DockTabsProps, Undefined} [_props]
 function FORMS_DockTabs(_props=undefined)
-	: FORMS_Container(undefined, _props) constructor
+	: FORMS_Container(_props) constructor
 {
 	/// @var {Struct.FORMS_UnitValue} The containers's width. Defaults to
 	/// 100%.
@@ -528,20 +528,12 @@ function FORMS_DockTabs(_props=undefined)
 	/// 24px.
 	Height = Height.from_props(_props, "Height", 24);
 
-	set_content(new FORMS_DockTabsContent());
-}
+	// TODO: Docs
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
 
-/// @func FORMS_DockTabsContent()
-///
-/// @extends FORMS_Content
-///
-/// @desc Draws contents of a {@link FORMS_DockTabs} container.
-function FORMS_DockTabsContent()
-	: FORMS_Content() constructor
-{
-	static draw = function ()
+	static draw_content = function ()
 	{
-		var _dock = Container.Parent;
+		var _dock = Parent;
 		var _tabs = _dock.__tabs;
 		var _tabCount = array_length(_tabs);
 		var _tabCurrent = _dock.__tabCurrent;
@@ -565,7 +557,7 @@ function FORMS_DockTabsContent()
 						+ _iconSpace
 						+ string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0)
 						+ _tabPadding,
-					Container.__realHeight,
+					__realHeight,
 					0x282828, 1.0
 				);
 			}
@@ -600,9 +592,7 @@ function FORMS_DockTabsContent()
 		}
 
 		Pen.finish();
-
-		Width = Pen.get_max_x();
-
+		ContentWidth = Pen.get_max_x();
 		return self;
 	};
 }

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"FileContextMenu",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"FileContextMenu",
+  "parent":{
+    "name":"ContextMenus",
+    "path":"folders/Test/ContextMenus.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

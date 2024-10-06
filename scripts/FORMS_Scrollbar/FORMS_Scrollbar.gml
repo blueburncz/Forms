@@ -55,8 +55,8 @@ function FORMS_Scrollbar(_target, _props=undefined)
 	Target = _target;
 
 	/// @var {Constant.Color} The color of the scrollbar's background. Defaults
-	/// to `0x232323`.
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x232323;
+	/// to `0x272727`.
+	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x272727;
 
 	/// @var {Real} The alpha value of the scrollbar's background. Defaults to 1.
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
@@ -204,7 +204,7 @@ function FORMS_HScrollbar(_target, _props=undefined)
 			forms_mouse_get_x(),
 			__realX,
 			__realWidth,
-			Target.Content.Width,
+			Target.ContentWidth,
 			Target.__realWidth);
 
 		Target.set_scroll_x(_scrollNew);
@@ -263,7 +263,7 @@ function FORMS_VScrollbar(_target, _props=undefined)
 			forms_mouse_get_y(),
 			__realY,
 			__realHeight,
-			Target.Content.Height,
+			Target.ContentHeight,
 			Target.__realHeight);
 
 		Target.set_scroll_y(_scrollNew);

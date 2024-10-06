@@ -27,17 +27,17 @@ enum FORMS_EPenLayout
 	Column2,
 };
 
-/// @func FORMS_Pen(_content)
+/// @func FORMS_Pen(_container)
 ///
 /// @desc A struct used to draw text and controls (buttons, checkboxes, inputs
-/// etc.) inside of {@link FORMS_Content}s.
+/// etc.) inside of {@link FORMS_Container}s.
 ///
-/// @param {Struct.FORMS_Content} _content The content to which the pen belongs.
-function FORMS_Pen(_content) constructor
+/// @param {Struct.FORMS_Container} _container The container to which the pen belongs.
+function FORMS_Pen(_container) constructor
 {
-	/// @var {Struct.FORMS_Content} The content to which the pen belongs.
+	/// @var {Struct.FORMS_Container} The container to which the pen belongs.
 	/// @readonly
-	Content = _content;
+	Container = _container;
 
 	/// @var {Asset.GMFont, Undefined} The font to use or `undefined` (default)
 	/// to keep the one currently set by `draw_set_font()`.
@@ -296,7 +296,7 @@ function FORMS_Pen(_content) constructor
 			draw_set_font(Font);
 		}
 		__lineHeight = LineHeight ?? string_height("M");
-		Width = Content.Container.__realWidth - X * 2;
+		Width = Container.__realWidth - X * 2;
 		set_layout(_layout);
 		return self;
 	};
@@ -428,7 +428,8 @@ function FORMS_Pen(_content) constructor
 		var _c = forms_get_prop(_props, "Color") ?? c_white;
 		var _a = forms_get_prop(_props, "Alpha") ?? 1.0;
 		var _textWidth = string_width(_text);
-		var _width = forms_get_prop(_props, "Width") ?? get_control_width(); //_textWidth;
+		var _trim = forms_get_prop(_props, "Trim") ?? (__layout == FORMS_EPenLayout.Column2);
+		var _width = _trim ? get_control_width() : (forms_get_prop(_props, "Width") ?? _textWidth);
 		var _shortened = false;
 		if (_textWidth > _width)
 		{
@@ -509,7 +510,7 @@ function FORMS_Pen(_content) constructor
 	static is_mouse_over = function (_x, _y, _width, _height, _id=undefined)
 	{
 		var _root = forms_get_root();
-		return (_root.WidgetHovered == Content.Container
+		return (_root.WidgetHovered == Container
 			&& forms_mouse_in_rectangle(_x, _y, _width, _height)
 			&& (_root.WidgetActive == _id || _root.WidgetActive == undefined));
 	};
@@ -527,8 +528,8 @@ function FORMS_Pen(_content) constructor
 	{
 		var _world = matrix_get(matrix_world);
 		return [
-			Content.Container.__realX + _x + _world[12],
-			Content.Container.__realY + _y + _world[13],
+			Container.__realX + _x + _world[12],
+			Container.__realY + _y + _world[13],
 		];
 	};
 
@@ -717,18 +718,22 @@ function FORMS_Pen(_content) constructor
 			forms_set_cursor(cr_handpoint);
 			if (forms_mouse_check_button_pressed(mb_left))
 			{
-				var _world = matrix_get(matrix_world);
-				// TODO: Window auto fit content
-				var _colorPickerWidth = 200;
-				var _colorPickerHeight = 360;
-				var _colorPickerPos = get_absolute_pos(X, Y + _height);
-				var _colorPicker = new FORMS_ColorPicker(_id, _color, {
-					Width: _colorPickerWidth,
-					Height: _colorPickerHeight,
-					X: clamp(_colorPickerPos[0], 0, window_get_width() - _colorPickerWidth),
-					Y: clamp(_colorPickerPos[1], 0, window_get_height() - _colorPickerHeight),
-				});
-				forms_get_root().add_child(_colorPicker);
+				if (forms_get_root().find_widget(_id+"#color-picker") == undefined)
+				{
+					var _world = matrix_get(matrix_world);
+					// TODO: Window auto fit content
+					var _colorPickerWidth = 200;
+					var _colorPickerHeight = 360;
+					var _colorPickerPos = get_absolute_pos(X, Y + _height);
+					var _colorPicker = new FORMS_ColorPicker(_id, _color, {
+						Id: _id+"#color-picker",
+						Width: _colorPickerWidth,
+						Height: _colorPickerHeight,
+						X: clamp(_colorPickerPos[0], 0, window_get_width() - _colorPickerWidth),
+						Y: clamp(_colorPickerPos[1], 0, window_get_height() - _colorPickerHeight),
+					});
+					forms_get_root().add_child(_colorPicker);
+				}
 			}
 		}
 		__move_or_nl(_width);
@@ -832,7 +837,7 @@ function FORMS_Pen(_content) constructor
 	static __make_id = function (_id)
 	{
 		gml_pragma("forceinline");
-		return Content.Container.Id + "#" + _id;
+		return Container.Id + "#" + _id;
 	};
 
 	/// @func slider(_id, _value, _min, _max[, _props])
@@ -888,11 +893,12 @@ function FORMS_Pen(_content) constructor
 			}
 			_valueNew = lerp(_min, _max, clamp((forms_mouse_get_x() - X) / _width, 0, 1));
 			forms_set_cursor(cr_handpoint);
+			if (forms_get_prop(_props, "Integers") ?? false)
+			{
+				_valueNew = floor(_valueNew);
+			}
 		}
-		if (forms_get_prop(_props, "Integers") ?? false)
-		{
-			_valueNew = floor(_valueNew);
-		}
+		
 		if (_value != _valueNew)
 		{
 			forms_return_result(_id, _valueNew);

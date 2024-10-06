@@ -445,7 +445,7 @@ function forms_mouse_get_x()
 	return forms_get_root().MouseX;
 }
 
-/// @func forms_mouse_get_x()
+/// @func forms_mouse_get_y()
 ///
 /// @desc Retrieves the current mouse Y coordinate. When rendering into a
 /// {@link FORMS_Container}, it's relative to the containers position and scroll!
