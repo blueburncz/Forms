@@ -16,8 +16,8 @@
     {"$GMFolder":"","%Name":"Scripts","folderPath":"folders/Forms/Scripts.yy","name":"Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Sprites","folderPath":"folders/Forms/Sprites.yy","name":"Sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Test","folderPath":"folders/Test.yy","name":"Test","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"Widgets","folderPath":"folders/Test/Widgets.yy","name":"Widgets","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"ContextMenus","folderPath":"folders/Test/ContextMenus.yy","name":"ContextMenus","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Widgets","folderPath":"folders/Test/Widgets.yy","name":"Widgets","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"._LICENSE-FontAwesome.txt","CopyToMask":-1,"filePath":"datafiles","name":"._LICENSE-FontAwesome.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},

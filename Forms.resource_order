@@ -6,8 +6,8 @@
     {"name":"Scripts","order":2,"path":"folders/Forms/Scripts.yy",},
     {"name":"Sprites","order":3,"path":"folders/Forms/Sprites.yy",},
     {"name":"Test","order":5,"path":"folders/Test.yy",},
-    {"name":"Widgets","order":2,"path":"folders/Test/Widgets.yy",},
     {"name":"ContextMenus","order":3,"path":"folders/Test/ContextMenus.yy",},
+    {"name":"Widgets","order":2,"path":"folders/Test/Widgets.yy",},
   ],
   "ResourceOrderSettings":[
     {"name":"FA_FntBrands12","order":1,"path":"fonts/FA_FntBrands12/FA_FntBrands12.yy",},
