@@ -17,14 +17,21 @@ function TestWorkspace()
 	add_child(_menu);
 
 	var _dock = new FORMS_Dock({
-		Width: "100%",
-		Height: "100%",
-		Flex: 1,
+		Width : "100%",
+		Height : "100%",
+		Flex : 1,
 	});
 	add_child(_dock);
 
 	_dock.set_tabs([
-		new FORMS_ScrollPane(new TestControlsContainer(), { Name: "Test Scroll Pane" }),
-		new FORMS_ScrollPane(new TestControlsContainer(), { Name: "Test Scroll Pane" }),
+		new FORMS_ScrollPane(new TestControlsContainer(), { Name : "Test Scroll Pane" }),
+		new FORMS_ScrollPane(new TestControlsContainer(), { Name : "Test Scroll Pane" }),
+	]);
+
+	_dock.split_left();
+	_dock.SplitSize = 0.25;
+
+	_dock.get_second().set_tabs([
+		new FORMS_ApplicationSurface({ Name : "Viewport", Width : "100%", Height : "100%" })
 	]);
 }

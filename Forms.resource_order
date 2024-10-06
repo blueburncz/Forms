@@ -15,6 +15,7 @@
     {"name":"FA_FntSolid12","order":3,"path":"fonts/FA_FntSolid12/FA_FntSolid12.yy",},
     {"name":"RmTest","order":1,"path":"rooms/RmTest/RmTest.yy",},
     {"name":"FileContextMenu","order":1,"path":"scripts/FileContextMenu/FileContextMenu.yy",},
+    {"name":"FORMS_ApplicationSurface","order":20,"path":"scripts/FORMS_ApplicationSurface/FORMS_ApplicationSurface.yy",},
     {"name":"FORMS_Box","order":1,"path":"scripts/FORMS_Box/FORMS_Box.yy",},
     {"name":"FORMS_ColorPicker","order":2,"path":"scripts/FORMS_ColorPicker/FORMS_ColorPicker.yy",},
     {"name":"FORMS_CompoundWidget","order":3,"path":"scripts/FORMS_CompoundWidget/FORMS_CompoundWidget.yy",},
@@ -47,5 +48,6 @@
     {"name":"FORMS_SprSlider","order":8,"path":"sprites/FORMS_SprSlider/FORMS_SprSlider.yy",},
     {"name":"FORMS_SprTab","order":9,"path":"sprites/FORMS_SprTab/FORMS_SprTab.yy",},
     {"name":"FORMS_SprTabWorkspace","order":10,"path":"sprites/FORMS_SprTabWorkspace/FORMS_SprTabWorkspace.yy",},
+    {"name":"SprSponzaBBMOD","order":4,"path":"sprites/SprSponzaBBMOD/SprSponzaBBMOD.yy",},
   ],
 }
