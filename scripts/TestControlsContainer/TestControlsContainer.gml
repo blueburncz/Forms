@@ -164,6 +164,63 @@ function TestControlsContainer()
 			Pen.end_section();
 		}
 
+		if (Pen.section("Sections"))
+		{
+			Pen.text("You").nl();
+
+			if (Pen.section("Section 1"))
+			{
+				Pen.text("Can").nl();
+
+				if (Pen.section("Section 1a"))
+				{
+					Pen.text("Also").nl();
+					Pen.end_section();
+				}
+
+				if (Pen.section("Section 1b"))
+				{
+					Pen.text("Have").nl();
+					Pen.end_section();
+				}
+
+				if (Pen.section("Section 1c"))
+				{
+					Pen.text("Sections").nl();
+					Pen.end_section();
+				}
+
+				Pen.end_section();
+			}
+
+			if (Pen.section("Section 2"))
+			{
+				Pen.text("Inside").nl();
+
+				if (Pen.section("Section 2a"))
+				{
+					Pen.text("Sections").nl();
+					Pen.end_section();
+				}
+
+				if (Pen.section("Section 2b"))
+				{
+					Pen.text("Like").nl();
+					Pen.end_section();
+				}
+
+				if (Pen.section("Section 2c"))
+				{
+					Pen.text("This").nl();
+					Pen.end_section();
+				}
+
+				Pen.end_section();
+			}
+
+			Pen.end_section();
+		}
+
 		Pen.finish();
 
 		FORMS_CONTENT_UPDATE_SIZE;
