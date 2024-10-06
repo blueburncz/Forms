@@ -47,7 +47,7 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 		__red = is_struct(_color) ? _color.__red : (color_get_red(_color) / 255);
 		__green = is_struct(_color) ? _color.__green : (color_get_green(_color) / 255);
 		__blue = is_struct(_color) ? _color.__blue : (color_get_blue(_color) / 255);
-		__alpha = is_struct(_color) ? _color.__alpha : clamp(_alpha ?? (((_color >> 24) & 0xFF) / 255), 0, 1);
+		__alpha = is_struct(_color) ? _color.__alpha : clamp(_alpha ?? (color_get_alpha(_color) / 255), 0, 1);
 		__calculate_color();
 		return self;
 	}
@@ -129,6 +129,7 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 		__green = real("0x"+string_copy(_hex_str, 3, 2)) / 255;
 		__blue = real("0x"+string_copy(_hex_str, 5, 2)) / 255;
 		__alpha = (_l == 8) ? (real("0x"+string_copy(_hex_str, 7, 2)) / 255) : 1;
+		__calculate_color();
 		return true;
 	}
 	
@@ -137,57 +138,41 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	/// @desc Gets the ABGR version of the color
 	///
 	/// @return Returns an ABGR color
-	static get = function()
-	{
-		__calculate_color();
-		return __color;
-	}
+	static get = function()	{ return __color; }
 	
 	/// @func get_red()
 	///
 	/// @desc Gets the red value
 	///
 	/// @return {Real} Returns red value between 0 - 255
-	static get_red = function()
-	{
-		return __red * 255;
-	}
+	static get_red = function() { return __red * 255; }
 	
 	/// @func get_green()
 	///
 	/// @desc Gets the green value
 	///
 	/// @return {Real} Returns green value between 0 - 255
-	static get_green = function()
-	{
-		return __green * 255;
-	}
+	static get_green = function() {	return __green * 255; }
 	
 	/// @func get_blue()
 	///
 	/// @desc Gets the blue value
 	///
 	/// @return {Real} Returns blue value between 0 - 255
-	static get_blue = function()
-	{
-		return __blue * 255;
-	}
+	static get_blue = function() { return __blue * 255; }
 	
 	/// @func get_alpha()
 	///
 	/// @desc Gets the alpha value
 	///
 	/// @return {Real} Returns alpha value between 0 - 1
-	static get_alpha = function()
-	{
-		return __alpha;
-	}
+	static get_alpha = function() { return __alpha; }
 	
 	/// @func get_hsva()
 	///
 	/// @desc Gets the Hue, Saturation, Value & Alpha components as an array.
 	///
-	/// @return {Array} Returns array with format [H,S,V,A] with values 0 - 1
+	/// @return {Array<Real>} Returns array with format [H,S,V,A] with values 0 - 1
 	static get_hsva = function() 
 	{
 	    var _max = max(__red, __green, __blue);
@@ -213,13 +198,14 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	/// @param {Bool} _precise Whether to compare colors more precisely (only when
 	/// comparing to another FORMS_Color).
 	///
-	/// @return {Bool} Returns 'true' if the two colors are equal, 'undefined' if 
+	/// @return {Bool, Undefined} Returns 'true' if the two colors are equal, 'undefined' if 
 	/// the value given is not a valid color.
 	static equal_to = function(_color, _precise = true)
 	{
 		if (FORMS_is_FORMS_Color(_color) && _precise)
 		{
-			return (__red == _color.__red) && (__green == _color.__green) && (__blue == _color.__blue) && (__alpha == _color.__alpha);
+			return (__red == _color.__red) && (__green == _color.__green) 
+			&& (__blue == _color.__blue) && (__alpha == _color.__alpha);
 		}
 		else if (is_real(_color))
 		{
@@ -247,7 +233,8 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	/// @returns Returns #RGBA hex string
 	static toString = function()
 	{
-		return "#" + __byte_to_hex_string(color_get_red(__color)) + __byte_to_hex_string(color_get_green(__color)) + __byte_to_hex_string(color_get_blue(__color)) + __byte_to_hex_string((__color >> 24) & 0xFF);
+		return "#" + __byte_to_hex_string(color_get_red(__color)) + __byte_to_hex_string(color_get_green(__color)) 
+		+ __byte_to_hex_string(color_get_blue(__color)) + __byte_to_hex_string(color_get_alpha(__color));
 	}
 }
 
@@ -258,4 +245,16 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 /// @returns {bool} Returns 'true' if value is a Struct.FORM_Color
 function FORMS_is_FORMS_Color(_val) {
 	return is_struct(_val) && is_instanceof(_val, FORMS_Color);
+}
+
+/// @func color_get_alpha(_col)
+///
+/// @desc This functions returns the amount of alpha in the given color, with a
+/// value between 0 and 255. If color has no alpha value, 0 is returned.
+///
+/// @param {Constant.color} _col The color to check.
+///
+/// @returns {Real} Alpha value between 0 and 255.
+function color_get_alpha(_col) {
+	return (_col >> 24) & 0xFF;
 }

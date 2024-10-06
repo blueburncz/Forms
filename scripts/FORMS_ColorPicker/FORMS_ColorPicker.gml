@@ -24,6 +24,7 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 	: FORMS_Window(undefined, _props) constructor
 {
 	static Window_update = update;
+	static Window_destroy = destroy;
 	
 	/// @var {String} The ID of the color input that opened the color picker
 	/// widget.
@@ -42,44 +43,76 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 	OriginalColor = _color;
 
 	/// @var {Struct.FORMS_Color} The current color.
-	/// @readonly
 	Color = new FORMS_Color(_color);
 	
 	/// @var {Struct.FORMS_Color} The new color.
-	/// @readonly
 	ColorNew = new FORMS_Color(_color);
 	
+	/// @var {Bool}
+	/// @private
 	__hidden = false;
+	
+	/// @var {Real}
+	/// @private
 	__windowPrevX = 0;
 	
-	EyeDropperWidget = new FORMS_ColorPickerEyeDropper();
-	EyeDropperWidget.ColorPicker = self;
-	forms_get_root().add_child(EyeDropperWidget);
-	
-	static __hide_window = function(_hide) 
+	/// @var {Struct.FORMS_Widget}
+	/// @private
+	__eyeDropperWidget = new (function () : FORMS_Widget() constructor
 	{
-		if (__hidden == _hide) { return; }
-		if (_hide)
-		{
-			__windowPrevX = X.Value; //store old x position
-		} 
-		else 
-		{
-			X.Value = __windowPrevX; //restore window position
-		}
-		__hidden = _hide;
-	}
+		Icon = FA_ESolid.EyeDropper;
+		Width.Value = 32;
+		Height.Value = 32;
+		Visible = false;
+		ColorPicker = other;
 	
-	static update = function(_deltaTime) {
-		Window_update();
-		if (__hidden) 
-		{
-			X.Value = -__realWidth - 10000; // hide window off screen
+		static update = function() 
+		{			
+			if (!Visible) { return; }
+		
+			if (forms_mouse_check_button_pressed(mb_left)) 
+			{
+				// Prevent interaction with other widgets
+				forms_mouse_set_button_status(mb_left, FORMS_EMouseButton.Off); 
+				Visible = false;
+				with (ColorPicker)
+				{
+					__hide_window(false);
+					Color.set(draw_getpixel(forms_mouse_get_x(), forms_mouse_get_y()), 1);
+					Widget.__update_wheel_from_color();
+					forms_return_result(ControlId, Color);
+				}
+			}
 		}
-	}
+		
+		static draw = function() 
+		{
+			if (!Visible) { return; } 
+			forms_set_cursor(cr_none);
+			draw_set_valign(fa_bottom);
+			draw_set_color(c_white);
+			var _mx = forms_mouse_get_x();
+			var _my = forms_mouse_get_y();	
+			var _pixel_color = draw_getpixel(_mx, _my);	
+			var _pixel_color2 = draw_getpixel(_mx+2, _my+1);	
+			var _icon_color = merge_color(_pixel_color, _pixel_color2, 0.5);
+			_icon_color = color_get_value(_icon_color) > 160 ? c_black : c_white;
+
+			fa_draw(IconFont, Icon, _mx + 3, _my - 2, c_white, 1);
+			draw_set_valign(fa_top);
+			draw_sprite_ext(FORMS_SprEyeDropper, 0, _mx, _my, 1, 1, 0, _icon_color, 1);
+			gpu_set_blendmode(bm_normal);
+			draw_sprite_ext(FORMS_SprColorPickerCircle, 1, _mx+32, _my, 0.75, 0.75, 0, _pixel_color, 1);
+			draw_sprite_ext(FORMS_SprColorPickerCircle, 0, _mx+32, _my, 0.75, 0.75, 0, c_white, 1);
+		}	
+	})();
+	
+	forms_get_root().add_child(__eyeDropperWidget);
 	
 	set_widget(new (function () : FORMS_Container() constructor
 	{
+		static Container_destroy = destroy;
+		
 		Name = "Color Picker";
 		Width.from_string("100%");
 		Height.from_string("100%");
@@ -95,8 +128,8 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 		
 		WheelSelected = false;
 		ValueSliderSelected = false;
-		__ColorWheelSurface = -1;
-				
+		__colorWheelSurface = -1;
+						
 		static __update_wheel_from_color = function() {
 			var _hsva = Parent.Color.get_hsva();
 			PickerHue = _hsva[0] * 360;
@@ -109,19 +142,19 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 		
 			var _colorWheelSize = Pen.Width - 32;
 			var _doRender = false;
-			if (!surface_exists(__ColorWheelSurface)) 
+			if (!surface_exists(__colorWheelSurface)) 
 			{
-				__ColorWheelSurface = surface_create(_colorWheelSize, _colorWheelSize);
+				__colorWheelSurface = surface_create(_colorWheelSize, _colorWheelSize);
 				_doRender = true;
 			}
-			else if (surface_get_width(__ColorWheelSurface) != _colorWheelSize)
+			else if (surface_get_width(__colorWheelSurface) != _colorWheelSize)
 			{
-				surface_resize(__ColorWheelSurface, _colorWheelSize, _colorWheelSize);
+				surface_resize(__colorWheelSurface, _colorWheelSize, _colorWheelSize);
 				_doRender = true;
 			}
 		
 			if (_doRender) {
-				surface_set_target(__ColorWheelSurface);
+				surface_set_target(__colorWheelSurface);
 				draw_clear_alpha(c_black, 0);
 				gpu_set_blendenable(false);
 				shader_set(FORMS_ShColorWheel);
@@ -136,7 +169,7 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 				surface_reset_target();
 			}
 		
-			draw_surface_ext(__ColorWheelSurface, _x, _y, 1, 1, 0, merge_color(c_black, c_white, PickerValue / 100), 1);
+			draw_surface_ext(__colorWheelSurface, _x, _y, 1, 1, 0, merge_color(c_black, c_white, PickerValue / 100), 1);
 		}
 		
 		static __draw_color_wheel = function()
@@ -221,6 +254,12 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 			}
 		}
 		
+		static destroy = function()
+		{
+			surface_free(__colorWheelSurface);
+			return Container_destroy();
+		}
+		
 		static draw_content = function ()
 		{				
 			if (Parent.__hidden) { return false; }
@@ -252,7 +291,7 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 			if (Pen.icon_solid(FA_ESolid.EyeDropper, { Width: 24 })) 
 			{
 				Parent.__hide_window(true);
-				Parent.EyeDropperWidget.Show = true;
+				Parent.__eyeDropperWidget.Visible = true;
 			}
 		
 			Pen.nl();
@@ -337,7 +376,7 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 					if (!Parent.ColorNew.equal_to(Parent.Color))
 					{
 						Parent.Color.set(Parent.ColorNew);
-						forms_return_result(Parent.ControlId, Parent.ColorNew);
+						forms_return_result(Parent.ControlId, Parent.Color);
 					}
 				break;
 			
@@ -377,16 +416,12 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 			_buttonWidth = Pen.get_control_width() - 8 / 2;
 			if (Pen.button("OK", { Width: _buttonWidth }))
 			{
-				surface_free(__ColorWheelSurface);
 				Parent.remove_self().destroy_later();
-				Parent.EyeDropperWidget.remove_self().destroy_later();
 			}
 			Pen.move(8);
 			if (Pen.button("Cancel", { Width: _buttonWidth }))
 			{
-				surface_free(__ColorWheelSurface);
 				Parent.remove_self().destroy_later();
-				Parent.EyeDropperWidget.remove_self().destroy_later();
 				forms_return_result(Parent.ControlId, Parent.OriginalColor);
 			}
 
@@ -396,52 +431,36 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 		};
 		
 	})());
-}
-
-function FORMS_ColorPickerEyeDropper() : FORMS_Widget() constructor
-{
-	Icon = FA_ESolid.EyeDropper;
-	Width.Value = 32;
-	Height.Value = 32;
-	Show = false;
-	ColorPicker = undefined;
-		
-	static update = function() 
-	{			
-		if (!Show) { return; }
-		
-		if (forms_mouse_check_button_pressed(mb_left)) 
+	
+	static update = function(_deltaTime) {
+		Window_update();
+		if (__hidden) 
 		{
-			forms_mouse_set_button_status(mb_left, FORMS_EMouseButton.Off); //prevent interaction with other widgets
-			Show = false;
-			with (ColorPicker)
-			{
-				__hide_window(false);
-				Color.set(draw_getpixel(forms_mouse_get_x(), forms_mouse_get_y()), 1);
-				Widget.__update_wheel_from_color();
-				forms_return_result(ControlId, Color);
-			}
+			X.Value = -__realWidth - 10000; // hide window off screen
 		}
 	}
-		
-	static draw = function() 
-	{
-		if (!Show) { return; } 
-		forms_set_cursor(cr_none);
-		draw_set_valign(fa_bottom);
-		draw_set_color(c_white);
-		var _mx = forms_mouse_get_x();
-		var _my = forms_mouse_get_y();	
-		var _pixel_color = draw_getpixel(_mx, _my);	
-		var _pixel_color2 = draw_getpixel(_mx+2, _my+1);	
-		var _icon_color = merge_color(_pixel_color, _pixel_color2, 0.5);
-		_icon_color = color_get_value(_icon_color) > 160 ? c_black : c_white;
-
-		fa_draw(IconFont, Icon, _mx + 3, _my - 2, c_white, 1);
-		draw_set_valign(fa_top);
-		draw_sprite_ext(FORMS_SprEyeDropper, 0, _mx, _my, 1, 1, 0, _icon_color, 1);
-		gpu_set_blendmode(bm_normal);
-		draw_sprite_ext(FORMS_SprColorPickerCircle, 1, _mx+32, _my, 0.75, 0.75, 0, _pixel_color, 1);
-		draw_sprite_ext(FORMS_SprColorPickerCircle, 0, _mx+32, _my, 0.75, 0.75, 0, c_white, 1);
+	
+	static destroy = function() {
+		__eyeDropperWidget.destroy_later();
+		return Window_destroy();	
 	}
+	
+	/// @function __hide_window(_hide)
+	///
+	/// @desc Toggle the window's visiblity
+	///
+	/// @param {Bool} _hide Whether to hide (true) or show (false)
+	static __hide_window = function(_hide) 
+	{
+		if (__hidden == _hide) { return; }
+		if (_hide)
+		{
+			__windowPrevX = X.Value; //store old x position
+		} 
+		else 
+		{
+			X.Value = __windowPrevX; //restore window position
+		}
+		__hidden = _hide;
+	}	
 }
