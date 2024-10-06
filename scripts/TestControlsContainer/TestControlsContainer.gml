@@ -55,59 +55,171 @@ function TestControlsContainer()
 			.text("Some other stuff!", { Color: global.formsAccentColor, Cursor: cr_handpoint, Tooltip: "Oh yeah!" })
 			.nl();
 
-		if (Pen.button("Click me!", { Tooltip: "Click the button!" }))
-			show_debug_message("Clicked!");
-		Pen.nl();
+		if (Pen.section("Buttons"))
+		{
+			if (Pen.button("Click me!", { Tooltip: "Click the button!" }))
+			{
+				show_debug_message("Clicked!");
+			}
+			Pen.nl();
+			Pen.end_section();
+		}
 
-		if (Pen.checkbox(Checked1) | Pen.link(" Label 1"))
-			Checked1 = !Checked1;
-		Pen.nl();
+		if (Pen.section("Checkboxes"))
+		{
+			if (Pen.checkbox(Checked1) | Pen.link(" Label 1"))
+			{
+				Checked1 = !Checked1;
+			}
+			Pen.nl();
 
-		_props = { Tooltip: "Checkbox with a clickable label!" };
-		if (Pen.checkbox(Checked2, _props) | Pen.link(" Label 2", _props))
-			Checked2 = !Checked2;
-		Pen.nl();
+			_props = { Tooltip: "Checkbox with a clickable label!" };
+			if (Pen.checkbox(Checked2, _props) | Pen.link(" Label 2", _props))
+			{
+				Checked2 = !Checked2;
+			}
+			Pen.nl();
+			Pen.end_section();
+		}
 
-		if (Pen.radio(Radio == 0) | Pen.link(" Radio 1"))
-			Radio = 0;
-		Pen.nl();
+		if (Pen.section("Radio buttons"))
+		{
+			if (Pen.radio(Radio == 0) | Pen.link(" Radio 1"))
+			{
+				Radio = 0;
+			}
+			Pen.nl();
 
-		if (Pen.radio(Radio == 1) | Pen.link(" Radio 2"))
-			Radio = 1;
-		Pen.nl();
+			if (Pen.radio(Radio == 1) | Pen.link(" Radio 2"))
+			{
+				Radio = 1;
+			}
+			Pen.nl();
 
-		if (Pen.radio(Radio == 2) | Pen.link(" Radio 3"))
-			Radio = 2;
-		Pen.nl();
+			if (Pen.radio(Radio == 2) | Pen.link(" Radio 3"))
+			{
+				Radio = 2;
+			}
+			Pen.nl();
+			Pen.end_section();
+		}
 
-		if (Pen.slider("slider", Slider, -100, 100, { Pre: "X: ", Post: "%", Integers: true, Tooltip: "This is the best slider ever!" }))
-			Slider = Pen.get_result();
-		Pen.text(" Slider").nl();
+		if (Pen.section("Sliders"))
+		{
+			if (Pen.slider("slider", Slider, -100, 100, { Pre: "X: ", Post: "%", Integers: true, Tooltip: "This is the best slider ever!" }))
+			{
+				Slider = Pen.get_result();
+			}
+			Pen.text(" Slider").nl();
+			Pen.end_section();
+		}
 
-		if (Pen.dropdown("dropdown", DropdownIndex, DropdownValues))
-			DropdownIndex = Pen.get_result();
-		Pen.text(" Dropdown").nl();
+		if (Pen.section("Dropdowns"))
+		{
+			if (Pen.dropdown("dropdown", DropdownIndex, DropdownValues))
+			{
+				DropdownIndex = Pen.get_result();
+			}
+			Pen.text(" Dropdown").nl();
+			Pen.end_section();
+		}
 
-		if (Pen.input("input-string", InputString, { Placeholder: "Some text here..." }))
-			InputString = Pen.get_result();
-		Pen.text(" String input").nl();
+		if (Pen.section("Inputs"))
+		{
+			if (Pen.input("input-string", InputString, { Placeholder: "Some text here..." }))
+			{
+				InputString = Pen.get_result();
+			}
+			Pen.text(" String input").nl();
 
-		if (Pen.input("input-real", InputReal, { Tooltip: "This one has a tooltip!" }))
-			InputReal = Pen.get_result();
-		Pen.text(" Real input").nl();
+			if (Pen.input("input-real", InputReal, { Tooltip: "This one has a tooltip!" }))
+			{
+				InputReal = Pen.get_result();
+			}
+			Pen.text(" Real input").nl();
 
-		Pen.icon_regular(FA_ERegular.AddressBook, { Width: 24 });
-		Pen.move(2);
-		Pen.icon_solid(FA_ESolid.TruckFast, { Width: 24 });
-		Pen.move(2);
-		Pen.icon_brands(FA_EBrands.Github, { Width: 24 });
-		Pen.nl();
+			if (Pen.color("input-color", Color))
+			{
+				Color = Pen.get_result();
+			}
+			Pen.text(" Color input").nl();
 
-		if (Pen.color("input-color", Color))
-			Color = Pen.get_result();
-		Pen.text(" Color input").nl();
+			Pen.end_section();
+		}
 
-		Tree.draw(Pen);
+		if (Pen.section("Icons"))
+		{
+			Pen.icon_regular(FA_ERegular.AddressBook, { Width: 24 });
+			Pen.move(2);
+			Pen.icon_solid(FA_ESolid.TruckFast, { Width: 24 });
+			Pen.move(2);
+			Pen.icon_brands(FA_EBrands.Github, { Width: 24 });
+			Pen.nl();
+			Pen.end_section();
+		}
+
+		if (Pen.section("Trees"))
+		{
+			Tree.draw(Pen);
+			Pen.end_section();
+		}
+
+		if (Pen.section("Sections"))
+		{
+			Pen.text("You").nl();
+
+			if (Pen.section("Section 1"))
+			{
+				Pen.text("Can").nl();
+
+				if (Pen.section("Section 1a"))
+				{
+					Pen.text("Also").nl();
+					Pen.end_section();
+				}
+
+				if (Pen.section("Section 1b"))
+				{
+					Pen.text("Have").nl();
+					Pen.end_section();
+				}
+
+				if (Pen.section("Section 1c"))
+				{
+					Pen.text("Sections").nl();
+					Pen.end_section();
+				}
+
+				Pen.end_section();
+			}
+
+			if (Pen.section("Section 2"))
+			{
+				Pen.text("Inside").nl();
+
+				if (Pen.section("Section 2a"))
+				{
+					Pen.text("Sections").nl();
+					Pen.end_section();
+				}
+
+				if (Pen.section("Section 2b"))
+				{
+					Pen.text("Like").nl();
+					Pen.end_section();
+				}
+
+				if (Pen.section("Section 2c"))
+				{
+					Pen.text("This").nl();
+					Pen.end_section();
+				}
+
+				Pen.end_section();
+			}
+
+			Pen.end_section();
+		}
 
 		Pen.finish();
 

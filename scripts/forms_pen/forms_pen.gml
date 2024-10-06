@@ -101,12 +101,14 @@ function FORMS_Pen(_container) constructor
 	/// @readonly
 	Width = 0;
 
-	/// @var {Real} The X coordinate of the first column when
-	/// {@link FORMS_EPenLayout.Column2} is used.
+	/// @var {Real} The X coordinate of the first column in the current section.
+	/// @see FORMS_Pen.section
 	ColumnX1 = 0;
 
-	/// @var {Real} The Y coordinate of the second column when
-	/// {@link FORMS_EPenLayout.Column2} is used.
+	/// @var {Real} The X coordinate of the second column in the current section.
+	/// Available only when layout {@link FORMS_EPenLayout.Column2} is used in
+	/// {@link FORMS_Pen.start}.
+	/// @see FORMS_Pen.section
 	ColumnX2 = 0;
 
 	/// @private
@@ -253,6 +255,7 @@ function FORMS_Pen(_container) constructor
 	{
 		__assert_started();
 		__layout = _layout;
+		ColumnX1 = StartX;
 		switch (__layout)
 		{
 		case FORMS_EPenLayout.Horizontal:
@@ -263,7 +266,7 @@ function FORMS_Pen(_container) constructor
 		case FORMS_EPenLayout.Column2:
 			__columnCurrent = 0;
 			__columnWidth = floor(Width / 2);
-			ColumnX1 = StartX;
+			//ColumnX1 = StartX;
 			ColumnX2 = StartY + __columnWidth;
 			break;
 		}
@@ -1252,7 +1255,7 @@ function FORMS_Pen(_container) constructor
 		}
 		else
 		{
-			set_x(StartX);
+			set_x(ColumnX1);
 		}
 
 		Y += (__lineHeight + SpacingY) * _count;
