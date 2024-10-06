@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"TestContainer",
+  "%Name":"TestControlsContainer",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"TestContainer",
+  "name":"TestControlsContainer",
   "parent":{
     "name":"Widgets",
     "path":"folders/Test/Widgets.yy",

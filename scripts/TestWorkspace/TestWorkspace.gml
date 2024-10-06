@@ -24,7 +24,7 @@ function TestWorkspace()
 	add_child(_dock);
 
 	_dock.set_tabs([
-		new FORMS_ScrollPane(new TestContainer(), { Name: "Test Scroll Pane" }),
-		new FORMS_ScrollPane(new TestContainer(), { Name: "Test Scroll Pane" }),
+		new FORMS_ScrollPane(new TestControlsContainer(), { Name: "Test Scroll Pane" }),
+		new FORMS_ScrollPane(new TestControlsContainer(), { Name: "Test Scroll Pane" }),
 	]);
 }

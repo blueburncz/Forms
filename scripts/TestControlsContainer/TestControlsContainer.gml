@@ -1,4 +1,4 @@
-function TestContainer()
+function TestControlsContainer()
 	: FORMS_Container() constructor
 {
 	Checked1 = false;
