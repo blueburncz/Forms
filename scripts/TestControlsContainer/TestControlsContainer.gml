@@ -17,7 +17,7 @@ function TestControlsContainer()
 	DropdownIndex = 0;
 	InputString = "";
 	InputReal = 0;
-	Color = 0xAA000000 | global.formsAccentColor;
+	Color = new FORMS_Color(0xAA000000 | global.formsAccentColor);
 	var _propsFolder = {
 		Icon: FA_ESolid.FolderOpen,
 		IconCollapsed: FA_ESolid.Folder,

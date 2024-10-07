@@ -265,4 +265,10 @@ function FORMS_Container(_props=undefined)
 
 		return self;
 	};
+	
+	static destroy = function()
+	{
+		if (surface_exists(Surface)) { surface_free(Surface); }
+		return undefined;
+	}
 }

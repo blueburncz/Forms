@@ -48,6 +48,25 @@ function forms_draw_rectangle(_x, _y, _width, _height, _color=c_white, _alpha=1.
 	draw_sprite_stretched_ext(FORMS_SprRectangle, 0, _x, _y, _width, _height, _color, _alpha);
 }
 
+/// @func forms_draw_roundrect(_x, _y, _width, _height, [_radius, _color, _alpha])
+///
+/// @desc Draws a rectangle using a stretched sprite to save on batch breaks.
+///
+/// @param {Real} _x The X position of the rectangle.
+/// @param {Real} _y The Y position of the rectangle.
+/// @param {Real} _width The width of the rectangle.
+/// @param {Real} _height The height of the rectangle.
+/// @param {Real} _radius Corner radius, either 4 or 8. Defaults to 4.
+/// @param {Constant.Color} [_color] The color of the rectangle. Defaults to
+/// `c_white`.
+/// @param {Real} [_alpha] The alpha value of the rectangle. Defaults to 1.
+function forms_draw_roundrect(_x, _y, _width, _height, _radius = 4, _color=c_white, _alpha=1.0) 
+{
+	gml_pragma("forceinline");
+	_radius = clamp((_radius div 4) * 4, 4, 8);
+	draw_sprite_stretched_ext((_radius == 4) ? FORMS_SprRound4 : FORMS_SprRound8, 0, _x, _y, _width, _height, _color, _alpha);
+}
+
 /// @func forms_char_is_digit(_char)
 ///
 /// @desc Checks whether given character is a digit.

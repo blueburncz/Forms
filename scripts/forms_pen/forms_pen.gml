@@ -666,7 +666,7 @@ function FORMS_Pen(_container) constructor
 		var _width = forms_get_prop(_props, "Width") ?? _textWidth + _padding * 2;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, 0x424242, 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _mouseOver ? 0x555555 : 0x424242, 1.0);
 		if (_mouseOver)
 		{
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
@@ -696,7 +696,7 @@ function FORMS_Pen(_container) constructor
 	/// {@link FORMS_Pen.AutoNewline} is enabled).
 	///
 	/// @func {String} _id The ID of the color input.
-	/// @func {Real} _color The color to be mixed.
+	/// @func {Struct.FORMS_Color} _color The color to be mixed.
 	/// @func {Struct, Undefined} [_props] Properties to apply to the color
 	/// input or `undefined`.
 	///
@@ -715,24 +715,28 @@ function FORMS_Pen(_container) constructor
 			FORMS_SprRound4, 0,
 			X, Y,
 			_width, _height,
-			_color & 0xFFFFFF, ((_color >> 24) & 0xFF) / 255.0);
+			_color.get(), _color.get_alpha());
 		if (_mouseOver)
 		{
 			forms_set_cursor(cr_handpoint);
 			if (forms_mouse_check_button_pressed(mb_left))
 			{
-				var _world = matrix_get(matrix_world);
-				// TODO: Window auto fit content
-				var _colorPickerWidth = 200;
-				var _colorPickerHeight = 180;
-				var _colorPickerPos = get_absolute_pos(X, Y + _height);
-				var _colorPicker = new FORMS_ColorPicker(_id, _color, {
-					Width: _colorPickerWidth,
-					Height: _colorPickerHeight,
-					X: clamp(_colorPickerPos[0], 0, window_get_width() - _colorPickerWidth),
-					Y: clamp(_colorPickerPos[1], 0, window_get_height() - _colorPickerHeight),
-				});
-				forms_get_root().add_child(_colorPicker);
+				if (forms_get_root().find_widget(_id+"#color-picker") == undefined)
+				{
+					var _world = matrix_get(matrix_world);
+					// TODO: Window auto fit content
+					var _colorPickerWidth = 200;
+					var _colorPickerHeight = 360;
+					var _colorPickerPos = get_absolute_pos(X, Y + _height);
+					var _colorPicker = new FORMS_ColorPicker(_id, _color, {
+						Id: _id+"#color-picker",
+						Width: _colorPickerWidth,
+						Height: _colorPickerHeight,
+						X: clamp(_colorPickerPos[0], 0, window_get_width() - _colorPickerWidth),
+						Y: clamp(_colorPickerPos[1], 0, window_get_height() - _colorPickerHeight),
+					});
+					forms_get_root().add_child(_colorPicker);
+				}
 			}
 		}
 		__move_or_nl(_width);
@@ -892,11 +896,12 @@ function FORMS_Pen(_container) constructor
 			}
 			_valueNew = lerp(_min, _max, clamp((forms_mouse_get_x() - X) / _width, 0, 1));
 			forms_set_cursor(cr_handpoint);
+			if (forms_get_prop(_props, "Integers") ?? false)
+			{
+				_valueNew = floor(_valueNew);
+			}
 		}
-		if (forms_get_prop(_props, "Integers") ?? false)
-		{
-			_valueNew = floor(_valueNew);
-		}
+		
 		if (_value != _valueNew)
 		{
 			forms_return_result(_id, _valueNew);
