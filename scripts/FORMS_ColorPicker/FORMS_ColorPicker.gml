@@ -436,7 +436,8 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 		
 	})());
 	
-	static update = function(_deltaTime) {
+	static update = function(_deltaTime) 
+	{
 		Window_update();
 		if (__hidden) 
 		{
@@ -444,7 +445,8 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 		}
 	}
 	
-	static destroy = function() {
+	static destroy = function() 
+	{
 		__eyeDropperWidget.destroy_later();
 		return Window_destroy();	
 	}
