@@ -17,7 +17,7 @@ function FORMS_ColorPickerProps()
 /// [color input](./FORMS_Pen.color.html).
 ///
 /// @param {String} _id The ID of the color input that opened this widget.
-/// @param {Struct.FORMS_Color} _color A FORMS_Color color.
+/// @param {Struct.FORMS_Color} _color A {@link FORMS_Color} color.
 /// @param {Struct.FORMS_ColorPickerProps, Undefined} [_props] Properties to
 /// create the color picker with or `undefined`.
 function FORMS_ColorPicker(_id, _color, _props=undefined)
@@ -56,7 +56,8 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 	/// @private
 	__windowPrevX = 0;
 	
-	/// @var {Struct.FORMS_Widget}
+	/// @var {Struct.FORMS_Widget} Eyedropper widget for selecting a color from 
+	/// the screen at the current mouse position.
 	/// @private
 	__eyeDropperWidget = new (function () : FORMS_Widget() constructor
 	{
@@ -72,8 +73,6 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 		
 			if (forms_mouse_check_button_pressed(mb_left)) 
 			{
-				// Prevent interaction with other widgets
-				forms_mouse_set_button_status(mb_left, FORMS_EMouseButton.Off); 
 				Visible = false;
 				with (ColorPicker)
 				{
@@ -447,9 +446,9 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 	
 	/// @function __hide_window(_hide)
 	///
-	/// @desc Toggle the window's visiblity
+	/// @desc Toggle the window's visiblity.
 	///
-	/// @param {Bool} _hide Whether to hide (true) or show (false)
+	/// @param {Bool} _hide Whether to hide (true) or show (false).
 	static __hide_window = function(_hide) 
 	{
 		if (__hidden == _hide) { return; }

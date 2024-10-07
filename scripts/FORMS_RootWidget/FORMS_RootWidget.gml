@@ -345,8 +345,13 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	};
 	
 	/// @func __check_mouse_status(_button)
-	/// @param {Constant.MouseButton} _button
-	/// @return {real} FORMS_EMouseButton
+	///
+	/// @desc Returns the current status of the given mouse button, and updates
+	/// it if not already set.
+	///
+	/// @param {Constant.MouseButton} _button The mouse button to check.
+	///
+	/// @return {Real} Value from {@link FORMS_EMouseButton}
 	static __check_mouse_status = function (_button)
 	{
 		if (!struct_exists(__mouseButtons, _button)) 
@@ -372,12 +377,21 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	/// @return {Bool} Returns `true` if given mouse button is pressed.
 	static check_mouse_pressed = function (_button)
 	{
-		return __check_mouse_status(_button) == FORMS_EMouseButton.Pressed;
+		if (__check_mouse_status(_button) == FORMS_EMouseButton.Pressed)
+		{
+			 mouse_set_button_status(_button, FORMS_EMouseButton.Held);
+			 return true;
+		}
+		return false;
 	};
 	
 	/// @func check_mouse(_button)
-	/// @param {Constant.MouseButton} _button
-	/// @return {Bool}
+	///
+	/// @desc Checks whether given mouse button is held down.
+	///
+	/// @param {Constant.MouseButton} _button The mouse button to check.
+	///
+	/// @return {Bool} Returns `true` if given mouse button is held down.
 	static check_mouse = function (_button)
 	{
 		var _button_status = __check_mouse_status(_button);
@@ -385,16 +399,23 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	};
 	
 	/// @func check_mouse_released(_button)
-	/// @param {Constant.MouseButton} _button
-	/// @return {Bool}
+	///
+	/// @desc Checks whether given mouse button has been released.
+	///
+	/// @param {Constant.MouseButton} _button The mouse button to check.
+	///
+	/// @return {Bool} Returns `true` if given mouse button has been released.
 	static check_mouse_released = function (_button)
 	{
 		return __check_mouse_status(_button) == FORMS_EMouseButton.Released;
 	};
 	
 	/// @func mouse_set_button_status(_button)
-	/// @param {Constant.MouseButton} _button
-	/// @param {Real} _status Value from Enum FORMS_EMouseButton
+	///
+	/// @desc Sets the given mouse button's status.
+	///
+	/// @param {Constant.MouseButton} _button The mouse button to set.
+	/// @param {Real} _status Value from Enum {@link FORMS_EMouseButton}.
 	static mouse_set_button_status = function (_button, _status) 
 	{
 		__mouseButtons[$ _button] = _status;
@@ -494,11 +515,11 @@ function forms_mouse_check_button_pressed(_button)
 
 /// @func forms_mouse_check_button(_button)
 ///
-/// @desc
+/// @desc Checks whether given mouse button is held down.
 ///
-/// @param {Constant.MouseButton} _button
+/// @param {Constant.MouseButton} _button The mouse button to check.
 ///
-/// @return {Bool}
+/// @return {Bool} Returns `true` if given mouse button is held down.
 function forms_mouse_check_button(_button)
 {
 	gml_pragma("forceinline");
@@ -507,11 +528,11 @@ function forms_mouse_check_button(_button)
 
 /// @func forms_mouse_check_button_released(_button)
 ///
-/// @desc
+/// @desc Checks whether given mouse button has been released.
 ///
-/// @param {Constant.MouseButton} _button
+/// @param {Constant.MouseButton} _button The mouse button to check.
 ///
-/// @return {Bool}
+/// @return {Bool} Returns `true` if given mouse button has been released.
 function forms_mouse_check_button_released(_button)
 {
 	gml_pragma("forceinline");
@@ -519,14 +540,15 @@ function forms_mouse_check_button_released(_button)
 }
 
 /// @func forms_mouse_set_button_status(_button, _status)
-/// @desc
-/// @param {Constant.MouseButton} _button
-/// @param {Real} _status Value from Enum FORMS_EMouseButton
-/// @return {Bool}
+///
+/// @desc Sets the given mouse button's status.
+///
+/// @param {Constant.MouseButton} _button The mouse button to set.
+/// @param {Real} _status Value from Enum {@link FORMS_EMouseButton}.
 function forms_mouse_set_button_status(_button, _status)
 {
 	gml_pragma("forceinline");
-	return forms_get_root().mouse_set_button_status(_button, _status);
+	forms_get_root().mouse_set_button_status(_button, _status);
 }
 
 /// @func forms_mouse_in_rectangle(_x, _y, _width, _height)
