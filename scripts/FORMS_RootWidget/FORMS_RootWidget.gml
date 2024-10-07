@@ -69,6 +69,7 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	static CompoundWidget_layout = layout;
 	static CompoundWidget_update = update;
 	static CompoundWidget_draw = draw;
+	static CompoundWidget_destroy = destroy;
 
 	/// @var {Real} The current mouse X coordinate. When rendering into a
 	/// {@link FORMS_Container}, it's relative to the containers position and
@@ -275,18 +276,7 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 			__cursorLast = __cursor;
 		}
 
-		for (var i = array_length(__widgetsToDestroy) - 1; i >= 0; --i)
-		{
-			with (__widgetsToDestroy[i])
-			{
-				if (has_parent())
-				{
-					remove_self();
-				}
-				destroy();
-			}
-		}
-		__widgetsToDestroy = [];
+		__process_destroy_later();
 
 		global.__formsRoot = undefined;
 		return self;
@@ -419,7 +409,33 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	static mouse_set_button_status = function (_button, _status) 
 	{
 		__mouseButtons[$ _button] = _status;
-	}
+	};
+
+	/// @private
+	static __process_destroy_later = function ()
+	{
+		for (var i = array_length(__widgetsToDestroy) - 1; i >= 0; --i)
+		{
+			with (__widgetsToDestroy[i])
+			{
+				if (has_parent())
+				{
+					remove_self();
+				}
+				destroy();
+			}
+		}
+		__widgetsToDestroy = [];
+	};
+
+	static destroy = function ()
+	{
+		global.__formsRoot = self;
+		CompoundWidget_destroy();
+		__process_destroy_later();
+		global.__formsRoot = undefined;
+		return undefined;
+	};
 }
 
 /// @func forms_push_mouse_coordinates(_x, _y)
