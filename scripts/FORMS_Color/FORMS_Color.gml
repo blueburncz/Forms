@@ -30,7 +30,8 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	/// @func __calculate_color()
 	///
 	/// @desc Update the ABGR "__color" variable with the current component values.
-	static __calculate_color = function() {
+	static __calculate_color = function() 
+	{
 		__color = ((__red * 255)) | ((__green * 255) << 8) | ((__blue * 255) << 16) | ((__alpha * 255) << 24);
 	}
 	
@@ -115,7 +116,8 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	/// @param {String} _hex_str The hex encoded color string.
 	///
 	/// @return {Bool} Returns 'true' if hex was valid.
-	static set_from_hex = function(_hex_str) {
+	static set_from_hex = function(_hex_str) 
+	{
 		static __valid_chars = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"];
 		_hex_str = string_replace(string_replace(string_upper(_hex_str), "#", ""), "0X", "");
 		var _l = string_length(_hex_str);
@@ -248,7 +250,8 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 /// @param {any} _val The value to check.
 ///
 /// @return {Bool} Returns 'true' if value is a {@link FORM_Color}.
-function FORMS_is_FORMS_Color(_val) {
+function FORMS_is_FORMS_Color(_val) 
+{
 	return is_struct(_val) && is_instanceof(_val, FORMS_Color);
 }
 
@@ -260,6 +263,7 @@ function FORMS_is_FORMS_Color(_val) {
 /// @param {Constant.color} _col The color to check.
 ///
 /// @return {Real} Alpha value between 0 and 255.
-function color_get_alpha(_col) {
+function color_get_alpha(_col) 
+{
 	return (_col >> 24) & 0xFF;
 }

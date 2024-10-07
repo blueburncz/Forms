@@ -129,7 +129,8 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 		ValueSliderSelected = false;
 		__colorWheelSurface = -1;
 						
-		static __update_wheel_from_color = function() {
+		static __update_wheel_from_color = function() 
+		{
 			var _hsva = Parent.Color.get_hsva();
 			PickerHue = _hsva[0] * 360;
 			PickerSaturation = _hsva[1] * 100;
@@ -137,7 +138,8 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 			PickerAlpha = _hsva[3];
 		}
 		
-		static __render_color_wheel = function(_x, _y) {
+		static __render_color_wheel = function(_x, _y) 
+		{
 		
 			var _colorWheelSize = Pen.Width - 32;
 			var _doRender = false;
@@ -152,7 +154,8 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 				_doRender = true;
 			}
 		
-			if (_doRender) {
+			if (_doRender) 
+			{
 				surface_set_target(__colorWheelSurface);
 				draw_clear_alpha(c_black, 0);
 				gpu_set_blendenable(false);
@@ -185,7 +188,8 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 			var _mouseOver = Pen.is_mouse_over(_colorWheelX - _mousePadding, _colorWheelY - _mousePadding, _colorWheelSize + _mousePadding * 2, _colorWheelSize + _mousePadding * 2);
 			WheelSelected = (WheelSelected && forms_mouse_check_button(mb_left)) || (_mouseOver && forms_mouse_check_button_pressed(mb_left));	
 
-			if (WheelSelected) {
+			if (WheelSelected)
+			{
 				var _mx = forms_mouse_get_x();	
 				var _my = forms_mouse_get_y();	
 				var _mdir = point_direction(_colorWheelX + _colorWheelRadius, _colorWheelY + _colorWheelRadius, _mx, _my);
@@ -262,7 +266,8 @@ function FORMS_ColorPicker(_id, _color, _props=undefined)
 		static draw_content = function ()
 		{				
 			if (Parent.__hidden) { return false; }
-			if (PickerMode == "init") {
+			if (PickerMode == "init") 
+			{
 				__update_wheel_from_color();
 				PickerMode = "HSV";
 			}
