@@ -87,8 +87,9 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	static set_from_hsva = function(_hue, _saturation, _value, _alpha)
 	{
 		var _r, _g, _b;
-	    var _i = floor(_hue * 6);
-	    var _f = _hue * 6 - _i;
+		_hue = (_hue * 6) mod 6;
+	    var _i = floor(_hue);
+	    var _f = _hue - _i;
 	    var _p = _value * (1 - _saturation);
 	    var _q = _value * (1 - _f * _saturation);
 	    var _t = _value * (1 - (1 - _f) * _saturation);
