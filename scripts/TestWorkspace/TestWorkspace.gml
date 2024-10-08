@@ -1,5 +1,4 @@
-function TestWorkspace()
-	: FORMS_FlexBox() constructor
+function TestWorkspace(): FORMS_FlexBox() constructor
 {
 	Name = "Test Workspace";
 	Width.from_string("100%");
@@ -16,7 +15,8 @@ function TestWorkspace()
 	]);
 	add_child(_menu);
 
-	var _dock = new FORMS_Dock({
+	var _dock = new FORMS_Dock(
+	{
 		Width: "100%",
 		Height: "100%",
 		Flex: 1,

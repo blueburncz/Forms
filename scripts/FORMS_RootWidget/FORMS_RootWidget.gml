@@ -6,9 +6,9 @@ global.__formsRoot = undefined;
 enum FORMS_EMouseButton
 {
 	Released = -1,
-	Off = 0,
-	Held = 1,
-	Pressed = 2,
+		Off = 0,
+		Held = 1,
+		Pressed = 2,
 };
 
 /// @func forms_get_root()
@@ -32,10 +32,7 @@ function forms_get_root()
 /// @extends FORMS_CompoundWidgetProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_RootWidget}.
-function FORMS_RootWidgetProps()
-	: FORMS_CompoundWidget() constructor
-{
-}
+function FORMS_RootWidgetProps(): FORMS_CompoundWidget() constructor {}
 
 /// @func FORMS_RootWidget([_props[, _children]])
 ///
@@ -63,8 +60,8 @@ function FORMS_RootWidgetProps()
 /// /// @desc Clean Up event
 /// gui = gui.destroy();
 /// ```
-function FORMS_RootWidget(_props=undefined, _children=undefined)
-	: FORMS_CompoundWidget(_props, _children) constructor
+function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_CompoundWidget(_props,
+	_children) constructor
 {
 	static CompoundWidget_layout = layout;
 	static CompoundWidget_update = update;
@@ -333,7 +330,7 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	{
 		return __cursor;
 	};
-	
+
 	/// @func __check_mouse_status(_button)
 	///
 	/// @desc Returns the current status of the given mouse button, and updates
@@ -344,8 +341,8 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	/// @return {Real} Value from {@link FORMS_EMouseButton}
 	static __check_mouse_status = function (_button)
 	{
-		if (!struct_exists(__mouseButtons, _button)) 
-		{ 
+		if (!struct_exists(__mouseButtons, _button))
+		{
 			var _status = undefined;
 			_status ??= mouse_check_button_pressed(_button) ? FORMS_EMouseButton.Pressed : undefined;
 			_status ??= mouse_check_button(_button) ? FORMS_EMouseButton.Held : undefined;
@@ -369,12 +366,12 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	{
 		if (__check_mouse_status(_button) == FORMS_EMouseButton.Pressed)
 		{
-			 mouse_set_button_status(_button, FORMS_EMouseButton.Held);
-			 return true;
+			mouse_set_button_status(_button, FORMS_EMouseButton.Held);
+			return true;
 		}
 		return false;
 	};
-	
+
 	/// @func check_mouse(_button)
 	///
 	/// @desc Checks whether given mouse button is held down.
@@ -387,7 +384,7 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 		var _button_status = __check_mouse_status(_button);
 		return (_button_status == FORMS_EMouseButton.Held || _button_status == FORMS_EMouseButton.Pressed);
 	};
-	
+
 	/// @func check_mouse_released(_button)
 	///
 	/// @desc Checks whether given mouse button has been released.
@@ -399,14 +396,14 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	{
 		return __check_mouse_status(_button) == FORMS_EMouseButton.Released;
 	};
-	
+
 	/// @func mouse_set_button_status(_button)
 	///
 	/// @desc Sets the given mouse button's status.
 	///
 	/// @param {Constant.MouseButton} _button The mouse button to set.
 	/// @param {Real} _status Value from Enum {@link FORMS_EMouseButton}.
-	static mouse_set_button_status = function (_button, _status) 
+	static mouse_set_button_status = function (_button, _status)
 	{
 		__mouseButtons[$ _button] = _status;
 	};
@@ -416,7 +413,7 @@ function FORMS_RootWidget(_props=undefined, _children=undefined)
 	{
 		for (var i = array_length(__widgetsToDestroy) - 1; i >= 0; --i)
 		{
-			with (__widgetsToDestroy[i])
+			with(__widgetsToDestroy[i])
 			{
 				if (has_parent())
 				{
@@ -588,8 +585,8 @@ function forms_mouse_in_rectangle(_x, _y, _width, _height)
 {
 	var _mouseX = forms_mouse_get_x();
 	var _mouseY = forms_mouse_get_y();
-	return (_mouseX >= _x && _mouseX < _x + _width
-		&& _mouseY >= _y && _mouseY < _y + _height);
+	return (_mouseX >= _x && _mouseX < _x + _width &&
+		_mouseY >= _y && _mouseY < _y + _height);
 }
 
 /// @func forms_set_tooltip(_tooltip)

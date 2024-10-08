@@ -1,5 +1,4 @@
-function FileContextMenu()
-	: FORMS_ContextMenu() constructor
+function FileContextMenu(): FORMS_ContextMenu() constructor
 {
 	var _options = Options;
 

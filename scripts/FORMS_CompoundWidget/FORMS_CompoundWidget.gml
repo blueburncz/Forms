@@ -3,10 +3,7 @@
 /// @extends FORMS_WidgetProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_CompoundWidget}.
-function FORMS_CompoundWidgetProps()
-	: FORMS_WidgetProps() constructor
-{
-}
+function FORMS_CompoundWidgetProps(): FORMS_WidgetProps() constructor {}
 
 /// @func FORMS_CompoundWidget([_props[, _children]])
 ///
@@ -18,8 +15,7 @@ function FORMS_CompoundWidgetProps()
 /// create the compound widget with or `undefined` (default).
 /// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
 /// widgets to add to the compund widget or `undefined` (default).
-function FORMS_CompoundWidget(_props=undefined, _children=undefined)
-	: FORMS_Widget(_props) constructor
+function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_Widget(_props) constructor
 {
 	static Widget_update = update;
 	static Widget_destroy = destroy;
@@ -126,7 +122,7 @@ function FORMS_CompoundWidget(_props=undefined, _children=undefined)
 
 		for (var i = 0; i < _count; ++i)
 		{
-			with (Children[i])
+			with(Children[i])
 			{
 				var _autoWidth = get_auto_width();
 				var _autoHeight = get_auto_height();

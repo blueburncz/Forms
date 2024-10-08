@@ -3,8 +3,7 @@
 /// @extends FORMS_WidgetProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_Box}.
-function FORMS_BoxProps()
-	: FORMS_WidgetProps() constructor
+function FORMS_BoxProps(): FORMS_WidgetProps() constructor
 {
 	/// @var {Real, String, Undefined} Spacing between individual children.
 	Spacing = undefined;
@@ -26,8 +25,7 @@ function FORMS_BoxProps()
 /// box with or `undefined` (default).
 /// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
 /// widgets to add to the box or `undefined` (default).
-function FORMS_Box(_props=undefined, _children=undefined)
-	: FORMS_CompoundWidget(_props, _children) constructor
+function FORMS_Box(_props = undefined, _children = undefined): FORMS_CompoundWidget(_props, _children) constructor
 {
 	/// @var {Struct.FORMS_UnitValue} Spacing between individual children.
 	/// Defaults to 0px.
@@ -51,10 +49,7 @@ function FORMS_Box(_props=undefined, _children=undefined)
 /// @extends FORMS_BoxProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_VBox}.
-function FORMS_VBoxProps()
-	: FORMS_BoxProps() constructor
-{
-}
+function FORMS_VBoxProps(): FORMS_BoxProps() constructor {}
 
 /// @func FORMS_VBox([_props[, _children]])
 ///
@@ -66,8 +61,7 @@ function FORMS_VBoxProps()
 /// vertical box widget with or `undefined` (default).
 /// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
 /// widgets to add to the vertical box or `undefined` (default).
-function FORMS_VBox(_props=undefined, _children=undefined)
-	: FORMS_Box(_props, _children) constructor
+function FORMS_VBox(_props = undefined, _children = undefined): FORMS_Box(_props, _children) constructor
 {
 	static layout = function ()
 	{
@@ -84,7 +78,7 @@ function FORMS_VBox(_props=undefined, _children=undefined)
 
 		for (var i = 0; i < _count; ++i)
 		{
-			with (Children[i])
+			with(Children[i])
 			{
 				var _childAutoWidth = get_auto_width();
 				var _childAutoHeight = get_auto_height();
@@ -115,10 +109,7 @@ function FORMS_VBox(_props=undefined, _children=undefined)
 /// @extends FORMS_BoxProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_HBox}.
-function FORMS_HBoxProps()
-	: FORMS_BoxProps() constructor
-{
-}
+function FORMS_HBoxProps(): FORMS_BoxProps() constructor {}
 
 /// @func FORMS_HBox([_props[, _children]])
 ///
@@ -130,8 +121,7 @@ function FORMS_HBoxProps()
 /// horizontal box with or `undefined` (default).
 /// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
 /// widgets to add to the horizontal box or `undefined` (default).
-function FORMS_HBox(_props=undefined, _children=undefined)
-	: FORMS_Box(_props, _children) constructor
+function FORMS_HBox(_props = undefined, _children = undefined): FORMS_Box(_props, _children) constructor
 {
 	static layout = function ()
 	{
@@ -148,7 +138,7 @@ function FORMS_HBox(_props=undefined, _children=undefined)
 
 		for (var i = 0; i < _count; ++i)
 		{
-			with (Children[i])
+			with(Children[i])
 			{
 				var _childAutoWidth = get_auto_width();
 				var _childAutoHeight = get_auto_height();
@@ -179,8 +169,7 @@ function FORMS_HBox(_props=undefined, _children=undefined)
 /// @extends FORMS_BoxProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_FlexBox}.
-function FORMS_FlexBoxProps()
-	: FORMS_BoxProps() constructor
+function FORMS_FlexBoxProps(): FORMS_BoxProps() constructor
 {
 	/// @var {Bool, Undefined} Whether the flex box is horizontal (`true`) or
 	/// vertical (`false`).
@@ -217,8 +206,7 @@ function FORMS_FlexBoxProps()
 /// the flex box with or `undefined` (default).
 /// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
 /// widgets to add to the flex box or `undefined` (default).
-function FORMS_FlexBox(_props=undefined, _children=undefined)
-	: FORMS_Box(_props, _children) constructor
+function FORMS_FlexBox(_props = undefined, _children = undefined): FORMS_Box(_props, _children) constructor
 {
 	/// @var {Bool} Whether the flex box is horizontal (`true`) or vertical
 	/// (`false`).
@@ -253,7 +241,7 @@ function FORMS_FlexBox(_props=undefined, _children=undefined)
 		var _flexSum = 0;
 		for (var i = 0; i < _count; ++i)
 		{
-			with (Children[i])
+			with(Children[i])
 			{
 				var _autoWidth = get_auto_width();
 				var _autoHeight = get_auto_height();
@@ -291,11 +279,12 @@ function FORMS_FlexBox(_props=undefined, _children=undefined)
 
 			for (var i = 0; i < _count; ++i)
 			{
-				with (Children[i])
+				with(Children[i])
 				{
 					if (Flex <= 0)
 					{
-						var _adjustSize = _adjustTotal * (_isHorizontal ? (__realWidth / _staticSize) : (__realHeight / _staticSize));
+						var _adjustSize = _adjustTotal * (_isHorizontal ? (__realWidth / _staticSize) : (
+							__realHeight / _staticSize));
 
 						if (_isHorizontal)
 						{
@@ -315,7 +304,7 @@ function FORMS_FlexBox(_props=undefined, _children=undefined)
 		// Positions and flex sizes
 		for (var i = 0; i < _count; ++i)
 		{
-			with (Children[i])
+			with(Children[i])
 			{
 				var _autoWidth = get_auto_width();
 				var _autoHeight = get_auto_height();

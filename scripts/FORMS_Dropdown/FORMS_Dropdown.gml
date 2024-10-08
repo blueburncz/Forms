@@ -3,10 +3,7 @@
 /// @extends FORMS_ContainerProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_Dropdown}.
-function FORMS_DropdownProps()
-	: FORMS_ContainerProps() constructor
-{
-}
+function FORMS_DropdownProps(): FORMS_ContainerProps() constructor {}
 
 /// @func FORMS_Dropdown(_id, _values, _index, _width[, _props])
 ///
@@ -21,8 +18,7 @@ function FORMS_DropdownProps()
 /// @param {Real} _width The width of the dropdown that opened this.
 /// @param {Struct.FORMS_DropdownProps, Undefined} [_props] Properties to create
 /// the container with or `undefined`.
-function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
-	: FORMS_Container(_props) constructor
+function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS_Container(_props) constructor
 {
 	static Container_layout = layout;
 	static Container_update = update;
@@ -67,9 +63,9 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props=undefined)
 		{
 			var _option = _values[i];
 			var _value = string(
-				is_struct(_option)
-					? (_option[$ "Text"] ?? _option.Value)
-					: _option
+				is_struct(_option) ?
+				(_option[$"Text"] ?? _option.Value) :
+				_option
 			);
 			var _stringWidth = string_width(_value);
 			var _valueWidth = max(_stringWidth, _dropdownWidth);

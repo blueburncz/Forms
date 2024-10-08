@@ -4,7 +4,7 @@
 ///
 /// @param {Array<Struct.FORMS_TreeItem>} [_children] An array of items to add
 /// to the tree. Defaults to an empty array.
-function FORMS_Tree(_children=[]) constructor
+function FORMS_Tree(_children = []) constructor
 {
 	/// @var {Array<Struct.FORMS_TreeItem>} An array of items added to the tree.
 	/// @readonly
@@ -31,7 +31,7 @@ function FORMS_Tree(_children=[]) constructor
 	static draw = function (_pen)
 	{
 		var i = 0;
-		repeat (array_length(Children))
+		repeat(array_length(Children))
 		{
 			Children[i++].draw(_pen);
 		}
@@ -102,7 +102,7 @@ function FORMS_TreeItemProps() constructor
 /// the tree item with or `undefined` (default).
 /// @param {Array<Struct.FORMS_TreeItem>, Undefined} [_children] An array of
 /// child tree items or `undefined` (default).
-function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) constructor
+function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined) constructor
 {
 	/// @var {String, Undefined} The name of the tree item or `undefined`.
 	/// @note Either this or {@link FORMS_TreeItem.Getter} must be defined!
@@ -271,7 +271,7 @@ function FORMS_TreeItem(_textOrGetter, _props=undefined, _children=undefined) co
 				var _startX = _pen.ColumnX1;
 				_pen.ColumnX1 = _pen.X;
 				var i = 0;
-				repeat (array_length(Children))
+				repeat(array_length(Children))
 				{
 					var _child = Children[i++];
 					_child.Tree = Tree;

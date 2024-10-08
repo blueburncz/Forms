@@ -7,7 +7,7 @@
 /// trigger the shorcut or `undefined` (default).
 /// @param {Array<Constant.MouseButton>, Undefined} [_mouseButtons] An array of
 /// mouse buttons that trigger the shortcut or `undefined` (default).
-function FORMS_KeyboardShortcut(_keys=undefined, _mouseButtons=undefined) constructor
+function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) constructor
 {
 	/// @var {Array<Constant.VirtualKey>} An array of keys that trigger the
 	/// shortcut.
@@ -178,7 +178,7 @@ function FORMS_KeyboardShortcut(_keys=undefined, _mouseButtons=undefined) constr
 		var _isFirst = true;
 
 		var i = 0;
-		repeat (array_length(Keys))
+		repeat(array_length(Keys))
 		{
 			if (!_isFirst)
 			{
@@ -192,7 +192,7 @@ function FORMS_KeyboardShortcut(_keys=undefined, _mouseButtons=undefined) constr
 		}
 
 		i = 0;
-		repeat (array_length(MouseButtons))
+		repeat(array_length(MouseButtons))
 		{
 			if (!_isFirst)
 			{
@@ -230,92 +230,92 @@ function forms_key_to_string(_key)
 
 	switch (_key)
 	{
-	case vk_escape:
-		return "Esc";
+		case vk_escape:
+			return "Esc";
 
-	case vk_delete:
-		return "Delete";
+		case vk_delete:
+			return "Delete";
 
-	case vk_backspace:
-		return "Backspace";
+		case vk_backspace:
+			return "Backspace";
 
-	case vk_tab:
-		return "Tab";
+		case vk_tab:
+			return "Tab";
 
-	case vk_shift:
-		return "Shift";
+		case vk_shift:
+			return "Shift";
 
-	case vk_control:
-		return "Ctrl";
+		case vk_control:
+			return "Ctrl";
 
-	case vk_lcontrol:
-		return "LeftCtrl";
+		case vk_lcontrol:
+			return "LeftCtrl";
 
-	case vk_rcontrol:
-		return "RightCtrl";
+		case vk_rcontrol:
+			return "RightCtrl";
 
-	case vk_alt:
-		return "Alt";
+		case vk_alt:
+			return "Alt";
 
-	case vk_lalt:
-		return "LeftAlt";
+		case vk_lalt:
+			return "LeftAlt";
 
-	case vk_ralt:
-		return "RightAlt";
+		case vk_ralt:
+			return "RightAlt";
 
-	case vk_printscreen:
-		return "PrintScrn";
+		case vk_printscreen:
+			return "PrintScrn";
 
-	case vk_pause:
-		return "Pause";
+		case vk_pause:
+			return "Pause";
 
-	case vk_pageup:
-		return "PageUp";
+		case vk_pageup:
+			return "PageUp";
 
-	case vk_pagedown:
-		return "PageDown";
+		case vk_pagedown:
+			return "PageDown";
 
-	case vk_insert:
-		return "Insert";
+		case vk_insert:
+			return "Insert";
 
-	case vk_home:
-		return "Home";
+		case vk_home:
+			return "Home";
 
-	case vk_enter:
-		return "Enter";
+		case vk_enter:
+			return "Enter";
 
-	case vk_end:
-		return "End";
+		case vk_end:
+			return "End";
 
-	case vk_space:
-		return "Spacebar";
+		case vk_space:
+			return "Spacebar";
 
-	case vk_left:
-		return "Left";
+		case vk_left:
+			return "Left";
 
-	case vk_right:
-		return "Right";
+		case vk_right:
+			return "Right";
 
-	case vk_up:
-		return "Up";
+		case vk_up:
+			return "Up";
 
-	case vk_down:
-		return "Down";
+		case vk_down:
+			return "Down";
 
-	case vk_multiply:
-		return "Multiply";
+		case vk_multiply:
+			return "Multiply";
 
-	case vk_divide:
-		return "Divide";
+		case vk_divide:
+			return "Divide";
 
-	case vk_add:
-		return "Plus";
+		case vk_add:
+			return "Plus";
 
-	case vk_subtract:
-		return "Minus";
+		case vk_subtract:
+			return "Minus";
 
-	case vk_decimal:
-		return "Decimal";
+		case vk_decimal:
+			return "Decimal";
 	}
 
 	return chr(_key);
@@ -332,22 +332,22 @@ function forms_mouse_button_to_string(_button)
 {
 	switch (_button)
 	{
-	case mb_left:
-		return "LMB";
+		case mb_left:
+			return "LMB";
 
-	case mb_right:
-		return "RMB";
+		case mb_right:
+			return "RMB";
 
-	case mb_middle:
-		return "MMB";
+		case mb_middle:
+			return "MMB";
 
-	case mb_side1:
-		return "SMB1";
+		case mb_side1:
+			return "SMB1";
 
-	case mb_side2:
-		return "SMB2";
+		case mb_side2:
+			return "SMB2";
 
-	default:
-		return "";
+		default:
+			return "";
 	}
 }

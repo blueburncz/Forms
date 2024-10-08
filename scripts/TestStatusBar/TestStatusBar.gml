@@ -1,5 +1,4 @@
-function TestStatusBar()
-	: FORMS_Container() constructor
+function TestStatusBar(): FORMS_Container() constructor
 {
 	Width.from_string("100%");
 	Height.Value = 32;

@@ -1,16 +1,17 @@
 /// @macro {Code} A shorthand for
 /// `ContentWidth = Pen.get_max_x(); ContentHeight = Pen.get_max_y();`. Useful
 /// in {@link FORMS_Container.draw_content}.
+/* beautify ignore:start */
 #macro FORMS_CONTENT_UPDATE_SIZE \
     do { ContentWidth = Pen.get_max_x(); ContentHeight = Pen.get_max_y(); } until (1)
+/* beautify ignore:end */
 
 /// @func FORMS_ContainerProps()
 ///
 /// @extends FORMS_WidgetProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_Container}.
-function FORMS_ContainerProps()
-	: FORMS_WidgetProps() constructor
+function FORMS_ContainerProps(): FORMS_WidgetProps() constructor
 {
 	/// @var {Asset.GMSprite, Undefined} The background sprite of the container,
 	/// stretched over its entire size.
@@ -42,8 +43,7 @@ function FORMS_ContainerProps()
 ///
 /// @param {Struct.FORMS_ContainerProps, Undefined} [_props] Properties to
 /// create the container with or `undefined` (default).
-function FORMS_Container(_props=undefined)
-	: FORMS_Widget(_props) constructor
+function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 {
 	static Widget_layout = layout;
 
@@ -150,8 +150,10 @@ function FORMS_Container(_props=undefined)
 			fetch_content_size();
 
 			// TODO: Add setter
-			Width.Value = ContentWidth; Width.Unit = FORMS_EUnit.Pixel;
-			Height.Value = ContentHeight; Height.Unit = FORMS_EUnit.Pixel;
+			Width.Value = ContentWidth;
+			Width.Unit = FORMS_EUnit.Pixel;
+			Height.Value = ContentHeight;
+			Height.Unit = FORMS_EUnit.Pixel;
 
 			__realWidth = ContentWidth;
 			__realHeight = ContentHeight;
@@ -202,8 +204,8 @@ function FORMS_Container(_props=undefined)
 		{
 			Surface = surface_create(__realWidth, __realHeight);
 		}
-		else if (surface_get_width(Surface) != __realWidth
-			|| surface_get_height(Surface) != __realHeight)
+		else if (surface_get_width(Surface) != __realWidth ||
+			surface_get_height(Surface) != __realHeight)
 		{
 			surface_resize(Surface, __realWidth, __realHeight);
 		}
@@ -265,8 +267,8 @@ function FORMS_Container(_props=undefined)
 
 		return self;
 	};
-	
-	static destroy = function()
+
+	static destroy = function ()
 	{
 		if (surface_exists(Surface)) { surface_free(Surface); }
 		return undefined;

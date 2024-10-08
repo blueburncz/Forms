@@ -1,5 +1,4 @@
-function TestWelcomeContainer()
-	: FORMS_Container() constructor
+function TestWelcomeContainer(): FORMS_Container() constructor
 {
 	Name = "Welcome";
 	BackgroundColor = 0x272727;

@@ -3,9 +3,7 @@
 /// @desc Base struct for context menu items.
 ///
 /// @see FORMS_ContextMenu
-function FORMS_ContextMenuItem() constructor
-{
-}
+function FORMS_ContextMenuItem() constructor {}
 
 /// @func FORMS_ContextMenuSeparator()
 ///
@@ -15,10 +13,7 @@ function FORMS_ContextMenuItem() constructor
 /// as a horizontal line.
 ///
 /// @see FORMS_ContextMenu
-function FORMS_ContextMenuSeparator()
-	: FORMS_ContextMenuItem() constructor
-{
-}
+function FORMS_ContextMenuSeparator(): FORMS_ContextMenuItem() constructor {}
 
 /// @func FORMS_ContextMenuOptionProps()
 ///
@@ -69,8 +64,7 @@ function FORMS_ContextMenuOptionProps() constructor
 /// option with.
 ///
 /// @see FORMS_ContextMenu
-function FORMS_ContextMenuOption(_textOrProps)
-	: FORMS_ContextMenuItem() constructor
+function FORMS_ContextMenuOption(_textOrProps): FORMS_ContextMenuItem() constructor
 {
 	var _isProps = is_struct(_textOrProps);
 
@@ -127,10 +121,7 @@ function FORMS_ContextMenuOption(_textOrProps)
 /// @extends FORMS_ContainerProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_ContextMenu}.
-function FORMS_ContextMenuProps()
-	: FORMS_ContainerProps() constructor
-{
-}
+function FORMS_ContextMenuProps(): FORMS_ContainerProps() constructor {}
 
 /// @func FORMS_ContextMenu([_options[, _props]])
 ///
@@ -143,8 +134,7 @@ function FORMS_ContextMenuProps()
 /// menu options.
 /// @param {Struct.FORMS_ContextMenuProps, Undefined} [_props] Properties to
 /// create the context menu with or `undefined` (default).
-function FORMS_ContextMenu(_options=[], _props=undefined)
-	: FORMS_Container(_props) constructor
+function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_props) constructor
 {
 	static Container_layout = layout;
 	static Container_update = update;
@@ -158,7 +148,7 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	/// @var {Bool} Whether the context menu should close on mouse leave.
 	/// Defaults to `false`.
 	CloseOnMouseLeave = false;
-	
+
 	/// @var {Struct.FORMS_ContextMenu, Undefined}
 	/// @private
 	__parentMenu = undefined;
@@ -246,18 +236,19 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 						_select = _option;
 					}
 
-					if (__submenu != undefined
-						&& __submenuIndex != i)
+					if (__submenu != undefined &&
+						__submenuIndex != i)
 					{
 						__submenu.destroy_later();
 						__submenu = undefined;
 						__submenuIndex = -1;
 					}
 
-					if (__submenu == undefined
-						&& _optionOptions != undefined)
+					if (__submenu == undefined &&
+						_optionOptions != undefined)
 					{
-						var _submenu = new FORMS_ContextMenu(_optionOptions, {
+						var _submenu = new FORMS_ContextMenu(_optionOptions,
+						{
 							X: _x,
 							Y: __realY + _y,
 						});
@@ -285,7 +276,7 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 						c_silver, c_silver, c_silver, c_silver, 1.0);
 					draw_set_halign(fa_left);
 				}
-	
+
 				_y += _lineHeight;
 			}
 		}
@@ -316,21 +307,22 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 		if (__realWidth == 0) //run initial positioning
 		{
 			Container_layout(); //run first to determine menu size
-			if (__parentMenu != undefined) 
+			if (__parentMenu != undefined)
 			{
 				//Check if parent menu has parent menu and check if its on the left
-				if (__parentMenu.__parentMenu != undefined) && (__parentMenu.__realX < __parentMenu.__parentMenu.__realX) 
+				if (__parentMenu.__parentMenu != undefined) && (__parentMenu.__realX < __parentMenu.__parentMenu
+					.__realX)
 				{
 					X.Value = __parentMenu.__realX - __realWidth - 2;
 				}
-				else 
+				else
 				{
-					var _parentMenuRightX = __parentMenu.__realX + __parentMenu.__realWidth + 2;			
+					var _parentMenuRightX = __parentMenu.__realX + __parentMenu.__realWidth + 2;
 					if ((window_get_width() - _parentMenuRightX) < __realWidth)
 					{
 						X.Value = __parentMenu.__realX - __realWidth - 2;
 					}
-					else 
+					else
 					{
 						X.Value = _parentMenuRightX;
 					}
@@ -338,7 +330,7 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 				__realX = floor(Parent.__realX + X.get_absolute());
 			}
 		}
-		
+
 		__realX = clamp(__realX, 0, window_get_width() - __realWidth);
 		__realY = clamp(__realY, 0, window_get_height() - __realHeight);
 		Container_layout();
@@ -348,8 +340,8 @@ function FORMS_ContextMenu(_options=[], _props=undefined)
 	static update = function (_deltaTime)
 	{
 		Container_update(_deltaTime);
-		if (keyboard_check_pressed(vk_escape)
-			|| (!is_mouse_over() && mouse_check_button_pressed(mb_any)))
+		if (keyboard_check_pressed(vk_escape) ||
+			(!is_mouse_over() && mouse_check_button_pressed(mb_any)))
 		{
 			destroy_later();
 		}

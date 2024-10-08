@@ -3,10 +3,7 @@
 /// @extends FORMS_ContainerProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_MenuBar}.
-function FORMS_MenuBarProps()
-	: FORMS_ContainerProps() constructor
-{
-}
+function FORMS_MenuBarProps(): FORMS_ContainerProps() constructor {}
 
 /// @func FORMS_MenuBar([_items[, _props]])
 ///
@@ -19,8 +16,7 @@ function FORMS_MenuBarProps()
 /// menu bar.
 /// @param {Struct.FORMS_MenuBarProps, Undefined} [_props] Properties to create
 /// the menu bar with or `undefined` (default).
-function FORMS_MenuBar(_items=[], _props=undefined)
-	: FORMS_Container(_props) constructor
+function FORMS_MenuBar(_items = [], _props = undefined): FORMS_Container(_props) constructor
 {
 	static Container_update = update;
 
@@ -54,19 +50,21 @@ function FORMS_MenuBar(_items=[], _props=undefined)
 		Pen.PaddingY = 4;
 		Pen.start();
 
-		repeat (array_length(_items))
+		repeat(array_length(_items))
 		{
 			var _item = _items[_itemIndex];
 			var _itemX = __realX + Pen.X - 8;
 
-			var _link = Pen.link(_item.Name, {
+			var _link = Pen.link(_item.Name,
+			{
 				Color: (_itemIndex == _itemCurrent) ? c_white : c_silver,
 				Disabled: (_item.ContextMenu == undefined),
 			});
 
-			if ((_link == 1
-				|| (_link == -1 && _menu.__contextMenu != undefined && _menu.__itemCurrent != _itemIndex))
-				&& _item.ContextMenu != undefined)
+			if ((_link == 1 ||
+					(_link == -1 && _menu.__contextMenu != undefined && _menu.__itemCurrent != _itemIndex)
+				) &&
+				_item.ContextMenu != undefined)
 			{
 				if (_menu.__contextMenu != undefined)
 				{
@@ -113,7 +111,7 @@ function FORMS_MenuBar(_items=[], _props=undefined)
 /// @param {Function, Undefined} [_contextMenu] A constructor of a struct that
 /// inherits from {@link FORMS_ContextMenu} to be created when the menu item is
 /// selected, or `undefined` (default).
-function FORMS_MenuBarItem(_name, _contextMenu=undefined) constructor
+function FORMS_MenuBarItem(_name, _contextMenu = undefined) constructor
 {
 	/// @var {String} The name of the menu item.
 	Name = _name;
