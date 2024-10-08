@@ -11,18 +11,23 @@
 function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 {
 	/// @var {Real} 32bit (8bit per channel) ABGR-encoded color.
+	/// @private
 	__color = c_white;
 
 	/// @var {Real} Red component of the color, 0 - 1.
+	/// @private
 	__red = 0;
 
 	/// @var {Real} Green component of the color, 0 - 1.
+	/// @private
 	__green = 0;
 
 	/// @var {Real} Blue component of the color, 0 - 1.
+	/// @private
 	__blue = 0;
 
 	/// @var {Real} Alpha component of the color, 0 - 1.
+	/// @private
 	__alpha = 1;
 
 	self.set(_color, _alpha);
@@ -30,6 +35,8 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	/// @func __calculate_color()
 	///
 	/// @desc Update the ABGR "__color" variable with the current component values.
+	///
+	/// @private
 	static __calculate_color = function ()
 	{
 		__color = ((__red * 255)) | ((__green * 255) << 8) | ((__blue * 255) << 16) | ((__alpha * 255) << 24);
@@ -262,6 +269,8 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	/// @param {Real} _byte Byte to convert.
 	///
 	/// @return {String} Returns hexadecimal string.
+	///
+	/// @private
 	static __byte_to_hex_string = function (_byte)
 	{
 		var _high = _byte >> 4;
