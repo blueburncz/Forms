@@ -4,12 +4,12 @@ enum FORMS_EControlAction
 {
 	/// @member Mouse is above a control.
 	MouseOver = -2,
-	/// @member A control was right-clicked.
-	RightClick = -1,
-	/// @member No action.
-	None = 0,
-	/// @member A control was left-clicked.
-	Click = 1,
+		/// @member A control was right-clicked.
+		RightClick = -1,
+		/// @member No action.
+		None = 0,
+		/// @member A control was left-clicked.
+		Click = 1,
 };
 
 /// @enum Enumeration of all layouts available for {@link FORMS_Pen}.
@@ -203,12 +203,12 @@ function FORMS_Pen(_container) constructor
 	{
 		switch (__layout)
 		{
-		default: //case FORMS_EPenLayout.Horizontal:
-			return 200;
-		case FORMS_EPenLayout.Vertical:
-			return __columnWidth;
-		case FORMS_EPenLayout.Column2:
-			return __columnWidth - X + ((__columnCurrent == 0) ? StartX : ColumnX2);
+			default: //case FORMS_EPenLayout.Horizontal:
+				return 200;
+			case FORMS_EPenLayout.Vertical:
+				return __columnWidth;
+			case FORMS_EPenLayout.Column2:
+				return __columnWidth - X + ((__columnCurrent == 0) ? StartX : ColumnX2);
 		}
 	};
 
@@ -258,17 +258,17 @@ function FORMS_Pen(_container) constructor
 		ColumnX1 = StartX;
 		switch (__layout)
 		{
-		case FORMS_EPenLayout.Horizontal:
-			break;
-		case FORMS_EPenLayout.Vertical:
-			__columnWidth = Width;
-			break;
-		case FORMS_EPenLayout.Column2:
-			__columnCurrent = 0;
-			__columnWidth = floor(Width / 2);
-			//ColumnX1 = StartX;
-			ColumnX2 = StartY + __columnWidth;
-			break;
+			case FORMS_EPenLayout.Horizontal:
+				break;
+			case FORMS_EPenLayout.Vertical:
+				__columnWidth = Width;
+				break;
+			case FORMS_EPenLayout.Column2:
+				__columnCurrent = 0;
+				__columnWidth = floor(Width / 2);
+				//ColumnX1 = StartX;
+				ColumnX2 = StartY + __columnWidth;
+				break;
 		}
 		return self;
 	};
@@ -282,7 +282,7 @@ function FORMS_Pen(_container) constructor
 	/// Defaults to {@link FORMS_EPenLayout.Horizontal}.
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
-	static start = function (_layout=FORMS_EPenLayout.Horizontal)
+	static start = function (_layout = FORMS_EPenLayout.Horizontal)
 	{
 		forms_assert(!__started, "Must use method finish first!");
 		forms_get_root(); // Note: Asserts!
@@ -392,23 +392,23 @@ function FORMS_Pen(_container) constructor
 		__assert_started();
 		switch (__layout)
 		{
-		case FORMS_EPenLayout.Horizontal:
-			break;
-		case FORMS_EPenLayout.Vertical:
-			nl();
-			break;
-		case FORMS_EPenLayout.Column2:
-			if (__columnCurrent == 0)
-			{
-				__columnCurrent = 1;
-				set_x(ColumnX2);
-			}
-			else
-			{
-				__columnCurrent = 0;
+			case FORMS_EPenLayout.Horizontal:
+				break;
+			case FORMS_EPenLayout.Vertical:
 				nl();
-			}
-			break;
+				break;
+			case FORMS_EPenLayout.Column2:
+				if (__columnCurrent == 0)
+				{
+					__columnCurrent = 1;
+					set_x(ColumnX2);
+				}
+				else
+				{
+					__columnCurrent = 0;
+					nl();
+				}
+				break;
 		}
 		return self;
 	};
@@ -423,7 +423,7 @@ function FORMS_Pen(_container) constructor
 	/// `undefined` (default).
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
-	static text = function (_text, _props=undefined)
+	static text = function (_text, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenTextProps
 		__assert_started();
@@ -465,7 +465,7 @@ function FORMS_Pen(_container) constructor
 	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
-	static link = function (_text, _props=undefined)
+	static link = function (_text, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenLinkProps
 		__assert_started();
@@ -510,12 +510,12 @@ function FORMS_Pen(_container) constructor
 	///
 	/// @return {Bool} Returns `true` if the mouse cursor is above given
 	/// rectangle.
-	static is_mouse_over = function (_x, _y, _width, _height, _id=undefined)
+	static is_mouse_over = function (_x, _y, _width, _height, _id = undefined)
 	{
 		var _root = forms_get_root();
-		return (_root.WidgetHovered == Container
-			&& forms_mouse_in_rectangle(_x, _y, _width, _height)
-			&& (_root.WidgetActive == _id || _root.WidgetActive == undefined));
+		return (_root.WidgetHovered == Container &&
+			forms_mouse_in_rectangle(_x, _y, _width, _height) &&
+			(_root.WidgetActive == _id || _root.WidgetActive == undefined));
 	};
 
 	/// @func get_absolute_pos(_x, _y)
@@ -550,7 +550,7 @@ function FORMS_Pen(_container) constructor
 	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
-	static icon = function (_icon, _font, _props=undefined)
+	static icon = function (_icon, _font, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenIconProps
 		__assert_started();
@@ -604,7 +604,7 @@ function FORMS_Pen(_container) constructor
 	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
-	static icon_regular = function (_icon, _props=undefined)
+	static icon_regular = function (_icon, _props = undefined)
 	{
 		gml_pragma("forceinline");
 		return icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntRegular12, _props);
@@ -621,7 +621,7 @@ function FORMS_Pen(_container) constructor
 	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
-	static icon_solid = function (_icon, _props=undefined)
+	static icon_solid = function (_icon, _props = undefined)
 	{
 		gml_pragma("forceinline");
 		return icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntSolid12, _props);
@@ -638,7 +638,7 @@ function FORMS_Pen(_container) constructor
 	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
-	static icon_brands = function (_icon, _props=undefined)
+	static icon_brands = function (_icon, _props = undefined)
 	{
 		gml_pragma("forceinline");
 		return icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntBrands12, _props);
@@ -654,7 +654,7 @@ function FORMS_Pen(_container) constructor
 	/// `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
-	static button = function (_text, _props=undefined)
+	static button = function (_text, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenButtonProps
 		__assert_started();
@@ -666,7 +666,7 @@ function FORMS_Pen(_container) constructor
 		var _width = forms_get_prop(_props, "Width") ?? _textWidth + _padding * 2;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, 0x424242, 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _mouseOver ? 0x555555 : 0x424242, 1.0);
 		if (_mouseOver)
 		{
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
@@ -696,13 +696,13 @@ function FORMS_Pen(_container) constructor
 	/// {@link FORMS_Pen.AutoNewline} is enabled).
 	///
 	/// @func {String} _id The ID of the color input.
-	/// @func {Real} _color The color to be mixed.
+	/// @func {Struct.FORMS_Color} _color The color to be mixed.
 	/// @func {Struct, Undefined} [_props] Properties to apply to the color
 	/// input or `undefined`.
 	///
 	/// @return {Bool} Returns `true` if the color has changed. The new color
 	/// can be retrieved using method {@link FORMS_Pen.get_result}.
-	static color = function (_id, _color, _props=undefined)
+	static color = function (_id, _color, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenColorProps
 		__assert_started();
@@ -715,24 +715,29 @@ function FORMS_Pen(_container) constructor
 			FORMS_SprRound4, 0,
 			X, Y,
 			_width, _height,
-			_color & 0xFFFFFF, ((_color >> 24) & 0xFF) / 255.0);
+			_color.get(), _color.get_alpha());
 		if (_mouseOver)
 		{
 			forms_set_cursor(cr_handpoint);
 			if (forms_mouse_check_button_pressed(mb_left))
 			{
-				var _world = matrix_get(matrix_world);
-				// TODO: Window auto fit content
-				var _colorPickerWidth = 200;
-				var _colorPickerHeight = 180;
-				var _colorPickerPos = get_absolute_pos(X, Y + _height);
-				var _colorPicker = new FORMS_ColorPicker(_id, _color, {
-					Width: _colorPickerWidth,
-					Height: _colorPickerHeight,
-					X: clamp(_colorPickerPos[0], 0, window_get_width() - _colorPickerWidth),
-					Y: clamp(_colorPickerPos[1], 0, window_get_height() - _colorPickerHeight),
-				});
-				forms_get_root().add_child(_colorPicker);
+				if (forms_get_root().find_widget(_id + "#color-picker") == undefined)
+				{
+					var _world = matrix_get(matrix_world);
+					// TODO: Window auto fit content
+					var _colorPickerWidth = 200;
+					var _colorPickerHeight = 360;
+					var _colorPickerPos = get_absolute_pos(X, Y + _height);
+					var _colorPicker = new FORMS_ColorPicker(_id, _color,
+					{
+						Id: _id + "#color-picker",
+						Width: _colorPickerWidth,
+						Height: _colorPickerHeight,
+						X: clamp(_colorPickerPos[0], 0, window_get_width() - _colorPickerWidth),
+						Y: clamp(_colorPickerPos[1], 0, window_get_height() - _colorPickerHeight),
+					});
+					forms_get_root().add_child(_colorPicker);
+				}
 			}
 		}
 		__move_or_nl(_width);
@@ -750,7 +755,7 @@ function FORMS_Pen(_container) constructor
 	/// or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
-	static checkbox = function (_checked, _props=undefined)
+	static checkbox = function (_checked, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenCheckboxProps
 		__assert_started();
@@ -798,7 +803,7 @@ function FORMS_Pen(_container) constructor
 	/// button or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
-	static radio = function (_selected, _props=undefined)
+	static radio = function (_selected, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenRadioProps
 		__assert_started();
@@ -853,7 +858,7 @@ function FORMS_Pen(_container) constructor
 	///
 	/// @return {Bool} Returns `true` if the slider value has changed. The new
 	/// value can be retrieved using method {@link FORMS_Pen.get_result}.
-	static slider = function (_id, _value, _min, _max, _props=undefined)
+	static slider = function (_id, _value, _min, _max, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenSliderProps
 		__assert_started();
@@ -868,12 +873,15 @@ function FORMS_Pen(_container) constructor
 			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, 0x9D9D9D, 1.0);
 		}
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, 0x171717, 1.0);
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, ((_valueNew - _min) / (_max - _min)) * _width, _height, 0x424242, 1.0);
-		draw_sprite_stretched_ext(FORMS_SprSlider, 0, X + ((_valueNew - _min) / (_max - _min)) * _width - 1, Y - 1, 3, _height + 2, c_silver, 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, ((_valueNew - _min) / (_max - _min)) * _width, _height,
+			0x424242, 1.0);
+		draw_sprite_stretched_ext(FORMS_SprSlider, 0, X + ((_valueNew - _min) / (_max - _min)) * _width - 1, Y - 1,
+			3, _height + 2, c_silver, 1.0);
 
 		if (forms_get_prop(_props, "ShowText") ?? true)
 		{
-			draw_text(X + 4, Y, (forms_get_prop(_props, "Pre") ?? "") + string(_value) + (forms_get_prop(_props, "Post") ?? ""));
+			draw_text(X + 4, Y, (forms_get_prop(_props, "Pre") ?? "") + string(_value) + (forms_get_prop(_props,
+				"Post") ?? ""));
 		}
 		if (_mouseOver)
 		{
@@ -892,11 +900,12 @@ function FORMS_Pen(_container) constructor
 			}
 			_valueNew = lerp(_min, _max, clamp((forms_mouse_get_x() - X) / _width, 0, 1));
 			forms_set_cursor(cr_handpoint);
+			if (forms_get_prop(_props, "Integers") ?? false)
+			{
+				_valueNew = floor(_valueNew);
+			}
 		}
-		if (forms_get_prop(_props, "Integers") ?? false)
-		{
-			_valueNew = floor(_valueNew);
-		}
+
 		if (_value != _valueNew)
 		{
 			forms_return_result(_id, _valueNew);
@@ -920,7 +929,7 @@ function FORMS_Pen(_container) constructor
 	/// @return {Bool} Returns `true` if a new option was selected. The new
 	/// index of the selected option can be retrieved using method
 	/// {@link FORMS_Pen.get_result}.
-	static dropdown = function (_id, _value, _options, _props=undefined)
+	static dropdown = function (_id, _value, _options, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenDropdownProps
 		__assert_started();
@@ -934,12 +943,12 @@ function FORMS_Pen(_container) constructor
 
 		var _textOriginal = "";
 		var _index = array_length(_options) - 1;
-		repeat (_index + 1)
+		repeat(_index + 1)
 		{
 			var _option = _options[_index];
 			if (is_struct(_option) && _value == _option.Value)
 			{
-				_textOriginal = string(_option[$ "Text"] ?? _option.Value);
+				_textOriginal = string(_option[$"Text"] ?? _option.Value);
 				break;
 			}
 			else if (_value == _option)
@@ -974,11 +983,12 @@ function FORMS_Pen(_container) constructor
 		{
 			if (forms_mouse_check_button_pressed(mb_left))
 			{
-				if (__dropdowns[$ _id] == undefined
-					|| !weak_ref_alive(__dropdowns[$ _id]))
+				if (__dropdowns[$ _id] == undefined ||
+					!weak_ref_alive(__dropdowns[$ _id]))
 				{
 					var _dropdownPos = get_absolute_pos(X, Y + _height);
-					var _dropdown = new FORMS_Dropdown(_id, _options, _index, _width, {
+					var _dropdown = new FORMS_Dropdown(_id, _options, _index, _width,
+					{
 						X: _dropdownPos[0],
 						Y: _dropdownPos[1],
 					});
@@ -1009,7 +1019,7 @@ function FORMS_Pen(_container) constructor
 	///
 	/// @return {Bool} Returns `true` if the input value has changed. The new
 	/// value can be retrieved using method {@link FORMS_Pen.get_result}.
-	static input = function (_id, _value, _props=undefined)
+	static input = function (_id, _value, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenInputProps
 		__assert_started();
@@ -1030,9 +1040,9 @@ function FORMS_Pen(_container) constructor
 			{
 				if (__inputId != undefined)
 				{
-					forms_return_result(__inputId, is_real(__inputValue)
-						? (forms_parse_real(__inputString) ?? __inputValue)
-						: __inputString);
+					forms_return_result(__inputId, is_real(__inputValue) ?
+						(forms_parse_real(__inputString) ?? __inputValue) :
+						__inputString);
 				}
 				__inputId = _id;
 				__inputValue = _value;
@@ -1049,7 +1059,8 @@ function FORMS_Pen(_container) constructor
 		}
 
 		// Background
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, _width, _height, _disabled ? 0x101010 : 0x171717, 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, _width, _height, _disabled ? 0x101010 : 0x171717,
+			1.0);
 
 		// Ribbon
 		if (_ribbon != undefined)
@@ -1084,15 +1095,15 @@ function FORMS_Pen(_container) constructor
 
 			var _inputLength = string_length(__inputString);
 
-			if (_multitype
-				&& keyboard_check(vk_backspace)
-				&& __inputString != "")
+			if (_multitype &&
+				keyboard_check(vk_backspace) &&
+				__inputString != "")
 			{
 				__inputString = string_delete(__inputString, _inputLength, 1);
 				--_inputLength;
 			}
-			else if (_multitype
-				&& keyboard_check(vk_delete))
+			else if (_multitype &&
+				keyboard_check(vk_delete))
 			{
 				__inputString = string_delete(__inputString, _inputLength, 1);
 				--_inputLength;
@@ -1110,9 +1121,10 @@ function FORMS_Pen(_container) constructor
 			draw_text(_x + _padding, _y, _displayString);
 
 			// Draw input beam
-			var _alpha = (keyboard_check(vk_anykey) || mouse_check_button(mb_any))
-				? 1.0 : dsin(current_time * 0.5) * 0.5 + 0.5;
-			forms_draw_rectangle(_x + _padding + _stringWidth, _y, 2, __lineHeight, global.formsAccentColor, _alpha);
+			var _alpha = (keyboard_check(vk_anykey) || mouse_check_button(mb_any)) ?
+				1.0 : dsin(current_time * 0.5) * 0.5 + 0.5;
+			forms_draw_rectangle(_x + _padding + _stringWidth, _y, 2, __lineHeight, global.formsAccentColor,
+				_alpha);
 		}
 		else // Input not active...
 		{
@@ -1132,7 +1144,8 @@ function FORMS_Pen(_container) constructor
 			}
 
 			// Draw text
-			draw_text_color(_x + _padding, _y, _displayString, _displayColor, _displayColor, _displayColor, _displayColor, 1.0);
+			draw_text_color(_x + _padding, _y, _displayString, _displayColor, _displayColor, _displayColor,
+				_displayColor, 1.0);
 
 			if (_mouseOver)
 			{
@@ -1150,12 +1163,12 @@ function FORMS_Pen(_container) constructor
 
 		__move_or_nl(_width);
 
-		if (__inputId == _id && (keyboard_check_pressed(vk_enter)
-			|| (!_mouseOver && mouse_check_button_pressed(mb_left))))
+		if (__inputId == _id && (keyboard_check_pressed(vk_enter) ||
+				(!_mouseOver && mouse_check_button_pressed(mb_left))))
 		{
-			var _valueNew = is_real(__inputValue)
-				? (forms_parse_real(__inputString) ?? __inputValue)
-				: __inputString;
+			var _valueNew = is_real(__inputValue) ?
+				(forms_parse_real(__inputString) ?? __inputValue) :
+				__inputString;
 			if (__inputValue != _valueNew)
 			{
 				forms_return_result(_id, _valueNew);
@@ -1179,7 +1192,7 @@ function FORMS_Pen(_container) constructor
 	/// it's collapsed.
 	///
 	/// @see FORMS_Pen.SectionIndent
-	static section = function (_text, _props=undefined)
+	static section = function (_text, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenSectionProps
 		__assert_started();
@@ -1190,7 +1203,8 @@ function FORMS_Pen(_container) constructor
 		var _indent = __sectionCurrent * SectionIndent;
 		var _mouseOver = is_mouse_over(StartX, Y, _width, _height);
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, StartX, Y, _width, _height, 0x3F3F3F, 1.0);
-		fa_draw(FA_FntSolid12, __sectionExpanded[$ _id] ? FA_ESolid.AngleDown : FA_ESolid.AngleRight, StartX + _indent + 4, Y, c_white, 0.5);
+		fa_draw(FA_FntSolid12, __sectionExpanded[$ _id] ? FA_ESolid.AngleDown : FA_ESolid.AngleRight, StartX +
+			_indent + 4, Y, c_white, 0.5);
 		draw_text(StartX + _indent + SectionIndent, Y, _text);
 		if (_mouseOver)
 		{
@@ -1239,7 +1253,7 @@ function FORMS_Pen(_container) constructor
 	/// @return {Struct.FORMS_Pen} Returns `self`.
 	///
 	/// @see FORMS_Pen.SpacingY
-	static nl = function (_count=1)
+	static nl = function (_count = 1)
 	{
 		gml_pragma("forceinline");
 		__assert_started();

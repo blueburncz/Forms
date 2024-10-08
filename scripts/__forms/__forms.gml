@@ -42,10 +42,30 @@ function forms_assert(_expr, _message)
 /// @param {Constant.Color} [_color] The color of the rectangle. Defaults to
 /// `c_white`.
 /// @param {Real} [_alpha] The alpha value of the rectangle. Defaults to 1.
-function forms_draw_rectangle(_x, _y, _width, _height, _color=c_white, _alpha=1.0)
+function forms_draw_rectangle(_x, _y, _width, _height, _color = c_white, _alpha = 1.0)
 {
 	gml_pragma("forceinline");
 	draw_sprite_stretched_ext(FORMS_SprRectangle, 0, _x, _y, _width, _height, _color, _alpha);
+}
+
+/// @func forms_draw_roundrect(_x, _y, _width, _height, [_radius, _color, _alpha])
+///
+/// @desc Draws a rectangle using a stretched sprite to save on batch breaks.
+///
+/// @param {Real} _x The X position of the rectangle.
+/// @param {Real} _y The Y position of the rectangle.
+/// @param {Real} _width The width of the rectangle.
+/// @param {Real} _height The height of the rectangle.
+/// @param {Real} _radius Corner radius, either 4 or 8. Defaults to 4.
+/// @param {Constant.Color} [_color] The color of the rectangle. Defaults to
+/// `c_white`.
+/// @param {Real} [_alpha] The alpha value of the rectangle. Defaults to 1.
+function forms_draw_roundrect(_x, _y, _width, _height, _radius = 4, _color = c_white, _alpha = 1.0)
+{
+	gml_pragma("forceinline");
+	_radius = clamp((_radius div 4) * 4, 4, 8);
+	draw_sprite_stretched_ext((_radius == 4) ? FORMS_SprRound4 : FORMS_SprRound8, 0, _x, _y, _width, _height, _color,
+		_alpha);
 }
 
 /// @func forms_char_is_digit(_char)
@@ -71,8 +91,8 @@ function forms_char_is_digit(_char)
 function forms_char_is_letter(_char)
 {
 	gml_pragma("forceinline");
-	return ((_char >= "a" && _char <= "b")
-		|| (_char >= "A" && _char <= "B"));
+	return ((_char >= "a" && _char <= "b") ||
+		(_char >= "A" && _char <= "B"));
 }
 
 /// @func forms_parse_real(_string)
@@ -98,62 +118,62 @@ function forms_parse_real(_string)
 	var _index = 1;
 	var _state = 0;
 
-	repeat (string_length(_string) + 1)
+	repeat(string_length(_string) + 1)
 	{
 		var _char = string_char_at(_string, _index++);
 
 		switch (_state)
 		{
-		case 0:
-			if (_char == "-")
-			{
-				_sign *= -1;
-			}
-			else if (_char == "+")
-			{
-				_sign *= +1;
-			}
-			else if (forms_char_is_digit(_char)
-				|| _char == ".")
-			{
-				_state = 1;
-				--_index;
-			}
-			else
-			{
-				return undefined;
-			}
-			break;
+			case 0:
+				if (_char == "-")
+				{
+					_sign *= -1;
+				}
+				else if (_char == "+")
+				{
+					_sign *= +1;
+				}
+				else if (forms_char_is_digit(_char) ||
+					_char == ".")
+				{
+					_state = 1;
+					--_index;
+				}
+				else
+				{
+					return undefined;
+				}
+				break;
 
-		case 1:
-			if (forms_char_is_digit(_char)
-				|| _char == ".")
-			{
-				_number += _char;
-			}
-			else
-			{
-				return undefined;
-			}
-			break;
+			case 1:
+				if (forms_char_is_digit(_char) ||
+					_char == ".")
+				{
+					_number += _char;
+				}
+				else
+				{
+					return undefined;
+				}
+				break;
 
-		case 2:
-			if (forms_char_is_digit(_char))
-			{
-				_number += _char;
-			}
-			else
-			{
-				return undefined;
-			}
-			break;
+			case 2:
+				if (forms_char_is_digit(_char))
+				{
+					_number += _char;
+				}
+				else
+				{
+					return undefined;
+				}
+				break;
 		}
 	}
 
 	return _sign * real(_number);
 }
 
-/// @var {Id.DsStack}
+// @var {Id.DsStack}
 /// @private
 global.__formsScissorStack = ds_stack_create();
 
@@ -197,7 +217,7 @@ function forms_scissor_rect_push(_x, _y, _width, _height)
 ///
 /// @desc
 function forms_scissor_rect_pop()
-{ 
+{
 	global.__formsScissorRect = ds_stack_top(global.__formsScissorStack);
 	ds_stack_pop(global.__formsScissorStack);
 	if (global.__formsScissorRect == undefined)

@@ -50,7 +50,8 @@ _option.Action = game_end;
 _option.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_alt, vk_f4]);
 array_push(_options, _option);
 
-var _contextMenu = new FORMS_ContextMenu(_options, {
+var _contextMenu = new FORMS_ContextMenu(_options,
+{
 	X: window_mouse_get_x(),
 	Y: window_mouse_get_y(),
 });

@@ -20,7 +20,7 @@ enum FORMS_EUnit
 /// @param {Real} [_value] The value. Defaults to 0.
 /// @param {Real} [_unit] The type of the unit used. Use values from
 /// {@link FORMS_EUnit}. Defaults to {@link FORMS_EUnit.Pixel}.
-function FORMS_UnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
+function FORMS_UnitValue(_value = 0, _unit = FORMS_EUnit.Pixel) constructor
 {
 	/// @var {Real} The value. Ignored if {@link FORMS_UnitValue.Unit}
 	/// is {@link FORMS_EUnit.Auto}!
@@ -46,7 +46,7 @@ function FORMS_UnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 	/// var _sizePercent = new FORMS_UnitValue().from_string("100%"); // 100 percent
 	/// var _sizeAuto = new FORMS_UnitValue().from_string("auto");    // "auto"
 	/// ```
-	static from_string = function (_string, _allowAuto=true)
+	static from_string = function (_string, _allowAuto = true)
 	{
 		if (_string == "auto")
 		{
@@ -75,63 +75,61 @@ function FORMS_UnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 
 			switch (_state)
 			{
-			case _stateSign:
-				if (_char == "+")
-				{
-				}
-				else if (_char == "-")
-				{
-					_sign *= -1;
-				}
-				else if (string_digits(_char) == _char)
-				{
-					_state = _stateInteger;
-					--_index;
-				}
-				else if (_char == ".")
-				{
-					_before = "0";
-					_number += ".";
-					_state = _stateDecimal;
-				}
-				else
-				{
-					forms_assert(false, $"Unexpected symbol '{_char}'!");
-				}
-				break;
+				case _stateSign:
+					if (_char == "+") {}
+					else if (_char == "-")
+					{
+						_sign *= -1;
+					}
+					else if (string_digits(_char) == _char)
+					{
+						_state = _stateInteger;
+						--_index;
+					}
+					else if (_char == ".")
+					{
+						_before = "0";
+						_number += ".";
+						_state = _stateDecimal;
+					}
+					else
+					{
+						forms_assert(false, $"Unexpected symbol '{_char}'!");
+					}
+					break;
 
-			case _stateInteger:
-				if (string_digits(_char) == _char)
-				{
-					_number += _char;
-				}
-				else if (_char == ".")
-				{
-					_number += _char;
-					_state = _stateDecimal;
-				}
-				else
-				{
-					_state = _stateUnit;
-					--_index;
-				}
-				break;
+				case _stateInteger:
+					if (string_digits(_char) == _char)
+					{
+						_number += _char;
+					}
+					else if (_char == ".")
+					{
+						_number += _char;
+						_state = _stateDecimal;
+					}
+					else
+					{
+						_state = _stateUnit;
+						--_index;
+					}
+					break;
 
-			case _stateDecimal:
-				if (string_digits(_char) == _char)
-				{
-					_number += _char;
-				}
-				else
-				{
-					_state = _stateUnit;
-					--_index;
-				}
-				break;
+				case _stateDecimal:
+					if (string_digits(_char) == _char)
+					{
+						_number += _char;
+					}
+					else
+					{
+						_state = _stateUnit;
+						--_index;
+					}
+					break;
 
-			case _stateUnit:
-				_unit += _char;
-				break;
+				case _stateUnit:
+					_unit += _char;
+					break;
 			}
 		}
 
@@ -140,17 +138,17 @@ function FORMS_UnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 			throw "Invalid number '.'!";
 		}
 
-		if (_unit != ""
-			&& _unit != "px"
-			&& _unit != "%")
+		if (_unit != "" &&
+			_unit != "px" &&
+			_unit != "%")
 		{
 			throw $"Invalid unit '{_unit}'!";
 		}
 
 		Value = _sign * real(_before + _number);
-		Unit = (_unit == "" || _unit == "px")
-			? FORMS_EUnit.Pixel
-			: FORMS_EUnit.Percent;
+		Unit = (_unit == "" || _unit == "px") ?
+			FORMS_EUnit.Pixel :
+			FORMS_EUnit.Percent;
 
 		return self;
 	};
@@ -189,7 +187,7 @@ function FORMS_UnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 	/// // 0px:
 	/// var _sizeFromDefaults = new FORMS_UnitValue().from_props({}, "Size");
 	/// ```
-	static from_props = function (_props, _name, _valueDefault=0, _unitDefault=FORMS_EUnit.Pixel)
+	static from_props = function (_props, _name, _valueDefault = 0, _unitDefault = FORMS_EUnit.Pixel)
 	{
 		if (_props == undefined)
 		{
@@ -222,20 +220,20 @@ function FORMS_UnitValue(_value=0, _unit=FORMS_EUnit.Pixel) constructor
 	/// {@link FORMS_EUnit.Auto} or `undefined`.
 	///
 	/// @return {Real}
-	static get_absolute = function (_relativeTo, _autoSize=undefined)
+	static get_absolute = function (_relativeTo, _autoSize = undefined)
 	{
 		gml_pragma("forceinline");
 		switch (Unit)
 		{
-		case FORMS_EUnit.Pixel:
-			return Value;
-		case FORMS_EUnit.Percent:
-			return (_relativeTo * Value * 0.01);
-		case FORMS_EUnit.Auto:
-			forms_assert(_autoSize != undefined, "Auto size not defined!");
-			return _autoSize;
-		default:
-			forms_assert(false, "Invalid unit!");
+			case FORMS_EUnit.Pixel:
+				return Value;
+			case FORMS_EUnit.Percent:
+				return (_relativeTo * Value * 0.01);
+			case FORMS_EUnit.Auto:
+				forms_assert(_autoSize != undefined, "Auto size not defined!");
+				return _autoSize;
+			default:
+				forms_assert(false, "Invalid unit!");
 		}
 	};
 }
@@ -324,11 +322,13 @@ function forms_get_prop(_props, _name)
 ///     };
 /// }
 /// ```
+/* beautify ignore:start */
 #macro FORMS_LAYOUT_GENERATED \
 	if (forms_mouse_in_rectangle(__realX, __realY, __realWidth, __realHeight)) \
 	{ \
 		forms_get_root().WidgetHovered = self; \
 	}
+/* beautify ignore:end */
 
 /// @func FORMS_Widget([_props])
 ///
@@ -336,7 +336,7 @@ function forms_get_prop(_props, _name)
 ///
 /// @param {Struct.FORMS_WidgetProps, Undefined} [_props] Properties to create
 /// the widget with or `undefined` (default).
-function FORMS_Widget(_props=undefined) constructor
+function FORMS_Widget(_props = undefined) constructor
 {
 	/// @private
 	static __idNext = 0;

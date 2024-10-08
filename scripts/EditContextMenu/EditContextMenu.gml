@@ -1,5 +1,4 @@
-function EditContextMenu()
-	: FORMS_ContextMenu() constructor
+function EditContextMenu(): FORMS_ContextMenu() constructor
 {
 	array_push(
 		Options,

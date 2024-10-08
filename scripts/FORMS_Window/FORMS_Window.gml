@@ -2,17 +2,17 @@
 enum FORMS_EWindowResize
 {
 	/// @member Not resizing the window.
-	None   = 0b0000,
-	/// @member Resizing the left side of a window.
-	Left   = 0b0001,
-	/// @member Resizing the right side of a window.
-	Right  = 0b0010,
-	/// @member Resizing the top side of a window.
-	Top    = 0b0100,
-	/// @member Resizing the bottom side of a window.
-	Bottom = 0b1000,
-	/// @member Resizing the window on all sides.
-	All    = 0b1111,
+	None = 0b0000,
+		/// @member Resizing the left side of a window.
+		Left = 0b0001,
+		/// @member Resizing the right side of a window.
+		Right = 0b0010,
+		/// @member Resizing the top side of a window.
+		Top = 0b0100,
+		/// @member Resizing the bottom side of a window.
+		Bottom = 0b1000,
+		/// @member Resizing the window on all sides.
+		All = 0b1111,
 };
 
 /// @func FORMS_WindowProps()
@@ -20,8 +20,7 @@ enum FORMS_EWindowResize
 /// @extends FORMS_FlexBoxProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_Window}.
-function FORMS_WindowProps()
-	: FORMS_FlexBoxProps() constructor
+function FORMS_WindowProps(): FORMS_FlexBoxProps() constructor
 {
 	/// @var {Bool, Undefined} Whether the window should be moved to the center
 	/// of the application window next time [layout](./FORMS_Widget.layout.html]
@@ -62,8 +61,7 @@ function FORMS_WindowProps()
 ///
 /// @params {Struct.FORMS_Widget, Undefined} [_widget]
 /// @params {Struct.FORMS_WindowProps, Undefined} [_props]
-function FORMS_Window(_widget, _props=undefined)
-	: FORMS_FlexBox(_props) constructor
+function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constructor
 {
 	static FlexBox_layout = layout;
 	static FlexBox_update = update;
@@ -274,34 +272,34 @@ function FORMS_Window(_widget, _props=undefined)
 			var _mouseOffsetX = 0;
 			var _mouseOffsetY = 0;
 
-			if (_mouseX < __realX + __padding
-				&& Resizable & FORMS_EWindowResize.Left)
+			if (_mouseX < __realX + __padding &&
+				Resizable & FORMS_EWindowResize.Left)
 			{
 				_resize |= FORMS_EWindowResize.Left;
 				_mouseOffsetX = __realX - _mouseX;
 			}
-			else if (_mouseX >= __realX + __realWidth - __padding
-				&& Resizable & FORMS_EWindowResize.Right)
+			else if (_mouseX >= __realX + __realWidth - __padding &&
+				Resizable & FORMS_EWindowResize.Right)
 			{
 				_resize |= FORMS_EWindowResize.Right;
 				_mouseOffsetX = __realX + __realWidth - _mouseX;
 			}
 
-			if (_mouseY < __realY + __padding
-				&& Resizable & FORMS_EWindowResize.Top)
+			if (_mouseY < __realY + __padding &&
+				Resizable & FORMS_EWindowResize.Top)
 			{
 				_resize |= FORMS_EWindowResize.Top;
 				_mouseOffsetY = __realY - _mouseY;
 			}
-			else if (_mouseY >= __realY + __realHeight - __padding
-				&& Resizable & FORMS_EWindowResize.Bottom)
+			else if (_mouseY >= __realY + __realHeight - __padding &&
+				Resizable & FORMS_EWindowResize.Bottom)
 			{
 				_resize |= FORMS_EWindowResize.Bottom;
 				_mouseOffsetY = __realY + __realHeight - _mouseY;
 			}
 
-			if (_resize != FORMS_EWindowResize.None
-				&& forms_mouse_check_button_pressed(mb_left))
+			if (_resize != FORMS_EWindowResize.None &&
+				forms_mouse_check_button_pressed(mb_left))
 			{
 				forms_get_root().WidgetActive = self;
 				__resize = _resize;
@@ -310,13 +308,13 @@ function FORMS_Window(_widget, _props=undefined)
 			}
 		}
 
-		if ((_resize & FORMS_EWindowResize.Left && _resize & FORMS_EWindowResize.Top)
-			|| (_resize & FORMS_EWindowResize.Right && _resize & FORMS_EWindowResize.Bottom))
+		if ((_resize & FORMS_EWindowResize.Left && _resize & FORMS_EWindowResize.Top) ||
+			(_resize & FORMS_EWindowResize.Right && _resize & FORMS_EWindowResize.Bottom))
 		{
 			forms_set_cursor(cr_size_nwse);
 		}
-		else if ((_resize & FORMS_EWindowResize.Left && _resize & FORMS_EWindowResize.Bottom)
-			|| (_resize & FORMS_EWindowResize.Right && _resize & FORMS_EWindowResize.Top))
+		else if ((_resize & FORMS_EWindowResize.Left && _resize & FORMS_EWindowResize.Bottom) ||
+			(_resize & FORMS_EWindowResize.Right && _resize & FORMS_EWindowResize.Top))
 		{
 			forms_set_cursor(cr_size_nesw);
 		}
@@ -359,10 +357,7 @@ function FORMS_Window(_widget, _props=undefined)
 /// @extends FORMS_ContainerProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_WindowTitle}.
-function FORMS_WindowTitleProps()
-	: FORMS_ContainerProps() constructor
-{
-}
+function FORMS_WindowTitleProps(): FORMS_ContainerProps() constructor {}
 
 /// @func FORMS_WindowTitle([_props])
 ///
@@ -372,8 +367,7 @@ function FORMS_WindowTitleProps()
 ///
 /// @params {Struct.FORMS_WindowTitleProps, Undefined} [_props] Properties to
 /// create the window title bar with or `undefined` (default).
-function FORMS_WindowTitle(_props=undefined)
-	: FORMS_Container(_props) constructor
+function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) constructor
 {
 	static Container_draw = draw;
 
@@ -395,8 +389,8 @@ function FORMS_WindowTitle(_props=undefined)
 		Pen.text(Parent.Widget.Name);
 		var _iconWidth = 20;
 		Pen.set_x(__realWidth - _iconWidth - 2);
-		if (Parent.Closable
-			&& Pen.icon_solid(FA_ESolid.Xmark, { Width: _iconWidth }))
+		if (Parent.Closable &&
+			Pen.icon_solid(FA_ESolid.Xmark, { Width: _iconWidth }))
 		{
 			Parent.destroy_later();
 		}
@@ -407,10 +401,10 @@ function FORMS_WindowTitle(_props=undefined)
 	static draw = function (_deltaTime)
 	{
 		Container_draw();
-		if (!Parent.__toDestroy
-			&& Parent.Movable
-			&& is_mouse_over()
-			&& forms_mouse_check_button_pressed(mb_left))
+		if (!Parent.__toDestroy &&
+			Parent.Movable &&
+			is_mouse_over() &&
+			forms_mouse_check_button_pressed(mb_left))
 		{
 			forms_get_root().WidgetActive = Parent;
 			Parent.__mouseOffset[@ 0] = Parent.__realX - forms_mouse_get_x();

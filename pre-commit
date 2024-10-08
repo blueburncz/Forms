@@ -1,0 +1,2 @@
+#!/bin/sh
+./format-gml.py --validate

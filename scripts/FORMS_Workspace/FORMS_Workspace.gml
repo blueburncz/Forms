@@ -3,8 +3,7 @@
 /// @extends FORMS_WidgetProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_Workspace}.
-function FORMS_WorkspaceProps()
-	: FORMS_WidgetProps() constructor
+function FORMS_WorkspaceProps(): FORMS_WidgetProps() constructor
 {
 	/// @var {Constant.Color, Undefined} The background color of the workspace.
 	BackgroundColor = undefined;
@@ -22,8 +21,7 @@ function FORMS_WorkspaceProps()
 ///
 /// @param {Struct.FORMS_WorkspaceProps, Undefined} [_props] Properties to
 /// create the workspace with or `undefined` (default).
-function FORMS_Workspace(_props=undefined)
-	: FORMS_Widget(_props) constructor
+function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 {
 	static Widget_update = update;
 
@@ -58,10 +56,11 @@ function FORMS_Workspace(_props=undefined)
 	/// @return {Struct.FORMS_Workspace} Returns `self`.
 	static set_tabs = function (_tabs)
 	{
-		forms_assert(array_length(__tabs) == 0, "Workspace already has tabs!"); // TODO: Why is this here? :thinking:
+		forms_assert(array_length(__tabs) == 0,
+			"Workspace already has tabs!"); // TODO: Why is this here? :thinking:
 		__tabs = _tabs;
 		var i = 0;
-		repeat (array_length(__tabs))
+		repeat(array_length(__tabs))
 		{
 			__tabs[i++].Parent = self;
 		}
@@ -93,7 +92,7 @@ function FORMS_Workspace(_props=undefined)
 		var _parentWidth = __realWidth;
 		var _parentHeight = __realHeight;
 
-		with (TabContainer)
+		with(TabContainer)
 		{
 			var _autoWidth = get_auto_width();
 			var _autoHeight = get_auto_height();
@@ -153,10 +152,7 @@ function FORMS_Workspace(_props=undefined)
 /// @extends FORMS_ContainerProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_WorkspaceTabs}.
-function FORMS_WorkspaceTabsProps()
-	: FORMS_ContainerProps() constructor
-{
-}
+function FORMS_WorkspaceTabsProps(): FORMS_ContainerProps() constructor {}
 
 /// @func FORMS_WorkspaceTabs([_props])
 ///
@@ -166,8 +162,7 @@ function FORMS_WorkspaceTabsProps()
 ///
 /// @params {Struct.FORMS_WorkspaceTabsProps, Undefined} [_props] Properties to
 /// create the workspace tabs container with or `undefined` (default).
-function FORMS_WorkspaceTabs(_props=undefined)
-	: FORMS_Container(_props) constructor
+function FORMS_WorkspaceTabs(_props = undefined): FORMS_Container(_props) constructor
 {
 	/// @var {Struct.FORMS_UnitValue} The width of the workspace tabs
 	/// container. Defaults to 100%.
@@ -192,7 +187,7 @@ function FORMS_WorkspaceTabs(_props=undefined)
 		Pen.PaddingX = 4;
 		Pen.start();
 
-		repeat (_tabCount)
+		repeat(_tabCount)
 		{
 			var _tab = _tabs[_tabIndex];
 			var _iconSpace = ((_tab.Icon != undefined) ? 24 : 0);
@@ -201,10 +196,10 @@ function FORMS_WorkspaceTabs(_props=undefined)
 				draw_sprite_stretched_ext(
 					FORMS_SprTabWorkspace, 0,
 					Pen.X, 0,
-					_tabPadding
-						+ _iconSpace
-						+ string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0)
-						+ _tabPadding,
+					_tabPadding +
+					_iconSpace +
+					string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0) +
+					_tabPadding,
 					__realHeight,
 					0x282828, 1.0
 				);

@@ -47,7 +47,7 @@ function FORMS_NodeGraph() constructor
 	/// values are the results of their evaluation.
 	///
 	/// @see FORMS_Node.IsEntryPoint
-	static eval = function (_args=undefined)
+	static eval = function (_args = undefined)
 	{
 		var _evalId = __evalId++;
 		var _result = {};
@@ -69,7 +69,7 @@ function FORMS_NodeGraph() constructor
 		// Draw pin connections
 		for (var i = array_length(Nodes) - 1; i >= 0; --i)
 		{
-			with (Nodes[i])
+			with(Nodes[i])
 			{
 				for (var j = array_length(PinsIn) - 1; j >= 0; --j)
 				{
@@ -106,7 +106,7 @@ function FORMS_NodeGraph() constructor
 /// pins.
 ///
 /// @private
-function FORMS_Node(_name, _pinsIn=[], _pinsOut=[]) constructor
+function FORMS_Node(_name, _pinsIn = [], _pinsOut = []) constructor
 {
 	/// @var {Struct.NodeGrap, Undefined} The graph to which this node belongs.
 	/// Default value is `undefined`.
@@ -287,7 +287,7 @@ function forms_pin_get_color(_pinType)
 /// @param {Constant.AssetType, Undefined} [_assetType]
 ///
 /// @private
-function FORMS_Pin(_name, _type, _assetType=undefined) constructor
+function FORMS_Pin(_name, _type, _assetType = undefined) constructor
 {
 	/// @var {Struct.FORMS_Node, Undefined} The node to which this pin belongs.
 	/// Default value is `undefined`.
@@ -348,8 +348,8 @@ function FORMS_Pin(_name, _type, _assetType=undefined) constructor
 	/// @return {Bool} Returns true if the pins are compatible.
 	static is_compatible = function (_pin)
 	{
-		return (Node != _pin.Node
-			&& IsInput != _pin.IsInput);
+		return (Node != _pin.Node &&
+			IsInput != _pin.IsInput);
 	};
 
 	/// @func is_connected(_pin)

@@ -1,5 +1,4 @@
-function TestControlsContainer()
-	: FORMS_Container() constructor
+function TestControlsContainer(): FORMS_Container() constructor
 {
 	Checked1 = false;
 	Checked2 = true;
@@ -17,7 +16,7 @@ function TestControlsContainer()
 	DropdownIndex = 0;
 	InputString = "";
 	InputReal = 0;
-	Color = 0xAA000000 | global.formsAccentColor;
+	Color = new FORMS_Color(0xAA000000 | global.formsAccentColor);
 	var _propsFolder = {
 		Icon: FA_ESolid.FolderOpen,
 		IconCollapsed: FA_ESolid.Folder,
@@ -52,7 +51,12 @@ function TestControlsContainer()
 
 		Pen.start()
 			.text("Some stuff ")
-			.text("Some other stuff!", { Color: global.formsAccentColor, Cursor: cr_handpoint, Tooltip: "Oh yeah!" })
+			.text("Some other stuff!",
+			{
+				Color: global.formsAccentColor,
+				Cursor: cr_handpoint,
+				Tooltip: "Oh yeah!"
+			})
 			.nl();
 
 		if (Pen.section("Buttons"))
@@ -106,7 +110,13 @@ function TestControlsContainer()
 
 		if (Pen.section("Sliders"))
 		{
-			if (Pen.slider("slider", Slider, -100, 100, { Pre: "X: ", Post: "%", Integers: true, Tooltip: "This is the best slider ever!" }))
+			if (Pen.slider("slider", Slider, -100, 100,
+				{
+					Pre: "X: ",
+					Post: "%",
+					Integers: true,
+					Tooltip: "This is the best slider ever!"
+				}))
 			{
 				Slider = Pen.get_result();
 			}

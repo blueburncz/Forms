@@ -3,8 +3,7 @@
 /// @extends FORMS_WidgetProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_Scrollbar}.
-function FORMS_ScrollbarProps()
-	: FORMS_WidgetProps() constructor
+function FORMS_ScrollbarProps(): FORMS_WidgetProps() constructor
 {
 	/// @var {Constant.Color, Undefined} The color of the scrollbar's background.
 	BackgroundColor = undefined;
@@ -48,8 +47,7 @@ function FORMS_ScrollbarProps()
 /// scrolls.
 /// @param {Struct.FORMS_ScrollbarProps, Undefined} [_props] Properties to
 /// create the scrollbar with or `undefined` (default).
-function FORMS_Scrollbar(_target, _props=undefined)
-	: FORMS_Widget(_props) constructor
+function FORMS_Scrollbar(_target, _props = undefined): FORMS_Widget(_props) constructor
 {
 	/// @var {Struct.FORMS_Container} The container that this scrollbar scrolls.
 	Target = _target;
@@ -126,10 +124,10 @@ function FORMS_Scrollbar(_target, _props=undefined)
 		__thumbSize = max(__thumbSize, ThumbSizeMin);
 		__thumbSize = min(__thumbSize, _scrollbarSize);
 		__thumbPos = _scrollbarPos + (_scrollbarSize - __thumbSize) * _scrollLinear;
-		__thumbIsHovered = (_isMouseOver
-			&& _root.WidgetActive == undefined
-			&& _mousePos > __thumbPos
-			&& _mousePos < __thumbPos + __thumbSize);
+		__thumbIsHovered = (_isMouseOver &&
+			_root.WidgetActive == undefined &&
+			_mousePos > __thumbPos &&
+			_mousePos < __thumbPos + __thumbSize);
 
 		if (_isMouseOver && forms_mouse_check_button_pressed(mb_left))
 		{
@@ -171,10 +169,7 @@ function FORMS_Scrollbar(_target, _props=undefined)
 /// @extends FORMS_ScrollbarProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_HScrollbar}.
-function FORMS_HScrollbarProps()
-	: FORMS_ScrollbarProps() constructor
-{
-}
+function FORMS_HScrollbarProps(): FORMS_ScrollbarProps() constructor {}
 
 /// @func FORMS_HScrollbar(_target[, _props])
 ///
@@ -186,8 +181,7 @@ function FORMS_HScrollbarProps()
 /// scrolls on the X axis.
 /// @param {Struct.FORMS_HScrollbarProps, Undefined} [_props] Properties to
 /// create the scrollbar with or `undefined` (default).
-function FORMS_HScrollbar(_target, _props=undefined)
-	: FORMS_Scrollbar(_target, _props) constructor
+function FORMS_HScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target, _props) constructor
 {
 	static Scrollbar_update = update;
 
@@ -216,11 +210,12 @@ function FORMS_HScrollbar(_target, _props=undefined)
 	{
 		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
 		var _root = forms_get_root();
-		var _color = (_root.WidgetActive == self) ? ThumbColorActive
-			: (__thumbIsHovered ? ThumbColorHover : ThumbColor);
-		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive
-			: (__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __thumbPos, __realY, __thumbSize, __realHeight, _color, _alpha);
+		var _color = (_root.WidgetActive == self) ? ThumbColorActive :
+			(__thumbIsHovered ? ThumbColorHover : ThumbColor);
+		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive :
+			(__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __thumbPos, __realY, __thumbSize, __realHeight, _color,
+			_alpha);
 		return self;
 	};
 }
@@ -230,10 +225,7 @@ function FORMS_HScrollbar(_target, _props=undefined)
 /// @extends FORMS_ScrollbarProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_VScrollbar}.
-function FORMS_VScrollbarProps()
-	: FORMS_ScrollbarProps() constructor
-{
-}
+function FORMS_VScrollbarProps(): FORMS_ScrollbarProps() constructor {}
 
 /// @func FORMS_VScrollbar(_target[, _props])
 ///
@@ -245,8 +237,7 @@ function FORMS_VScrollbarProps()
 /// scrolls on the Y axis.
 /// @param {Struct.FORMS_VScrollbarProps, Undefined} [_props] Properties to
 /// create the scrollbar with or `undefined` (default).
-function FORMS_VScrollbar(_target, _props=undefined)
-	: FORMS_Scrollbar(_target, _props) constructor
+function FORMS_VScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target, _props) constructor
 {
 	static Scrollbar_update = update;
 
@@ -275,11 +266,12 @@ function FORMS_VScrollbar(_target, _props=undefined)
 	{
 		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
 		var _root = forms_get_root();
-		var _color = (_root.WidgetActive == self) ? ThumbColorActive
-			: (__thumbIsHovered ? ThumbColorHover : ThumbColor);
-		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive
-			: (__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __realX, __thumbPos, __realWidth, __thumbSize, _color, _alpha);
+		var _color = (_root.WidgetActive == self) ? ThumbColorActive :
+			(__thumbIsHovered ? ThumbColorHover : ThumbColor);
+		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive :
+			(__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __realX, __thumbPos, __realWidth, __thumbSize, _color,
+			_alpha);
 		return self;
 	};
 }

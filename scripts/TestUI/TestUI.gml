@@ -1,7 +1,7 @@
-function TestUI()
-	: FORMS_RootWidget() constructor
+function TestUI(): FORMS_RootWidget() constructor
 {
-	var _vbox = new FORMS_FlexBox({
+	var _vbox = new FORMS_FlexBox(
+	{
 		Width: "100%",
 		Height: "100%",
 		Spacing: 1,
@@ -9,7 +9,8 @@ function TestUI()
 	});
 	add_child(_vbox);
 
-	var _workspace = new FORMS_Workspace({
+	var _workspace = new FORMS_Workspace(
+	{
 		Width: "100%",
 		Flex: 1,
 	});
