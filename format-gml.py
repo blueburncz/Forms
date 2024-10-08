@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import jsbeautifier
 import os
+import re
 import subprocess
 import sys
 
@@ -32,6 +33,12 @@ OPTIONS = {
     "indent_empty_lines": False,
     "templating": ["auto"],
 }
+
+
+def beautify_file(filepath):
+    res = jsbeautifier.beautify_file(filepath, OPTIONS)
+    res = re.sub(r"\$[ \n]+\"", '$"', res)
+    return res
 
 
 def get_staged_files():
@@ -85,7 +92,7 @@ if __name__ == "__main__":
         for filepath in get_staged_files():
             if filepath.endswith(".gml"):
                 orig = get_staged_file_contents(filepath)
-                res = jsbeautifier.beautify_file(filepath, OPTIONS)
+                res = beautify_file(filepath)
                 if orig != res:
                     print(
                         f'ERROR: File "{filepath}" is not properly formatted!\n\nPlease run ./format-gml.py to fix formatting of all staged GML files and stage the changes before running commit again.'
@@ -94,7 +101,7 @@ if __name__ == "__main__":
     elif target == "--staged":
         for filepath in get_staged_files():
             if filepath.endswith(".gml"):
-                res = jsbeautifier.beautify_file(filepath, OPTIONS)
+                res = beautify_file(filepath)
                 with open(filepath, "w") as f:
                     f.write(res)
     elif target == "--all":
@@ -102,11 +109,11 @@ if __name__ == "__main__":
             for filename in filenames:
                 if filename.endswith(".gml"):
                     filepath = os.path.join(dirpath, filename)
-                    res = jsbeautifier.beautify_file(filepath, OPTIONS)
+                    res = beautify_file(filepath)
                     with open(filepath, "w") as f:
                         f.write(res)
     elif target == "--file":
-        res = jsbeautifier.beautify_file(filepath, OPTIONS)
+        res = beautify_file(filepath)
         with open(filepath, "w") as f:
             f.write(res)
     else:
