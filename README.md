@@ -26,3 +26,16 @@ Forms is open for pull requests! You're welcome to choose any of the open issues
 4. `Copy-Item pre-commit .git/hooks/`
 
 From now on, when running `git commit`, the hook will check whether staged `*.gml` files are formatted using js-beautify. If they're not, it won't allow you to commit the files. Use `./format-gml.py` to fix formatting of all staged files. You can also run it with argument `--all` to fix formatting of all `*.gml` files present in the repo or `--file FILE` to fix format of given file.
+
+Since js-beautify is a JavaScript formatter, it doesn't work properly with GML in all cases, breaking the code and making it not compile. So far we've encountered this problem only when using `#macro`s. This can be worked around by surrounding them with `/* beautify ignore:start */` and `/* beautify ignore:end */` like so:
+
+```gml
+/* beautify ignore:start */
+#macro FORMS_FANCY_MACRO \
+    do
+    { \
+        some_stuff_here(); \
+    } \
+    until (0)
+/* beautify ignore:end */
+```
