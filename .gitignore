@@ -2,6 +2,7 @@
 .vscode
 /docs_build/
 /docs_src/ScriptingAPI/
+/env/
 
 # Old font files
 *.old.yy
