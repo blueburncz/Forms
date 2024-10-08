@@ -37,7 +37,7 @@ OPTIONS = {
 
 def beautify_file(filepath):
     res = jsbeautifier.beautify_file(filepath, OPTIONS)
-    res = re.sub(r"\$[ \n]+\"", '$"', res)
+    res = re.sub(r"\$[\s\n]+\"", '$"', res)
     return res
 
 
