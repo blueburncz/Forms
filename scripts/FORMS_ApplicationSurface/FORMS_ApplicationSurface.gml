@@ -56,12 +56,35 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 	/// @var {Real} The alpha value of the background. Defaults to 1.
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundColor") ?? 1.0;
 
-	__surfaceX = 0;
-	__surfaceY = 0;
-	__surfaceWidth = 0;
-	__surfaceHeight = 0;
-	__mouseX = 0;
-	__mouseY = 0;
+	/// @var {Real} The absolute X position of the drawn surface. Updated in
+	/// [layout](./FORMS_Widget.layout.html).
+	/// @readonly
+	SurfaceX = 0;
+
+	/// @var {Real} The absolute Y position of the drawn surface. Updated in
+	/// [layout](./FORMS_Widget.layout.html).
+	/// @readonly
+	SurfaceY = 0;
+
+	/// @var {Real} The actual width of the drawn surface after it's stretched
+	/// or scaled. Updated in [layout](./FORMS_Widget.layout.html).
+	/// @readonly
+	SurfaceWidth = 0;
+
+	/// @var {Real} The actual height of the drawn surface after it's stretched
+	/// or scaled. Updated in [layout](./FORMS_Widget.layout.html).
+	/// @readonly
+	SurfaceHeight = 0;
+
+	/// @var {Real} The X position of the mouse, relative to the surface's
+	/// position. Updated in [layout](./FORMS_Widget.layout.html).
+	/// @readonly
+	MouseX = 0;
+
+	/// @var {Real} The Y position of the mouse, relative to the surface's
+	/// position. Updated in [layout](./FORMS_Widget.layout.html).
+	/// @readonly
+	MouseY = 0;
 
 	/// @func get_surface()
 	///
@@ -84,10 +107,10 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 
 		if (Stretch)
 		{
-			__surfaceX = __realX;
-			__surfaceY = __realY;
-			__surfaceWidth = __realWidth;
-			__surfaceHeight = __realHeight;
+			SurfaceX = __realX;
+			SurfaceY = __realY;
+			SurfaceWidth = __realWidth;
+			SurfaceHeight = __realHeight;
 		}
 		else if (surface_exists(_surface))
 		{
@@ -96,45 +119,21 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 
 			if (_aspectSurface > _aspect)
 			{
-				__surfaceWidth = __realWidth;
-				__surfaceHeight = __realWidth / _aspectSurface;
+				SurfaceWidth = __realWidth;
+				SurfaceHeight = __realWidth / _aspectSurface;
 			}
 			else
 			{
-				__surfaceHeight = __realHeight;
-				__surfaceWidth = __realHeight * _aspectSurface;
+				SurfaceHeight = __realHeight;
+				SurfaceWidth = __realHeight * _aspectSurface;
 			}
 
-			__surfaceX = floor(__realX + (__realWidth - __surfaceWidth) / 2);
-			__surfaceY = floor(__realY + (__realHeight - __surfaceHeight) / 2);
+			SurfaceX = floor(__realX + (__realWidth - SurfaceWidth) / 2);
+			SurfaceY = floor(__realY + (__realHeight - SurfaceHeight) / 2);
 		}
 
-		__mouseX = forms_mouse_get_x() - __surfaceX;
-		__mouseY = forms_mouse_get_y() - __surfaceY;
-	};
-
-	/// @func get_mouse_x()
-	///
-	/// @desc Retrieves the mouse X coordinate relative to the position of the
-	/// surface which the widget draws.
-	///
-	/// @return {Real} The mouse X coordinate relative to the surface's position.
-	static get_mouse_x = function ()
-	{
-		gml_pragma("forceinline");
-		return __mouseX;
-	};
-
-	/// @func get_mouse_y()
-	///
-	/// @desc Retrieves the mouse Y coordinate relative to the position of the
-	/// surface which the widget draws.
-	///
-	/// @return {Real} The mouse Y coordinate relative to the surface's position.
-	static get_mouse_y = function ()
-	{
-		gml_pragma("forceinline");
-		return __mouseY;
+		MouseX = forms_mouse_get_x() - SurfaceX;
+		MouseY = forms_mouse_get_y() - SurfaceY;
 	};
 
 	/// @func is_mouse_over()
@@ -166,8 +165,8 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 	static is_mouse_over = function ()
 	{
 		gml_pragma("forceinline");
-		return (__mouseX >= 0 && __mouseX < __surfaceWidth &&
-			__mouseY >= 0 && __mouseY < __surfaceHeight);
+		return (MouseX >= 0 && MouseX < SurfaceWidth
+			&& MouseY >= 0 && MouseY < SurfaceHeight);
 	};
 
 	static draw = function ()
@@ -177,7 +176,7 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 		var _surface = get_surface();
 		if (surface_exists(_surface))
 		{
-			draw_surface_stretched(_surface, __surfaceX, __surfaceY, __surfaceWidth, __surfaceHeight);
+			draw_surface_stretched(_surface, SurfaceX, SurfaceY, SurfaceWidth, SurfaceHeight);
 		}
 
 		CompoundWidget_draw();
