@@ -19,7 +19,7 @@ Arguments:
     -h         - Show this help message and exit.
     -v         - Show version and exit.
     --validate - Check whether all staged GML files are properly formatted and exit with status 0 on success or 1 on fail.
-    --staged   - Format all staged GML files.
+    --staged   - Format all staged GML files. This is the default option.
     --all      - Format all GML files in the repo.
     --file     - Format only given file.
 """[
