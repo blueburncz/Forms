@@ -63,9 +63,9 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 		{
 			var _option = _values[i];
 			var _value = string(
-				is_struct(_option) ?
-				(_option[$"Text"] ?? _option.Value) :
-				_option
+				is_struct(_option)
+				? (_option[$"Text"] ?? _option.Value)
+				: _option
 			);
 			var _stringWidth = string_width(_value);
 			var _valueWidth = max(_stringWidth, _dropdownWidth);

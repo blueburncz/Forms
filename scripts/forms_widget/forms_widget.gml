@@ -138,17 +138,17 @@ function FORMS_UnitValue(_value = 0, _unit = FORMS_EUnit.Pixel) constructor
 			throw "Invalid number '.'!";
 		}
 
-		if (_unit != "" &&
-			_unit != "px" &&
-			_unit != "%")
+		if (_unit != ""
+			&& _unit != "px"
+			&& _unit != "%")
 		{
 			throw $"Invalid unit '{_unit}'!";
 		}
 
 		Value = _sign * real(_before + _number);
-		Unit = (_unit == "" || _unit == "px") ?
-			FORMS_EUnit.Pixel :
-			FORMS_EUnit.Percent;
+		Unit = (_unit == "" || _unit == "px")
+			? FORMS_EUnit.Pixel
+			: FORMS_EUnit.Percent;
 
 		return self;
 	};

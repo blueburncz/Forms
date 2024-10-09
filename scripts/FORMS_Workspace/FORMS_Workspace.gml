@@ -196,10 +196,10 @@ function FORMS_WorkspaceTabs(_props = undefined): FORMS_Container(_props) constr
 				draw_sprite_stretched_ext(
 					FORMS_SprTabWorkspace, 0,
 					Pen.X, 0,
-					_tabPadding +
-					_iconSpace +
-					string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0) +
-					_tabPadding,
+					_tabPadding
+					+ _iconSpace
+					+ string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0)
+					+ _tabPadding,
 					__realHeight,
 					0x282828, 1.0
 				);

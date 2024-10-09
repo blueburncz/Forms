@@ -1,38 +1,38 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import jsbeautifier
+import json
 import os
 import re
 import subprocess
 import sys
 
-OPTIONS = {
-    "indent_size": 4,
-    "indent_char": " ",
-    "indent_with_tabs": True,
-    "editorconfig": False,
-    "eol": "\n",
-    "end_with_newline": True,
-    "indent_level": 0,
-    "preserve_newlines": True,
-    "max_preserve_newlines": 2,
-    "space_in_paren": False,
-    "space_in_empty_paren": False,
-    "jslint_happy": False,
-    "space_after_anon_function": True,
-    "space_after_named_function": False,
-    "brace_style": "expand,preserve-inline",
-    "unindent_chained_methods": False,
-    "break_chained_methods": False,
-    "keep_array_indentation": False,
-    "unescape_strings": False,
-    "wrap_line_length": 120,
-    "e4x": True,
-    "comma_first": False,
-    "operator_position": "before-newline",
-    "indent_empty_lines": False,
-    "templating": ["auto"],
-}
+VERSION_MAJOR = 1
+VERSION_MINOR = 0
+VERSION_PATCH = 0
+VERSION_STRING = f"{VERSION_MAJOR}.{VERSION_MINOR}.{VERSION_PATCH}"
+
+HELP_MESSAGE = """
+Usage: format-gml [-h, -v, --validate, --staged, --all, --file FILE]
+
+Arguments:
+    -h         - Show this help message and exit.
+    -v         - Show version and exit.
+    --validate - Check whether all staged GML files are properly formatted and exit with status 0 on success or 1 on fail.
+    --staged   - Format all staged GML files.
+    --all      - Format all GML files in the repo.
+    --file     - Format only given file.
+"""[
+    1:
+]
+
+OPTIONS_PATH = "./.jsbeautifyrc"
+
+if os.path.exists(OPTIONS_PATH):
+    with open(OPTIONS_PATH, "r") as f:
+        OPTIONS = json.load(f)
+else:
+    OPTIONS = None
 
 
 def beautify_file(filepath):
@@ -88,7 +88,11 @@ if __name__ == "__main__":
             print("Argument FILE not defined!")
             print(1)
 
-    if target == "--validate":
+    if target == "-h":
+        print(HELP_MESSAGE)
+    elif target == "-v":
+        print(VERSION_STRING)
+    elif target == "--validate":
         for filepath in get_staged_files():
             if filepath.endswith(".gml"):
                 orig = get_staged_file_contents(filepath)
@@ -117,5 +121,5 @@ if __name__ == "__main__":
         with open(filepath, "w") as f:
             f.write(res)
     else:
-        print(f"Invalid target {target}!")
+        print(f"Invalid target {target}! Run format-gml -h to display usage.")
         exit(1)

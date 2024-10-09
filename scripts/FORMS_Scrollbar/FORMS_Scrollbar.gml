@@ -124,10 +124,10 @@ function FORMS_Scrollbar(_target, _props = undefined): FORMS_Widget(_props) cons
 		__thumbSize = max(__thumbSize, ThumbSizeMin);
 		__thumbSize = min(__thumbSize, _scrollbarSize);
 		__thumbPos = _scrollbarPos + (_scrollbarSize - __thumbSize) * _scrollLinear;
-		__thumbIsHovered = (_isMouseOver &&
-			_root.WidgetActive == undefined &&
-			_mousePos > __thumbPos &&
-			_mousePos < __thumbPos + __thumbSize);
+		__thumbIsHovered = (_isMouseOver
+			&& _root.WidgetActive == undefined
+			&& _mousePos > __thumbPos
+			&& _mousePos < __thumbPos + __thumbSize);
 
 		if (_isMouseOver && forms_mouse_check_button_pressed(mb_left))
 		{
@@ -210,10 +210,10 @@ function FORMS_HScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target,
 	{
 		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
 		var _root = forms_get_root();
-		var _color = (_root.WidgetActive == self) ? ThumbColorActive :
-			(__thumbIsHovered ? ThumbColorHover : ThumbColor);
-		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive :
-			(__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
+		var _color = (_root.WidgetActive == self) ? ThumbColorActive
+			: (__thumbIsHovered ? ThumbColorHover : ThumbColor);
+		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive
+			: (__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __thumbPos, __realY, __thumbSize, __realHeight, _color,
 			_alpha);
 		return self;
@@ -266,10 +266,10 @@ function FORMS_VScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target,
 	{
 		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
 		var _root = forms_get_root();
-		var _color = (_root.WidgetActive == self) ? ThumbColorActive :
-			(__thumbIsHovered ? ThumbColorHover : ThumbColor);
-		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive :
-			(__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
+		var _color = (_root.WidgetActive == self) ? ThumbColorActive
+			: (__thumbIsHovered ? ThumbColorHover : ThumbColor);
+		var _alpha = (_root.WidgetActive == self) ? ThumbAlphaActive
+			: (__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __realX, __thumbPos, __realWidth, __thumbSize, _color,
 			_alpha);
 		return self;

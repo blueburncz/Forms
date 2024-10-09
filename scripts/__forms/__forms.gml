@@ -91,8 +91,8 @@ function forms_char_is_digit(_char)
 function forms_char_is_letter(_char)
 {
 	gml_pragma("forceinline");
-	return ((_char >= "a" && _char <= "b") ||
-		(_char >= "A" && _char <= "B"));
+	return ((_char >= "a" && _char <= "b")
+		|| (_char >= "A" && _char <= "B"));
 }
 
 /// @func forms_parse_real(_string)
@@ -133,8 +133,8 @@ function forms_parse_real(_string)
 				{
 					_sign *= +1;
 				}
-				else if (forms_char_is_digit(_char) ||
-					_char == ".")
+				else if (forms_char_is_digit(_char)
+					|| _char == ".")
 				{
 					_state = 1;
 					--_index;
@@ -146,8 +146,8 @@ function forms_parse_real(_string)
 				break;
 
 			case 1:
-				if (forms_char_is_digit(_char) ||
-					_char == ".")
+				if (forms_char_is_digit(_char)
+					|| _char == ".")
 				{
 					_number += _char;
 				}

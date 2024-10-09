@@ -395,15 +395,15 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		Widget_update(_deltaTime);
 
 		var _root = forms_get_root();
-		var _mousePos = (SplitType == FORMS_EDockSplit.Horizontal) ?
-			forms_mouse_get_x() : forms_mouse_get_y();
+		var _mousePos = (SplitType == FORMS_EDockSplit.Horizontal)
+			? forms_mouse_get_x() : forms_mouse_get_y();
 
-		__splitterIsHovered = (__left != undefined &&
-			__right != undefined &&
-			is_mouse_over() &&
-			_root.WidgetActive == undefined &&
-			_mousePos > __splitterPos &&
-			_mousePos < __splitterPos + SplitterSize);
+		__splitterIsHovered = (__left != undefined
+			&& __right != undefined
+			&& is_mouse_over()
+			&& _root.WidgetActive == undefined
+			&& _mousePos > __splitterPos
+			&& _mousePos < __splitterPos + SplitterSize);
 
 		var _resize = __resize;
 
@@ -453,10 +453,10 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 	static draw = function ()
 	{
 		var _root = forms_get_root();
-		var _color = (_root.WidgetActive == self) ? SplitterColorActive :
-			(__splitterIsHovered ? SplitterColorHover : SplitterColor);
-		var _alpha = (_root.WidgetActive == self) ? SplitterAlphaActive :
-			(__splitterIsHovered ? SplitterAlphaHover : SplitterAlpha);
+		var _color = (_root.WidgetActive == self) ? SplitterColorActive
+			: (__splitterIsHovered ? SplitterColorHover : SplitterColor);
+		var _alpha = (_root.WidgetActive == self) ? SplitterAlphaActive
+			: (__splitterIsHovered ? SplitterAlphaHover : SplitterAlpha);
 
 		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
 
@@ -547,10 +547,10 @@ function FORMS_DockTabs(_props = undefined): FORMS_Container(_props) constructor
 				draw_sprite_stretched_ext(
 					FORMS_SprTab, 0,
 					Pen.X, 0,
-					_tabPadding +
-					_iconSpace +
-					string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0) +
-					_tabPadding,
+					_tabPadding
+					+ _iconSpace
+					+ string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0)
+					+ _tabPadding,
 					__realHeight,
 					0x282828, 1.0
 				);
