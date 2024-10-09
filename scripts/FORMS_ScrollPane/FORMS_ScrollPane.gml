@@ -95,5 +95,5 @@ function FORMS_ScrollPane(_container, _props = undefined): FORMS_CompoundWidget(
 		}
 
 		return self;
-	};
+	}
 }

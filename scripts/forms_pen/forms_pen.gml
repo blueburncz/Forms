@@ -192,7 +192,7 @@ function FORMS_Pen(_container) constructor
 	static get_column_width = function ()
 	{
 		return __columnWidth;
-	};
+	}
 
 	/// @func get_control_width()
 	///
@@ -210,7 +210,7 @@ function FORMS_Pen(_container) constructor
 			case FORMS_EPenLayout.Column2:
 				return __columnWidth - X + ((__columnCurrent == 0) ? StartX : ColumnX2);
 		}
-	};
+	}
 
 	/// @func get_result()
 	///
@@ -223,7 +223,7 @@ function FORMS_Pen(_container) constructor
 		var _result = __result;
 		__result = undefined;
 		return _result;
-	};
+	}
 
 	/// @private
 	static __consume_result = function (_id)
@@ -234,14 +234,14 @@ function FORMS_Pen(_container) constructor
 			return true;
 		}
 		return false;
-	};
+	}
 
 	/// @private
 	static __assert_started = function ()
 	{
 		gml_pragma("forceinline");
 		forms_assert(__started, "Must call method start first!");
-	};
+	}
 
 	/// @func set_layout(_layout)
 	///
@@ -271,7 +271,7 @@ function FORMS_Pen(_container) constructor
 				break;
 		}
 		return self;
-	};
+	}
 
 	/// @func start([_layout])
 	///
@@ -302,7 +302,7 @@ function FORMS_Pen(_container) constructor
 		Width = Container.__realWidth - X * 2;
 		set_layout(_layout);
 		return self;
-	};
+	}
 
 	/// @func move([_x])
 	///
@@ -320,7 +320,7 @@ function FORMS_Pen(_container) constructor
 		X += _x + SpacingX;
 		MaxX = max(MaxX, X);
 		return self;
-	};
+	}
 
 	/// @func set_x(_x)
 	///
@@ -334,7 +334,7 @@ function FORMS_Pen(_container) constructor
 		X = _x;
 		MaxX = max(MaxX, X);
 		return self;
-	};
+	}
 
 	/// @func get_max_x()
 	///
@@ -349,7 +349,7 @@ function FORMS_Pen(_container) constructor
 	static get_max_x = function ()
 	{
 		return MaxX + PaddingX;
-	};
+	}
 
 	/// @func get_max_y()
 	///
@@ -364,7 +364,7 @@ function FORMS_Pen(_container) constructor
 	static get_max_y = function ()
 	{
 		return MaxY + PaddingY;
-	};
+	}
 
 	/// @private
 	static __move_or_nl = function (_x)
@@ -377,7 +377,7 @@ function FORMS_Pen(_container) constructor
 		{
 			move(_x);
 		}
-	};
+	}
 
 	/// @func next()
 	///
@@ -411,7 +411,7 @@ function FORMS_Pen(_container) constructor
 				break;
 		}
 		return self;
-	};
+	}
 
 	/// @func text(_text[, _props])
 	///
@@ -453,7 +453,7 @@ function FORMS_Pen(_container) constructor
 		draw_text_color(X, Y, _text, _c, _c, _c, _c, _a);
 		__move_or_nl(string_width(_text));
 		return self;
-	};
+	}
 
 	/// @func link(_text[, _props])
 	///
@@ -494,7 +494,7 @@ function FORMS_Pen(_container) constructor
 			return FORMS_EControlAction.MouseOver;
 		}
 		return FORMS_EControlAction.None;
-	};
+	}
 
 	/// @func is_mouse_over(_x, _y, _width, _height[, _id])
 	///
@@ -516,7 +516,7 @@ function FORMS_Pen(_container) constructor
 		return (_root.WidgetHovered == Container
 			&& forms_mouse_in_rectangle(_x, _y, _width, _height)
 			&& (_root.WidgetActive == _id || _root.WidgetActive == undefined));
-	};
+	}
 
 	/// @func get_absolute_pos(_x, _y)
 	///
@@ -534,7 +534,7 @@ function FORMS_Pen(_container) constructor
 			Container.__realX + _x + _world[12],
 			Container.__realY + _y + _world[13],
 		];
-	};
+	}
 
 	/// @func icon(_icon, _font[, _props])
 	///
@@ -590,7 +590,7 @@ function FORMS_Pen(_container) constructor
 			return FORMS_EControlAction.MouseOver;
 		}
 		return FORMS_EControlAction.None;
-	};
+	}
 
 	/// @func icon_regular(_icon[, _props])
 	///
@@ -608,7 +608,7 @@ function FORMS_Pen(_container) constructor
 	{
 		gml_pragma("forceinline");
 		return icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntRegular12, _props);
-	};
+	}
 
 	/// @func icon_solid(_icon[, _props])
 	///
@@ -625,7 +625,7 @@ function FORMS_Pen(_container) constructor
 	{
 		gml_pragma("forceinline");
 		return icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntSolid12, _props);
-	};
+	}
 
 	/// @func icon_brands(_icon[, _props])
 	///
@@ -642,7 +642,7 @@ function FORMS_Pen(_container) constructor
 	{
 		gml_pragma("forceinline");
 		return icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntBrands12, _props);
-	};
+	}
 
 	/// @func button(_text[, _props])
 	///
@@ -687,7 +687,7 @@ function FORMS_Pen(_container) constructor
 			return FORMS_EControlAction.MouseOver;
 		}
 		return FORMS_EControlAction.None;
-	};
+	}
 
 	/// @func color(_id, _color[, _props])
 	///
@@ -742,7 +742,7 @@ function FORMS_Pen(_container) constructor
 		}
 		__move_or_nl(_width);
 		return __consume_result(_id);
-	};
+	}
 
 	/// @func checkbox(_checked[, _props])
 	///
@@ -790,7 +790,7 @@ function FORMS_Pen(_container) constructor
 			return FORMS_EControlAction.MouseOver;
 		}
 		return FORMS_EControlAction.None;
-	};
+	}
 
 	/// @func radio(_selected[, _props])
 	///
@@ -835,14 +835,14 @@ function FORMS_Pen(_container) constructor
 			return FORMS_EControlAction.MouseOver;
 		}
 		return FORMS_EControlAction.None;
-	};
+	}
 
 	/// @private
 	static __make_id = function (_id)
 	{
 		gml_pragma("forceinline");
 		return Container.Id + "#" + _id;
-	};
+	}
 
 	/// @func slider(_id, _value, _min, _max[, _props])
 	///
@@ -912,7 +912,7 @@ function FORMS_Pen(_container) constructor
 		}
 		__move_or_nl(_width);
 		return __consume_result(_id);
-	};
+	}
 
 	/// @func dropdown(_id, _value, _options[, _props])
 	///
@@ -1005,7 +1005,7 @@ function FORMS_Pen(_container) constructor
 		}
 		__move_or_nl(_width);
 		return __consume_result(_id);
-	};
+	}
 
 	/// @func input(_id, _value[, _props])
 	///
@@ -1177,7 +1177,7 @@ function FORMS_Pen(_container) constructor
 		}
 
 		return __consume_result(_id);
-	};
+	}
 
 	/// @func section(_text[, _props])
 	///
@@ -1224,7 +1224,7 @@ function FORMS_Pen(_container) constructor
 		}
 		nl();
 		return false;
-	};
+	}
 
 	/// @func end_section()
 	///
@@ -1242,7 +1242,7 @@ function FORMS_Pen(_container) constructor
 		--__sectionCurrent;
 		nl(0);
 		return self;
-	};
+	}
 
 	/// @func nl([_count])
 	///
@@ -1271,7 +1271,7 @@ function FORMS_Pen(_container) constructor
 		MaxY = max(MaxY, Y);
 
 		return self;
-	};
+	}
 
 	/// @func finish()
 	///
@@ -1285,5 +1285,5 @@ function FORMS_Pen(_container) constructor
 		__started = false;
 		draw_set_font(__fontBackup);
 		return self;
-	};
+	}
 }

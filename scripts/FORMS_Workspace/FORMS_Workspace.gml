@@ -65,7 +65,7 @@ function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 			__tabs[i++].Parent = self;
 		}
 		return self;
-	};
+	}
 
 	/// @func add_tab(_widget)
 	///
@@ -81,7 +81,7 @@ function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 		array_push(__tabs, _widget);
 		_widget.Parent = self;
 		return self;
-	};
+	}
 
 	static layout = function ()
 	{
@@ -116,7 +116,7 @@ function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 		}
 
 		return self;
-	};
+	}
 
 	static update = function (_deltaTime)
 	{
@@ -128,7 +128,7 @@ function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 			_tab.update(_deltaTime);
 		}
 		return self;
-	};
+	}
 
 	static draw = function ()
 	{
@@ -144,7 +144,7 @@ function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 		}
 
 		return self;
-	};
+	}
 }
 
 /// @func FORMS_WorkspaceTabsProps()
@@ -245,5 +245,5 @@ function FORMS_WorkspaceTabs(_props = undefined): FORMS_Container(_props) constr
 		ContentWidth = Pen.get_max_x();
 
 		return self;
-	};
+	}
 }

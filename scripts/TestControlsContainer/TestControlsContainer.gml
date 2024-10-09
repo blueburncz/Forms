@@ -22,11 +22,11 @@ function TestControlsContainer(): FORMS_Container() constructor
 		IconCollapsed: FA_ESolid.Folder,
 		IconFont: FA_FntSolid12,
 		IconColor: c_gray,
-	};
+	}
 	var _propsFile = {
 		Icon: FA_ESolid.File,
 		IconFont: FA_FntSolid12,
-	};
+	}
 	Tree = new FORMS_Tree([
 		new FORMS_TreeItem("Item 1", _propsFolder, [
 			new FORMS_TreeItem("Item A", _propsFile),
@@ -236,5 +236,5 @@ function TestControlsContainer(): FORMS_Container() constructor
 		FORMS_CONTENT_UPDATE_SIZE;
 
 		return self;
-	};
+	}
 }

@@ -111,7 +111,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 		surface_reset_target();
 		surface_free(_surface);
 		return self;
-	};
+	}
 
 	/// @func set_scroll_x(_scroll)
 	///
@@ -126,7 +126,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 		gml_pragma("forceinline");
 		ScrollX = round(clamp(_scroll, 0, max(ContentWidth - __realWidth, 0)));
 		return self;
-	};
+	}
 
 	/// @func set_scroll_y(_scroll)
 	///
@@ -141,7 +141,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 		gml_pragma("forceinline");
 		ScrollY = round(clamp(_scroll, 0, max(ContentHeight - __realHeight, 0)));
 		return self;
-	};
+	}
 
 	static layout = function ()
 	{
@@ -162,7 +162,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 		}
 		Widget_layout();
 		return self;
-	};
+	}
 
 	static update = function (_deltaTime)
 	{
@@ -181,7 +181,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 		set_scroll_y(ScrollY);
 
 		return self;
-	};
+	}
 
 	/// @func draw_content()
 	///
@@ -191,7 +191,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 	static draw_content = function ()
 	{
 		return self;
-	};
+	}
 
 	static draw = function ()
 	{
@@ -266,7 +266,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 		draw_surface(Surface, __realX, __realY);
 
 		return self;
-	};
+	}
 
 	static destroy = function ()
 	{

@@ -140,7 +140,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	static has_result = function (_id)
 	{
 		return variable_struct_exists(__results, _id);
-	};
+	}
 
 	/// @func peek_result(_id)
 	///
@@ -154,7 +154,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	static peek_result = function (_id)
 	{
 		return __results[$ _id];
-	};
+	}
 
 	/// @func get_result(_id)
 	///
@@ -170,7 +170,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 		var _result = __results[$ _id];
 		variable_struct_remove(__results, _id);
 		return _result;
-	};
+	}
 
 	static layout = function ()
 	{
@@ -187,7 +187,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 		CompoundWidget_layout();
 
 		return self;
-	};
+	}
 
 	static update = function (_deltaTime)
 	{
@@ -201,7 +201,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 		CompoundWidget_update(_deltaTime);
 		global.__formsRoot = undefined;
 		return self;
-	};
+	}
 
 	static draw = function ()
 	{
@@ -277,7 +277,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 
 		global.__formsRoot = undefined;
 		return self;
-	};
+	}
 
 	/// @func push_mouse_coordinates(_x, _y)
 	///
@@ -293,7 +293,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 		MouseX -= _x;
 		MouseY -= _y;
 		return self;
-	};
+	}
 
 	/// @func set_tooltip(_tooltip)
 	///
@@ -306,7 +306,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	{
 		__tooltip = _tooltip;
 		return self;
-	};
+	}
 
 	/// @func set_cursor(_cursor)
 	///
@@ -319,7 +319,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	{
 		__cursor = _cursor;
 		return self;
-	};
+	}
 
 	/// @func get_cursor()
 	///
@@ -329,7 +329,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	static get_cursor = function ()
 	{
 		return __cursor;
-	};
+	}
 
 	/// @func __check_mouse_status(_button)
 	///
@@ -370,7 +370,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 			return true;
 		}
 		return false;
-	};
+	}
 
 	/// @func check_mouse(_button)
 	///
@@ -383,7 +383,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	{
 		var _button_status = __check_mouse_status(_button);
 		return (_button_status == FORMS_EMouseButton.Held || _button_status == FORMS_EMouseButton.Pressed);
-	};
+	}
 
 	/// @func check_mouse_released(_button)
 	///
@@ -395,7 +395,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	static check_mouse_released = function (_button)
 	{
 		return __check_mouse_status(_button) == FORMS_EMouseButton.Released;
-	};
+	}
 
 	/// @func mouse_set_button_status(_button)
 	///
@@ -406,7 +406,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	static mouse_set_button_status = function (_button, _status)
 	{
 		__mouseButtons[$ _button] = _status;
-	};
+	}
 
 	/// @private
 	static __process_destroy_later = function ()
@@ -423,7 +423,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 			}
 		}
 		__widgetsToDestroy = [];
-	};
+	}
 
 	static destroy = function ()
 	{
@@ -432,7 +432,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 		__process_destroy_later();
 		global.__formsRoot = undefined;
 		return undefined;
-	};
+	}
 }
 
 /// @func forms_push_mouse_coordinates(_x, _y)

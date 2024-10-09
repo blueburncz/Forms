@@ -13,5 +13,5 @@ function TestWelcomeContainer(): FORMS_Container() constructor
 			.finish();
 		FORMS_CONTENT_UPDATE_SIZE;
 		return self;
-	};
+	}
 }

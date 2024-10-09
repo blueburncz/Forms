@@ -117,10 +117,10 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 
 		PickerMode = "init";
 
-		PickerHue = 0; //0 - 360
-		PickerSaturation = 0; // 0 - 100
-		PickerValue = 255; // 0 - 100
-		PickerAlpha = 1.0; // 0 - 1
+		PickerHue = 0; // 0..360
+		PickerSaturation = 0; // 0..100
+		PickerValue = 255; // 0..100
+		PickerAlpha = 1.0; // 0..1
 
 		PickerCursorSize = 0.5; //animate the picker circle
 
@@ -139,7 +139,6 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 
 		static __render_color_wheel = function (_x, _y)
 		{
-
 			var _colorWheelSize = Pen.Width - 32;
 			var _doRender = false;
 			if (!surface_exists(__colorWheelSurface))
@@ -456,7 +455,7 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 			Pen.finish();
 			FORMS_CONTENT_UPDATE_SIZE
 			return self;
-		};
+		}
 
 	})());
 

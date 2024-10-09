@@ -161,7 +161,7 @@ function FORMS_Scrollbar(_target, _props = undefined): FORMS_Widget(_props) cons
 		}
 
 		return _scrollNew;
-	};
+	}
 }
 
 /// @func FORMS_HScrollbarProps()
@@ -204,7 +204,7 @@ function FORMS_HScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target,
 		Target.set_scroll_x(_scrollNew);
 
 		return self;
-	};
+	}
 
 	static draw = function ()
 	{
@@ -217,7 +217,7 @@ function FORMS_HScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target,
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __thumbPos, __realY, __thumbSize, __realHeight, _color,
 			_alpha);
 		return self;
-	};
+	}
 }
 
 /// @func FORMS_VScrollbarProps()
@@ -260,7 +260,7 @@ function FORMS_VScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target,
 		Target.set_scroll_y(_scrollNew);
 
 		return self;
-	};
+	}
 
 	static draw = function ()
 	{
@@ -273,5 +273,5 @@ function FORMS_VScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target,
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __realX, __thumbPos, __realWidth, __thumbSize, _color,
 			_alpha);
 		return self;
-	};
+	}
 }

@@ -97,7 +97,7 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 	{
 		gml_pragma("forceinline");
 		return Surface ?? (application_surface_is_enabled() ? application_surface : -1);
-	};
+	}
 
 	static layout = function ()
 	{
@@ -134,7 +134,7 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 
 		MouseX = forms_mouse_get_x() - SurfaceX;
 		MouseY = forms_mouse_get_y() - SurfaceY;
-	};
+	}
 
 	/// @func is_mouse_over()
 	///
@@ -167,7 +167,7 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 		gml_pragma("forceinline");
 		return (MouseX >= 0 && MouseX < SurfaceWidth
 			&& MouseY >= 0 && MouseY < SurfaceHeight);
-	};
+	}
 
 	static draw = function ()
 	{
@@ -182,5 +182,5 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 		CompoundWidget_draw();
 
 		return self;
-	};
+	}
 }

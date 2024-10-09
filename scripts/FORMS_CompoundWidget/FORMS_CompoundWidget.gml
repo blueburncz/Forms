@@ -50,7 +50,7 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 		array_push(Children, _child);
 		_child.Parent = self;
 		return self;
-	};
+	}
 
 	/// @func has_child(_child)
 	///
@@ -64,7 +64,7 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 	{
 		gml_pragma("forceinline");
 		return (_child.Parent == self);
-	};
+	}
 
 	/// @func remove_child(_child)
 	///
@@ -88,7 +88,7 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 			}
 		}
 		return self;
-	};
+	}
 
 	static find_widget = function (_id)
 	{
@@ -108,7 +108,7 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 		}
 
 		return undefined;
-	};
+	}
 
 	static layout = function ()
 	{
@@ -137,7 +137,7 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 		}
 
 		return self;
-	};
+	}
 
 	static update = function (_deltaTime)
 	{
@@ -148,7 +148,7 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 			Children[i].update(_deltaTime);
 		}
 		return self;
-	};
+	}
 
 	static draw = function ()
 	{
@@ -158,7 +158,7 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 			Children[i].draw();
 		}
 		return self;
-	};
+	}
 
 	static destroy = function ()
 	{
@@ -171,5 +171,5 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 		Children = undefined;
 
 		return undefined;
-	};
+	}
 }

@@ -113,7 +113,7 @@ function FORMS_ContextMenuOption(_textOrProps): FORMS_ContextMenuItem() construc
 		Options ??= [];
 		array_push(Options, _option);
 		return self;
-	};
+	}
 }
 
 /// @func FORMS_ContextMenuProps()
@@ -300,7 +300,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 		ContentWidth = _x + _widthMax + 8;
 		ContentHeight = _y + 8;
 		return self;
-	};
+	}
 
 	static layout = function ()
 	{
@@ -335,7 +335,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 		__realY = clamp(__realY, 0, window_get_height() - __realHeight);
 		Container_layout();
 		return self;
-	};
+	}
 
 	static update = function (_deltaTime)
 	{
@@ -346,7 +346,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 			destroy_later();
 		}
 		return self;
-	};
+	}
 
 	static draw = function ()
 	{
@@ -362,7 +362,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 		Container_draw();
 
 		return self;
-	};
+	}
 
 	static destroy = function ()
 	{
@@ -377,5 +377,5 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 		}
 		Container_destroy();
 		return undefined;
-	};
+	}
 }

@@ -180,7 +180,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 			__tabs[i++].Parent = self;
 		}
 		return self;
-	};
+	}
 
 	/// @func add_tab(_widget)
 	///
@@ -197,7 +197,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		array_push(__tabs, _widget);
 		_widget.Parent = self;
 		return self;
-	};
+	}
 
 	/// @private
 	static __split = function (_type)
@@ -211,7 +211,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 
 		__right = new FORMS_Dock();
 		__right.Parent = self;
-	};
+	}
 
 	/// @func split_left()
 	///
@@ -225,7 +225,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		__left.set_tabs(__tabs);
 		__tabs = [];
 		return self;
-	};
+	}
 
 	/// @func split_right()
 	///
@@ -239,7 +239,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		__right.set_tabs(__tabs);
 		__tabs = [];
 		return self;
-	};
+	}
 
 	/// @func split_up()
 	///
@@ -253,7 +253,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		__left.set_tabs(__tabs);
 		__tabs = [];
 		return self;
-	};
+	}
 
 	/// @func split_down()
 	///
@@ -267,7 +267,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		__right.set_tabs(__tabs);
 		__tabs = [];
 		return self;
-	};
+	}
 
 	static layout = function ()
 	{
@@ -388,7 +388,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		}
 
 		return self;
-	};
+	}
 
 	static update = function (_deltaTime)
 	{
@@ -448,7 +448,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		}
 
 		return self;
-	};
+	}
 
 	static draw = function ()
 	{
@@ -495,7 +495,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		}
 
 		return self;
-	};
+	}
 }
 
 /// @func FORMS_DockTabsProps()
@@ -588,5 +588,5 @@ function FORMS_DockTabs(_props = undefined): FORMS_Container(_props) constructor
 		Pen.finish();
 		ContentWidth = Pen.get_max_x();
 		return self;
-	};
+	}
 }

@@ -11,5 +11,5 @@ function TestStatusBar(): FORMS_Container() constructor
 		Pen.finish();
 		FORMS_CONTENT_UPDATE_SIZE;
 		return self;
-	};
+	}
 }

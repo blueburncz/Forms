@@ -48,7 +48,7 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 	{
 		gml_pragma("forceinline");
 		return (array_length(Keys) + array_length(MouseButtons));
-	};
+	}
 
 	/// @func __get_key_index(_key)
 	///
@@ -69,7 +69,7 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 			}
 		}
 		return -1;
-	};
+	}
 
 	/// @func __get_mouse_button_index(_button)
 	///
@@ -90,7 +90,7 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 			}
 		}
 		return -1;
-	};
+	}
 
 	/// @func has_key(_key)
 	///
@@ -104,7 +104,7 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 	{
 		gml_pragma("forceinline");
 		return (__get_key_index(_key) != -1);
-	};
+	}
 
 	/// @func add_key(_key)
 	///
@@ -121,7 +121,7 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 			array_sort(Keys, true);
 		}
 		return self;
-	};
+	}
 
 	/// @func has_mouse_button(_button)
 	///
@@ -136,7 +136,7 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 	{
 		gml_pragma("forceinline");
 		return (__get_mouse_button_index(_button) != -1);
-	};
+	}
 
 	/// @func add_mouse_button(_button)
 	///
@@ -153,19 +153,19 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 			array_sort(MouseButtons, true);
 		}
 		return self;
-	};
+	}
 
 	static check = function ()
 	{
 		// TODO: Implement FORMS_KeyboardShortcut.check
 		return false;
-	};
+	}
 
 	static check_pressed = function ()
 	{
 		// TODO: Implement FORMS_KeyboardShortcut.check_pressed
 		return false;
-	};
+	}
 
 	/// @func to_string()
 	///
@@ -206,7 +206,7 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 		}
 
 		return _string;
-	};
+	}
 }
 
 /// @func forms_key_to_string(_key)

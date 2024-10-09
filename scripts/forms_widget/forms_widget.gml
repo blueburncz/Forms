@@ -151,7 +151,7 @@ function FORMS_UnitValue(_value = 0, _unit = FORMS_EUnit.Pixel) constructor
 			: FORMS_EUnit.Percent;
 
 		return self;
-	};
+	}
 
 	/// @func from_props(_props, _name[, _valueDefault[, _unitDefault]])
 	///
@@ -208,7 +208,7 @@ function FORMS_UnitValue(_value = 0, _unit = FORMS_EUnit.Pixel) constructor
 			}
 		}
 		return self;
-	};
+	}
 
 	/// @func get_absolute(_relativeTo[, _autoSize])
 	///
@@ -235,7 +235,7 @@ function FORMS_UnitValue(_value = 0, _unit = FORMS_EUnit.Pixel) constructor
 			default:
 				forms_assert(false, "Invalid unit!");
 		}
-	};
+	}
 }
 
 /// @func FORMS_WidgetProps()
@@ -411,7 +411,7 @@ function FORMS_Widget(_props = undefined) constructor
 	{
 		gml_pragma("forceinline");
 		return __realX;
-	};
+	}
 
 	/// @func get_y()
 	///
@@ -423,7 +423,7 @@ function FORMS_Widget(_props = undefined) constructor
 	{
 		gml_pragma("forceinline");
 		return __realY;
-	};
+	}
 
 	/// @func get_width()
 	///
@@ -435,7 +435,7 @@ function FORMS_Widget(_props = undefined) constructor
 	{
 		gml_pragma("forceinline");
 		return __realWidth;
-	};
+	}
 
 	/// @func get_height()
 	///
@@ -447,7 +447,7 @@ function FORMS_Widget(_props = undefined) constructor
 	{
 		gml_pragma("forceinline");
 		return __realHeight;
-	};
+	}
 
 	/// @func has_parent()
 	///
@@ -458,7 +458,7 @@ function FORMS_Widget(_props = undefined) constructor
 	{
 		gml_pragma("forceinline");
 		return (Parent != undefined);
-	};
+	}
 
 	/// @func remove_self()
 	///
@@ -470,7 +470,7 @@ function FORMS_Widget(_props = undefined) constructor
 		forms_assert(Parent != undefined, "Widget does not have a parent!");
 		Parent.remove_child(self);
 		return self;
-	};
+	}
 
 	/// @func find_widget(_id)
 	///
@@ -484,7 +484,7 @@ function FORMS_Widget(_props = undefined) constructor
 	{
 		gml_pragma("forceinline");
 		return (Id == _id) ? self : undefined;
-	};
+	}
 
 	/// @func find_parent_type(_type)
 	///
@@ -508,7 +508,7 @@ function FORMS_Widget(_props = undefined) constructor
 			Parent = Parent.Parent;
 		}
 		return undefined;
-	};
+	}
 
 	/// @func find_parent_name(_name)
 	///
@@ -531,7 +531,7 @@ function FORMS_Widget(_props = undefined) constructor
 			Parent = Parent.Parent;
 		}
 		return undefined;
-	};
+	}
 
 	/// @func get_auto_width()
 	///
@@ -560,7 +560,7 @@ function FORMS_Widget(_props = undefined) constructor
 	{
 		FORMS_LAYOUT_GENERATED;
 		return self;
-	};
+	}
 
 	/// @func is_mouse_over()
 	///
@@ -570,7 +570,7 @@ function FORMS_Widget(_props = undefined) constructor
 	static is_mouse_over = function ()
 	{
 		return forms_get_root().WidgetHovered == self;
-	};
+	}
 
 	/// @func update(_deltaTime)
 	///
@@ -583,7 +583,7 @@ function FORMS_Widget(_props = undefined) constructor
 	static update = function (_deltaTime)
 	{
 		return self;
-	};
+	}
 
 	/// @func draw()
 	///
@@ -593,7 +593,7 @@ function FORMS_Widget(_props = undefined) constructor
 	static draw = function ()
 	{
 		return self;
-	};
+	}
 
 	/// @func destroy_later()
 	///
@@ -608,7 +608,7 @@ function FORMS_Widget(_props = undefined) constructor
 			__toDestroy = true;
 		}
 		return undefined;
-	};
+	}
 
 	/// @func destroy()
 	///
@@ -618,5 +618,5 @@ function FORMS_Widget(_props = undefined) constructor
 	static destroy = function ()
 	{
 		return undefined;
-	};
+	}
 }

@@ -90,7 +90,7 @@ function FORMS_MenuBar(_items = [], _props = undefined): FORMS_Container(_props)
 
 		Pen.finish();
 		return self;
-	};
+	}
 
 	static update = function (_deltaTime)
 	{
@@ -101,7 +101,7 @@ function FORMS_MenuBar(_items = [], _props = undefined): FORMS_Container(_props)
 			__itemCurrent = -1;
 		}
 		return self;
-	};
+	}
 }
 
 /// @func FORMS_MenuBarItem(_name[, _contextMenu])

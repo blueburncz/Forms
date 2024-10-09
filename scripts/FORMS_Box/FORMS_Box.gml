@@ -101,7 +101,7 @@ function FORMS_VBox(_props = undefined, _children = undefined): FORMS_Box(_props
 		__realHeight = Height.get_absolute(Parent.get_height(), _autoHeight);
 
 		return self;
-	};
+	}
 }
 
 /// @func FORMS_HBoxProps()
@@ -161,7 +161,7 @@ function FORMS_HBox(_props = undefined, _children = undefined): FORMS_Box(_props
 		__realHeight = Height.get_absolute(Parent.get_height(), _autoHeight);
 
 		return self;
-	};
+	}
 }
 
 /// @func FORMS_FlexBoxProps()
@@ -335,5 +335,5 @@ function FORMS_FlexBox(_props = undefined, _children = undefined): FORMS_Box(_pr
 		}
 
 		return self;
-	};
+	}
 }

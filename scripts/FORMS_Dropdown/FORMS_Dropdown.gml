@@ -105,7 +105,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 		ContentHeight = _y;
 
 		return self;
-	};
+	}
 
 	static layout = function ()
 	{
@@ -115,7 +115,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 		__realY = clamp(__realY, 0, _windowHeight - __realHeight);
 		Container_layout();
 		return self;
-	};
+	}
 
 	static update = function (_deltaTime)
 	{
@@ -125,7 +125,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 			destroy_later();
 		}
 		return self;
-	};
+	}
 
 	static draw = function ()
 	{
@@ -139,5 +139,5 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 			c_black, 0.5);
 		Container_draw();
 		return self;
-	};
+	}
 }

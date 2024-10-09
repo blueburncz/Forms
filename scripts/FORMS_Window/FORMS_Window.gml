@@ -179,7 +179,7 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 		add_child(_widget);
 		Widget = _widget;
 		return self;
-	};
+	}
 
 	static layout = function ()
 	{
@@ -257,7 +257,7 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 		}
 
 		return self;
-	};
+	}
 
 	static update = function (_deltaTime)
 	{
@@ -328,7 +328,7 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 		}
 
 		return self;
-	};
+	}
 
 	static draw = function ()
 	{
@@ -349,7 +349,7 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 		FlexBox_draw();
 
 		return self;
-	};
+	}
 }
 
 /// @func FORMS_WindowTitleProps()
@@ -396,7 +396,7 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 		}
 		Pen.finish();
 		return self;
-	};
+	}
 
 	static draw = function (_deltaTime)
 	{
@@ -412,5 +412,5 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 			Parent.__move = true;
 		}
 		return self;
-	};
+	}
 }

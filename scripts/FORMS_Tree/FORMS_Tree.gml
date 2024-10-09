@@ -36,7 +36,7 @@ function FORMS_Tree(_children = []) constructor
 			Children[i++].draw(_pen);
 		}
 		return self;
-	};
+	}
 }
 
 /// @func FORMS_TreeItemProps()
@@ -234,7 +234,7 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 				Color: CaretColor,
 				Alpha: CaretAlpha,
 				Width: _iconWidth,
-			};
+			}
 			if (_pen.icon_solid(Collapsed ? FA_ESolid.CaretRight : FA_ESolid.CaretDown, _iconProps))
 			{
 				Collapsed = !Collapsed;
@@ -283,5 +283,5 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 
 		_pen.set_x(_penX);
 		return self;
-	};
+	}
 }
