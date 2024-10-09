@@ -1,2 +1,7 @@
 #!/bin/sh
-python3 format-gml.py --validate
+if hash python3 2>/dev/null;
+then
+    python3 format-gml.py --validate
+else
+    python format-gml.py --validate
+fi
