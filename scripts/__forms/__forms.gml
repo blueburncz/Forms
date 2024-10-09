@@ -183,12 +183,20 @@ global.__formsScissorRect = undefined;
 
 /// @func forms_scissor_rect_push(_x, _y, _width, _height)
 ///
-/// @desc
+/// @desc Pushes the current scissor rectangle onto a stack and then changes it
+/// to the intersection of the current one with the one specified. If there's no
+/// scissor rectangle currently set, the size of the window is used instead.
 ///
-/// @param {Real} _x
-/// @param {Real} _y
-/// @param {Real} _width
-/// @param {Real} _height
+/// @param {Real} _x The X coordinate of the top left corner of the scissor
+/// rectangle to intersect the current one with.
+/// @param {Real} _y The Y coordinate of the top left corner of the scissor
+/// rectangle to intersect the current one with.
+/// @param {Real} _width The width of the scrissor rectangle to intersect the
+/// current one with.
+/// @param {Real} _height The height of the scrissor rectangle to intersect the
+/// current one with.
+///
+/// @see forms_scissor_rect_pop
 function forms_scissor_rect_push(_x, _y, _width, _height)
 {
 	ds_stack_push(global.__formsScissorStack, global.__formsScissorRect);
@@ -215,7 +223,9 @@ function forms_scissor_rect_push(_x, _y, _width, _height)
 
 /// @func forms_scissor_rect_pop()
 ///
-/// @desc
+/// @desc Pops a scissor rectangle from the stack and sets it as the current one.
+///
+/// @see forms_scissor_rect_push
 function forms_scissor_rect_pop()
 {
 	global.__formsScissorRect = ds_stack_top(global.__formsScissorStack);
