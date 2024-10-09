@@ -478,7 +478,9 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 	///
 	/// @desc Toggle the window's visiblity.
 	///
-	/// @param {Bool} _hide Whether to hide (true) or show (false).
+	/// @param {Bool} _hide Whether to hide (`true`) or show (`false`).
+	///
+	/// @private
 	static __hide_window = function (_hide)
 	{
 		if (__hidden == _hide) { return; }
