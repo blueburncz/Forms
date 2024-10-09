@@ -348,8 +348,8 @@ function FORMS_Pin(_name, _type, _assetType = undefined) constructor
 	/// @return {Bool} Returns true if the pins are compatible.
 	static is_compatible = function (_pin)
 	{
-		return (Node != _pin.Node &&
-			IsInput != _pin.IsInput);
+		return (Node != _pin.Node
+			&& IsInput != _pin.IsInput);
 	};
 
 	/// @func is_connected(_pin)

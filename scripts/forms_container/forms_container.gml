@@ -204,8 +204,8 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 		{
 			Surface = surface_create(__realWidth, __realHeight);
 		}
-		else if (surface_get_width(Surface) != __realWidth ||
-			surface_get_height(Surface) != __realHeight)
+		else if (surface_get_width(Surface) != __realWidth
+			|| surface_get_height(Surface) != __realHeight)
 		{
 			surface_resize(Surface, __realWidth, __realHeight);
 		}

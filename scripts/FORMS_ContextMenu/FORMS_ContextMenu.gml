@@ -236,16 +236,16 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 						_select = _option;
 					}
 
-					if (__submenu != undefined &&
-						__submenuIndex != i)
+					if (__submenu != undefined
+						&& __submenuIndex != i)
 					{
 						__submenu.destroy_later();
 						__submenu = undefined;
 						__submenuIndex = -1;
 					}
 
-					if (__submenu == undefined &&
-						_optionOptions != undefined)
+					if (__submenu == undefined
+						&& _optionOptions != undefined)
 					{
 						var _submenu = new FORMS_ContextMenu(_optionOptions,
 						{
@@ -340,8 +340,8 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 	static update = function (_deltaTime)
 	{
 		Container_update(_deltaTime);
-		if (keyboard_check_pressed(vk_escape) ||
-			(!is_mouse_over() && mouse_check_button_pressed(mb_any)))
+		if (keyboard_check_pressed(vk_escape)
+			|| (!is_mouse_over() && mouse_check_button_pressed(mb_any)))
 		{
 			destroy_later();
 		}

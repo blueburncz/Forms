@@ -252,8 +252,8 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	{
 		if (FORMS_is_FORMS_Color(_color) && _precise)
 		{
-			return (__red == _color.__red) && (__green == _color.__green) &&
-				(__blue == _color.__blue) && (__alpha == _color.__alpha);
+			return (__red == _color.__red) && (__green == _color.__green)
+				&& (__blue == _color.__blue) && (__alpha == _color.__alpha);
 		}
 		else if (is_real(_color))
 		{
@@ -285,8 +285,8 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	/// @return {String} Returns RGBA hex string of the color.
 	static toString = function ()
 	{
-		return "#" + __byte_to_hex_string(color_get_red(__color)) + __byte_to_hex_string(color_get_green(__color)) +
-			__byte_to_hex_string(color_get_blue(__color)) + __byte_to_hex_string(color_get_alpha(__color));
+		return "#" + __byte_to_hex_string(color_get_red(__color)) + __byte_to_hex_string(color_get_green(__color))
+			+ __byte_to_hex_string(color_get_blue(__color)) + __byte_to_hex_string(color_get_alpha(__color));
 	}
 }
 

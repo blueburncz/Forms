@@ -185,26 +185,26 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 
 			// Interact with color wheel
 			var _mousePadding = 8; //makes it easier for user to select the wheel on edges
-			var _mouseOver = Pen.is_mouse_over(_colorWheelX - _mousePadding, _colorWheelY -
-				_mousePadding, _colorWheelSize + _mousePadding * 2, _colorWheelSize +
-				_mousePadding * 2);
-			WheelSelected = (WheelSelected && forms_mouse_check_button(mb_left)) || (_mouseOver &&
-				forms_mouse_check_button_pressed(mb_left));
+			var _mouseOver = Pen.is_mouse_over(_colorWheelX - _mousePadding, _colorWheelY
+				- _mousePadding, _colorWheelSize + _mousePadding * 2, _colorWheelSize
+				+ _mousePadding * 2);
+			WheelSelected = (WheelSelected && forms_mouse_check_button(mb_left)) || (_mouseOver
+				&& forms_mouse_check_button_pressed(mb_left));
 
 			if (WheelSelected)
 			{
 				var _mx = forms_mouse_get_x();
 				var _my = forms_mouse_get_y();
-				var _mdir = point_direction(_colorWheelX + _colorWheelRadius, _colorWheelY +
-					_colorWheelRadius, _mx, _my);
-				var _mdist = point_distance(_colorWheelX + _colorWheelRadius, _colorWheelY +
-					_colorWheelRadius, _mx, _my);
+				var _mdir = point_direction(_colorWheelX + _colorWheelRadius, _colorWheelY
+					+ _colorWheelRadius, _mx, _my);
+				var _mdist = point_distance(_colorWheelX + _colorWheelRadius, _colorWheelY
+					+ _colorWheelRadius, _mx, _my);
 				PickerHue = _mdir;
-				PickerSaturation = floor((clamp(_mdist, 0, _colorWheelRadius) / _colorWheelRadius) *
-					100);
+				PickerSaturation = floor((clamp(_mdist, 0, _colorWheelRadius) / _colorWheelRadius)
+					* 100);
 				PickerCursorSize = lerp(PickerCursorSize, 0.75, 0.25); // animate cursor
-				Parent.Color.set_from_hsva(PickerHue / 360, PickerSaturation / 100, PickerValue /
-					100, PickerAlpha);
+				Parent.Color.set_from_hsva(PickerHue / 360, PickerSaturation / 100, PickerValue
+					/ 100, PickerAlpha);
 				forms_return_result(Parent.ControlId, Parent.Color);
 			}
 			else
@@ -231,8 +231,8 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 			// Mask the area of the slider
 			gpu_set_blendenable(false);
 			gpu_set_colorwriteenable(false, false, false, true);
-			forms_draw_rectangle(_valueSliderX, _valueSliderY, _valueSliderW + 1, _colorWheelSize +
-				1, c_black, 0);
+			forms_draw_rectangle(_valueSliderX, _valueSliderY, _valueSliderW + 1, _colorWheelSize
+				+ 1, c_black, 0);
 			forms_draw_roundrect(_valueSliderX, _valueSliderY, _valueSliderW, _colorWheelSize,
 				c_black, 1);
 			gpu_set_blendenable(true);
@@ -256,14 +256,14 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 			{
 				PickerValue = floor((1.0 - (clamp((forms_mouse_get_y() - _valueSliderY), 0,
 					_valueSliderH) / _valueSliderH)) * 100);
-				Parent.Color.set_from_hsva(PickerHue / 360, PickerSaturation / 100, PickerValue /
-					100, PickerAlpha);
+				Parent.Color.set_from_hsva(PickerHue / 360, PickerSaturation / 100, PickerValue
+					/ 100, PickerAlpha);
 				forms_return_result(Parent.ControlId, Parent.Color);
 			}
 
 			var _valueSliderHandleX = _valueSliderX - 2;
-			var _valueSliderHandleY = _valueSliderY - 4 + (1.0 - (PickerValue / 100)) *
-				_valueSliderH;
+			var _valueSliderHandleY = _valueSliderY - 4 + (1.0 - (PickerValue / 100))
+				* _valueSliderH;
 			forms_draw_roundrect(_valueSliderHandleX, _valueSliderHandleY, _valueSliderW + 4, 8, 4,
 				c_white, 1);
 

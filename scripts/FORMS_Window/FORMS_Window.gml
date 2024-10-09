@@ -272,34 +272,34 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 			var _mouseOffsetX = 0;
 			var _mouseOffsetY = 0;
 
-			if (_mouseX < __realX + __padding &&
-				Resizable & FORMS_EWindowResize.Left)
+			if (_mouseX < __realX + __padding
+				&& Resizable & FORMS_EWindowResize.Left)
 			{
 				_resize |= FORMS_EWindowResize.Left;
 				_mouseOffsetX = __realX - _mouseX;
 			}
-			else if (_mouseX >= __realX + __realWidth - __padding &&
-				Resizable & FORMS_EWindowResize.Right)
+			else if (_mouseX >= __realX + __realWidth - __padding
+				&& Resizable & FORMS_EWindowResize.Right)
 			{
 				_resize |= FORMS_EWindowResize.Right;
 				_mouseOffsetX = __realX + __realWidth - _mouseX;
 			}
 
-			if (_mouseY < __realY + __padding &&
-				Resizable & FORMS_EWindowResize.Top)
+			if (_mouseY < __realY + __padding
+				&& Resizable & FORMS_EWindowResize.Top)
 			{
 				_resize |= FORMS_EWindowResize.Top;
 				_mouseOffsetY = __realY - _mouseY;
 			}
-			else if (_mouseY >= __realY + __realHeight - __padding &&
-				Resizable & FORMS_EWindowResize.Bottom)
+			else if (_mouseY >= __realY + __realHeight - __padding
+				&& Resizable & FORMS_EWindowResize.Bottom)
 			{
 				_resize |= FORMS_EWindowResize.Bottom;
 				_mouseOffsetY = __realY + __realHeight - _mouseY;
 			}
 
-			if (_resize != FORMS_EWindowResize.None &&
-				forms_mouse_check_button_pressed(mb_left))
+			if (_resize != FORMS_EWindowResize.None
+				&& forms_mouse_check_button_pressed(mb_left))
 			{
 				forms_get_root().WidgetActive = self;
 				__resize = _resize;
@@ -308,13 +308,13 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 			}
 		}
 
-		if ((_resize & FORMS_EWindowResize.Left && _resize & FORMS_EWindowResize.Top) ||
-			(_resize & FORMS_EWindowResize.Right && _resize & FORMS_EWindowResize.Bottom))
+		if ((_resize & FORMS_EWindowResize.Left && _resize & FORMS_EWindowResize.Top)
+			|| (_resize & FORMS_EWindowResize.Right && _resize & FORMS_EWindowResize.Bottom))
 		{
 			forms_set_cursor(cr_size_nwse);
 		}
-		else if ((_resize & FORMS_EWindowResize.Left && _resize & FORMS_EWindowResize.Bottom) ||
-			(_resize & FORMS_EWindowResize.Right && _resize & FORMS_EWindowResize.Top))
+		else if ((_resize & FORMS_EWindowResize.Left && _resize & FORMS_EWindowResize.Bottom)
+			|| (_resize & FORMS_EWindowResize.Right && _resize & FORMS_EWindowResize.Top))
 		{
 			forms_set_cursor(cr_size_nesw);
 		}
@@ -389,8 +389,8 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 		Pen.text(Parent.Widget.Name);
 		var _iconWidth = 20;
 		Pen.set_x(__realWidth - _iconWidth - 2);
-		if (Parent.Closable &&
-			Pen.icon_solid(FA_ESolid.Xmark, { Width: _iconWidth }))
+		if (Parent.Closable
+			&& Pen.icon_solid(FA_ESolid.Xmark, { Width: _iconWidth }))
 		{
 			Parent.destroy_later();
 		}
@@ -401,10 +401,10 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 	static draw = function (_deltaTime)
 	{
 		Container_draw();
-		if (!Parent.__toDestroy &&
-			Parent.Movable &&
-			is_mouse_over() &&
-			forms_mouse_check_button_pressed(mb_left))
+		if (!Parent.__toDestroy
+			&& Parent.Movable
+			&& is_mouse_over()
+			&& forms_mouse_check_button_pressed(mb_left))
 		{
 			forms_get_root().WidgetActive = Parent;
 			Parent.__mouseOffset[@ 0] = Parent.__realX - forms_mouse_get_x();

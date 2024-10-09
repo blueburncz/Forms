@@ -513,9 +513,9 @@ function FORMS_Pen(_container) constructor
 	static is_mouse_over = function (_x, _y, _width, _height, _id = undefined)
 	{
 		var _root = forms_get_root();
-		return (_root.WidgetHovered == Container &&
-			forms_mouse_in_rectangle(_x, _y, _width, _height) &&
-			(_root.WidgetActive == _id || _root.WidgetActive == undefined));
+		return (_root.WidgetHovered == Container
+			&& forms_mouse_in_rectangle(_x, _y, _width, _height)
+			&& (_root.WidgetActive == _id || _root.WidgetActive == undefined));
 	};
 
 	/// @func get_absolute_pos(_x, _y)
@@ -983,8 +983,8 @@ function FORMS_Pen(_container) constructor
 		{
 			if (forms_mouse_check_button_pressed(mb_left))
 			{
-				if (__dropdowns[$ _id] == undefined ||
-					!weak_ref_alive(__dropdowns[$ _id]))
+				if (__dropdowns[$ _id] == undefined
+					|| !weak_ref_alive(__dropdowns[$ _id]))
 				{
 					var _dropdownPos = get_absolute_pos(X, Y + _height);
 					var _dropdown = new FORMS_Dropdown(_id, _options, _index, _width,
@@ -1040,9 +1040,9 @@ function FORMS_Pen(_container) constructor
 			{
 				if (__inputId != undefined)
 				{
-					forms_return_result(__inputId, is_real(__inputValue) ?
-						(forms_parse_real(__inputString) ?? __inputValue) :
-						__inputString);
+					forms_return_result(__inputId, is_real(__inputValue)
+						? (forms_parse_real(__inputString) ?? __inputValue)
+						: __inputString);
 				}
 				__inputId = _id;
 				__inputValue = _value;
@@ -1095,15 +1095,15 @@ function FORMS_Pen(_container) constructor
 
 			var _inputLength = string_length(__inputString);
 
-			if (_multitype &&
-				keyboard_check(vk_backspace) &&
-				__inputString != "")
+			if (_multitype
+				&& keyboard_check(vk_backspace)
+				&& __inputString != "")
 			{
 				__inputString = string_delete(__inputString, _inputLength, 1);
 				--_inputLength;
 			}
-			else if (_multitype &&
-				keyboard_check(vk_delete))
+			else if (_multitype
+				&& keyboard_check(vk_delete))
 			{
 				__inputString = string_delete(__inputString, _inputLength, 1);
 				--_inputLength;
@@ -1121,8 +1121,8 @@ function FORMS_Pen(_container) constructor
 			draw_text(_x + _padding, _y, _displayString);
 
 			// Draw input beam
-			var _alpha = (keyboard_check(vk_anykey) || mouse_check_button(mb_any)) ?
-				1.0 : dsin(current_time * 0.5) * 0.5 + 0.5;
+			var _alpha = (keyboard_check(vk_anykey) || mouse_check_button(mb_any))
+				? 1.0 : dsin(current_time * 0.5) * 0.5 + 0.5;
 			forms_draw_rectangle(_x + _padding + _stringWidth, _y, 2, __lineHeight, global.formsAccentColor,
 				_alpha);
 		}
@@ -1163,12 +1163,12 @@ function FORMS_Pen(_container) constructor
 
 		__move_or_nl(_width);
 
-		if (__inputId == _id && (keyboard_check_pressed(vk_enter) ||
-				(!_mouseOver && mouse_check_button_pressed(mb_left))))
+		if (__inputId == _id && (keyboard_check_pressed(vk_enter)
+				|| (!_mouseOver && mouse_check_button_pressed(mb_left))))
 		{
-			var _valueNew = is_real(__inputValue) ?
-				(forms_parse_real(__inputString) ?? __inputValue) :
-				__inputString;
+			var _valueNew = is_real(__inputValue)
+				? (forms_parse_real(__inputString) ?? __inputValue)
+				: __inputString;
 			if (__inputValue != _valueNew)
 			{
 				forms_return_result(_id, _valueNew);
@@ -1203,8 +1203,8 @@ function FORMS_Pen(_container) constructor
 		var _indent = __sectionCurrent * SectionIndent;
 		var _mouseOver = is_mouse_over(StartX, Y, _width, _height);
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, StartX, Y, _width, _height, 0x3F3F3F, 1.0);
-		fa_draw(FA_FntSolid12, __sectionExpanded[$ _id] ? FA_ESolid.AngleDown : FA_ESolid.AngleRight, StartX +
-			_indent + 4, Y, c_white, 0.5);
+		fa_draw(FA_FntSolid12, __sectionExpanded[$ _id] ? FA_ESolid.AngleDown : FA_ESolid.AngleRight, StartX
+			+ _indent + 4, Y, c_white, 0.5);
 		draw_text(StartX + _indent + SectionIndent, Y, _text);
 		if (_mouseOver)
 		{
