@@ -22,8 +22,8 @@ Forms is open for pull requests! You're welcome to choose any of the open issues
 
 1. Install [Python 3](https://www.python.org/downloads/)
 2. `git clone https://github.com/blueburncz/Forms.git`
-3. `cd Forms; pip install -r requirements.txt`
-4. `Copy-Item pre-commit .git/hooks/`
+3. `cd Forms; pip3 install -r requirements.txt`
+4. `git config core.hooksPath hooks`
 
 From now on, when running `git commit`, the hook will check whether staged `*.gml` files are formatted using js-beautify. If they're not, it won't allow you to commit the files. Use `./format-gml.py` to fix formatting of all staged files. You can also run it with argument `--all` to fix formatting of all `*.gml` files present in the repo or `--file FILE` to fix format of given file.
 

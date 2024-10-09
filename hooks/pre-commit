@@ -1,0 +1,2 @@
+#!/bin/sh
+python3 format-gml.py --validate
