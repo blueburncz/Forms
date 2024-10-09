@@ -4,8 +4,7 @@
 ///
 /// @desc Properties accepted by the constructor of
 /// {@link FORMS_ApplicationSurface}.
-function FORMS_ApplicationSurfaceProps()
-	: FORMS_CompoundWidgetProps() constructor
+function FORMS_ApplicationSurfaceProps(): FORMS_CompoundWidgetProps() constructor
 {
 	/// @var {Id.Surface, Undefined} An ID of a surface to draw instead of the
 	/// application surface or `undefined` to draw the application surface.
@@ -34,8 +33,9 @@ function FORMS_ApplicationSurfaceProps()
 /// to create the surface widget with or `undefined` (default).
 /// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
 /// widgets to add to the surface widget or `undefined` (default).
-function FORMS_ApplicationSurface(_props=undefined, _children=undefined)
-	: FORMS_CompoundWidget(_props, _children) constructor
+/* beautify ignore:start */
+function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FORMS_CompoundWidget(_props, _children) constructor
+/* beautify ignore:end */
 {
 	static CompoundWidget_layout = layout;
 	static CompoundWidget_draw = draw;
@@ -166,8 +166,8 @@ function FORMS_ApplicationSurface(_props=undefined, _children=undefined)
 	static is_mouse_over = function ()
 	{
 		gml_pragma("forceinline");
-		return (__mouseX >= 0 && __mouseX < __surfaceWidth
-			&& __mouseY >= 0 && __mouseY < __surfaceHeight);
+		return (__mouseX >= 0 && __mouseX < __surfaceWidth &&
+			__mouseY >= 0 && __mouseY < __surfaceHeight);
 	};
 
 	static draw = function ()
