@@ -222,7 +222,7 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 			forms_draw_rectangle(
 				_pen.Container.ScrollX,
 				_pen.Y - _spacingY,
-				_pen.Width,
+				_pen.Container.__realWidth, //_pen.Width
 				_pen.__lineHeight + _spacingY * 2,
 				0x766056, 1.0);
 		}
@@ -234,7 +234,7 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 				Color: CaretColor,
 				Alpha: CaretAlpha,
 				Width: _iconWidth,
-			}
+			};
 			if (_pen.icon_solid(Collapsed ? FA_ESolid.CaretRight : FA_ESolid.CaretDown, _iconProps))
 			{
 				Collapsed = !Collapsed;
