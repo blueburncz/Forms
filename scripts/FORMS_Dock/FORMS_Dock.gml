@@ -276,9 +276,15 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 			return self;
 		}
 
+		var _found = __tabContainer.find_widget(_id);
+		if (_found != undefined)
+		{
+			return _found;
+		}
+
 		if (__left != undefined)
 		{
-			var _found = __left.find_widget(_id);
+			_found = __left.find_widget(_id);
 			if (_found != undefined)
 			{
 				return _found;
@@ -287,7 +293,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 
 		if (__right != undefined)
 		{
-			var _found = __right.find_widget(_id);
+			_found = __right.find_widget(_id);
 			if (_found != undefined)
 			{
 				return _found;
@@ -296,7 +302,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 
 		for (var i = array_length(__tabs) - 1; i >= 0; --i)
 		{
-			var _found = __tabs[i].find_widget(_id);
+			_found = __tabs[i].find_widget(_id);
 			if (_found != undefined)
 			{
 				return _found;
