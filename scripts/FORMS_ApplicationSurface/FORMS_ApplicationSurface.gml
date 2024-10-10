@@ -179,7 +179,9 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 			draw_surface_stretched(_surface, SurfaceX, SurfaceY, SurfaceWidth, SurfaceHeight);
 		}
 
+		forms_scissor_rect_push(__realX, __realY, __realWidth, __realHeight);
 		CompoundWidget_draw();
+		forms_scissor_rect_pop();
 
 		return self;
 	}
