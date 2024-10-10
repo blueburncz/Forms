@@ -39,9 +39,9 @@ function FORMS_Box(_props = undefined, _children = undefined): FORMS_CompoundWid
 	/// "auto".
 	Height = Height.from_props(_props, "Height", 0, FORMS_EUnit.Auto);
 
-	static get_auto_width = function () { return 0; };
+	static get_auto_width = function () { return 0; }
 
-	static get_auto_height = function () { return 0; };
+	static get_auto_height = function () { return 0; }
 }
 
 /// @func FORMS_VBoxProps()

@@ -152,7 +152,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 	///
 	/// @return {Struct.FORMS_Dock, Undefined} The first child of the dock or
 	/// `undefined`.
-	static get_first = function () { return __left; };
+	static get_first = function () { return __left; }
 
 	/// @func get_second()
 	///
@@ -161,7 +161,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 	///
 	/// @return {Struct.FORMS_Dock, Undefined} The second child of the dock or
 	/// `undefined`.
-	static get_second = function () { return __right; };
+	static get_second = function () { return __right; }
 
 	/// @func set_tab(_tabs)
 	///
