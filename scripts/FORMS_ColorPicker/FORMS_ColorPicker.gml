@@ -3,10 +3,7 @@
 /// @extends FORMS_WindowProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_ColorPicker}.
-function FORMS_ColorPickerProps(): FORMS_WindowProps() constructor
-{
-
-}
+function FORMS_ColorPickerProps(): FORMS_WindowProps() constructor {}
 
 /// @func FORMS_ColorPicker(_id, _color[, _props])
 ///
