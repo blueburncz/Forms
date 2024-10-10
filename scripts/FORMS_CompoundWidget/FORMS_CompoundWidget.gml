@@ -66,13 +66,6 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 		return (_child.Parent == self);
 	}
 
-	/// @func remove_child(_child)
-	///
-	/// @desc Removes a child from this widget.
-	///
-	/// @param {Struct.FORMS_Widget} _child The child widget to remove.
-	///
-	/// @return {Struct.FORMS_CompoundWidget} Returns `self`.
 	static remove_child = function (_child)
 	{
 		forms_assert(_child.Parent == self, "Widget not a child of this parent!");

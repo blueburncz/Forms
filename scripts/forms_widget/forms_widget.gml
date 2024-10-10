@@ -460,6 +460,15 @@ function FORMS_Widget(_props = undefined) constructor
 		return (Parent != undefined);
 	}
 
+	/// @func remove_child(_child)
+	///
+	/// @desc Removes a child from this widget.
+	///
+	/// @param {Struct.FORMS_Widget} _child The child widget to remove.
+	///
+	/// @return {Struct.FORMS_Widget} Returns `self`.
+	static remove_child = function (_child) { return self; }
+
 	/// @func remove_self()
 	///
 	/// @desc Removes the widgets from its parent, which must not be `undefined`!
@@ -540,7 +549,7 @@ function FORMS_Widget(_props = undefined) constructor
 	///
 	/// @return {Real, Undefined} The width or `undefined` if this widget
 	/// does not support "auto" sizes.
-	static get_auto_width = function () { return undefined; };
+	static get_auto_width = function () { return undefined; }
 
 	/// @func get_auto_height()
 	///
@@ -549,7 +558,7 @@ function FORMS_Widget(_props = undefined) constructor
 	///
 	/// @return {Real, Undefined} The height or `undefined` if this widget
 	/// does not support "auto" sizes.
-	static get_auto_height = function () { return undefined; };
+	static get_auto_height = function () { return undefined; }
 
 	/// @func layout()
 	///
