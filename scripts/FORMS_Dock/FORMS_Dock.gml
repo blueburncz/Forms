@@ -269,6 +269,43 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		return self;
 	}
 
+	static find_widget = function (_id)
+	{
+		if (Id == _id)
+		{
+			return self;
+		}
+
+		if (__left != undefined)
+		{
+			var _found = __left.find_widget(_id);
+			if (_found != undefined)
+			{
+				return _found;
+			}
+		}
+
+		if (__right != undefined)
+		{
+			var _found = __right.find_widget(_id);
+			if (_found != undefined)
+			{
+				return _found;
+			}
+		}
+
+		for (var i = array_length(__tabs) - 1; i >= 0; --i)
+		{
+			var _found = __tabs[i].find_widget(_id);
+			if (_found != undefined)
+			{
+				return _found;
+			}
+		}
+
+		return undefined;
+	}
+
 	static layout = function ()
 	{
 		FORMS_LAYOUT_GENERATED;
