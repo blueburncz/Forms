@@ -702,7 +702,7 @@ function FORMS_Pen(_container) constructor
 	///
 	/// @return {Bool} Returns `true` if the color has changed. The new color
 	/// can be retrieved using method {@link FORMS_Pen.get_result}.
-	static color = function (_id, _color, _props = undefined )
+	static color = function (_id, _color, _props = undefined)
 	{
 		// TODO: Add struct FORMS_PenColorProps
 		__assert_started();
