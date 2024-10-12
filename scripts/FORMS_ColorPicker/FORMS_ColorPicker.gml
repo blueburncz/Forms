@@ -458,7 +458,6 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 				forms_return_result(Parent.ControlId, Parent.OriginalColor);
 			}
 
-			Pen.nl();
 			Pen.finish();
 			FORMS_CONTENT_UPDATE_SIZE
 			return self;

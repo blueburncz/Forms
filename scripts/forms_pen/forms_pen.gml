@@ -727,7 +727,7 @@ function FORMS_Pen(_container) constructor
 					var _world = matrix_get(matrix_world);
 					// TODO: Window auto fit content
 					var _colorPickerWidth = 200;
-					var _colorPickerHeight = 390;
+					var _colorPickerHeight = 370;
 					var _colorPickerPos = get_absolute_pos(X, Y + _height);
 					var _colorPicker = new FORMS_ColorPicker(_id, _color,
 					{
