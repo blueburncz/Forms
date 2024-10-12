@@ -13,7 +13,7 @@ function FORMS_ApplicationSurfaceProps(): FORMS_CompoundWidgetProps() constructo
 	/// @var {Bool, Undefined} Whether to draw the surface stretched (`true`) or
 	/// scaled while keeping its aspect ratio (`false`).
 	Stretch = undefined;
-	
+
 	/// @var {Bool, Undefined} Whether to rescale the surface to the form (`true`) or
 	/// keep its dimensions unchanged (`false`).
 	Resize = undefined;
@@ -112,14 +112,15 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 		CompoundWidget_layout();
 
 		var _surface = get_surface();
-		
-		if (Resize){
-			
+
+		if (Resize)
+		{
 			var _aspect = __realWidth / __realHeight;
 			var _aspectSurface = surface_get_width(_surface) / surface_get_height(_surface);
 
-			if (_aspectSurface != _aspect){
-				surface_resize(_surface,__realWidth,__realHeight);
+			if (_aspectSurface != _aspect)
+			{
+				surface_resize(_surface, __realWidth, __realHeight);
 			}
 		}
 
