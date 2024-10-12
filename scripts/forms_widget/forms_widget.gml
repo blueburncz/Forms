@@ -196,15 +196,15 @@ function FORMS_UnitValue(_value = 0, _unit = FORMS_EUnit.Pixel) constructor
 		}
 		else
 		{
-			var _value = _props[$ _name];
+			var _value = _props[$  _name];
 			if (is_string(_value))
 			{
 				from_string(_value);
 			}
 			else
 			{
-				Value = _props[$ _name] ?? _valueDefault;
-				Unit = _props[$ _name + "Unit"] ?? _unitDefault;
+				Value = _props[$  _name] ?? _valueDefault;
+				Unit = _props[$  _name + "Unit"] ?? _unitDefault;
 			}
 		}
 		return self;
@@ -302,7 +302,7 @@ function FORMS_WidgetProps() constructor
 function forms_get_prop(_props, _name)
 {
 	gml_pragma("forceinline");
-	return ((_props != undefined) ? _props[$ _name] : undefined);
+	return ((_props != undefined) ? _props[$  _name] : undefined);
 }
 
 /// @macro {Code} Must be used in method [layout](./FORMS_Widget.layout.html)

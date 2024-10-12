@@ -54,7 +54,7 @@ function FORMS_NodeGraph() constructor
 		for (var i = array_length(Nodes) - 1; i >= 0; --i)
 		{
 			var _node = Nodes[i];
-			_result[$ _node] = _node.eval(_args, _evalId);
+			_result[$  _node] = _node.eval(_args, _evalId);
 		}
 		return _result;
 	}

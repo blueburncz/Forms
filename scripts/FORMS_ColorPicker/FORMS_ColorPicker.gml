@@ -267,12 +267,16 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 			Pen.Y += __realWidth - 32 - 8;
 
 			var _colorWidth = floor((Pen.Width - 30) / 2);
-			
-			Pen.color("original-color", Parent.OriginalColor,{ Width: _colorWidth, Disabled: true })
+
+			Pen.color("original-color", Parent.OriginalColor,
+			{
+				Width: _colorWidth,
+				Disabled: true
+			})
 			Pen.move(2);
-			Pen.color("new-color", Parent.ColorNew,{ Width: _colorWidth, Disabled: true })
+			Pen.color("new-color", Parent.ColorNew, { Width: _colorWidth, Disabled: true })
 			Pen.nl();
-			
+
 			with(Pen)
 			{
 				__columnCurrent = 0;
@@ -301,7 +305,7 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 			__draw_color_wheel();
 
 			var _buttonWidth = floor((Pen.Width - 30) / 3);
-			
+
 			if (Pen.button("RGB", { Width: _buttonWidth }))
 			{
 				PickerMode = "RGB";

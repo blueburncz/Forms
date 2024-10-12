@@ -949,7 +949,7 @@ function FORMS_Pen(_container) constructor
 			var _option = _options[_index];
 			if (is_struct(_option) && _value == _option.Value)
 			{
-				_textOriginal = string(_option[$"Text"] ?? _option.Value);
+				_textOriginal = string(_option[$ "Text"] ?? _option.Value);
 				break;
 			}
 			else if (_value == _option)
@@ -984,8 +984,8 @@ function FORMS_Pen(_container) constructor
 		{
 			if (forms_mouse_check_button_pressed(mb_left))
 			{
-				if (__dropdowns[$ _id] == undefined
-					|| !weak_ref_alive(__dropdowns[$ _id]))
+				if (__dropdowns[$  _id] == undefined
+					|| !weak_ref_alive(__dropdowns[$  _id]))
 				{
 					var _dropdownPos = get_absolute_pos(X, Y + _height);
 					var _dropdown = new FORMS_Dropdown(_id, _options, _index, _width,
@@ -994,12 +994,12 @@ function FORMS_Pen(_container) constructor
 						Y: _dropdownPos[1],
 					});
 					forms_get_root().add_child(_dropdown);
-					__dropdowns[$ _id] = weak_ref_create(_dropdown);
+					__dropdowns[$  _id] = weak_ref_create(_dropdown);
 				}
 				else
 				{
-					__dropdowns[$ _id].ref.destroy_later();
-					__dropdowns[$ _id] = undefined;
+					__dropdowns[$  _id].ref.destroy_later();
+					__dropdowns[$  _id] = undefined;
 				}
 			}
 			forms_set_cursor(cr_handpoint);
@@ -1198,13 +1198,13 @@ function FORMS_Pen(_container) constructor
 		// TODO: Add struct FORMS_PenSectionProps
 		__assert_started();
 		var _id = forms_get_prop(_props, "Id") ?? _text;
-		__sectionExpanded[$ _id] ??= !(forms_get_prop(_props, "Collapsed") ?? false);
+		__sectionExpanded[$  _id] ??= !(forms_get_prop(_props, "Collapsed") ?? false);
 		var _width = Width;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
 		var _indent = __sectionCurrent * SectionIndent;
 		var _mouseOver = is_mouse_over(StartX, Y, _width, _height);
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, StartX, Y, _width, _height, 0x3F3F3F, 1.0);
-		fa_draw(FA_FntSolid12, __sectionExpanded[$ _id] ? FA_ESolid.AngleDown : FA_ESolid.AngleRight, StartX
+		fa_draw(FA_FntSolid12, __sectionExpanded[$  _id] ? FA_ESolid.AngleDown : FA_ESolid.AngleRight, StartX
 			+ _indent + 4, Y, c_white, 0.5);
 		draw_text(StartX + _indent + SectionIndent, Y, _text);
 		if (_mouseOver)
@@ -1214,9 +1214,9 @@ function FORMS_Pen(_container) constructor
 		}
 		if (_mouseOver && forms_mouse_check_button_pressed(mb_left))
 		{
-			__sectionExpanded[$ _id] = !__sectionExpanded[$ _id];
+			__sectionExpanded[$  _id] = !__sectionExpanded[$  _id];
 		}
-		if (__sectionExpanded[$ _id])
+		if (__sectionExpanded[$  _id])
 		{
 			ColumnX1 += SectionIndent;
 			nl();

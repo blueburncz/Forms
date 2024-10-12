@@ -124,7 +124,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	/// @return {Struct.FORMS_RootWidget} Returns `self`.
 	static return_result = function (_id, _value)
 	{
-		__results[$ _id] = _value;
+		__results[$  _id] = _value;
 		return self;
 	}
 
@@ -153,7 +153,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	/// `undefined` if there isn't one available.
 	static peek_result = function (_id)
 	{
-		return __results[$ _id];
+		return __results[$  _id];
 	}
 
 	/// @func get_result(_id)
@@ -167,7 +167,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	/// `undefined` if there isn't one available.
 	static get_result = function (_id)
 	{
-		var _result = __results[$ _id];
+		var _result = __results[$  _id];
 		variable_struct_remove(__results, _id);
 		return _result;
 	}
@@ -348,9 +348,9 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 			_status ??= mouse_check_button(_button) ? FORMS_EMouseButton.Held : undefined;
 			_status ??= mouse_check_button_released(_button) ? FORMS_EMouseButton.Released : undefined;
 			_status ??= FORMS_EMouseButton.Off;
-			__mouseButtons[$ _button] = _status;
+			__mouseButtons[$  _button] = _status;
 		}
-		return __mouseButtons[$ _button];
+		return __mouseButtons[$  _button];
 	}
 
 	/// @func check_mouse_pressed(_button)
@@ -405,7 +405,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	/// @param {Real} _status Value from Enum {@link FORMS_EMouseButton}.
 	static mouse_set_button_status = function (_button, _status)
 	{
-		__mouseButtons[$ _button] = _status;
+		__mouseButtons[$  _button] = _status;
 	}
 
 	/// @private
