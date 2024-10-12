@@ -710,7 +710,7 @@ function FORMS_Pen(_container) constructor
 		var _width = forms_get_prop(_props, "Width") ?? min(get_control_width(), 50);
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _height = __lineHeight;
-		var _mouseOver = (!_disabled && is_mouse_over(_x, _y, _width, _height, _id));
+		var _mouseOver = (!_disabled && is_mouse_over(X, Y, _width, _height, _id));
 		draw_sprite_stretched(FORMS_SprColor, 0, X, Y, _width, _height);
 		draw_sprite_stretched_ext(
 			FORMS_SprRound4, 0,
@@ -727,7 +727,7 @@ function FORMS_Pen(_container) constructor
 					var _world = matrix_get(matrix_world);
 					// TODO: Window auto fit content
 					var _colorPickerWidth = 200;
-					var _colorPickerHeight = 360;
+					var _colorPickerHeight = 390;
 					var _colorPickerPos = get_absolute_pos(X, Y + _height);
 					var _colorPicker = new FORMS_ColorPicker(_id, _color,
 					{
