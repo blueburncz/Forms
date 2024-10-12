@@ -710,14 +710,13 @@ function FORMS_Pen(_container) constructor
 		var _width = forms_get_prop(_props, "Width") ?? min(get_control_width(), 50);
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _height = __lineHeight;
-		var _mouseOver = is_mouse_over(X, Y, _width, _height);
+		var _mouseOver = (!_disabled && is_mouse_over(_x, _y, _width, _height, _id));
 		draw_sprite_stretched(FORMS_SprColor, 0, X, Y, _width, _height);
 		draw_sprite_stretched_ext(
 			FORMS_SprRound4, 0,
 			X, Y,
 			_width, _height,
 			_color.get(), _color.get_alpha());
-		if !(_disabled)
 		if (_mouseOver)
 		{
 			forms_set_cursor(cr_handpoint);
