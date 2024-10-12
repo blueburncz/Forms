@@ -702,12 +702,13 @@ function FORMS_Pen(_container) constructor
 	///
 	/// @return {Bool} Returns `true` if the color has changed. The new color
 	/// can be retrieved using method {@link FORMS_Pen.get_result}.
-	static color = function (_id, _color, _props = undefined)
+	static color = function (_id, _color, _props = undefined )
 	{
 		// TODO: Add struct FORMS_PenColorProps
 		__assert_started();
 		_id = __make_id(_id);
 		var _width = forms_get_prop(_props, "Width") ?? min(get_control_width(), 50);
+		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _height = __lineHeight;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
 		draw_sprite_stretched(FORMS_SprColor, 0, X, Y, _width, _height);
@@ -716,6 +717,7 @@ function FORMS_Pen(_container) constructor
 			X, Y,
 			_width, _height,
 			_color.get(), _color.get_alpha());
+		if !(_disabled)
 		if (_mouseOver)
 		{
 			forms_set_cursor(cr_handpoint);

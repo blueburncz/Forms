@@ -264,7 +264,15 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 				c_white, 1);
 
 			// Manually Update Pen Y offset
-			Pen.Y += __realWidth - 32;
+			Pen.Y += __realWidth - 32 - 8;
+
+			var _colorWidth = floor((Pen.Width - 30) / 2);
+			
+			Pen.color("original-color", Parent.OriginalColor,{ Width: _colorWidth, Disabled: true })
+			Pen.move(2);
+			Pen.color("new-color", Parent.ColorNew,{ Width: _colorWidth, Disabled: true })
+			Pen.nl();
+			
 			with(Pen)
 			{
 				__columnCurrent = 0;
@@ -293,6 +301,7 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 			__draw_color_wheel();
 
 			var _buttonWidth = floor((Pen.Width - 30) / 3);
+			
 			if (Pen.button("RGB", { Width: _buttonWidth }))
 			{
 				PickerMode = "RGB";
@@ -449,6 +458,7 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 				forms_return_result(Parent.ControlId, Parent.OriginalColor);
 			}
 
+			Pen.nl();
 			Pen.finish();
 			FORMS_CONTENT_UPDATE_SIZE
 			return self;
