@@ -9,7 +9,7 @@ import sys
 
 VERSION_MAJOR = 1
 VERSION_MINOR = 0
-VERSION_PATCH = 0
+VERSION_PATCH = 1
 VERSION_STRING = f"{VERSION_MAJOR}.{VERSION_MINOR}.{VERSION_PATCH}"
 
 HELP_MESSAGE = """
@@ -38,6 +38,12 @@ else:
 def beautify_file(filepath):
     res = jsbeautifier.beautify_file(filepath, OPTIONS)
     res = re.sub(r"\$[\s\n]+\"", '$"', res)
+    res = re.sub(r"\@[\s\n]+\"", '@"', res)
+    res = re.sub(r"\[[\s\n]+\@", '[@ ', res)
+    res = re.sub(r"\[[\s\n]+\|", '[| ', res)
+    res = re.sub(r"\[[\s\n]+\#", '[# ', res)
+    res = re.sub(r"\[[\s\n]+\?", '[? ', res)
+    res = re.sub(r"\[[\s\n]*\$", '[$ ', res)
     return res
 
 
