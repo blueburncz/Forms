@@ -32,6 +32,6 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	_dock.SplitSize = 0.25;
 
 	_dock.get_second().set_tabs([
-		new FORMS_ApplicationSurface({ Name: "Viewport", Width: "100%", Height: "100%" })
+		new FORMS_ApplicationSurface({ Name: "Viewport", Width: "100%", Height: "100%", Resize: true })
 	]);
 }
