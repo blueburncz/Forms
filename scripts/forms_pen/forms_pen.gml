@@ -12,6 +12,33 @@ enum FORMS_EControlAction
 		Click = 1,
 };
 
+/// @func FORMS_PenTextProps()
+///
+/// @desc Properties accapted by method {@link FORMS_Pen.text}.
+function FORMS_PenTextProps() constructor
+{
+	/// @var {Constant.Color, Undefined} The color of the text to draw.
+	Color = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the text to draw.
+	Alpha = undefined;
+
+	/// @var {Bool, Undefined} If `true` then property `Width` is ignored and
+	/// the text is trimmed from the right to the current control width.
+	/// @see FORMS_Pen.get_control_width
+	Trim = undefined;
+
+	/// @var {Real, Undefined} The maximum width of the text in pixels. The text
+	/// is trimmed from the right if larger.
+	Width = undefined;
+
+	/// @var {String, Undefined} The tooltip to show on mouse-over.
+	Tooltip = undefined;
+
+	/// @var {Constant.Cursor, Undefined} The cursor to use on mouse-over.
+	Cursor = undefined;
+}
+
 /// @enum Enumeration of all layouts available for {@link FORMS_Pen}.
 enum FORMS_EPenLayout
 {
@@ -419,13 +446,12 @@ function FORMS_Pen(_container) constructor
 	/// if {@link FORMS_Pen.AutoNewline} is enabled).
 	///
 	/// @param {String} _text The text to draw.
-	/// @param {Struct, Undefined} [_props] Properties to apply to the text or
-	/// `undefined` (default).
+	/// @param {Struct.FROMS_PenTextProps, Undefined} [_props] Properties to
+	/// apply to the text or `undefined` (default).
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
 	static text = function (_text, _props = undefined)
 	{
-		// TODO: Add struct FORMS_PenTextProps
 		__assert_started();
 		var _textOriginal = _text;
 		var _c = forms_get_prop(_props, "Color") ?? c_white;
