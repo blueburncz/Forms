@@ -216,15 +216,15 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 			}
 		}
 
+		var _spacingY = floor(_pen.SpacingY / 2);
+		var _backgroundX = _pen.Container.ScrollX;
+		var _backgroundY = _pen.Y - _spacingY;
+		var _backgroundWidth = _pen.Container.__realWidth; //_pen.Width
+		var _backgroundHeight = _pen.__lineHeight + _spacingY * 2;
+
 		if (Tree.Selected == self)
 		{
-			var _spacingY = floor(_pen.SpacingY / 2);
-			forms_draw_rectangle(
-				_pen.Container.ScrollX,
-				_pen.Y - _spacingY,
-				_pen.Container.__realWidth, //_pen.Width
-				_pen.__lineHeight + _spacingY * 2,
-				0x766056, 1.0);
+			forms_draw_rectangle(_backgroundX, _backgroundY, _backgroundWidth, _backgroundHeight, 0x766056, 1.0);
 		}
 
 		// Caret
@@ -234,6 +234,8 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 				Color: CaretColor,
 				Alpha: CaretAlpha,
 				Width: _iconWidth,
+				BackgroundColorHover: c_white,
+				BackgroundAlphaHover: 0.1,
 			};
 			if (_pen.icon_solid(Collapsed ? FA_ESolid.CaretRight : FA_ESolid.CaretDown, _iconProps))
 			{
@@ -246,13 +248,22 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 		if (_icon != undefined)
 		{
 			var _iconFont = Collapsed ? (IconCollapsedFont ?? IconFont) : IconFont;
-			_pen.icon(_icon, _iconFont, { Color: IconColor, Alpha: IconAlpha, Width: _iconWidth });
+			_pen.icon(_icon, _iconFont,
+			{
+				Color: IconColor,
+				Alpha: IconAlpha,
+				Width: _iconWidth,
+				BackgroundColorHover: c_white,
+				BackgroundAlphaHover: 0.1
+			});
 		}
 
 		// Text
 		var _text = is_string(Text) ? Text : Getter(self);
 
-		if (_pen.link(_text))
+		if (_pen.link(_text)
+			|| (_pen.is_mouse_over(_backgroundX, _backgroundY, _backgroundWidth, _backgroundHeight)
+				&& forms_mouse_check_button_pressed(mb_left)))
 		{
 			Tree.Selected = self;
 			if (OnSelect)
