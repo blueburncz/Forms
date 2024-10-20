@@ -235,6 +235,64 @@ function FORMS_PenRadioProps() constructor
 	Tooltip = undefined;
 }
 
+/// @func FORMS_PenSliderProps()
+///
+/// @desc Properties accepted by method {@link FORMS_Pen.slider}.
+function FORMS_PenSliderProps() constructor
+{
+	/// @var {Real, Undefined} The width of the slider.
+	Width = undefined;
+
+	/// @var {Constant.Color, Undefined} The color of text shown on the slider.
+	Color = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the text shown on the slider.
+	Alpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The color of the border shown on
+	/// mouse-over or when the slider is active.
+	BorderColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the border shown on mouse-over
+	/// or when the slider is active.
+	BorderAlpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The color of the slider's background.
+	BackgroundColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the slider's background.
+	BackgroundAlpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The fill color of the slider.
+	FillColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the slider's fill.
+	FillAlpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The color of the slider's thumb.
+	SliderColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the slider's thumb.
+	SliderAlpha = undefined;
+
+	/// @var {Bool, Undefined} Whether to show the slider value as text (`true`)
+	/// or not (`false`).
+	ShowText = undefined;
+
+	/// @var {String, Undefined} The text to prepend the slider's value with.
+	Pre = undefined;
+
+	/// @var {String, Undefined} The text to append to the slider's value.
+	Post = undefined;
+
+	/// @var {Bool, Undefined} Whether only integer values are allowed (`true`)
+	/// or not (`false`).
+	Integers = undefined;
+
+	/// @var {String, Undefined} The tooltip text shown on mouse-over.
+	Tooltip = undefined;
+}
+
 /// @enum Enumeration of all layouts available for {@link FORMS_Pen}.
 enum FORMS_EPenLayout
 {
@@ -1131,7 +1189,7 @@ function FORMS_Pen(_container) constructor
 			forms_set_cursor(cr_handpoint);
 		}
 
-		// Background 
+		// Background
 		draw_sprite_stretched_ext(FORMS_SprRadioButton, 0, X, Y, _width, _height, _backgroundColor,
 			_backgroundAlpha);
 		// Border
@@ -1165,64 +1223,87 @@ function FORMS_Pen(_container) constructor
 	/// @param {Real} _value The current slider value.
 	/// @param {Real} _min The minimum slider value.
 	/// @param {Real} _max The maximum slider value.
-	/// @param {Struct, Undefined} [_props] Properties to apply to the slider or
-	/// `undefined` (default).
+	/// @param {Struct.FORMS_PenSliderProps, Undefined} [_props] Properties to
+	/// apply to the slider or `undefined` (default).
 	///
 	/// @return {Bool} Returns `true` if the slider value has changed. The new
 	/// value can be retrieved using method {@link FORMS_Pen.get_result}.
 	static slider = function (_id, _value, _min, _max, _props = undefined)
 	{
-		// TODO: Add struct FORMS_PenSliderProps
 		__assert_started();
+
 		_id = __make_id(_id);
+
 		var _valueNew = clamp(_value, _min, _max);
 		var _width = forms_get_prop(_props, "Width") ?? get_control_width();
 		var _height = __lineHeight;
+		var _color = forms_get_prop(_props, "Color") ?? c_white;
+		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _fillColor = forms_get_prop(_props, "FillColor") ?? 0x424242;
+		var _fillAlpha = forms_get_prop(_props, "FillAlpha") ?? 1.0;
+		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x171717;
+		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
+		var _sliderColor = forms_get_prop(_props, "SliderColor") ?? c_silver;
+		var _sliderAlpha = forms_get_prop(_props, "SliderAlpha") ?? 1.0;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height, _id);
 
+		// Border
 		if (_mouseOver || __widgetActive == _id)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, 0x9D9D9D, 1.0);
-		}
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, 0x171717, 1.0);
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, ((_valueNew - _min) / (_max - _min)) * _width, _height,
-			0x424242, 1.0);
-		draw_sprite_stretched_ext(FORMS_SprSlider, 0, X + ((_valueNew - _min) / (_max - _min)) * _width - 1, Y - 1,
-			3, _height + 2, c_silver, 1.0);
+			var _borderColor = forms_get_prop(_props, "BorderColor") ?? 0x9D9D9D;
+			var _borderAlpha = forms_get_prop(_props, "BorderAlpha") ?? 1.0;
 
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, _borderColor,
+				_borderAlpha);
+		}
+		// Background
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _backgroundColor, _backgroundAlpha);
+		// Fill
+		var _fillWidth = ((_valueNew - _min) / (_max - _min)) * _width;
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _fillWidth, _height, _fillColor, _fillAlpha);
+		// Slider
+		draw_sprite_stretched_ext(FORMS_SprSlider, 0, X + _fillWidth - 1, Y - 1, 3, _height + 2, _sliderColor,
+			_sliderAlpha);
+		// Text
 		if (forms_get_prop(_props, "ShowText") ?? true)
 		{
-			draw_text(X + 4, Y, (forms_get_prop(_props, "Pre") ?? "") + string(_value) + (forms_get_prop(_props,
-				"Post") ?? ""));
+			forms_draw_text(X + 4, Y, (forms_get_prop(_props, "Pre") ?? "") + string(_value) + (forms_get_prop(
+				_props, "Post") ?? ""), _color, _alpha);
 		}
+
 		if (_mouseOver)
 		{
 			if (forms_mouse_check_button_pressed(mb_left))
 			{
-				__widgetActive = _id;
+				__widgetActive = _id; // Start dragging
 			}
+
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 		}
+
 		if (__widgetActive == _id)
 		{
 			if (!mouse_check_button(mb_left))
 			{
-				__widgetActive = undefined;
+				__widgetActive = undefined; // Stop dragging
 			}
+
 			_valueNew = lerp(_min, _max, clamp((forms_mouse_get_x() - X) / _width, 0, 1));
-			forms_set_cursor(cr_handpoint);
 			if (forms_get_prop(_props, "Integers") ?? false)
 			{
 				_valueNew = floor(_valueNew);
 			}
+
+			forms_set_cursor(cr_handpoint);
 		}
+
+		__move_or_nl(_width);
 
 		if (_value != _valueNew)
 		{
 			forms_return_result(_id, _valueNew);
 		}
-		__move_or_nl(_width);
 		return __consume_result(_id);
 	}
 

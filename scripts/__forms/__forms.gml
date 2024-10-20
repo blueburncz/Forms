@@ -31,6 +31,21 @@ function forms_assert(_expr, _message)
 	}
 }
 
+/// @func forms_draw_text(_x, _y, _text[, _color[, _alpha]])
+///
+/// @desc Draws a text.
+///
+/// @param {Real} _x The X position to draw the text at.
+/// @param {Real} _y The Y position to draw the text at.
+/// @param {String} _text The text to draw.
+/// @param {Constant.Color} [_color] The color of the text. Defaults to `c_white`.
+/// @param {Real} [_alpha] The alpha value of the text. Defaults to 1.
+function forms_draw_text(_x, _y, _text, _color = c_white, _alpha = 1.0)
+{
+	gml_pragma("forceinline");
+	draw_text_color(_x, _y, _text, _color, _color, _color, _color, 1.0);
+}
+
 /// @func forms_draw_rectangle(_x, _y, _width, _height[, _color[, _alpha]])
 ///
 /// @desc Draws a rectangle using a stretched sprite to save on batch breaks.
