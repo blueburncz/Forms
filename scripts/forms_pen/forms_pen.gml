@@ -1,3 +1,22 @@
+/// @macro {Code} Returns mouse state from a {@link FORMS_Pen} method. Requires
+/// local variable `_mouseOver`!
+/* beautify ignore:start */
+#macro FORMS_PEN_RETURN_MOUSE_STATE \
+	if (_mouseOver) \
+	{ \
+		if (forms_mouse_check_button_pressed(mb_left)) \
+		{ \
+			return FORMS_EControlAction.Click; \
+		} \
+		if (forms_mouse_check_button_pressed(mb_right)) \
+		{ \
+			return FORMS_EControlAction.RightClick; \
+		} \
+		return FORMS_EControlAction.MouseOver; \
+	} \
+	return FORMS_EControlAction.None
+/* beautify ignore:end */
+
 /// @enum Enumeration of all possible mouse interactions with a control drawn
 /// by {@link FORMS_Pen}.
 enum FORMS_EControlAction
@@ -14,7 +33,7 @@ enum FORMS_EControlAction
 
 /// @func FORMS_PenTextProps()
 ///
-/// @desc Properties accapted by method {@link FORMS_Pen.text}.
+/// @desc Properties accepted by method {@link FORMS_Pen.text}.
 function FORMS_PenTextProps() constructor
 {
 	/// @var {Constant.Color, Undefined} The color of the text to draw.
@@ -507,19 +526,7 @@ function FORMS_Pen(_container) constructor
 		}
 		draw_text_color(X, Y, _text, _c, _c, _c, _c, _a);
 		__move_or_nl(string_width(_text));
-		if (_mouseOver)
-		{
-			if (forms_mouse_check_button_pressed(mb_left))
-			{
-				return FORMS_EControlAction.Click;
-			}
-			if (forms_mouse_check_button_pressed(mb_right))
-			{
-				return FORMS_EControlAction.RightClick;
-			}
-			return FORMS_EControlAction.MouseOver;
-		}
-		return FORMS_EControlAction.None;
+		FORMS_PEN_RETURN_MOUSE_STATE;
 	}
 
 	/// @func is_mouse_over(_x, _y, _width, _height[, _id])
@@ -603,19 +610,7 @@ function FORMS_Pen(_container) constructor
 			_c, _c, _c, _c, _a);
 		draw_set_font(_fontPrev);
 		__move_or_nl(_width);
-		if (_mouseOver)
-		{
-			if (forms_mouse_check_button_pressed(mb_left))
-			{
-				return FORMS_EControlAction.Click;
-			}
-			if (forms_mouse_check_button_pressed(mb_right))
-			{
-				return FORMS_EControlAction.RightClick;
-			}
-			return FORMS_EControlAction.MouseOver;
-		}
-		return FORMS_EControlAction.None;
+		FORMS_PEN_RETURN_MOUSE_STATE;
 	}
 
 	/// @func icon_regular(_icon[, _props])
@@ -700,19 +695,7 @@ function FORMS_Pen(_container) constructor
 		}
 		draw_text_color(X + _padding, Y, _text, _c, _c, _c, _c, _a);
 		__move_or_nl(_width);
-		if (_mouseOver)
-		{
-			if (forms_mouse_check_button_pressed(mb_left))
-			{
-				return FORMS_EControlAction.Click;
-			}
-			if (forms_mouse_check_button_pressed(mb_right))
-			{
-				return FORMS_EControlAction.RightClick;
-			}
-			return FORMS_EControlAction.MouseOver;
-		}
-		return FORMS_EControlAction.None;
+		FORMS_PEN_RETURN_MOUSE_STATE;
 	}
 
 	/// @func color(_id, _color[, _props])
@@ -804,19 +787,7 @@ function FORMS_Pen(_container) constructor
 			forms_set_cursor(cr_handpoint);
 		}
 		__move_or_nl(_width);
-		if (_mouseOver)
-		{
-			if (forms_mouse_check_button_pressed(mb_left))
-			{
-				return FORMS_EControlAction.Click;
-			}
-			if (forms_mouse_check_button_pressed(mb_right))
-			{
-				return FORMS_EControlAction.RightClick;
-			}
-			return FORMS_EControlAction.MouseOver;
-		}
-		return FORMS_EControlAction.None;
+		FORMS_PEN_RETURN_MOUSE_STATE;
 	}
 
 	/// @func radio(_selected[, _props])
@@ -849,19 +820,7 @@ function FORMS_Pen(_container) constructor
 			forms_set_cursor(cr_handpoint);
 		}
 		__move_or_nl(_width);
-		if (_mouseOver)
-		{
-			if (forms_mouse_check_button_pressed(mb_left))
-			{
-				return FORMS_EControlAction.Click;
-			}
-			if (forms_mouse_check_button_pressed(mb_right))
-			{
-				return FORMS_EControlAction.RightClick;
-			}
-			return FORMS_EControlAction.MouseOver;
-		}
-		return FORMS_EControlAction.None;
+		FORMS_PEN_RETURN_MOUSE_STATE;
 	}
 
 	/// @private
