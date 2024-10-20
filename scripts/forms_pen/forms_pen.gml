@@ -293,6 +293,36 @@ function FORMS_PenSliderProps() constructor
 	Tooltip = undefined;
 }
 
+/// @func FORMS_PenDropdownProps()
+///
+/// @desc Properties accepted by method {@link FORMS_Pen.dropdown}.
+function FORMS_PenDropdownProps() constructor
+{
+	/// @var {Real, Undefined} The width of the dropdown.
+	Width = undefined;
+
+	/// @var {Real, Undefined} The horizontal padding around dropdown text.
+	Padding = undefined;
+
+	/// @var {Constant.Color, Undefined} The color of the dropdown's background.
+	BackgroundColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the dropdown's background.
+	BackgroundAlpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The caret color.
+	CaretColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the caret.
+	CaretAlpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The text color.
+	Color = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the text.
+	Alpha = undefined;
+}
+
 /// @enum Enumeration of all layouts available for {@link FORMS_Pen}.
 enum FORMS_EPenLayout
 {
@@ -1316,24 +1346,35 @@ function FORMS_Pen(_container) constructor
 	/// @param {String} _id The ID of the dropdown.
 	/// @param {Real} _value The index of the currently selected option.
 	/// @param {Array} _options An array of all available options.
-	/// @param {Struct, Undefined} [_props] Properties to apply to the dropdown
-	/// or `undefined` (default).
+	/// @param {Struct.FORMS_PenDropdownProps, Undefined} [_props] Properties to
+	/// apply to the dropdown or `undefined` (default).
 	///
 	/// @return {Bool} Returns `true` if a new option was selected. The new
 	/// index of the selected option can be retrieved using method
 	/// {@link FORMS_Pen.get_result}.
 	static dropdown = function (_id, _value, _options, _props = undefined)
 	{
-		// TODO: Add struct FORMS_PenDropdownProps
 		__assert_started();
+
 		_id = __make_id(_id);
+
 		var _width = forms_get_prop(_props, "Width") ?? get_control_width();
 		var _height = __lineHeight;
 		var _padding = forms_get_prop(_props, "Padding") ?? 4;
+		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x424242;
+		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
+		var _caretColor = forms_get_prop(_props, "CaretColor") ?? c_white;
+		var _caretAlpha = forms_get_prop(_props, "CaretAlpha") ?? 0.5;
+		var _color = forms_get_prop(_props, "Color") ?? c_white;
+		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height, _id);
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, 0x424242, 1.0);
-		fa_draw(FA_FntSolid12, FA_ESolid.CaretDown, X + _width - 16, Y - 2, c_white, 0.5);
 
+		// Background
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _backgroundColor, _backgroundAlpha);
+		// Caret icon
+		fa_draw(FA_FntSolid12, FA_ESolid.CaretDown, X + _width - 16, Y - 2, _caretColor, _caretAlpha);
+
+		// Find current value
 		var _textOriginal = "";
 		var _index = array_length(_options) - 1;
 		repeat(_index + 1)
@@ -1352,6 +1393,7 @@ function FORMS_Pen(_container) constructor
 			--_index;
 		}
 
+		// Draw current value
 		if (_index >= 0)
 		{
 			var _text = _textOriginal;
@@ -1366,14 +1408,16 @@ function FORMS_Pen(_container) constructor
 				}
 				_shortened = true;
 			}
-			draw_text(X + _padding, Y, _text);
+			forms_draw_text(X + _padding, Y, _text, _color, _alpha);
 			if (_shortened && _mouseOver)
 			{
 				forms_set_tooltip(_textOriginal);
 			}
 		}
+
 		if (_mouseOver)
 		{
+			// Open dropdown options
 			if (forms_mouse_check_button_pressed(mb_left))
 			{
 				if (__dropdowns[$  _id] == undefined
@@ -1396,7 +1440,9 @@ function FORMS_Pen(_container) constructor
 			}
 			forms_set_cursor(cr_handpoint);
 		}
+
 		__move_or_nl(_width);
+
 		return __consume_result(_id);
 	}
 
