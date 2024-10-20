@@ -51,11 +51,188 @@ function FORMS_PenTextProps() constructor
 	/// is trimmed from the right if larger.
 	Width = undefined;
 
-	/// @var {String, Undefined} The tooltip to show on mouse-over.
+	/// @var {String, Undefined} The tooltip text to show on mouse-over.
 	Tooltip = undefined;
 
 	/// @var {Constant.Cursor, Undefined} The cursor to use on mouse-over.
 	Cursor = undefined;
+}
+
+/// @func FORMS_PenLinkProps()
+///
+/// @desc Properties accepted by method {@link FORMS_Pen.link}.
+function FORMS_PenLinkProps(): FORMS_PenTextProps() constructor {}
+
+/// @func FORMS_PenIconProps()
+///
+/// @desc Properties accepted by method {@link FORMS_Pen.icon}.
+function FORMS_PenIconProps() constructor
+{
+	/// @var {Constant.Color, Undefined} The color of the icon.
+	Color = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the icon.
+	Alpha = undefined;
+
+	/// @var {Real, Undefined} The width of the icon.
+	Width = undefined;
+
+	/// @var {Real, Undefined} The height of the icon.
+	Height = undefined;
+
+	/// @var {Constant.Color, Undefined} The icon's background color.
+	BackgroundColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the icon's background.
+	BackgroundAlpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The icon's background color on
+	/// mouse-over.
+	BackgroundColorHover = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the icon's background on
+	/// mouse-over.
+	BackgroundAlphaHover = undefined;
+
+	/// @var {String, Undefined} The tooltip text to show on mouse-over.
+	Tooltip = undefined;
+}
+
+/// @func FORMS_PenIconRegularProps()
+///
+/// @desc Properties accepted by method {@link FORMS_Pen.icon_regular}.
+function FORMS_PenIconRegularProps(): FORMS_PenIconProps() constructor
+{
+	/// @var {Asset.GMFont, Undefined} The font to use with the icon.
+	Font = undefined;
+}
+
+/// @func FORMS_PenIconSolidProps()
+///
+/// @desc Properties accepted by method {@link FORMS_Pen.icon_solid}.
+function FORMS_PenIconSolidProps(): FORMS_PenIconProps() constructor
+{
+	/// @var {Asset.GMFont, Undefined} The font to use with the icon.
+	Font = undefined;
+}
+
+/// @func FORMS_PenIconBrandsProps()
+///
+/// @desc Properties accepted by method {@link FORMS_Pen.icon_brands}.
+function FORMS_PenIconBrandsProps(): FORMS_PenIconProps() constructor
+{
+	/// @var {Asset.GMFont, Undefined} The font to use with the icon.
+	Font = undefined;
+}
+
+/// @func FORMS_PenButtonProps()
+///
+/// @desc Properties accepted by method {@link FORMS_Pen.button}.
+function FORMS_PenButtonProps() constructor
+{
+	/// @var {Constant.Color, Undefined} The color of the button's text.
+	Color = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the button's text.
+	Alpha = undefined;
+
+	/// @var {Real, Undefined} The horizontal padding around the button's text.
+	Padding = undefined;
+
+	/// @var {Real, Undefined} The width of the button.
+	Width = undefined;
+
+	/// @var {Real, Undefined} The height of the button.
+	Height = undefined;
+
+	/// @var {Constant.Color, Undefined} The button's background color.
+	BackgroundColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the button's background.
+	BackgroundAlpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The button's background color on
+	/// mouse-over.
+	BackgroundColorHover = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the button's background on
+	/// mouse-over.
+	BackgroundAlphaHover = undefined;
+
+	/// @var {String, Undefined} The tooltip text to show on mouse-over.
+	Tooltip = undefined;
+}
+
+/// @func FORMS_PenColorProps()
+///
+/// @desc Properties accepted by method {@link FORMS_Pen.color}.
+function FORMS_PenColorProps() constructor
+{
+	/// @var {Real, Undefined} The width of the color input.
+	Width = undefined;
+
+	/// @var {Bool, Undefined} Whether the color input is disabled (`true`) or
+	/// not (`false`).
+	Disabled = undefined;
+
+	/// @var {String, Undefined} The tooltip text to show on mouse-over.
+	Tooltip = undefined;
+}
+
+/// @func FORMS_PenCheckboxProps()
+///
+/// @desc Properties accepted by method {@link FORMS_Pen.checkbox}.
+function FORMS_PenCheckboxProps() constructor
+{
+	/// @var {Constant.Color, Undefined} The color of the tick.
+	Color = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the tick.
+	Alpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The background color.
+	BackgroundColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the background.
+	BackgroundAlpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The color of the border shown on
+	/// mouse-over.
+	BorderColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the border.
+	BorderAlpha = undefined;
+
+	/// @var {String, Undefined} The tooltip text to show on mouse-over.
+	Tooltip = undefined;
+}
+
+/// @func FORMS_PenRadioProps()
+///
+/// @desc Properties accepted by method {@link FORMS_Pen.radio}.
+function FORMS_PenRadioProps() constructor
+{
+	/// @var {Constant.Color, Undefined} The color of the tick.
+	Color = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the tick.
+	Alpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The background color.
+	BackgroundColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the background.
+	BackgroundAlpha = undefined;
+
+	/// @var {Constant.Color, Undefined} The color of the border shown on
+	/// mouse-over.
+	BorderColor = undefined;
+
+	/// @var {Real, Undefined} The alpha value of the border.
+	BorderAlpha = undefined;
+
+	/// @var {String, Undefined} The tooltip text to show on mouse-over.
+	Tooltip = undefined;
 }
 
 /// @enum Enumeration of all layouts available for {@link FORMS_Pen}.
@@ -65,7 +242,7 @@ enum FORMS_EPenLayout
 	/// line. New lines are added with {@link FORMS_Pen.nl}.
 	Horizontal,
 	/// @member When {@link FORMS_Pen.next} is called, the pen moves onto the
-	/// next line. 
+	/// next line.
 	Vertical,
 	/// @member There are two columns and when {@link FORMS_Pen.next} is called,
 	/// the pen cycles through them, automatically adding a new line after the
@@ -230,6 +407,50 @@ function FORMS_Pen(_container) constructor
 	/// @private
 	__result = undefined;
 
+	/// @func set_x(_x)
+	///
+	/// @desc Moves the pen to given X coordinate.
+	///
+	/// @param {Real} _x The new X coordinate of the pen.
+	///
+	/// @return {Struct.FORMS_Pen} Returns `self`.
+	static set_x = function (_x)
+	{
+		X = _x;
+		MaxX = max(MaxX, X);
+		return self;
+	}
+
+	/// @func get_max_x()
+	///
+	/// @desc Retrieves the maximum drawn-to X coordinate, incremented by the
+	/// pen's current padding configuration.
+	///
+	/// @return {Real} The maximum drawn-to X coordinate, incremented by the
+	/// pen's current padding configuration.
+	///
+	/// @see FORMS_Pen.MaxX
+	/// @see FORMS_Pen.PaddingX
+	static get_max_x = function ()
+	{
+		return MaxX + PaddingX;
+	}
+
+	/// @func get_max_y()
+	///
+	/// @desc Retrieves the maximum drawn-to Y coordinate, incremented by the
+	/// pen's current padding configuration.
+	///
+	/// @return {Real} The maximum drawn-to Y coordinate, incremented by the
+	/// pen's current padding configuration.
+	///
+	/// @see FORMS_Pen.MaxY
+	/// @see FORMS_Pen.PaddingY
+	static get_max_y = function ()
+	{
+		return MaxY + PaddingY;
+	}
+
 	/// @func get_column_width()
 	///
 	/// @desc Retrieves the current width of a single column.
@@ -271,6 +492,12 @@ function FORMS_Pen(_container) constructor
 		return _result;
 	}
 
+	/// @func __consume_result()
+	///
+	/// @param {String} _id
+	///
+	/// @return {Bool}
+	///
 	/// @private
 	static __consume_result = function (_id)
 	{
@@ -282,6 +509,10 @@ function FORMS_Pen(_container) constructor
 		return false;
 	}
 
+	/// @func __assert_started()
+	///
+	/// @desc Asserts that {@link FORMS_Pen.start} was called.
+	///
 	/// @private
 	static __assert_started = function ()
 	{
@@ -350,6 +581,20 @@ function FORMS_Pen(_container) constructor
 		return self;
 	}
 
+	/// @func finish()
+	///
+	/// @desc Finishes drawing with the pen. Must be always used before calling
+	/// {@link FORMS_Pen.start} again!
+	///
+	/// @return {Struct.FORMS_Pen} Returns `self`.
+	static finish = function ()
+	{
+		__assert_started();
+		__started = false;
+		draw_set_font(__fontBackup);
+		return self;
+	}
+
 	/// @func move([_x])
 	///
 	/// @desc Moves the pen on the X axis by given amount, incremented by the
@@ -368,50 +613,40 @@ function FORMS_Pen(_container) constructor
 		return self;
 	}
 
-	/// @func set_x(_x)
+	/// @func nl([_count])
 	///
-	/// @desc Moves the pen to given X coordinate.
+	/// @desc Adds given number of new lines.
 	///
-	/// @param {Real} _x The new X coordinate of the pen.
+	/// @param {Real} [_count] The number of new lines to add. Defaults to 1.
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
-	static set_x = function (_x)
+	///
+	/// @see FORMS_Pen.SpacingY
+	static nl = function (_count = 1)
 	{
-		X = _x;
-		MaxX = max(MaxX, X);
+		gml_pragma("forceinline");
+		__assert_started();
+
+		if (__layout == FORMS_EPenLayout.Column2)
+		{
+			set_x((__columnCurrent == 0) ? ColumnX1 : ColumnX2);
+		}
+		else
+		{
+			set_x(ColumnX1);
+		}
+
+		Y += (__lineHeight + SpacingY) * _count;
+		MaxY = max(MaxY, Y);
+
 		return self;
 	}
 
-	/// @func get_max_x()
+	/// @func __move_or_nl(_x)
 	///
-	/// @desc Retrieves the maximum drawn-to X coordiante, incremented by the
-	/// pen's current padding configuration.
+	/// @desc Moves by X or adds a new line of {@link FORMS_Pen.AutoNewline} is
+	/// enabled.
 	///
-	/// @return {Real} The maximum drawn-to X coordiante, incremented by the
-	/// pen's current padding configuration.
-	///
-	/// @see FORMS_Pen.MaxX
-	/// @see FORMS_Pen.PaddingX
-	static get_max_x = function ()
-	{
-		return MaxX + PaddingX;
-	}
-
-	/// @func get_max_y()
-	///
-	/// @desc Retrieves the maximum drawn-to Y coordiante, incremented by the
-	/// pen's current padding configuration.
-	///
-	/// @return {Real} The maximum drawn-to Y coordiante, incremented by the
-	/// pen's current padding configuration.
-	///
-	/// @see FORMS_Pen.MaxY
-	/// @see FORMS_Pen.PaddingY
-	static get_max_y = function ()
-	{
-		return MaxY + PaddingY;
-	}
-
 	/// @private
 	static __move_or_nl = function (_x)
 	{
@@ -428,7 +663,7 @@ function FORMS_Pen(_container) constructor
 	/// @func next()
 	///
 	/// @desc Moves to the next position in the current layout (specified in
-	/// method {@link BBMOD_Pen.start}).
+	/// method {@link FORMS_Pen.start}).
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
 	///
@@ -459,74 +694,17 @@ function FORMS_Pen(_container) constructor
 		return self;
 	}
 
-	/// @func text(_text[, _props])
+	/// @func __make_id(_id)
 	///
-	/// @desc Draws a text and moves the pen by its width (or adds a new line,
-	/// if {@link FORMS_Pen.AutoNewline} is enabled).
+	/// @param {String} _id
 	///
-	/// @param {String} _text The text to draw.
-	/// @param {Struct.FROMS_PenTextProps, Undefined} [_props] Properties to
-	/// apply to the text or `undefined` (default).
+	/// @return {String}
 	///
-	/// @return {Struct.FORMS_Pen} Returns `self`.
-	static text = function (_text, _props = undefined)
+	/// @private
+	static __make_id = function (_id)
 	{
-		__assert_started();
-		var _textOriginal = _text;
-		var _c = forms_get_prop(_props, "Color") ?? c_white;
-		var _a = forms_get_prop(_props, "Alpha") ?? 1.0;
-		var _textWidth = string_width(_text);
-		var _trim = forms_get_prop(_props, "Trim") ?? (__layout == FORMS_EPenLayout.Column2);
-		var _width = _trim ? get_control_width() : (forms_get_prop(_props, "Width") ?? _textWidth);
-		var _shortened = false;
-		if (_textWidth > _width)
-		{
-			while (_textWidth > _width && _text != "")
-			{
-				_text = string_copy(_text, 1, string_length(_text) - 1);
-				_textWidth = string_width(_text);
-			}
-			_shortened = true;
-		}
-		var _textHeight = string_height(_text);
-		var _mouseOver = is_mouse_over(X, Y, _textWidth, _textHeight);
-		if (_mouseOver)
-		{
-			forms_set_tooltip(forms_get_prop(_props, "Tooltip") ?? (_shortened ? _textOriginal : undefined));
-			forms_set_cursor(forms_get_prop(_props, "Cursor") ?? forms_get_cursor());
-		}
-		draw_text_color(X, Y, _text, _c, _c, _c, _c, _a);
-		__move_or_nl(string_width(_text));
-		return self;
-	}
-
-	/// @func link(_text[, _props])
-	///
-	/// @desc Draws an interactable text and moves the pen by its width (or adds
-	/// a new line, if {@link FORMS_Pen.AutoNewline} is enabled).
-	///
-	/// @param {String} _text The text to draw.
-	/// @param {Struct, Undefined} [_props] Properties to apply to the text or
-	/// `undefined` (default).
-	///
-	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
-	static link = function (_text, _props = undefined)
-	{
-		// TODO: Add struct FORMS_PenLinkProps
-		__assert_started();
-		var _c = forms_get_prop(_props, "Color") ?? c_white;
-		var _a = forms_get_prop(_props, "Alpha") ?? 1.0;
-		var _textWidth = string_width(_text);
-		var _textHeight = string_height(_text);
-		var _mouseOver = is_mouse_over(X, Y, _textWidth, _textHeight);
-		if (_mouseOver)
-		{
-			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
-			forms_set_cursor(forms_get_prop(_props, "Cursor") ?? cr_handpoint);
-		}
-		draw_text_color(X, Y, _text, _c, _c, _c, _c, _a);
-		__move_or_nl(string_width(_text));
-		FORMS_PEN_RETURN_MOUSE_STATE;
+		gml_pragma("forceinline");
+		return Container.Id + "#" + _id;
 	}
 
 	/// @func is_mouse_over(_x, _y, _width, _height[, _id])
@@ -569,6 +747,100 @@ function FORMS_Pen(_container) constructor
 		];
 	}
 
+	/// @func text(_text[, _props])
+	///
+	/// @desc Draws a text and moves the pen by its width (or adds a new line,
+	/// if {@link FORMS_Pen.AutoNewline} is enabled).
+	///
+	/// @param {String} _text The text to draw.
+	/// @param {Struct.FORMS_PenTextProps, Undefined} [_props] Properties to
+	/// apply to the text or `undefined` (default).
+	///
+	/// @return {Struct.FORMS_Pen} Returns `self`.
+	static text = function (_text, _props = undefined)
+	{
+		__assert_started();
+
+		var _textOriginal = _text;
+		var _color = forms_get_prop(_props, "Color") ?? c_white;
+		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _textWidth = string_width(_text);
+		var _textHeight = string_height(_text);
+		var _trim = forms_get_prop(_props, "Trim") ?? (__layout == FORMS_EPenLayout.Column2);
+		var _width = _trim ? get_control_width() : (forms_get_prop(_props, "Width") ?? _textWidth);
+		var _shortened = false;
+
+		if (_textWidth > _width)
+		{
+			while (_textWidth > _width && _text != "")
+			{
+				_text = string_copy(_text, 1, string_length(_text) - 1);
+				_textWidth = string_width(_text);
+			}
+			_shortened = true;
+		}
+
+		var _mouseOver = is_mouse_over(X, Y, _textWidth, _textHeight);
+
+		if (_mouseOver)
+		{
+			forms_set_tooltip(forms_get_prop(_props, "Tooltip") ?? (_shortened ? _textOriginal : undefined));
+			forms_set_cursor(forms_get_prop(_props, "Cursor") ?? forms_get_cursor());
+		}
+
+		draw_text_color(X, Y, _text, _color, _color, _color, _color, _alpha);
+		__move_or_nl(string_width(_text));
+
+		return self;
+	}
+
+	/// @func link(_text[, _props])
+	///
+	/// @desc Draws an interactive text and moves the pen by its width (or adds
+	/// a new line, if {@link FORMS_Pen.AutoNewline} is enabled).
+	///
+	/// @param {String} _text The text to draw.
+	/// @param {Struct.FORMS_PenLinkProps, Undefined} [_props] Properties to
+	/// apply to the text or `undefined` (default).
+	///
+	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
+	static link = function (_text, _props = undefined)
+	{
+		__assert_started();
+
+		var _textOriginal = _text;
+		var _color = forms_get_prop(_props, "Color") ?? c_white;
+		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _textWidth = string_width(_text);
+		var _textHeight = string_height(_text);
+		var _trim = forms_get_prop(_props, "Trim") ?? (__layout == FORMS_EPenLayout.Column2);
+		var _width = _trim ? get_control_width() : (forms_get_prop(_props, "Width") ?? _textWidth);
+		var _shortened = false;
+
+		if (_textWidth > _width)
+		{
+			while (_textWidth > _width && _text != "")
+			{
+				_text = string_copy(_text, 1, string_length(_text) - 1);
+				_textWidth = string_width(_text);
+			}
+			_shortened = true;
+		}
+
+		var _mouseOver = is_mouse_over(X, Y, _textWidth, _textHeight);
+
+		if (_mouseOver)
+		{
+			forms_set_tooltip(forms_get_prop(_props, "Tooltip") ?? (_shortened ? _textOriginal : undefined));
+			forms_set_cursor(forms_get_prop(_props, "Cursor") ?? forms_get_cursor());
+		}
+
+		draw_text_color(X, Y, _text, _color, _color, _color, _color, _alpha);
+		__move_or_nl(string_width(_text));
+
+		FORMS_PEN_RETURN_MOUSE_STATE;
+	}
+
 	/// @func icon(_icon, _font[, _props])
 	///
 	/// @desc Draws a Font Awesome icon using given font and moves the pen by
@@ -579,37 +851,46 @@ function FORMS_Pen(_container) constructor
 	/// {@link FA_ERegular} or {@link FA_EBrands}.
 	/// @param {Asset.GMFont} _font The font to use. Must correspond with the
 	/// icon to be drawn!
-	/// @param {Struct, Undefined} [_props] Properties to apply to the icon or
-	/// `undefined` (default).
+	/// @param {Struct.FORMS_PenIconProps, Undefined} [_props] Properties to
+	/// apply to the icon or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static icon = function (_icon, _font, _props = undefined)
 	{
-		// TODO: Add struct FORMS_PenIconProps
 		__assert_started();
+
 		var _string = chr(_icon);
 		var _fontPrev = draw_get_font();
 		draw_set_font(_font);
-		var _c = forms_get_prop(_props, "Color") ?? c_white;
-		var _a = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _color = forms_get_prop(_props, "Color") ?? c_white;
+		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
 		var _iconWidth = string_width(_string);
 		var _iconHeight = string_height(_string);
 		var _width = forms_get_prop(_props, "Width") ?? _iconWidth;
 		var _height = forms_get_prop(_props, "Height") ?? _iconHeight;
+		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x424242;
+		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 0.0;
+		var _backgroundColorHover = forms_get_prop(_props, "BackgroundColorHover") ?? 0x424242;
+		var _backgroundAlphaHover = forms_get_prop(_props, "BackgroundAlphaHover") ?? 1.0;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
+
 		if (_mouseOver)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, 0x424242, 1.0);
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 		}
+
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height,
+			_mouseOver ? _backgroundColorHover : _backgroundColor,
+			_mouseOver ? _backgroundAlphaHover : _backgroundAlpha);
 		draw_text_color(
 			round(X + (_width - _iconWidth) / 2),
 			round(Y + (_height - _iconHeight) / 2),
 			_string,
-			_c, _c, _c, _c, _a);
+			_color, _color, _color, _color, _alpha);
 		draw_set_font(_fontPrev);
 		__move_or_nl(_width);
+
 		FORMS_PEN_RETURN_MOUSE_STATE;
 	}
 
@@ -621,8 +902,8 @@ function FORMS_Pen(_container) constructor
 	///
 	/// @param {Real} _icon The icon to draw. Use values from
 	/// {@link FA_ERegular}.
-	/// @param {Struct, Undefined} [_props] Properties to apply to the icon or
-	/// `undefined` (default).
+	/// @param {Struct.FORMS_PenIconRegularProps, Undefined} [_props] Properties
+	/// to apply to the icon or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static icon_regular = function (_icon, _props = undefined)
@@ -638,8 +919,8 @@ function FORMS_Pen(_container) constructor
 	/// is enabled).
 	///
 	/// @param {Real} _icon The icon to draw. Use values from {@link FA_ESolid}.
-	/// @param {Struct, Undefined} [_props] Properties to apply to the icon or
-	/// `undefined` (default).
+	/// @param {Struct.FORMS_PenIconSolidProps, Undefined} [_props] Properties
+	/// to apply to the icon or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static icon_solid = function (_icon, _props = undefined)
@@ -655,8 +936,8 @@ function FORMS_Pen(_container) constructor
 	/// is enabled).
 	///
 	/// @param {Real} _icon The icon to draw. Use values from {@link FA_EBrands}.
-	/// @param {Struct, Undefined} [_props] Properties to apply to the icon or
-	/// `undefined` (default).
+	/// @param {Struct.FORMS_PenIconBrandsProps, Undefined} [_props] Properties
+	/// to apply to the icon or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static icon_brands = function (_icon, _props = undefined)
@@ -671,30 +952,38 @@ function FORMS_Pen(_container) constructor
 	/// if {@link FORMS_Pen.AutoNewline} is enabled).
 	///
 	/// @param {String} _text The button's text.
-	/// @param {Struct, Undefined} [_props] Properties to apply to the button or
-	/// `undefined` (default).
+	/// @param {Struct.FORMS_PenButtonProps, Undefined} [_props] Properties to
+	/// apply to the button or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static button = function (_text, _props = undefined)
 	{
-		// TODO: Add struct FORMS_PenButtonProps
 		__assert_started();
-		var _c = forms_get_prop(_props, "Color") ?? c_white;
-		var _a = forms_get_prop(_props, "Alpha") ?? 1.0;
+
+		var _color = forms_get_prop(_props, "Color") ?? c_white;
+		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
 		var _textWidth = string_width(_text);
-		var _textHeight = string_height(_text);
 		var _padding = forms_get_prop(_props, "Padding") ?? 8;
 		var _width = forms_get_prop(_props, "Width") ?? _textWidth + _padding * 2;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
+		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x424242;
+		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
+		var _backgroundColorHover = forms_get_prop(_props, "BackgroundColorHover") ?? 0x555555;
+		var _backgroundAlphaHover = forms_get_prop(_props, "BackgroundAlphaHover") ?? 1.0;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _mouseOver ? 0x555555 : 0x424242, 1.0);
+
 		if (_mouseOver)
 		{
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 		}
-		draw_text_color(X + _padding, Y, _text, _c, _c, _c, _c, _a);
+
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height,
+			_mouseOver ? _backgroundColorHover : _backgroundColor,
+			_mouseOver ? _backgroundAlphaHover : _backgroundAlpha);
+		draw_text_color(X + _padding, Y, _text, _color, _color, _color, _color, _alpha);
 		__move_or_nl(_width);
+
 		FORMS_PEN_RETURN_MOUSE_STATE;
 	}
 
@@ -706,41 +995,47 @@ function FORMS_Pen(_container) constructor
 	///
 	/// @func {String} _id The ID of the color input.
 	/// @func {Struct.FORMS_Color} _color The color to be mixed.
-	/// @func {Struct, Undefined} [_props] Properties to apply to the color
-	/// input or `undefined`.
+	/// @func {Struct.FORMS_PenColorProps, Undefined} [_props] Properties to
+	/// apply to the color input or `undefined`.
 	///
 	/// @return {Bool} Returns `true` if the color has changed. The new color
 	/// can be retrieved using method {@link FORMS_Pen.get_result}.
 	static color = function (_id, _color, _props = undefined)
 	{
-		// TODO: Add struct FORMS_PenColorProps
 		__assert_started();
+
 		_id = __make_id(_id);
+
 		var _width = forms_get_prop(_props, "Width") ?? min(get_control_width(), 50);
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _height = __lineHeight;
 		var _mouseOver = (!_disabled && is_mouse_over(X, Y, _width, _height, _id));
+
 		draw_sprite_stretched(FORMS_SprColor, 0, X, Y, _width, _height);
 		draw_sprite_stretched_ext(
 			FORMS_SprRound4, 0,
 			X, Y,
 			_width, _height,
 			_color.get(), _color.get_alpha());
+
 		if (_mouseOver)
 		{
+			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
+
 			if (forms_mouse_check_button_pressed(mb_left))
 			{
-				if (forms_get_root().find_widget(_id + "#color-picker") == undefined)
+				var _colorPickerId = _id + "#color-picker";
+
+				if (forms_get_root().find_widget(_colorPickerId) == undefined)
 				{
-					var _world = matrix_get(matrix_world);
 					// TODO: Window auto fit content
 					var _colorPickerWidth = 200;
 					var _colorPickerHeight = 370;
 					var _colorPickerPos = get_absolute_pos(X, Y + _height);
 					var _colorPicker = new FORMS_ColorPicker(_id, _color,
 					{
-						Id: _id + "#color-picker",
+						Id: _colorPickerId,
 						Width: _colorPickerWidth,
 						Height: _colorPickerHeight,
 						X: clamp(_colorPickerPos[0], 0, window_get_width() - _colorPickerWidth),
@@ -751,6 +1046,7 @@ function FORMS_Pen(_container) constructor
 			}
 		}
 		__move_or_nl(_width);
+
 		return __consume_result(_id);
 	}
 
@@ -761,32 +1057,50 @@ function FORMS_Pen(_container) constructor
 	///
 	/// @param {Bool} _checked Whether the checkbox is checked (`true`) or not
 	/// (`false`).
-	/// @param {Struct, Undefined} [_props] Properties to apply to the checkbox
-	/// or `undefined` (default).
+	/// @param {Struct.FORMS_PenCheckboxProps, Undefined} [_props] Properties to
+	/// apply to the checkbox or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static checkbox = function (_checked, _props = undefined)
 	{
-		// TODO: Add struct FORMS_PenCheckboxProps
 		__assert_started();
+
 		var _width = __lineHeight;
 		var _height = __lineHeight;
+		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x171717;
+		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
-		if (_mouseOver)
-		{
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, 0x9D9D9D, 1.0);
-		}
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, 0x171717, 1.0);
-		if (_checked)
-		{
-			fa_draw(FA_FntSolid12, FA_ESolid.Check, X + 2, Y, global.formsAccentColor);
-		}
+
 		if (_mouseOver)
 		{
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 		}
+
+		// Border
+		if (_mouseOver)
+		{
+			var _borderColor = forms_get_prop(_props, "BorderColor") ?? 0x9D9D9D;
+			var _borderAlpha = forms_get_prop(_props, "BorderAlpha") ?? 1.0;
+
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, _borderColor,
+				_borderAlpha);
+		}
+
+		// Background
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _backgroundColor, _backgroundAlpha);
+
+		// Icon
+		if (_checked)
+		{
+			var _color = forms_get_prop(_props, "Color") ?? global.formsAccentColor;
+			var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+
+			fa_draw(FA_FntSolid12, FA_ESolid.Check, X + 2, Y, _color, _alpha);
+		}
+
 		__move_or_nl(_width);
+
 		FORMS_PEN_RETURN_MOUSE_STATE;
 	}
 
@@ -797,37 +1111,49 @@ function FORMS_Pen(_container) constructor
 	///
 	/// @param {Bool} _selected Whether the radio button is selected (`true`)
 	/// or not (`false`).
-	/// @param {Struct, Undefined} [_props] Properties to apply to the radio
-	/// button or `undefined` (default).
+	/// @param {Struct.FORMS_PenRadioProps, Undefined} [_props] Properties to
+	/// apply to the radio button or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static radio = function (_selected, _props = undefined)
 	{
-		// TODO: Add struct FORMS_PenRadioProps
 		__assert_started();
+
 		var _width = __lineHeight;
 		var _height = __lineHeight;
+		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x171717;
+		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
-		draw_sprite_stretched_ext(FORMS_SprRadioButton, 0, X, Y, _width, _height, 0x171717, 1.0);
-		if (_selected)
-		{
-			draw_sprite_stretched_ext(FORMS_SprRadioButton, 2, X, Y, _width, _height, global.formsAccentColor, 1.0);
-		}
+
 		if (_mouseOver)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRadioButton, 1, X, Y, _width, _height, 0x9D9D9D, 1.0);
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 		}
-		__move_or_nl(_width);
-		FORMS_PEN_RETURN_MOUSE_STATE;
-	}
 
-	/// @private
-	static __make_id = function (_id)
-	{
-		gml_pragma("forceinline");
-		return Container.Id + "#" + _id;
+		// Background 
+		draw_sprite_stretched_ext(FORMS_SprRadioButton, 0, X, Y, _width, _height, _backgroundColor,
+			_backgroundAlpha);
+		// Border
+		if (_mouseOver)
+		{
+			var _borderColor = forms_get_prop(_props, "BorderColor") ?? 0x9D9D9D;
+			var _borderAlpha = forms_get_prop(_props, "BorderAlpha") ?? 1.0;
+
+			draw_sprite_stretched_ext(FORMS_SprRadioButton, 1, X, Y, _width, _height, _borderColor, _borderAlpha);
+		}
+		// Tick
+		if (_selected)
+		{
+			var _color = forms_get_prop(_props, "Color") ?? global.formsAccentColor;
+			var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+
+			draw_sprite_stretched_ext(FORMS_SprRadioButton, 2, X, Y, _width, _height, _color, _alpha);
+		}
+
+		__move_or_nl(_width);
+
+		FORMS_PEN_RETURN_MOUSE_STATE;
 	}
 
 	/// @func slider(_id, _value, _min, _max[, _props])
@@ -1174,7 +1500,7 @@ function FORMS_Pen(_container) constructor
 	/// @param {Struct, Undefined} [_props] Properties to apply to the section
 	/// or `undefined` (default).
 	///
-	/// @return {Bool} Returns `true` if the section is expanded or `false` if 
+	/// @return {Bool} Returns `true` if the section is expanded or `false` if
 	/// it's collapsed.
 	///
 	/// @see FORMS_Pen.SectionIndent
@@ -1227,49 +1553,6 @@ function FORMS_Pen(_container) constructor
 		ColumnX1 -= SectionIndent;
 		--__sectionCurrent;
 		nl(0);
-		return self;
-	}
-
-	/// @func nl([_count])
-	///
-	/// @desc Adds given number of new lines.
-	///
-	/// @param {Real} [_count] The number of new lines to add. Defaults to 1.
-	///
-	/// @return {Struct.FORMS_Pen} Returns `self`.
-	///
-	/// @see FORMS_Pen.SpacingY
-	static nl = function (_count = 1)
-	{
-		gml_pragma("forceinline");
-		__assert_started();
-
-		if (__layout == FORMS_EPenLayout.Column2)
-		{
-			set_x((__columnCurrent == 0) ? ColumnX1 : ColumnX2);
-		}
-		else
-		{
-			set_x(ColumnX1);
-		}
-
-		Y += (__lineHeight + SpacingY) * _count;
-		MaxY = max(MaxY, Y);
-
-		return self;
-	}
-
-	/// @func finish()
-	///
-	/// @desc Finishes drawing with the pen. Must be always used before calling
-	/// {@link FORMS_Pen.start} again!
-	///
-	/// @return {Struct.FORMS_Pen} Returns `self`.
-	static finish = function ()
-	{
-		__assert_started();
-		__started = false;
-		draw_set_font(__fontBackup);
 		return self;
 	}
 }
