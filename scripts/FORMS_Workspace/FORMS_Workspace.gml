@@ -175,6 +175,10 @@ function FORMS_WorkspaceTabs(_props = undefined): FORMS_Container(_props) constr
 	// TODO: Docs
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
 
+	/// @var {Bool} Whether the default scrolling direction of the container is
+	/// vertical (`true`) or horizontal (`false`). Defaults to `false`.
+	IsDefaultScrollVertical = forms_get_prop(_props, "IsDefaultScrollVertical") ?? false;
+
 	static draw_content = function ()
 	{
 		var _workspace = Parent;
