@@ -155,16 +155,90 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 		return self;
 	}
 
+	/// @func check()
+	///
+	/// @desc Tests whether all keys bound to the shortcut are checked.
+	///
+	/// @return {Bool} Returns `true` if all keys bound to the shortcut are
+	/// checked.
 	static check = function ()
 	{
-		// TODO: Implement FORMS_KeyboardShortcut.check
-		return false;
+		var _keysLength = array_length(Keys);
+		var _mouseButtonsLength = array_length(MouseButtons);
+
+		if (_keysLength == 0 && _mouseButtonsLength == 0)
+		{
+			return false;
+		}
+
+		for (var i = 0; i < _keysLength; ++i)
+		{
+			if (!keyboard_check(Keys[i]))
+			{
+				return false;
+			}
+		}
+
+		for (var i = 0; i < _mouseButtonsLength; ++i)
+		{
+			if (!mouse_check_button(MouseButtons[i]))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
+	/// @func check_pressed()
+	///
+	/// @desc Tests whether all keys bound to the shortcut are pressed.
+	///
+	/// @return {Bool} Returns `true` if all keys bound to the shortcut are
+	/// pressed.
 	static check_pressed = function ()
 	{
-		// TODO: Implement FORMS_KeyboardShortcut.check_pressed
-		return false;
+		var _keysLength = array_length(Keys);
+		var _mouseButtonsLength = array_length(MouseButtons);
+
+		if (_keysLength == 0 && _mouseButtonsLength == 0)
+		{
+			return false;
+		}
+
+		for (var i = _keysLength - ((_mouseButtonsLength > 0) ? 1 : 2); i >= 0; --i)
+		{
+			if (!keyboard_check(Keys[i]))
+			{
+				return false;
+			}
+		}
+
+		if (_keysLength > 0 && _mouseButtonsLength == 0)
+		{
+			if (!keyboard_check_pressed(array_last(Keys)))
+			{
+				return false;
+			}
+		}
+
+		for (var i = 0; i < _mouseButtonsLength - 1; ++i)
+		{
+			if (!mouse_check_button(MouseButtons[i]))
+			{
+				return false;
+			}
+		}
+
+		if (_mouseButtonsLength > 0)
+		{
+			if (!mouse_check_button_pressed(array_last(MouseButtons)))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/// @func to_string()
