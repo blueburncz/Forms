@@ -228,7 +228,9 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 		}
 
 		// Caret
-		if (is_array(Children))
+		var _hasChildren = (is_array(Children) && array_length(Children) > 0);
+
+		if (_hasChildren)
 		{
 			var _iconProps = {
 				Color: CaretColor,
@@ -242,12 +244,16 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 				Collapsed = !Collapsed;
 			}
 		}
+		else
+		{
+			_pen.move(_iconWidth);
+		}
 
 		// Icon
-		var _icon = Collapsed ? (IconCollapsed ?? Icon) : Icon;
+		var _icon = (Collapsed || !_hasChildren) ? (IconCollapsed ?? Icon) : Icon;
 		if (_icon != undefined)
 		{
-			var _iconFont = Collapsed ? (IconCollapsedFont ?? IconFont) : IconFont;
+			var _iconFont = (Collapsed || !_hasChildren) ? (IconCollapsedFont ?? IconFont) : IconFont;
 			_pen.icon(_icon, _iconFont,
 			{
 				Color: IconColor,
