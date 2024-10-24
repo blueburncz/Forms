@@ -34,4 +34,5 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	_dock.get_second().set_tabs([
 		new FORMS_ApplicationSurface({ Name: "Viewport", Width: "100%", Height: "100%", Resize: true })
 	]);
+	//_dock.get_second().ShowTabs = false;
 }

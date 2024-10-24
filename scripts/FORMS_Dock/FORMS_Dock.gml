@@ -52,6 +52,9 @@ function FORMS_DockProps(): FORMS_WidgetProps() constructor
 	/// @var {Real, Undefined} The alpha value of the splitter when being
 	/// dragged.
 	SplitterAlphaActive = undefined;
+
+	/// @var {Bool, Undefined} Whether to show tabs (`true`) or not (`false`).
+	ShowTabs = undefined;
 }
 
 /// @func FORMS_Dock([_props])
@@ -106,6 +109,9 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 	/// @var {Real} The alpha value of the splitter when it's being dragged.
 	/// Defaults to 1.
 	SplitterAlphaActive = forms_get_prop(_props, "SplitterAlphaActive") ?? 1.0;
+
+	/// @var {Bool, Undefined} Whether to show tabs (`true`, default) or not (`false`).
+	ShowTabs = forms_get_prop(_props, "ShowTabs") ?? true;
 
 	/// @var {Struct.FORMS_DockTabs}
 	/// @private
@@ -356,7 +362,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 				var _autoHeight = get_auto_height();
 
 				__realWidth = floor(Width.get_absolute(_parentWidth, _autoWidth));
-				__realHeight = floor(Height.get_absolute(_parentHeight, _autoHeight));
+				__realHeight = other.ShowTabs ? floor(Height.get_absolute(_parentHeight, _autoHeight)) : 0;
 				__realX = floor(_parentX + X.get_absolute(_parentWidth, _autoWidth));
 				__realY = floor(_parentY + Y.get_absolute(_parentHeight, _autoHeight));
 
