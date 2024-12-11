@@ -5,12 +5,10 @@
 /// @desc Properties accepted by the constructor of {@link FORMS_ScrollPane}.
 function FORMS_ScrollPaneProps(): FORMS_CompoundWidgetProps() constructor
 {
-	/// @var {Struct.FORMS_HScrollbarProps, Undefined} Properties to create the
-	/// scroll pane's horizontal scrollbar with.
+	/// @var {Struct.FORMS_HScrollbarProps, Undefined} Properties to create the scroll pane's horizontal scrollbar with.
 	HScrollbarProps = undefined;
 
-	/// @var {Struct.FORMS_VScrollbarProps, Undefined} Properties to create the
-	/// scroll pane's vertical scrollbar with.
+	/// @var {Struct.FORMS_VScrollbarProps, Undefined} Properties to create the scroll pane's vertical scrollbar with.
 	VScrollbarProps = undefined;
 }
 
@@ -20,10 +18,9 @@ function FORMS_ScrollPaneProps(): FORMS_CompoundWidgetProps() constructor
 ///
 /// @desc A widget that consists of a container and two scrollbars.
 ///
-/// @param {Struct.FORMS_Container} _container The container inside of the
-/// scroll pane.
-/// @param {Struct.FORMS_ScrollPaneProps, Undefined} [_props] Properties to
-/// create the scroll pane with or `undefined` (default).
+/// @param {Struct.FORMS_Container} _container The container inside of the scroll pane.
+/// @param {Struct.FORMS_ScrollPaneProps, Undefined} [_props] Properties to create the scroll pane with or `undefined`
+/// (default).
 function FORMS_ScrollPane(_container, _props = undefined): FORMS_CompoundWidget(_props, undefined) constructor
 {
 	//static CompoundWidget_layout = layout;

@@ -10,15 +10,13 @@
 /// @macro {String} The version of Forms as a string "major.minor.patch".
 #macro FORMS_VERSION_STRING $"{FORMS_VERSION_MAJOR}.{FORMS_VERSION_MINOR}.{FORMS_VERSION_PATCH}"
 
-/// @var {Constant.Color} The accent color. Used for example as color of the
-/// tick icon in selected checboxes or the circle icon in selected radio buttons.
-/// Default value is `0x5B9D00` ("GameMaker green").
+/// @var {Constant.Color} The accent color. Used for example as color of the tick icon in selected checkboxes or the
+/// circle icon in selected radio buttons. Default value is `0x5B9D00` ("GameMaker green").
 global.formsAccentColor = 0x5B9D00;
 
 /// @func forms_assert(_expr, _message)
 ///
-/// @desc Calls `show_error(_message, true)` if given expression doesn't
-/// evaluate to `true`.
+/// @desc Calls `show_error(_message, true)` if given expression doesn't evaluate to `true`.
 ///
 /// @param {Bool} _expr The expression to check.
 /// @param {String} _message The error message to show if expression is `false`.
@@ -72,8 +70,7 @@ function forms_draw_rectangle(_x, _y, _width, _height, _color = c_white, _alpha 
 /// @param {Real} _width The width of the rectangle.
 /// @param {Real} _height The height of the rectangle.
 /// @param {Real} _radius Corner radius, either 4 or 8. Defaults to 4.
-/// @param {Constant.Color} [_color] The color of the rectangle. Defaults to
-/// `c_white`.
+/// @param {Constant.Color} [_color] The color of the rectangle. Defaults to `c_white`.
 /// @param {Real} [_alpha] The alpha value of the rectangle. Defaults to 1.
 function forms_draw_roundrect(_x, _y, _width, _height, _radius = 4, _color = c_white, _alpha = 1.0)
 {
@@ -116,13 +113,11 @@ function forms_char_is_letter(_char)
 ///
 /// @param {String} _string The string to parse the number from.
 ///
-/// @return {Real, Undefined} The parsed number or `undefined` if the string
-/// does not represent a number.
+/// @return {Real, Undefined} The parsed number or `undefined` if the string does not represent a number.
 ///
 /// @example
-/// The following code tries to parse a number from a variable `_userInput`
-/// (string) and stores the result into `_number`. If parsing fails, it defaults
-/// to 0.
+/// The following code tries to parse a number from a variable `_userInput` (string) and stores the result into
+/// `_number`. If parsing fails, it defaults to 0.
 /// ```gml
 /// var _number = forms_parse_real(_userInput) ?? 0;
 /// ```
@@ -198,18 +193,13 @@ global.__formsScissorRect = undefined;
 
 /// @func forms_scissor_rect_push(_x, _y, _width, _height)
 ///
-/// @desc Pushes the current scissor rectangle onto a stack and then changes it
-/// to the intersection of the current one with the one specified. If there's no
-/// scissor rectangle currently set, the size of the window is used instead.
+/// @desc Pushes the current scissor rectangle onto a stack and then changes it to the intersection of the current one
+/// with the one specified. If there's no scissor rectangle currently set, the size of the window is used instead.
 ///
-/// @param {Real} _x The X coordinate of the top left corner of the scissor
-/// rectangle to intersect the current one with.
-/// @param {Real} _y The Y coordinate of the top left corner of the scissor
-/// rectangle to intersect the current one with.
-/// @param {Real} _width The width of the scrissor rectangle to intersect the
-/// current one with.
-/// @param {Real} _height The height of the scrissor rectangle to intersect the
-/// current one with.
+/// @param {Real} _x The X coordinate of the top left corner of the scissor rectangle to intersect the current one with.
+/// @param {Real} _y The Y coordinate of the top left corner of the scissor rectangle to intersect the current one with.
+/// @param {Real} _width The width of the scrissor rectangle to intersect the current one with.
+/// @param {Real} _height The height of the scrissor rectangle to intersect the current one with.
 ///
 /// @see forms_scissor_rect_pop
 function forms_scissor_rect_push(_x, _y, _width, _height)

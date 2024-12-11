@@ -8,9 +8,8 @@ function FORMS_BoxProps(): FORMS_WidgetProps() constructor
 	/// @var {Real, String, Undefined} Spacing between individual children.
 	Spacing = undefined;
 
-	/// @var {Real, Undefined} The type of units to use for
-	/// {@link FORMS_BoxProps.Spacing} (when its type is `Real`). Use values
-	/// from {@link FORMS_EUnit}.
+	/// @var {Real, Undefined} The type of units to use for {@link FORMS_BoxProps.Spacing} (when its type is `Real`).
+	/// Use values from {@link FORMS_EUnit}.
 	SpacingUnit = undefined;
 }
 
@@ -18,25 +17,20 @@ function FORMS_BoxProps(): FORMS_WidgetProps() constructor
 ///
 /// @extends FORMS_CompoundWidget
 ///
-/// @desc Base struct for "box" widgets. These draw their children in a linear
-/// (horizontal or vertical) layout.
+/// @desc Base struct for "box" widgets. These draw their children in a linear (horizontal or vertical) layout.
 ///
-/// @param {Struct.FORMS_BoxProps, Undefined} [_props] Properties to create the
-/// box with or `undefined` (default).
-/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
-/// widgets to add to the box or `undefined` (default).
+/// @param {Struct.FORMS_BoxProps, Undefined} [_props] Properties to create the box with or `undefined` (default).
+/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child widgets to add to the box or
+/// `undefined` (default).
 function FORMS_Box(_props = undefined, _children = undefined): FORMS_CompoundWidget(_props, _children) constructor
 {
-	/// @var {Struct.FORMS_UnitValue} Spacing between individual children.
-	/// Defaults to 0px.
+	/// @var {Struct.FORMS_UnitValue} Spacing between individual children. Defaults to 0px.
 	Spacing = new FORMS_UnitValue().from_props(_props, "Spacing");
 
-	/// @var {Struct.FORMS_UnitValue} The width of the box. Defaults to
-	/// "auto".
+	/// @var {Struct.FORMS_UnitValue} The width of the box. Defaults to "auto".
 	Width = Width.from_props(_props, "Width", 0, FORMS_EUnit.Auto);
 
-	/// @var {Struct.FORMS_UnitValue} The height of the box. Defaults to
-	/// "auto".
+	/// @var {Struct.FORMS_UnitValue} The height of the box. Defaults to  "auto".
 	Height = Height.from_props(_props, "Height", 0, FORMS_EUnit.Auto);
 
 	static get_auto_width = function () { return 0; }
@@ -57,10 +51,10 @@ function FORMS_VBoxProps(): FORMS_BoxProps() constructor {}
 ///
 /// @desc A vertical box widget.
 ///
-/// @param {Struct.FORMS_VBoxProps, Undefined} [_props] Properties to create the
-/// vertical box widget with or `undefined` (default).
-/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
-/// widgets to add to the vertical box or `undefined` (default).
+/// @param {Struct.FORMS_VBoxProps, Undefined} [_props] Properties to create the vertical box widget with or `undefined`
+/// (default).
+/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child widgets to add to the vertical box or
+/// `undefined` (default).
 function FORMS_VBox(_props = undefined, _children = undefined): FORMS_Box(_props, _children) constructor
 {
 	static layout = function ()
@@ -117,10 +111,10 @@ function FORMS_HBoxProps(): FORMS_BoxProps() constructor {}
 ///
 /// @desc A horizontal box widget.
 ///
-/// @param {Struct.FORMS_HBoxProps, Undefined} [_props] Properties to create the
-/// horizontal box with or `undefined` (default).
-/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
-/// widgets to add to the horizontal box or `undefined` (default).
+/// @param {Struct.FORMS_HBoxProps, Undefined} [_props] Properties to create the horizontal box with or `undefined`
+/// (default).
+/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child widgets to add to the horizontal box or
+/// `undefined` (default).
 function FORMS_HBox(_props = undefined, _children = undefined): FORMS_Box(_props, _children) constructor
 {
 	static layout = function ()
@@ -171,26 +165,21 @@ function FORMS_HBox(_props = undefined, _children = undefined): FORMS_Box(_props
 /// @desc Properties accepted by the constructor of {@link FORMS_FlexBox}.
 function FORMS_FlexBoxProps(): FORMS_BoxProps() constructor
 {
-	/// @var {Bool, Undefined} Whether the flex box is horizontal (`true`) or
-	/// vertical (`false`).
+	/// @var {Bool, Undefined} Whether the flex box is horizontal (`true`) or vertical (`false`).
 	IsHorizontal = undefined;
 
-	/// @var {Real, String, Undefined} Padding around child widgets on the X
-	/// axis.
+	/// @var {Real, String, Undefined} Padding around child widgets on the X axis.
 	PaddingX = undefined;
 
-	/// @var {Real, Undefined} The type of units used by
-	/// {@link FORMS_FlexBoxProps.PaddingX} (if its type is `Real`). Use values
-	/// from {@link FORMS_EUnit}.
+	/// @var {Real, Undefined} The type of units used by {@link FORMS_FlexBoxProps.PaddingX} (if its type is `Real`).
+	/// Use values from {@link FORMS_EUnit}.
 	PaddingXUnit = undefined;
 
-	/// @var {Real, String, Undefined} Padding around child widgets on the Y
-	/// axis.
+	/// @var {Real, String, Undefined} Padding around child widgets on the Y axis.
 	PaddingY = undefined;
 
-	/// @var {Real, Undefined} The type of units used by
-	/// {@link FORMS_FlexBoxProps.PaddingY} (if its type is `Real`). Use values
-	/// from {@link FORMS_EUnit}.
+	/// @var {Real, Undefined} The type of units used by {@link FORMS_FlexBoxProps.PaddingY} (if its type is `Real`).
+	/// Use values from {@link FORMS_EUnit}.
 	PaddingYUnit = undefined;
 }
 
@@ -198,26 +187,22 @@ function FORMS_FlexBoxProps(): FORMS_BoxProps() constructor
 ///
 /// @extends FORMS_Box
 ///
-/// @desc A box that supports both horizontal and vertical layout. Its child
-/// widgets automatically grow in size based on their {@link FORMS_Widget.Flex}
-/// property (the greater the value the more space they take).
+/// @desc A box that supports both horizontal and vertical layout. Its child widgets automatically grow in size based on
+/// their {@link FORMS_Widget.Flex} property (the greater the value the more space they take).
 ///
-/// @param {Struct.FORMS_FlexBoxProps, Undefined} [_props] Properties to create
-/// the flex box with or `undefined` (default).
-/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
-/// widgets to add to the flex box or `undefined` (default).
+/// @param {Struct.FORMS_FlexBoxProps, Undefined} [_props] Properties to create the flex box with or `undefined`
+/// (default).
+/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child widgets to add to the flex box or
+/// `undefined` (default).
 function FORMS_FlexBox(_props = undefined, _children = undefined): FORMS_Box(_props, _children) constructor
 {
-	/// @var {Bool} Whether the flex box is horizontal (`true`) or vertical
-	/// (`false`).
+	/// @var {Bool} Whether the flex box is horizontal (`true`) or vertical (`false`).
 	IsHorizontal = forms_get_prop(_props, "IsHorizontal") ?? true;
 
-	/// @var {Struct.FORMS_UnitValue} Padding around children on the X
-	/// axis. Defaults to 0px.
+	/// @var {Struct.FORMS_UnitValue} Padding around children on the X axis. Defaults to 0px.
 	PaddingX = new FORMS_UnitValue().from_props(_props, "PaddingX");
 
-	/// @var {Struct.FORMS_UnitValue} Padding around children on the Y
-	/// axis. Defaults to 0px.
+	/// @var {Struct.FORMS_UnitValue} Padding around children on the Y axis. Defaults to 0px.
 	PaddingY = new FORMS_UnitValue().from_props(_props, "PaddingY");
 
 	static layout = function ()

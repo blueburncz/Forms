@@ -11,10 +11,10 @@ function FORMS_CompoundWidgetProps(): FORMS_WidgetProps() constructor {}
 ///
 /// @desc Base struct for widgets that have an array of child widgets.
 ///
-/// @param {Struct.FORMS_CompoundWidgetProps, Undefined} [_props] Properties to
-/// create the compound widget with or `undefined` (default).
-/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
-/// widgets to add to the compund widget or `undefined` (default).
+/// @param {Struct.FORMS_CompoundWidgetProps, Undefined} [_props] Properties to create the compound widget with or
+/// `undefined` (default).
+/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child widgets to add to the compound widget
+/// or `undefined` (default).
 function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_Widget(_props) constructor
 {
 	static Widget_update = update;
@@ -40,8 +40,7 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 	///
 	/// @desc Adds a child to this widget.
 	///
-	/// @param {Struct.FORMS_Widget} _child The child widget to be added. Must
-	/// not have a [parent](./FORMS_Widget.Parent)!
+	/// @param {Struct.FORMS_Widget} _child The child widget to be added. Must not have a [parent](./FORMS_Widget.Parent)!
 	///
 	/// @return {Struct.FORMS_CompoundWidget} Returns `self`.
 	static add_child = function (_child)
@@ -58,8 +57,7 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 	///
 	/// @param {Struct.FORMS_Widget} _child The widget to check.
 	///
-	/// @return {Bool} Returns `true` if this widget is the parent of given
-	/// child widget.
+	/// @return {Bool} Returns `true` if this widget is the parent of given child widget.
 	static has_child = function (_child)
 	{
 		gml_pragma("forceinline");

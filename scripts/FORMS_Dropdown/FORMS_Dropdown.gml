@@ -9,15 +9,13 @@ function FORMS_DropdownProps(): FORMS_ContainerProps() constructor {}
 ///
 /// @extends FORMS_Container
 ///
-/// @desc A container that draws options of a
-/// [dropdown](./FORMS_Pen.dropdown.html).
+/// @desc A container that draws options of a [dropdown](./FORMS_Pen.dropdown.html).
 ///
 /// @param {String} _id The ID of the dropdown that opened this.
 /// @param {Array} _values An array of values to select from.
 /// @param {Real} _index The index of the currently selected value.
 /// @param {Real} _width The width of the dropdown that opened this.
-/// @param {Struct.FORMS_DropdownProps, Undefined} [_props] Properties to create
-/// the container with or `undefined`.
+/// @param {Struct.FORMS_DropdownProps, Undefined} [_props] Properties to create the container with or `undefined`.
 function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS_Container(_props) constructor
 {
 	static Container_layout = layout;
@@ -40,13 +38,11 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 	/// @readonly
 	DropdownWidth = _width;
 
-	/// @var {Bool} If `true` then the size of the container is recomputed from
-	/// its contents the next time method [layout](./FORMS_Widget.layout.html)
-	/// is called. Defaults to `true`.
+	/// @var {Bool} If `true` then the size of the container is recomputed from its contents the next time method
+	/// [layout](./FORMS_Widget.layout.html) is called. Defaults to `true`.
 	ContentFit = true;
 
-	/// @var {Constant.Color} The tint color of the background sprite. Defaults
-	/// to `0x181818`.
+	/// @var {Constant.Color} The tint color of the background sprite. Defaults to `0x181818`.
 	BackgroundColor = 0x181818;
 
 	static draw_content = function ()
