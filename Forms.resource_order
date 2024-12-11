@@ -25,6 +25,7 @@
     {"name":"FORMS_ContextMenu","order":6,"path":"scripts/FORMS_ContextMenu/FORMS_ContextMenu.yy",},
     {"name":"FORMS_Dock","order":7,"path":"scripts/FORMS_Dock/FORMS_Dock.yy",},
     {"name":"FORMS_Dropdown","order":8,"path":"scripts/FORMS_Dropdown/FORMS_Dropdown.yy",},
+    {"name":"FORMS_FileBrowser","order":21,"path":"scripts/FORMS_FileBrowser/FORMS_FileBrowser.yy",},
     {"name":"FORMS_KeyboardShortcut","order":9,"path":"scripts/FORMS_KeyboardShortcut/FORMS_KeyboardShortcut.yy",},
     {"name":"FORMS_MenuBar","order":10,"path":"scripts/FORMS_MenuBar/FORMS_MenuBar.yy",},
     {"name":"FORMS_NodeGraph","order":11,"path":"scripts/FORMS_NodeGraph/FORMS_NodeGraph.yy",},

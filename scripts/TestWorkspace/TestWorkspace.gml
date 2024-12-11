@@ -28,11 +28,15 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 		new FORMS_ScrollPane(new TestControlsContainer(), { Name: "Test Scroll Pane" }),
 	]);
 
-	_dock.split_left();
-	_dock.SplitSize = 0.25;
+	_dock.split_left(0.25);
 
 	_dock.get_second().set_tabs([
-		new FORMS_ApplicationSurface({ Name: "Viewport", Width: "100%", Height: "100%", Resize: true })
+		new FORMS_ApplicationSurface({ Name: "Viewport", Width: "100%", Height: "100%", /*Resize: true*/ })
 	]);
-	//_dock.get_second().ShowTabs = false;
+
+	_dock.get_second().split_up(0.6);
+	//_dock.get_second().get_first().ShowTabs = false;
+	_dock.get_second().get_second().set_tabs([
+		new FORMS_FileBrowser({ Name: "File Browser", Width: "100%", Height: "100%" })
+	]);
 }

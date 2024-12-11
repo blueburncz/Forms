@@ -49,6 +49,7 @@
     {"id":{"name":"FORMS_ContextMenu","path":"scripts/FORMS_ContextMenu/FORMS_ContextMenu.yy",},},
     {"id":{"name":"FORMS_Dock","path":"scripts/FORMS_Dock/FORMS_Dock.yy",},},
     {"id":{"name":"FORMS_Dropdown","path":"scripts/FORMS_Dropdown/FORMS_Dropdown.yy",},},
+    {"id":{"name":"FORMS_FileBrowser","path":"scripts/FORMS_FileBrowser/FORMS_FileBrowser.yy",},},
     {"id":{"name":"FORMS_KeyboardShortcut","path":"scripts/FORMS_KeyboardShortcut/FORMS_KeyboardShortcut.yy",},},
     {"id":{"name":"FORMS_MenuBar","path":"scripts/FORMS_MenuBar/FORMS_MenuBar.yy",},},
     {"id":{"name":"FORMS_NodeGraph","path":"scripts/FORMS_NodeGraph/FORMS_NodeGraph.yy",},},
