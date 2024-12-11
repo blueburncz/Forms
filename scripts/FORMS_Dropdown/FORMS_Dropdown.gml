@@ -3,7 +3,11 @@
 /// @extends FORMS_ContainerProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_Dropdown}.
-function FORMS_DropdownProps(): FORMS_ContainerProps() constructor {}
+function FORMS_DropdownProps(): FORMS_ContainerProps() constructor
+{
+	/// @var {Struct.FORMS_Container, Undefined} A container that opened this dropdown or `undefined`.
+	Container = undefined;
+}
 
 /// @func FORMS_Dropdown(_id, _values, _index, _width[, _props])
 ///
@@ -44,6 +48,16 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 
 	/// @var {Constant.Color} The tint color of the background sprite. Defaults to `0x181818`.
 	BackgroundColor = 0x181818;
+
+	/// @var {Struct.FORMS_Container, Undefined} A container that opened this dropdown or `undefined` (default).
+	/// @readonly
+	Container = forms_get_prop(_props, "Container");
+
+	/// @private
+	__containerScrollX = undefined;
+
+	/// @private
+	__containerScrollY = undefined;
 
 	static draw_content = function ()
 	{
@@ -116,7 +130,17 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 	static update = function (_deltaTime)
 	{
 		Container_update(_deltaTime);
-		if (!is_mouse_over() && mouse_check_button_pressed(mb_left))
+		var _scrollChanged = false;
+		if (Container != undefined)
+		{
+			__containerScrollX ??= Container.ScrollX;
+			__containerScrollY ??= Container.ScrollY;
+			if (__containerScrollX != Container.ScrollX || __containerScrollY != Container.ScrollY)
+			{
+				_scrollChanged = true;
+			}
+		}
+		if (_scrollChanged || (!is_mouse_over() && mouse_check_button_pressed(mb_left)))
 		{
 			destroy_later();
 		}

@@ -1,10 +1,8 @@
-/* beautify ignore:start */
-
 /// @macro {Code} A shorthand for
 /// `ContentWidth = Pen.get_max_x(); ContentHeight = Pen.get_max_y();`. Useful in {@link FORMS_Container.draw_content}.
+/* beautify ignore:start */
 #macro FORMS_CONTENT_UPDATE_SIZE \
     do { ContentWidth = Pen.get_max_x(); ContentHeight = Pen.get_max_y(); } until (1)
-
 /* beautify ignore:end */
 
 /// @func FORMS_ContainerProps()

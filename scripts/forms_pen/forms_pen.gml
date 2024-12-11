@@ -1,7 +1,6 @@
-/* beautify ignore:start */
-
 /// @macro {Code} Returns mouse state from a {@link FORMS_Pen} method. Requires
 /// local variable `_mouseOver`!
+/* beautify ignore:start */
 #macro FORMS_PEN_RETURN_MOUSE_STATE \
 	if (_mouseOver) \
 	{ \
@@ -16,7 +15,6 @@
 		return FORMS_EControlAction.MouseOver; \
 	} \
 	return FORMS_EControlAction.None
-
 /* beautify ignore:end */
 
 /// @enum Enumeration of all possible mouse interactions with a control drawn by {@link FORMS_Pen}.
@@ -1379,6 +1377,7 @@ function FORMS_Pen(_container) constructor
 					{
 						X: _dropdownPos[0],
 						Y: _dropdownPos[1],
+						Container,
 					});
 					forms_get_root().add_child(_dropdown);
 					__dropdowns[$  _id] = weak_ref_create(_dropdown);
