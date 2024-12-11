@@ -52,9 +52,12 @@ function FORMS_MenuBar(_items = [], _props = undefined): FORMS_Container(_props)
 			var _item = _items[_itemIndex];
 			var _itemX = __realX + Pen.X - 8;
 
-			var _link = Pen.link(_item.Name,
+			var _link = Pen.button(_item.Name,
 			{
-				Color: (_itemIndex == _itemCurrent) ? c_white : c_silver,
+				BackgroundColor: c_white,
+				BackgroundAlpha: (_itemIndex == _itemCurrent) ? 0.2 : 0.0,
+				BackgroundColorHover: c_white,
+				BackgroundAlphaHover: 0.2,
 				Disabled: (_item.ContextMenu == undefined),
 			});
 
@@ -81,7 +84,7 @@ function FORMS_MenuBar(_items = [], _props = undefined): FORMS_Container(_props)
 				_menu.__itemCurrent = _itemCurrent;
 			}
 
-			Pen.move(20);
+			Pen.move(1);
 			++_itemIndex;
 		}
 
