@@ -74,7 +74,6 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 			{
 				array_delete(Children, i, 1);
 				_widget.Parent = undefined;
-				_widget.Root = undefined;
 				break;
 			}
 		}

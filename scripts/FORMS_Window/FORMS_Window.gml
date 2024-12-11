@@ -17,10 +17,10 @@ enum FORMS_EWindowResize
 
 /// @func FORMS_WindowProps()
 ///
-/// @extends FORMS_FlexBoxProps
+/// @extends FORMS_WidgetProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_Window}.
-function FORMS_WindowProps(): FORMS_FlexBoxProps() constructor
+function FORMS_WindowProps(): FORMS_WidgetProps() constructor
 {
 	/// @var {Bool, Undefined} Whether the window should be moved to the center of the application window next time
 	/// [layout](./FORMS_Widget.layout.html] is run.
@@ -51,17 +51,18 @@ function FORMS_WindowProps(): FORMS_FlexBoxProps() constructor
 
 /// @func FORMS_Window([_widget[, _props]])
 ///
-/// @extends FORMS_FlexBox
+/// @extends FORMS_Widget
 ///
-/// @desc
+/// @desc TODO
 ///
-/// @params {Struct.FORMS_Widget, Undefined} [_widget]
-/// @params {Struct.FORMS_WindowProps, Undefined} [_props]
-function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constructor
+/// @params {Struct.FORMS_Widget, Undefined} [_widget] TODO
+/// @params {Struct.FORMS_WindowProps, Undefined} [_props] TODO
+function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constructor
 {
-	static FlexBox_layout = layout;
-	static FlexBox_update = update;
-	static FlexBox_draw = draw;
+	static Widget_layout = layout;
+	static Widget_update = update;
+	static Widget_draw = draw;
+	static Widget_destroy = destroy;
 
 	/// @var {Bool} Whether the window should be moved to the center of the application window next time
 	/// [layout](./FORMS_Widget.layout.html] is run. Defaults to `false`.
@@ -94,10 +95,16 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 	/// @readonly
 	/// @see FORMS_Window.Widget
 	Titlebar = new FORMS_WindowTitle();
+	Titlebar.Parent = self;
 
 	/// @var {Struct.FORMS_Widget, Undefined} The widget attached to this window or `undefined`.
 	/// @readonly
-	Widget = _widget;
+	Widget = undefined;
+
+	if (_widget != undefined)
+	{
+		set_widget(_widget);
+	}
 
 	/// @private
 	__widthMin = 128;
@@ -118,32 +125,43 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 	/// @private
 	__mouseOffset = [0, 0];
 
-	/// @var {Bool} This property inherited from {@link FORMS_FlexBox} is set to `false` to stack contained widget
-	/// vertically.
-	IsHorizontal = false;
-
 	/// @var {Struct.FORMS_UnitValue} The width of the window. Defaults to 400.
 	Width = Width.from_props(_props, "Width", 400);
 
 	/// @var {Struct.FORMS_UnitValue} The height of the window. Defaults to 300.
 	Height = Height.from_props(_props, "Height", 300);
 
-	/// @var {Struct.FORMS_UnitValue} This property inherited from {@link FORMS_FlexBox} is used as the size of the
-	/// window's border on the X axis. Defaults to 4.
-	PaddingX = PaddingX.from_props(_props, "PaddingX", __padding);
-
-	/// @var {Struct.FORMS_UnitValue} This property inherited from {@link FORMS_FlexBox} is used as the size of the
-	/// window's border on the Y axis. Defaults to 4.
-	PaddingY = PaddingY.from_props(_props, "PaddingY", __padding);
-
-	add_child(Titlebar);
-
-	if (Widget != undefined)
+	static remove_child = function (_child)
 	{
-		add_child(Widget);
+		if (Titlebar == _child)
+		{
+			Titlebar.Parent = undefined;
+			Titlebar = undefined;
+		}
+		if (Widget == _child)
+		{
+			Widget.Parent = undefined;
+			Widget = undefined;
+		}
+		return self;
 	}
 
-	// TODO: Disable adding of more children (don't inherit from FlexBox???)
+	static find_widget = function (_id)
+	{
+		if (Id == _id)
+		{
+			return self;
+		}
+		if (Titlebar.Id == _id)
+		{
+			return Titlebar;
+		}
+		if (Widget != undefined && Widget.Id == _id)
+		{
+			return Widget;
+		}
+		return undefined;
+	}
 
 	/// @func set_widget(_widget)
 	///
@@ -162,8 +180,8 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 			Widget.remove_self();
 			Widget.destroy_later();
 		}
-		add_child(_widget);
 		Widget = _widget;
+		Widget.Parent = self;
 		return self;
 	}
 
@@ -231,7 +249,40 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 			}
 		}
 
-		FlexBox_layout();
+		Widget_layout();
+
+		{
+			var _innerX = __realX + __padding;
+			var _innerY = __realY + __padding;
+			var _innerWidth = __realWidth - __padding * 2;
+			var _innerHeight = __realHeight - __padding * 2;
+			var _titlebarHeight = 0;
+
+			if (Titlebar != undefined)
+			{
+				with(Titlebar)
+				{
+					__realX = _innerX;
+					__realY = _innerY;
+					__realWidth = _innerWidth;
+					__realHeight = floor(Height.get_absolute(_innerHeight, get_auto_height()));
+					_titlebarHeight = __realHeight;
+					layout();
+				}
+			}
+
+			if (Widget != undefined)
+			{
+				with(Widget)
+				{
+					__realX = _innerX;
+					__realY = _innerY + _titlebarHeight;
+					__realWidth = _innerWidth;
+					__realHeight = _innerHeight - _titlebarHeight;
+					layout();
+				}
+			}
+		}
 
 		if (Center)
 		{
@@ -247,7 +298,7 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 
 	static update = function (_deltaTime)
 	{
-		FlexBox_update(_deltaTime);
+		Widget_update(_deltaTime);
 
 		var _resize = __resize;
 
@@ -313,6 +364,13 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 			forms_set_cursor(cr_size_ns);
 		}
 
+		Titlebar.update(_deltaTime);
+
+		if (Widget != undefined)
+		{
+			Widget.update(_deltaTime);
+		}
+
 		return self;
 	}
 
@@ -332,9 +390,31 @@ function FORMS_Window(_widget, _props = undefined): FORMS_FlexBox(_props) constr
 			__realX, __realY, __realWidth, __realHeight,
 			BackgroundColor, BackgroundAlpha);
 
-		FlexBox_draw();
+		if (Titlebar != undefined)
+		{
+			Titlebar.draw();
+		}
+
+		if (Widget != undefined)
+		{
+			Widget.draw();
+		}
 
 		return self;
+	}
+
+	static destroy = function ()
+	{
+		Widget_destroy();
+		if (Titlebar != undefined)
+		{
+			Titlebar = Titlebar.destroy();
+		}
+		if (Widget != undefined)
+		{
+			Widget = Widget.destroy();
+		}
+		return undefined;
 	}
 }
 
@@ -363,7 +443,7 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 	/// @var {Struct.FORMS_UnitValue} The height of the title bar. Defaults to 24px.
 	Height = Height.from_props(_props, "Height", 24);
 
-	// TODO: Docs
+	/// @var {Constant.Color} The tint color of the background sprite. Defaults to `0x181818`.
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
 
 	static draw_content = function ()

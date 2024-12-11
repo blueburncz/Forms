@@ -39,7 +39,7 @@
     {"name":"FORMS_Workspace","order":19,"path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},
     {"name":"TestControlsScrollPane","order":5,"path":"scripts/TestControlsScrollPane/TestControlsScrollPane.yy",},
     {"name":"TestUI","order":1,"path":"scripts/TestUI/TestUI.yy",},
-    {"name":"TestWelcomeContainer","order":2,"path":"scripts/TestWelcomeContainer/TestWelcomeContainer.yy",},
+    {"name":"TestWelcomeScrollPane","order":2,"path":"scripts/TestWelcomeScrollPane/TestWelcomeScrollPane.yy",},
     {"name":"TestWorkspace","order":3,"path":"scripts/TestWorkspace/TestWorkspace.yy",},
     {"name":"FORMS_SprColorPickerCircle","order":11,"path":"sprites/FORMS_SprColorPickerCircle/FORMS_SprColorPickerCircle.yy",},
     {"name":"FORMS_SprEyeDropper","order":12,"path":"sprites/FORMS_SprEyeDropper/FORMS_SprEyeDropper.yy",},
