@@ -1,9 +1,9 @@
 /// @func FORMS_ScrollPaneProps()
 ///
-/// @extends FORMS_CompoundWidgetProps
+/// @extends FORMS_ContainerProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_ScrollPane}.
-function FORMS_ScrollPaneProps(): FORMS_CompoundWidgetProps() constructor
+function FORMS_ScrollPaneProps(): FORMS_ContainerProps() constructor
 {
 	/// @var {Struct.FORMS_HScrollbarProps, Undefined} Properties to create the scroll pane's horizontal scrollbar with.
 	HScrollbarProps = undefined;
@@ -12,34 +12,46 @@ function FORMS_ScrollPaneProps(): FORMS_CompoundWidgetProps() constructor
 	VScrollbarProps = undefined;
 }
 
-/// @func FORMS_ScrollPane(_container[, _props])
+/// @func FORMS_ScrollPane([_props])
 ///
-/// @extends FORMS_CompoundWidget
+/// @extends FORMS_Container
 ///
 /// @desc A widget that consists of a container and two scrollbars.
 ///
-/// @param {Struct.FORMS_Container} _container The container inside of the scroll pane.
 /// @param {Struct.FORMS_ScrollPaneProps, Undefined} [_props] Properties to create the scroll pane with or `undefined`
 /// (default).
-function FORMS_ScrollPane(_container, _props = undefined): FORMS_CompoundWidget(_props, undefined) constructor
+function FORMS_ScrollPane(_props = undefined): FORMS_Container(_props) constructor
 {
-	//static CompoundWidget_layout = layout;
-
-	/// @var {Struct.FORMS_Container} The scroll pane's container.
-	/// @readonly
-	Container = _container;
+	//static Container_layout = layout;
+	static Container_update = update;
+	static Container_draw = draw;
 
 	/// @var {Struct.FORMS_HScrollbar} The scroll pane's horizontal scrollbar.
 	/// @readonly
-	HScrollbar = new FORMS_HScrollbar(Container, forms_get_prop(_props, "HScrollbarProps"));
+	HScrollbar = new FORMS_HScrollbar(self, forms_get_prop(_props, "HScrollbarProps"));
+	HScrollbar.Parent = self;
 
 	/// @var {Struct.FORMS_VScrollbar} The scroll pane's vertical scrollbar.
 	/// @readonly
-	VScrollbar = new FORMS_VScrollbar(Container, forms_get_prop(_props, "VScrollbarProps"));
+	VScrollbar = new FORMS_VScrollbar(self, forms_get_prop(_props, "VScrollbarProps"));
+	VScrollbar.Parent = self;
 
-	add_child(Container);
-	add_child(HScrollbar);
-	add_child(VScrollbar);
+	static find_widget = function (_id)
+	{
+		if (Id == _id)
+		{
+			return self;
+		}
+		if (HScrollbar.Id = _id)
+		{
+			return HScrollbar;
+		}
+		if (VScrollbar.Id = _id)
+		{
+			return VScrollbar;
+		}
+		return undefined;
+	}
 
 	static layout = function ()
 	{
@@ -49,8 +61,8 @@ function FORMS_ScrollPane(_container, _props = undefined): FORMS_CompoundWidget(
 		var _parentY = __realY;
 		var _parentWidth = __realWidth;
 		var _parentHeight = __realHeight;
-		var _count = array_length(Children);
-		var _container = Container;
+		//var _count = array_length(Children);
+		var _container = self;
 		var _scrollbarH = HScrollbar;
 		var _scrollbarV = VScrollbar;
 
@@ -72,25 +84,23 @@ function FORMS_ScrollPane(_container, _props = undefined): FORMS_CompoundWidget(
 		_scrollbarV.__realHeight = _container.__realHeight;
 		_scrollbarH.__realWidth = _container.__realWidth;
 
-		for (var i = 0; i < _count; ++i)
-		{
-			with(Children[i])
-			{
-				if (self != _container && self != _scrollbarH && self != _scrollbarV)
-				{
-					var _autoWidth = get_auto_width();
-					var _autoHeight = get_auto_height();
-
-					__realWidth = floor(Width.get_absolute(_parentWidth, _autoWidth));
-					__realHeight = floor(Height.get_absolute(_parentHeight, _autoHeight));
-					__realX = floor(_parentX + X.get_absolute(_parentWidth, _autoWidth));
-					__realY = floor(_parentY + Y.get_absolute(_parentHeight, _autoHeight));
-				}
-
-				layout();
-			}
-		}
+		_scrollbarH.layout();
+		_scrollbarV.layout();
 
 		return self;
+	}
+
+	static update = function (_deltaTime)
+	{
+		Container_update(_deltaTime);
+		HScrollbar.update(_deltaTime);
+		VScrollbar.update(_deltaTime);
+	}
+
+	static draw = function ()
+	{
+		Container_draw();
+		HScrollbar.draw();
+		VScrollbar.draw();
 	}
 }
