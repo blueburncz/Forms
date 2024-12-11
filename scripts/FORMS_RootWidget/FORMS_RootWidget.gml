@@ -15,8 +15,7 @@ enum FORMS_EMouseButton
 ///
 /// @desc Returns the currently active root widget.
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @return {Struct.FORMS_RootWidget} The root widget.
@@ -40,10 +39,10 @@ function FORMS_RootWidgetProps(): FORMS_CompoundWidget() constructor {}
 ///
 /// @desc Must be used as the root widget of user interfaces!
 ///
-/// @param {Struct.FORMS_RootWidgetProps, Undefined} [_props] Properties to
-/// create the root widget with or `undefiend` (default).
-/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child
-/// widgets to add to the root widget or `undefined` (default).
+/// @param {Struct.FORMS_RootWidgetProps, Undefined} [_props] Properties to create the root widget with or `undefined`
+/// (default).
+/// @param {Array<Struct.FORMS_Widget>, Undefined} [_children] An array of child widgets to add to the root widget or
+/// `undefined` (default).
 ///
 /// @example
 /// ```gml
@@ -68,34 +67,28 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	static CompoundWidget_draw = draw;
 	static CompoundWidget_destroy = destroy;
 
-	/// @var {Real} The current mouse X coordinate. When rendering into a
-	/// {@link FORMS_Container}, it's relative to the containers position and
-	/// scroll!
+	/// @var {Real} The current mouse X coordinate. When rendering into a {@link FORMS_Container}, it's relative to the
+	/// container's position and scroll!
 	/// @readonly
 	MouseX = 0;
 
-	/// @var {Real} The current mouse Y coordinate. When rendering into a
-	/// {@link FORMS_Container}, it's relative to the containers position and
-	/// scroll!
+	/// @var {Real} The current mouse Y coordinate. When rendering into a {@link FORMS_Container}, it's relative to the
+	/// container's position and scroll!
 	/// @readonly
 	MouseY = 0;
 
-	/// @var {Struct.FORMS_Widget, Undefined} The widget that is currently
-	/// underneath the mouse cursor or `undefined`.
+	/// @var {Struct.FORMS_Widget, Undefined} The widget that is currently underneath the mouse cursor or `undefined`.
 	/// @readonly
 	WidgetHovered = undefined;
 
-	/// @var {Struct.FORMS_Widget, String, Undefined} The widget that currently
-	/// takes the user input (mouse or keyboard).
+	/// @var {Struct.FORMS_Widget, String, Undefined} The widget that currently takes the user input (mouse or keyboard).
 	/// @readonly
 	WidgetActive = undefined;
 
-	/// @var {Struct.FORMS_UnitValue} The widget's width. Defaults to 100%
-	/// of the window width.
+	/// @var {Struct.FORMS_UnitValue} The widget's width. Defaults to 100% of the window width.
 	Width = Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 
-	/// @var {Struct.FORMS_UnitValue} The widget's height. Defaults to 100%
-	/// of the window height.
+	/// @var {Struct.FORMS_UnitValue} The widget's height. Defaults to 100% of the window height.
 	Height = Height.from_props(_props, "Height", 100, FORMS_EUnit.Percent);
 
 	__mouseButtons = {};
@@ -115,8 +108,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 
 	/// @func return_result(_id, _value)
 	///
-	/// @desc Used to return a result from a control drawn by a
-	/// {@link FORMS_Pen}.
+	/// @desc Used to return a result from a control drawn by a {@link FORMS_Pen}.
 	///
 	/// @param {String} _id The ID of the control that returns a value.
 	/// @param {Any} _value The value to return.
@@ -130,13 +122,11 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 
 	/// @func has_result(_id)
 	///
-	/// @desc Checks whether there's a result returned by a control draw by a
-	/// {@link FORMS_Pen} with given ID.
+	/// @desc Checks whether there's a result returned by a control draw by a {@link FORMS_Pen} with given ID.
 	///
 	/// @param {String} _id The ID of the control.
 	///
-	/// @return {Bool} Returns `true` if there's available result returned by
-	/// a control with given ID.
+	/// @return {Bool} Returns `true` if there's available result returned by a control with given ID.
 	static has_result = function (_id)
 	{
 		return variable_struct_exists(__results, _id);
@@ -144,13 +134,12 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 
 	/// @func peek_result(_id)
 	///
-	/// @desc Retrieves a result returned by a control drawn by a
-	/// {@link FORMS_Pen} with given ID, without removing it from stored results.
+	/// @desc Retrieves a result returned by a control drawn by a {@link FORMS_Pen} with given ID, without removing it
+	/// from stored results.
 	///
 	/// @param {String} _id The ID of the control.
 	///
-	/// @return {Any} The result returned by a control with given ID or
-	/// `undefined` if there isn't one available.
+	/// @return {Any} The result returned by a control with given ID or `undefined` if there isn't one available.
 	static peek_result = function (_id)
 	{
 		return __results[$  _id];
@@ -158,13 +147,12 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 
 	/// @func get_result(_id)
 	///
-	/// @desc Retrieves a result returned by a control drawn by a
-	/// {@link FORMS_Pen} with given ID and removes it from stored results.
+	/// @desc Retrieves a result returned by a control drawn by a {@link FORMS_Pen} with given ID and removes it from
+	/// stored results.
 	///
 	/// @param {String} _id The ID of the control.
 	///
-	/// @return {Any} The result returned by a control with given ID or
-	/// `undefined` if there isn't one available.
+	/// @return {Any} The result returned by a control with given ID or `undefined` if there isn't one available.
 	static get_result = function (_id)
 	{
 		var _result = __results[$  _id];
@@ -281,8 +269,8 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 
 	/// @func push_mouse_coordinates(_x, _y)
 	///
-	/// @desc Used to make mouse coordinates relative to position of a
-	/// {@link FORMS_Container} that's currently being drawn into.
+	/// @desc Used to make mouse coordinates relative to position of a {@link FORMS_Container} that's currently being
+	/// drawn into.
 	///
 	/// @param {Real} _x The value to subtract from the mouse X position.
 	/// @param {Real} _y The value to subtract from the mouse Y position.
@@ -333,8 +321,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 
 	/// @func __check_mouse_status(_button)
 	///
-	/// @desc Returns the current status of the given mouse button, and updates
-	/// it if not already set.
+	/// @desc Returns the current status of the given mouse button, and updates it if not already set.
 	///
 	/// @param {Constant.MouseButton} _button The mouse button to check.
 	///
@@ -355,9 +342,8 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 
 	/// @func check_mouse_pressed(_button)
 	///
-	/// @desc Checks whether given mouse button is pressed. Consecutive checks
-	/// for the same button will return `false` until the next
-	/// [update](./FORMS_Widget.update.html).
+	/// @desc Checks whether given mouse button is pressed. Consecutive checks for the same button will return `false`
+	/// until the next [update](./FORMS_Widget.update.html).
 	///
 	/// @param {Constant.MouseButton} _button The mouse button to check.
 	///
@@ -437,18 +423,16 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 
 /// @func forms_push_mouse_coordinates(_x, _y)
 ///
-/// @desc Used to make mouse coordinates relative to position of a
-/// {@link FORMS_Container} that's currently being drawn into.
+/// @desc Used to make mouse coordinates relative to position of a {@link FORMS_Container} that's currently being drawn
+/// into.
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {Real} _x The value to subtract from the mouse X position.
 /// @param {Real} _y The value to subtract from the mouse Y position.
 ///
-/// @note This is a shorthand for
-/// `forms_get_root().push_mouse_coordinates(_x, _y)`.
+/// @note This is a shorthand for `forms_get_root().push_mouse_coordinates(_x, _y)`.
 ///
 /// @see forms_get_root
 /// @see FORMS_RootWidget.push_mouse_coordinates
@@ -460,11 +444,10 @@ function forms_push_mouse_coordinates(_x, _y)
 
 /// @func forms_mouse_get_x()
 ///
-/// @desc Retrieves the current mouse X coordinate. When rendering into a
-/// {@link FORMS_Container}, it's relative to the containers position and scroll!
+/// @desc Retrieves the current mouse X coordinate. When rendering into a {@link FORMS_Container}, it's relative to the
+/// containers position and scroll!
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @return {Real} The current mouse X coordinate.
@@ -481,11 +464,10 @@ function forms_mouse_get_x()
 
 /// @func forms_mouse_get_y()
 ///
-/// @desc Retrieves the current mouse Y coordinate. When rendering into a
-/// {@link FORMS_Container}, it's relative to the containers position and scroll!
+/// @desc Retrieves the current mouse Y coordinate. When rendering into a {@link FORMS_Container}, it's relative to the
+/// containers position and scroll!
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @return {Real} The current mouse Y coordinate.
@@ -502,21 +484,17 @@ function forms_mouse_get_y()
 
 /// @func forms_mouse_check_button_pressed(_button)
 ///
-/// @desc Checks whether given mouse button is pressed. Consecutive checks for
-/// the same button will return `false` until the next
-/// [update](./FORMS_Widget.update.html) of the
-/// [root widget](./FORMS_RootWidget.html).
+/// @desc Checks whether given mouse button is pressed. Consecutive checks for the same button will return `false` until
+/// the next [update](./FORMS_Widget.update.html) of the [root widget](./FORMS_RootWidget.html).
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {Constant.MouseButton} _button The mouse button to check.
 ///
 /// @return {Bool} Returns `true` if given mouse button is pressed.
 ///
-/// @note This is a shorthand for
-/// `forms_get_root().check_mouse_pressed(_button)`.
+/// @note This is a shorthand for `forms_get_root().check_mouse_pressed(_button)`.
 ///
 /// @see forms_get_root
 /// @see FORMS_RootWidget.check_mouse_pressed
@@ -566,12 +544,10 @@ function forms_mouse_set_button_status(_button, _status)
 
 /// @func forms_mouse_in_rectangle(_x, _y, _width, _height)
 ///
-/// @desc Checks whether the mouse coordinates returned by
-/// {@link forms_mouse_get_x} and {@link forms_mouse_get_y} are inside of given
-/// rectangle.
+/// @desc Checks whether the mouse coordinates returned by {@link forms_mouse_get_x} and {@link forms_mouse_get_y} are
+/// inside of given rectangle.
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {Real} _x The X coordinate of the rectangle's top left corner.
@@ -579,8 +555,7 @@ function forms_mouse_set_button_status(_button, _status)
 /// @param {Real} _width The width of the rectangle.
 /// @param {Real} _height The height of the rectangle.
 ///
-/// @return {Bool} Returns `true` if the mouse coordinates are inside of the
-/// rectangle.
+/// @return {Bool} Returns `true` if the mouse coordinates are inside of the rectangle.
 function forms_mouse_in_rectangle(_x, _y, _width, _height)
 {
 	var _mouseX = forms_mouse_get_x();
@@ -593,8 +568,7 @@ function forms_mouse_in_rectangle(_x, _y, _width, _height)
 ///
 /// @desc Changes the current tooltip text.
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {String, Undefined} _tooltip The new tooltip text or `undefined`.
@@ -613,8 +587,7 @@ function forms_set_tooltip(_tooltip)
 ///
 /// @desc Changes the current mouse cursor style.
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {Constant.Cursor} _cursor The new mouse cursor style.
@@ -633,8 +606,7 @@ function forms_set_cursor(_cursor)
 ///
 /// @desc Retrieves the current mouse cursor style.
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @return {Constant.Cursor} The current mouse cursor style.
@@ -653,8 +625,7 @@ function forms_get_cursor()
 ///
 /// @desc Used to return a result from a control drawn by a {@link FORMS_Pen}.
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {String} _id The ID of the control that returns a value.
@@ -672,17 +643,14 @@ function forms_return_result(_id, _value)
 
 /// @func forms_has_result(_id)
 ///
-/// @desc Checks whether there's a result returned by a control draw by a
-/// {@link FORMS_Pen} with given ID.
+/// @desc Checks whether there's a result returned by a control draw by a {@link FORMS_Pen} with given ID.
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {String} _id The ID of the control.
 ///
-/// @return {Bool} Returns `true` if there's available result returned by a
-/// control with given ID.
+/// @return {Bool} Returns `true` if there's available result returned by a control with given ID.
 ///
 /// @note This is a shorthand for `forms_get_root().has_result(_id)`.
 ///
@@ -696,17 +664,15 @@ function forms_has_result(_id)
 
 /// @func forms_peek_result(_id)
 ///
-/// @desc Retrieves a result returned by a control drawn by a
-/// {@link FORMS_Pen} with given ID, without removing it from stored results.
+/// @desc Retrieves a result returned by a control drawn by a {@link FORMS_Pen} with given ID, without removing it from
+/// stored results.
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {String} _id The ID of the control.
 ///
-/// @return {Any} The result returned by a control with given ID or `undefined`
-/// if there isn't one available.
+/// @return {Any} The result returned by a control with given ID or `undefined` if there isn't one available.
 ///
 /// @note This is a shorthand for `forms_get_root().peek_result(_id)`.
 ///
@@ -720,17 +686,15 @@ function forms_peek_result(_id)
 
 /// @func forms_get_result(_id)
 ///
-/// @desc Retrieves a result returned by a control drawn by a {@link FORMS_Pen}
-/// with given ID and removes it from stored results.
+/// @desc Retrieves a result returned by a control drawn by a {@link FORMS_Pen} with given ID and removes it from stored
+/// results.
 ///
-/// Available only in scope of [update](./FORMS_Widget.update.html) and
-/// [draw](./FORMS_Widget.draw.html) of the
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
 /// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
 ///
 /// @param {String} _id The ID of the control.
 ///
-/// @return {Any} The result returned by a control with given ID or `undefined`
-/// if there isn't one available.
+/// @return {Any} The result returned by a control with given ID or `undefined` if there isn't one available.
 ///
 /// @note This is a shorthand for `forms_get_root().get_result(_id)`.
 ///

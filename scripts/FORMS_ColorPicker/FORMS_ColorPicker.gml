@@ -9,25 +9,21 @@ function FORMS_ColorPickerProps(): FORMS_WindowProps() constructor {}
 ///
 /// @extends FORMS_Window
 ///
-/// @desc A floating window used to mix colors. Opened by clicking on a
-/// [color input](./FORMS_Pen.color.html).
+/// @desc A floating window used to mix colors. Opened by clicking on a [color input](./FORMS_Pen.color.html).
 ///
 /// @param {String} _id The ID of the color input that opened this widget.
 /// @param {Struct.FORMS_Color} _color A {@link FORMS_Color} color.
-/// @param {Struct.FORMS_ColorPickerProps, Undefined} [_props] Properties to
-/// create the color picker with or `undefined`.
+/// @param {Struct.FORMS_ColorPickerProps, Undefined} [_props] Properties to create the color picker with or `undefined`.
 function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefined, _props) constructor
 {
 	static Window_update = update;
 	static Window_destroy = destroy;
 
-	/// @var {String} The ID of the color input that opened the color picker
-	/// widget.
+	/// @var {String} The ID of the color input that opened the color picker widget.
 	/// @readonly
 	ControlId = _id;
 
-	/// @var {Bool} Whether the color picker has a close button. Defaults to
-	/// `false`.
+	/// @var {Bool} Whether the color picker has a close button. Defaults to `false`.
 	Closable = false;
 
 	/// @var {Bool} Whether the color picker is resizable. Defaults to `false`.
@@ -51,8 +47,7 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 	/// @private
 	__windowPrevX = 0;
 
-	/// @var {Struct.FORMS_Widget} Eyedropper widget for selecting a color from 
-	/// the screen at the current mouse position.
+	/// @var {Struct.FORMS_Widget} Eyedropper widget for selecting a color from the screen at the current mouse position.
 	/// @private
 	__eyeDropperWidget = new(function (): FORMS_Widget() constructor
 	{
@@ -486,7 +481,7 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 
 	/// @function __hide_window(_hide)
 	///
-	/// @desc Toggle the window's visiblity.
+	/// @desc Toggle the window's visibility.
 	///
 	/// @param {Bool} _hide Whether to hide (`true`) or show (`false`).
 	///

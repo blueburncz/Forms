@@ -10,11 +10,16 @@
 ## Table of Contents
 
 * [About](#about)
+* [Screenshots](#screenshots)
 * [Contributing](#contributing)
 
 ## About
 
 Forms is a UI library for creating applications in GameMaker. Its origins trace back to [PushEd for GameMaker: Studio 1.4](https://github.com/GameMakerDiscord/PushEd), and after several years, it evolved into the system used in [BBMOD GUI](https://blueburn.cz/index.php?menu=bbmod_gui), with significant modifications. The version of Forms you see here is a complete rewrite, built on the foundations of its predecessors, but now leveraging modern GML features.
+
+## Screenshots
+
+![Screenshot](screenshot.png)
 
 ## Contributing
 

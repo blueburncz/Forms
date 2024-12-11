@@ -1,13 +1,12 @@
-/// @enum An enumeration of all units available to use for size, padding,
-/// spacing etc.
+/// @enum An enumeration of all units available to use for size, padding, spacing etc.
 enum FORMS_EUnit
 {
 	/// @member A pixel.
 	Pixel,
 	/// @member A percentage of size of the parent widget.
 	Percent,
-	/// @member Value is computed automatically (e.g. grow to fit all child
-	/// widgets). Using this in unsupported places results into errors!
+	/// @member Value is computed automatically (e.g. grow to fit all child widgets). Using this in unsupported places
+	/// results into errors!
 	Auto,
 	/// @member Total number of members of this enum.
 	SIZE
@@ -18,12 +17,11 @@ enum FORMS_EUnit
 /// @desc A value coupled with the type of units it uses.
 ///
 /// @param {Real} [_value] The value. Defaults to 0.
-/// @param {Real} [_unit] The type of the unit used. Use values from
-/// {@link FORMS_EUnit}. Defaults to {@link FORMS_EUnit.Pixel}.
+/// @param {Real} [_unit] The type of the unit used. Use values from {@link FORMS_EUnit}. Defaults to
+/// {@link FORMS_EUnit.Pixel}.
 function FORMS_UnitValue(_value = 0, _unit = FORMS_EUnit.Pixel) constructor
 {
-	/// @var {Real} The value. Ignored if {@link FORMS_UnitValue.Unit}
-	/// is {@link FORMS_EUnit.Auto}!
+	/// @var {Real} The value. Ignored if {@link FORMS_UnitValue.Unit} is {@link FORMS_EUnit.Auto}!
 	Value = _value;
 
 	/// @var {Real} The type of units used.
@@ -34,9 +32,8 @@ function FORMS_UnitValue(_value = 0, _unit = FORMS_EUnit.Pixel) constructor
 	///
 	/// @desc Initializes value and unit from given string.
 	///
-	/// @param {String} _string The string containing the new value and unit.
-	/// Unit defaults to {@link FORSM_EUnit.Pixels} if not included in the
-	/// string.
+	/// @param {String} _string The string containing the new value and unit. Unit defaults to {@link FORMS_EUnit.Pixels}
+	/// if not included in the string.
 	///
 	/// @return {Struct.FORMS_UnitValue} Returns `self`.
 	///
@@ -157,16 +154,13 @@ function FORMS_UnitValue(_value = 0, _unit = FORMS_EUnit.Pixel) constructor
 	///
 	/// @desc Initializes value and unit from given props struct.
 	///
-	/// @param {Struct.FORMS_WidgetProps, undefined} _props Properties to
-	/// initialize the value and unit from or `undefined` (in which case the
-	/// defaults will be used).
-	/// @param {String} _name The name of the value key. Unit key is constructed
-	/// by appending "Unit" to this.
-	/// @param {Real} [_valueDefault] The default value to use if props is
-	/// `undefined` or it doesn't contain the value key. Defaults to 0.
-	/// @param {Real} [_unitDefault] The default unit to use if props is
-	/// `undefined` or it doesn't contain the unit key. Use values from
-	/// {@link FORMS_EUnit}. Defaults to {@link FORMS_EUnit.Pixel}.
+	/// @param {Struct.FORMS_WidgetProps, undefined} _props Properties to initialize the value and unit from or
+	/// `undefined` (in which case the defaults will be used).
+	/// @param {String} _name The name of the value key. Unit key is constructed by appending "Unit" to this.
+	/// @param {Real} [_valueDefault] The default value to use if props is `undefined` or it doesn't contain the value
+	/// key. Defaults to 0.
+	/// @param {Real} [_unitDefault] The default unit to use if props is `undefined` or it doesn't contain the unit key.
+	/// Use values from {@link FORMS_EUnit}. Defaults to {@link FORMS_EUnit.Pixel}.
 	///
 	/// @return {Struct.FORMS_UnitValue} Returns `self`.
 	///
@@ -214,10 +208,8 @@ function FORMS_UnitValue(_value = 0, _unit = FORMS_EUnit.Pixel) constructor
 	///
 	/// @desc Retrieves the absolute value, in pixels.
 	///
-	/// @param {Real} _relativeTo The absolute value to which this one is
-	/// relative.
-	/// @param {Real, Undefined} [_autoSize] The size to use if unit is
-	/// {@link FORMS_EUnit.Auto} or `undefined`.
+	/// @param {Real} _relativeTo The absolute value to which this one is relative.
+	/// @param {Real, Undefined} [_autoSize] The size to use if unit is {@link FORMS_EUnit.Auto} or `undefined`.
 	///
 	/// @return {Real}
 	static get_absolute = function (_relativeTo, _autoSize = undefined)
@@ -249,24 +241,20 @@ function FORMS_WidgetProps() constructor
 	/// @var {String, Undefined} The name of the widget.
 	Name = undefined;
 
-	/// @var {Real, Undefined} The Font Awesome icon associated with the widget.
-	/// Use values from {@link FA_ESolid}, {@link FA_ERegular} or
-	/// {@link FA_EBrands}.
+	/// @var {Real, Undefined} The Font Awesome icon associated with the widget. Use values from {@link FA_ESolid},
+	/// {@link FA_ERegular} or {@link FA_EBrands}.
 	Icon = undefined;
 
-	/// @var {Asset.GMFont, Undefined} The font used for the icon. Must match
-	/// with the icon style!
+	/// @var {Asset.GMFont, Undefined} The font used for the icon. Must match with the icon style!
 	IconFont = undefined;
 
-	/// @var {Real, String, Undefined} The widget's X position relative to its
-	/// parent.
+	/// @var {Real, String, Undefined} The widget's X position relative to its parent.
 	X = undefined;
 
 	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit}.
 	XUnit = undefined;
 
-	/// @var {Real, String, Undefined} The widget's Y position relative to its
-	/// parent.
+	/// @var {Real, String, Undefined} The widget's Y position relative to its parent.
 	Y = undefined;
 
 	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit}.
@@ -284,9 +272,8 @@ function FORMS_WidgetProps() constructor
 	/// @var {Real, Undefined} Use values from {@link FORMS_EUnit}.
 	HeightUnit = undefined;
 
-	/// @var {Real, Undefined} A value that represents how much space does the
-	/// widget take when its parent is {@link FORMS_FlexBox}. Value 0 means the
-	/// widget doesn't grow or shrink based on the flex box size.
+	/// @var {Real, Undefined} A value that represents how much space does the widget take when its parent is
+	/// {@link FORMS_FlexBox}. Value 0 means the widget doesn't grow or shrink based on the flex box size.
 	Flex = undefined;
 }
 
@@ -297,16 +284,14 @@ function FORMS_WidgetProps() constructor
 /// @param {Struct, Undefined} _props A struct with properties or `undefined`.
 /// @param {String} _name The name of the property.
 ///
-/// @return {Any} Returns the value of the property of `undefined` if it's not
-/// present in the given properties struct.
+/// @return {Any} Returns the value of the property of `undefined` if it's not present in the given properties struct.
 function forms_get_prop(_props, _name)
 {
 	gml_pragma("forceinline");
 	return ((_props != undefined) ? _props[$  _name] : undefined);
 }
 
-/// @macro {Code} Must be used in method [layout](./FORMS_Widget.layout.html)
-/// of all widgets!
+/// @macro {Code} Must be used in method [layout](./FORMS_Widget.layout.html) of all widgets!
 ///
 /// @example
 /// ```gml
@@ -334,44 +319,37 @@ function forms_get_prop(_props, _name)
 ///
 /// @desc Base struct for all Forms widgets.
 ///
-/// @param {Struct.FORMS_WidgetProps, Undefined} [_props] Properties to create
-/// the widget with or `undefined` (default).
+/// @param {Struct.FORMS_WidgetProps, Undefined} [_props] Properties to create the widget with or `undefined` (default).
 function FORMS_Widget(_props = undefined) constructor
 {
 	/// @private
 	static __idNext = 0;
 
-	/// @var {String} A unique identifier of the widget. Defaults to string
-	/// "Widget" + automatically incremented number.
+	/// @var {String} A unique identifier of the widget. Defaults to string "Widget" + automatically incremented number.
 	Id = forms_get_prop(_props, "Id") ?? $"Widget{__idNext++}";
 
-	/// @var {Real, Undefined} The Font Awesome icon associated with the widget
-	/// or `undefined` (default). Use values from {@link FA_ESolid},
-	/// {@link FA_ERegular} or {@link FA_EBrands}.
+	/// @var {Real, Undefined} The Font Awesome icon associated with the widget or `undefined` (default). Use values
+	/// from {@link FA_ESolid}, {@link FA_ERegular} or {@link FA_EBrands}.
 	Icon = forms_get_prop(_props, "Icon");
 
-	/// @var {Asset.GMFont} The font used for the icon. Must match with the icon
-	/// style! Defaults to `FA_FntSolid12`.
+	/// @var {Asset.GMFont} The font used for the icon. Must match with the icon style! Defaults to `FA_FntSolid12`.
 	IconFont = forms_get_prop(_props, "IconFont") ?? FA_FntSolid12;
 
 	/// @var {String} The name of the widget. Defaults to an empty string.
 	Name = forms_get_prop(_props, "Name") ?? "";
 
-	/// @var {Struct.FORMS_CompoundWidget, Undefined} The parent of this widget
-	/// or `undefined`.
+	/// @var {Struct.FORMS_CompoundWidget, Undefined} The parent of this widget or `undefined`.
 	/// @readonly
 	Parent = undefined;
 
-	/// @var {Struct.FORMS_UnitValue} The widget's X position relative to
-	/// its parent widget.
+	/// @var {Struct.FORMS_UnitValue} The widget's X position relative to its parent widget.
 	X = new FORMS_UnitValue().from_props(_props, "X");
 
 	/// @var {Real} The widget's actual X position.
 	/// @private
 	__realX = 0;
 
-	/// @var {Struct.FORMS_UnitValue} The widget's Y position relative to
-	/// its parent widget.
+	/// @var {Struct.FORMS_UnitValue} The widget's Y position relative to its parent widget.
 	Y = new FORMS_UnitValue().from_props(_props, "Y");
 
 	/// @var {Real} The widget's actual Y position.
@@ -392,9 +370,8 @@ function FORMS_Widget(_props = undefined) constructor
 	/// @private
 	__realHeight = 0;
 
-	/// @var {Real} A value that represents how much space does the widget take
-	/// when its parent is {@link FORMS_FlexBox}. Value 0 (default) means the
-	/// widget doesn't grow or shrink based on the flex box size.
+	/// @var {Real} A value that represents how much space does the widget take when its parent is {@link FORMS_FlexBox}.
+	/// Value 0 (default) means the widget doesn't grow or shrink based on the flex box size.
 	Flex = forms_get_prop(_props, "Flex") ?? 0;
 
 	/// @var {Bool}
@@ -403,8 +380,7 @@ function FORMS_Widget(_props = undefined) constructor
 
 	/// @func get_x()
 	///
-	/// @desc Retrieves the actual X position of the widget computed in
-	/// [layout](./FORMS_Widget.layout.html).
+	/// @desc Retrieves the actual X position of the widget computed in [layout](./FORMS_Widget.layout.html).
 	///
 	/// @return {Real} The actual widget's position on the X axis.
 	static get_x = function ()
@@ -415,8 +391,7 @@ function FORMS_Widget(_props = undefined) constructor
 
 	/// @func get_y()
 	///
-	/// @desc Retrieves the actual Y position of the widget computed in
-	/// [layout](./FORMS_Widget.layout.html).
+	/// @desc Retrieves the actual Y position of the widget computed in [layout](./FORMS_Widget.layout.html).
 	///
 	/// @return {Real} The actual widget's position on the Y axis.
 	static get_y = function ()
@@ -427,8 +402,7 @@ function FORMS_Widget(_props = undefined) constructor
 
 	/// @func get_width()
 	///
-	/// @desc Retrieves the actual width of the widget computed in
-	/// [layout](./FORMS_Widget.layout.html).
+	/// @desc Retrieves the actual width of the widget computed in [layout](./FORMS_Widget.layout.html).
 	///
 	/// @return {Real} The actual widget's width.
 	static get_width = function ()
@@ -439,8 +413,7 @@ function FORMS_Widget(_props = undefined) constructor
 
 	/// @func get_height()
 	///
-	/// @desc Retrieves the actual height of the widget computed in
-	/// [layout](./FORMS_Widget.layout.html).
+	/// @desc Retrieves the actual height of the widget computed in [layout](./FORMS_Widget.layout.html).
 	///
 	/// @return {Real} The actual widget's height.
 	static get_height = function ()
@@ -483,8 +456,7 @@ function FORMS_Widget(_props = undefined) constructor
 
 	/// @func find_widget(_id)
 	///
-	/// @desc Recursively looks for a widget with given ID down in the widget
-	/// hierarchy.
+	/// @desc Recursively looks for a widget with given ID down in the widget hierarchy.
 	///
 	/// @param {String} _id The ID of the widget to find.
 	///
@@ -497,14 +469,11 @@ function FORMS_Widget(_props = undefined) constructor
 
 	/// @func find_parent_type(_type)
 	///
-	/// @desc Recursively looks for a node of given type up in the widget
-	/// hierarchy and returns the first one found.
+	/// @desc Recursively looks for a node of given type up in the widget hierarchy and returns the first one found.
 	///
-	/// @param {Function} _type A constructor that the widget must be an
-	/// instance of (tested with `is_instanceof()`).
+	/// @param {Function} _type A constructor that the widget must be an instance of (tested with `is_instanceof()`).
 	///
-	/// @return {Struct.FORMS_CompoundWidget, Undefined} The found widget or
-	/// `undefined`.
+	/// @return {Struct.FORMS_CompoundWidget, Undefined} The found widget or `undefined`.
 	static find_parent_type = function (_type)
 	{
 		var _current = Parent;
@@ -521,13 +490,11 @@ function FORMS_Widget(_props = undefined) constructor
 
 	/// @func find_parent_name(_name)
 	///
-	/// @desc Recursively looks for a node with given name up in the widget
-	/// hierarchy and returns the first one found.
+	/// @desc Recursively looks for a node with given name up in the widget hierarchy and returns the first one found.
 	///
 	/// @param {String} _name The name of the widget to find.
 	///
-	/// @return {Struct.FORMS_CompoundWidget, Undefined} The widget found or
-	/// `undefined`.
+	/// @return {Struct.FORMS_CompoundWidget, Undefined} The widget found or `undefined`.
 	static find_parent_name = function (_name)
 	{
 		var _current = Parent;
@@ -544,20 +511,16 @@ function FORMS_Widget(_props = undefined) constructor
 
 	/// @func get_auto_width()
 	///
-	/// @desc Returns the width used for child widgets whose width is set to
-	/// "auto".
+	/// @desc Returns the width used for child widgets whose width is set to "auto".
 	///
-	/// @return {Real, Undefined} The width or `undefined` if this widget
-	/// does not support "auto" sizes.
+	/// @return {Real, Undefined} The width or `undefined` if this widget does not support "auto" sizes.
 	static get_auto_width = function () { return undefined; }
 
 	/// @func get_auto_height()
 	///
-	/// @desc Returns the height used for child widgets whose height is set to
-	/// "auto".
+	/// @desc Returns the height used for child widgets whose height is set to "auto".
 	///
-	/// @return {Real, Undefined} The height or `undefined` if this widget
-	/// does not support "auto" sizes.
+	/// @return {Real, Undefined} The height or `undefined` if this widget does not support "auto" sizes.
 	static get_auto_height = function () { return undefined; }
 
 	/// @func layout()
@@ -585,8 +548,7 @@ function FORMS_Widget(_props = undefined) constructor
 	///
 	/// @desc Updates the widget and its children.
 	///
-	/// @param {Real} _deltaTime Number of milliseconds passed since the last
-	/// frame.
+	/// @param {Real} _deltaTime Number of milliseconds passed since the last frame.
 	///
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static update = function (_deltaTime)

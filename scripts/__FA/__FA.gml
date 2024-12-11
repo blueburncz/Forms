@@ -2,14 +2,11 @@
 ///
 /// @desc Draws a Font Awesome icon.
 ///
-/// @param {Asset.GMFont} _font The font to use. This must match with given
-/// `_icon`!
-/// @param {Real} _icon The icon to draw. Use values from {@link FA_ESolid},
-/// {@link FA_ERegular} and {@link FA_EBrands}.
+/// @param {Asset.GMFont} _font The font to use. This must match with given `_icon`!
+/// @param {Real} _icon The icon to draw. Use values from {@link FA_ESolid}, {@link FA_ERegular} and {@link FA_EBrands}.
 /// @param {Real} _x The X position to draw the icon at.
 /// @param {Real} _y The Y position to draw the icon at.
-/// @param {Constant.Color} [_color] The color of the icon. Defaults to
-/// `c_white`.
+/// @param {Constant.Color} [_color] The color of the icon. Defaults to `c_white`.
 /// @param {Real} [_alpha] The alpha value of the icon. Defaults to 1.
 ///
 /// @example
@@ -26,8 +23,7 @@ function fa_draw(_font, _icon, _x, _y, _color = c_white, _alpha = 1.0)
 	draw_set_font(_fontPrev);
 }
 
-/// @enum An enumeration of all icons available in Font Awesome using the
-/// "solid" style.
+/// @enum An enumeration of all icons available in Font Awesome using the "solid" style.
 enum FA_ESolid
 {
 	_0 = 0x30,
@@ -1911,8 +1907,7 @@ enum FA_EBrands
 		Zhihu = 0xf63f,
 }
 
-/// @enum An enumeration of all icons available in Font Awesome using the
-/// "regular" style.
+/// @enum An enumeration of all icons available in Font Awesome using the "regular" style.
 enum FA_ERegular
 {
 	AddressBook = 0xf2b9,

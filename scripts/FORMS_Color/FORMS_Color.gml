@@ -1,12 +1,11 @@
 /// @func FORMS_Color([_color], [_alpha])
 ///
-/// @desc A struct for storing higher precision colors, mostly for the 
-/// {@link FORMS_Pen.color} & {@link FORMS_ColorPicker} widget. If using other 
-/// formats such as HSV or RGB then leave _color argument blank and set using 
-/// relevant methods.
+/// @desc A struct for storing higher precision colors, mostly for the {@link FORMS_Pen.color} &
+/// {@link FORMS_ColorPicker} widget. If using other  formats such as HSV or RGB then leave _color argument blank and
+/// set using  relevant methods.
 ///
-/// @param {Constant.color, Struct.FORMS_Color} [_color] Initial color to set 
-/// the struct, can either be a ABGR/BGR color or FORMS_Color struct.
+/// @param {Constant.color, Struct.FORMS_Color} [_color] Initial color to set the struct, can either be a ABGR/BGR color
+/// or {@link FORMS_Color} struct.
 /// @param {Real} _alpha Optional alpha value for BGR colors, 0..1.
 function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 {
@@ -46,8 +45,8 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	///
 	/// @desc Sets the color
 	///
-	/// @param {Constant.Color, Struct.FORMS_Color} _color The color to use, can 
-	/// be a ABGR/BGR color or {@link FORMS_Color}.
+	/// @param {Constant.Color, Struct.FORMS_Color} _color The color to use, can  be a ABGR/BGR color or
+	/// {@link FORMS_Color}.
 	/// @param {Real} _alpha Optional alpha value for BGR colors, 0..1.
 	///
 	/// @return {Struct.FORMS_Color} Returns `self`.
@@ -143,8 +142,7 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 
 	/// @func set_from_hex(_hue, _saturation, _value, _alpha)
 	///
-	/// @desc Sets the color from a HEX string with format RGBA or RGB, can be 
-	/// preceded by "#" or "0x".
+	/// @desc Sets the color from a HEX string with format RGBA or RGB, can be preceded by "#" or "0x".
 	///
 	/// @param {String} _hex_str The hex encoded color string.
 	///
@@ -243,11 +241,11 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 	/// @desc Compare another color to this one and return if they are equal.
 	///
 	/// @param {Struct.FORMS_Color, Constant.Color} _color Color to compare to.
-	/// @param {Bool} _precise Whether to compare colors more precisely (only when
-	/// comparing to another {@link FORMS_Color}).
+	/// @param {Bool} _precise Whether to compare colors more precisely (only when comparing to another
+	/// {@link FORMS_Color}).
 	///
-	/// @return {Bool, Undefined} Returns `true` if the two colors are equal, 
-	/// `undefined` if the value given is not a valid color.
+	/// @return {Bool, Undefined} Returns `true` if the two colors are equal, `undefined` if the value given is not a
+	/// valid color.
 	static equal_to = function (_color, _precise = true)
 	{
 		if (forms_is_forms_color(_color) && _precise)
@@ -292,8 +290,7 @@ function FORMS_Color(_color = c_white, _alpha = undefined) constructor
 
 /// @func forms_is_forms_color(_val)
 ///
-/// @desc This function checks if the supplied value is a {@link FORMS_Color}
-/// struct.
+/// @desc This function checks if the supplied value is a {@link FORMS_Color} struct.
 ///
 /// @param {Any} _val The value to check.
 ///
@@ -305,8 +302,8 @@ function forms_is_forms_color(_val)
 
 /// @func forms_color_get_alpha(_col)
 ///
-/// @desc This functions returns the amount of alpha in the given color, with a
-/// value between 0 and 255. If color has no alpha value, 0 is returned.
+/// @desc This functions returns the amount of alpha in the given color, with a value between 0 and 255. If color has no
+/// alpha value, 0 is returned.
 ///
 /// @param {Constant.Color} _col The color to check.
 ///

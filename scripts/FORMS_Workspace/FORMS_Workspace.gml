@@ -8,7 +8,7 @@ function FORMS_WorkspaceProps(): FORMS_WidgetProps() constructor
 	/// @var {Constant.Color, Undefined} The background color of the workspace.
 	BackgroundColor = undefined;
 
-	/// @var {Real, Undefined} The alpha value of the bakground.
+	/// @var {Real, Undefined} The alpha value of the background.
 	BackgroundAlpha = undefined;
 }
 
@@ -16,24 +16,21 @@ function FORMS_WorkspaceProps(): FORMS_WidgetProps() constructor
 ///
 /// @extends FORMS_Widget
 ///
-/// @desc A container that widgets who represent inividual workspaces are added
-/// to as tabs.
+/// @desc A container that widgets who represent individual workspaces are added to as tabs.
 ///
-/// @param {Struct.FORMS_WorkspaceProps, Undefined} [_props] Properties to
-/// create the workspace with or `undefined` (default).
+/// @param {Struct.FORMS_WorkspaceProps, Undefined} [_props] Properties to create the workspace with or `undefined`
+/// (default).
 function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 {
 	static Widget_update = update;
 
-	/// @var {Constant.Color} The background color of the workspace. Defaults
-	/// to `0x202020`.
+	/// @var {Constant.Color} The background color of the workspace. Defaults to `0x202020`.
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x202020;
 
 	/// @var {Real} The alpha value of the background. Defaults to 1.
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
-	/// @var {Struct.FORMS_WorkspaceTabs} A container that displays the
-	/// workspace's tabs.
+	/// @var {Struct.FORMS_WorkspaceTabs} A container that displays the workspace's tabs.
 	/// @readonly
 	TabContainer = new FORMS_WorkspaceTabs();
 
@@ -71,8 +68,7 @@ function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 	///
 	/// @desc Tabs a new widget to the dock.
 	///
-	/// @param {Struct.FORMS_Widget} _widget The widget to add to the workspace's
-	/// tabs.
+	/// @param {Struct.FORMS_Widget} _widget The widget to add to the workspace's tabs.
 	///
 	/// @return {Struct.FORMS_Workspace} Returns `self`.
 	static add_tab = function (_widget)
@@ -160,23 +156,21 @@ function FORMS_WorkspaceTabsProps(): FORMS_ContainerProps() constructor {}
 ///
 /// @desc A container that displays tabs added to a {@link FORMS_Workspace}.
 ///
-/// @params {Struct.FORMS_WorkspaceTabsProps, Undefined} [_props] Properties to
-/// create the workspace tabs container with or `undefined` (default).
+/// @params {Struct.FORMS_WorkspaceTabsProps, Undefined} [_props] Properties to create the workspace tabs container with
+/// or `undefined` (default).
 function FORMS_WorkspaceTabs(_props = undefined): FORMS_Container(_props) constructor
 {
-	/// @var {Struct.FORMS_UnitValue} The width of the workspace tabs
-	/// container. Defaults to 100%.
+	/// @var {Struct.FORMS_UnitValue} The width of the workspace tabs container. Defaults to 100%.
 	Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 
-	/// @var {Struct.FORMS_UnitValue} The height of the workspace tabs
-	/// container. Defaults to 32px.
+	/// @var {Struct.FORMS_UnitValue} The height of the workspace tabs container. Defaults to 32px.
 	Height.from_props(_props, "Height", 32);
 
 	// TODO: Docs
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
 
-	/// @var {Bool} Whether the default scrolling direction of the container is
-	/// vertical (`true`) or horizontal (`false`). Defaults to `false`.
+	/// @var {Bool} Whether the default scrolling direction of the container is vertical (`true`) or horizontal
+	/// (`false`). Defaults to `false`.
 	IsDefaultScrollVertical = forms_get_prop(_props, "IsDefaultScrollVertical") ?? false;
 
 	static draw_content = function ()

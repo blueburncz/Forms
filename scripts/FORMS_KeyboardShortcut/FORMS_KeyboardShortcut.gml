@@ -1,22 +1,19 @@
 /// @func FORMS_KeyboardShortcut([_keys[, _mouseButtons]])
 ///
-/// @desc A collection of keyboard keys and mouse buttons that together
-/// represent a single keyboard shortcut.
+/// @desc A collection of keyboard keys and mouse buttons that together represent a single keyboard shortcut.
 ///
-/// @param {Array<Constant.VirtualKey>, Undefined} [_keys] An array of keys that
-/// trigger the shorcut or `undefined` (default).
-/// @param {Array<Constant.MouseButton>, Undefined} [_mouseButtons] An array of
-/// mouse buttons that trigger the shortcut or `undefined` (default).
+/// @param {Array<Constant.VirtualKey>, Undefined} [_keys] An array of keys that trigger the shortcut or `undefined`
+/// (default).
+/// @param {Array<Constant.MouseButton>, Undefined} [_mouseButtons] An array of mouse buttons that trigger the shortcut
+/// or `undefined` (default).
 function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) constructor
 {
-	/// @var {Array<Constant.VirtualKey>} An array of keys that trigger the
-	/// shortcut.
+	/// @var {Array<Constant.VirtualKey>} An array of keys that trigger the shortcut.
 	/// @readonly
 	/// @see FORMS_KeyboardShortcut.add_key
 	Keys = [];
 
-	/// @var {Array<Constant.MouseButton>} An array of mouse buttons that
-	/// trigger the shortcut.
+	/// @var {Array<Constant.MouseButton>} An array of mouse buttons that trigger the shortcut.
 	/// @readonly
 	/// @see FORMS_KeyboardShortcut.add_mouse_button
 	MouseButtons = [];
@@ -39,11 +36,9 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 
 	/// @func get_size()
 	///
-	/// @desc Retrieves the number of keys and mouse buttons assigned to the
-	/// keyboard shortcut.
+	/// @desc Retrieves the number of keys and mouse buttons assigned to the keyboard shortcut.
 	///
-	/// @return {Real} Returns the number of keys and mouse buttons assigned to
-	/// the keyboard shortcut. 
+	/// @return {Real} Returns the number of keys and mouse buttons assigned to the keyboard shortcut. 
 	static get_size = function ()
 	{
 		gml_pragma("forceinline");
@@ -98,8 +93,7 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 	///
 	/// @param {Constant.VirtualKey} _key The keyboard key to check.
 	///
-	/// @return {Bool} Returns `true` if given key is assigned to the keyboard
-	/// shortcut.
+	/// @return {Bool} Returns `true` if given key is assigned to the keyboard shortcut.
 	static has_key = function (_key)
 	{
 		gml_pragma("forceinline");
@@ -125,13 +119,11 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 
 	/// @func has_mouse_button(_button)
 	///
-	/// @desc Checks whether given mouse button is assigned to the keyboard
-	/// shortcut.
+	/// @desc Checks whether given mouse button is assigned to the keyboard shortcut.
 	///
 	/// @param {Constant.MouseButton} _button The mouse button to check.
 	///
-	/// @return {Bool} Returns `true` if given mouse button is assigned to the
-	/// keyboard shortuct.
+	/// @return {Bool} Returns `true` if given mouse button is assigned to the keyboard shortcut.
 	static has_mouse_button = function (_button)
 	{
 		gml_pragma("forceinline");
@@ -159,8 +151,7 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 	///
 	/// @desc Tests whether all keys bound to the shortcut are checked.
 	///
-	/// @return {Bool} Returns `true` if all keys bound to the shortcut are
-	/// checked.
+	/// @return {Bool} Returns `true` if all keys bound to the shortcut are checked.
 	static check = function ()
 	{
 		var _keysLength = array_length(Keys);
@@ -194,8 +185,7 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 	///
 	/// @desc Tests whether all keys bound to the shortcut are pressed.
 	///
-	/// @return {Bool} Returns `true` if all keys bound to the shortcut are
-	/// pressed.
+	/// @return {Bool} Returns `true` if all keys bound to the shortcut are pressed.
 	static check_pressed = function ()
 	{
 		var _keysLength = array_length(Keys);

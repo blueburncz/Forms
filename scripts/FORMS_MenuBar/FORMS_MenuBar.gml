@@ -9,13 +9,11 @@ function FORMS_MenuBarProps(): FORMS_ContainerProps() constructor {}
 ///
 /// @extends FORMS_Container
 ///
-/// @desc A bar with dropdown menus, usually placed at the top of the
-/// application window.
+/// @desc A bar with dropdown menus, usually placed at the top of the application window.
 ///
-/// @param {Array<Struct.FORMS_MenuBarItem>} [_items] An array of items in the
-/// menu bar.
-/// @param {Struct.FORMS_MenuBarProps, Undefined} [_props] Properties to create
-/// the menu bar with or `undefined` (default).
+/// @param {Array<Struct.FORMS_MenuBarItem>} [_items] An array of items in the menu bar.
+/// @param {Struct.FORMS_MenuBarProps, Undefined} [_props] Properties to create the menu bar with or `undefined`
+/// (default).
 function FORMS_MenuBar(_items = [], _props = undefined): FORMS_Container(_props) constructor
 {
 	static Container_update = update;
@@ -35,8 +33,7 @@ function FORMS_MenuBar(_items = [], _props = undefined): FORMS_Container(_props)
 	/// @var {Struct.FORMS_UnitValue} The widget's width. Defaults to 100%.
 	Width = Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
 
-	/// @var {Struct.FORMS_UnitValue} The widget's height. Defaults to
-	/// 24px.
+	/// @var {Struct.FORMS_UnitValue} The widget's height. Defaults to 24px.
 	Height = Height.from_props(_props, "Height", 24, FORMS_EUnit.Pixel);
 
 	static draw_content = function ()
@@ -109,16 +106,14 @@ function FORMS_MenuBar(_items = [], _props = undefined): FORMS_Container(_props)
 /// @desc An item in a {@link FORMS_MenuBar}.
 ///
 /// @param {String} _name The name of the menu item.
-/// @param {Function, Undefined} [_contextMenu] A constructor of a struct that
-/// inherits from {@link FORMS_ContextMenu} to be created when the menu item is
-/// selected, or `undefined` (default).
+/// @param {Function, Undefined} [_contextMenu] A constructor of a struct that inherits from {@link FORMS_ContextMenu}
+/// to be created when the menu item is selected, or `undefined` (default).
 function FORMS_MenuBarItem(_name, _contextMenu = undefined) constructor
 {
 	/// @var {String} The name of the menu item.
 	Name = _name;
 
-	/// @var {Function, Undefined} A constructor of a struct that inherits from
-	/// {@link FORMS_ContextMenu} to be created when the menu item is selected,
-	/// or `undefined` (default).
+	/// @var {Function, Undefined} A constructor of a struct that inherits from {@link FORMS_ContextMenu} to be created
+	/// when the menu item is selected, or `undefined` (default).
 	ContextMenu = _contextMenu;
 }

@@ -43,8 +43,8 @@ function FORMS_NodeGraph() constructor
 	///
 	/// @param {Any} [_args] Arguments. Defaults to `undefined`.
 	///
-	/// @return {Struct} Returns a struct where keys are entry-point nodes and
-	/// values are the results of their evaluation.
+	/// @return {Struct} Returns a struct where keys are entry-point nodes and values are the results of their
+	/// evaluation.
 	///
 	/// @see FORMS_Node.IsEntryPoint
 	static eval = function (_args = undefined)
@@ -100,16 +100,13 @@ function FORMS_NodeGraph() constructor
 /// @desc
 ///
 /// @param {String} _name The name of the node.
-/// @param {Array<Struct.FORMS_Pin>} [_pinsIn] An array of the node's input
-/// pins.
-/// @param {Array<Struct.FORMS_Pin>} [_pinsOut] An array of the node's output
-/// pins.
+/// @param {Array<Struct.FORMS_Pin>} [_pinsIn] An array of the node's input pins.
+/// @param {Array<Struct.FORMS_Pin>} [_pinsOut] An array of the node's output pins.
 ///
 /// @private
 function FORMS_Node(_name, _pinsIn = [], _pinsOut = []) constructor
 {
-	/// @var {Struct.NodeGrap, Undefined} The graph to which this node belongs.
-	/// Default value is `undefined`.
+	/// @var {Struct.NodeGraph, Undefined} The graph to which this node belongs. Default value is `undefined`.
 	Graph = undefined;
 
 	/// @var {String} The name of the node.
@@ -126,8 +123,7 @@ function FORMS_Node(_name, _pinsIn = [], _pinsOut = []) constructor
 	/// @var {Bool} If true then the node is collapsed and its pins are hidden.
 	Collapsed = false;
 
-	/// @var {Bool} If true then the node is an entry point. Default value is
-	/// false.
+	/// @var {Bool} If true then the node is an entry point. Default value is false.
 	/// @readonly
 	IsEntryPoint = false;
 
@@ -143,9 +139,8 @@ function FORMS_Node(_name, _pinsIn = [], _pinsOut = []) constructor
 	/// @var {Real} The node's height.
 	Height = 0;
 
-	/// @var {Function, Undefined} A function executed when the node is
-	/// evaluated or `undefined` (default). The arguments passed to the function
-	/// are the pin, args and evalID.
+	/// @var {Function, Undefined} A function executed when the node is evaluated or `undefined` (default). The
+	/// arguments passed to the function are the pin, args and evalID.
 	OnEval = undefined;
 
 	/// @private
@@ -250,8 +245,7 @@ global.__formsPinColor = [
 ///
 /// @desc Configures color of pins of given type.
 ///
-/// @param {Real} _pinType The type of the pin. Use values from
-/// {@link FORMS_EPinType}.
+/// @param {Real} _pinType The type of the pin. Use values from {@link FORMS_EPinType}.
 /// @param {Constant.Color} _color The new pin color.
 ///
 /// @private
@@ -265,8 +259,7 @@ function forms_pin_set_color(_pinType, _color)
 ///
 /// @desc Retrieves color for given pin type.
 ///
-/// @param {Real} _pinType The type of the pin. Use values from
-/// {@link FORMS_EPinType}.
+/// @param {Real} _pinType The type of the pin. Use values from {@link FORMS_EPinType}.
 ///
 /// @return {Constant.Color} The pin color.
 ///
@@ -282,15 +275,13 @@ function forms_pin_get_color(_pinType)
 /// @desc
 ///
 /// @param {String} _name The name of the pin.
-/// @param {Real} _type The type of the pin. Use values from
-/// {@link FORMS_EPinType}.
+/// @param {Real} _type The type of the pin. Use values from {@link FORMS_EPinType}.
 /// @param {Constant.AssetType, Undefined} [_assetType]
 ///
 /// @private
 function FORMS_Pin(_name, _type, _assetType = undefined) constructor
 {
-	/// @var {Struct.FORMS_Node, Undefined} The node to which this pin belongs.
-	/// Default value is `undefined`.
+	/// @var {Struct.FORMS_Node, Undefined} The node to which this pin belongs. Default value is `undefined`.
 	Node = undefined;
 
 	/// @var {String} The name of the pin.
@@ -304,17 +295,14 @@ function FORMS_Pin(_name, _type, _assetType = undefined) constructor
 	/// @readonly
 	AssetType = _assetType;
 
-	/// @var {Bool} If true then this is an input pin, otherwise it is an
-	/// output pin. Default value is true.
+	/// @var {Bool} If true then this is an input pin, otherwise it is an output pin. Default value is true.
 	/// @readonly
 	IsInput = true;
 
-	/// @var {Bool} If true then the pin is disabled and its connection cannot
-	/// be changed. Default value is false.
+	/// @var {Bool} If true then the pin is disabled and its connection cannot be changed. Default value is false.
 	Disabled = false;
 
-	/// @var {Array<Struct.FORMS_Pin>} An array of pins that this pin is
-	/// connected to.
+	/// @var {Array<Struct.FORMS_Pin>} An array of pins that this pin is connected to.
 	Other = [];
 
 	/// @var {Real} The pin's X position.
@@ -326,9 +314,8 @@ function FORMS_Pin(_name, _type, _assetType = undefined) constructor
 	/// @var {Real} The pin's radius.
 	Radius = 8;
 
-	/// @var {Function, Undefined} A function executed when the pin is evaluated
-	/// or `undefined` (default). The arguments passed to the function are the
-	/// pin, args and evalID.
+	/// @var {Function, Undefined} A function executed when the pin is evaluated or `undefined` (default). The arguments
+	/// passed to the function are the pin, args and evalID.
 	OnEval = undefined;
 
 	/// @private
@@ -340,8 +327,7 @@ function FORMS_Pin(_name, _type, _assetType = undefined) constructor
 
 	/// @func is_compatible(_pin)
 	///
-	/// @desc Checks whether this pin is compatible with other given pin.
-	/// Incompatible pins cannot be connected.
+	/// @desc Checks whether this pin is compatible with other given pin. Incompatible pins cannot be connected.
 	///
 	/// @param {Struct.FORMS_Pin} _pin The pin to check compatibility with.
 	///
