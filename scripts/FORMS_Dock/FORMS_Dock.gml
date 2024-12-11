@@ -568,11 +568,11 @@ function FORMS_DockTabs(_props = undefined): FORMS_Container(_props) constructor
 	/// 24px.
 	Height = Height.from_props(_props, "Height", 24);
 
-	// TODO: Docs
+	/// @var {Constant.Color} The tint color of the background sprite. Defaults to `0x181818`.
 	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
 
-	/// @var {Bool} Whether the default scrolling direction of the container is
-	/// vertical (`true`) or horizontal (`false`). Defaults to `false`.
+	/// @var {Bool} Whether the default scrolling direction of the container is vertical (`true`) or horizontal
+	/// (`false`). Defaults to `false`.
 	IsDefaultScrollVertical = forms_get_prop(_props, "IsDefaultScrollVertical") ?? false;
 
 	static draw_content = function ()

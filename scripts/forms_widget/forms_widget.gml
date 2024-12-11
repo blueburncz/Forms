@@ -588,6 +588,10 @@ function FORMS_Widget(_props = undefined) constructor
 	/// @return {Undefined} Always returns `undefined`.
 	static destroy = function ()
 	{
+		if (Parent != undefined)
+		{
+			remove_self();
+		}
 		return undefined;
 	}
 }

@@ -63,7 +63,7 @@
     {"id":{"name":"TestControlsScrollPane","path":"scripts/TestControlsScrollPane/TestControlsScrollPane.yy",},},
     {"id":{"name":"TestStatusBar","path":"scripts/TestStatusBar/TestStatusBar.yy",},},
     {"id":{"name":"TestUI","path":"scripts/TestUI/TestUI.yy",},},
-    {"id":{"name":"TestWelcomeContainer","path":"scripts/TestWelcomeContainer/TestWelcomeContainer.yy",},},
+    {"id":{"name":"TestWelcomeScrollPane","path":"scripts/TestWelcomeScrollPane/TestWelcomeScrollPane.yy",},},
     {"id":{"name":"TestWorkspace","path":"scripts/TestWorkspace/TestWorkspace.yy",},},
     {"id":{"name":"FORMS_ShColorWheel","path":"shaders/FORMS_ShColorWheel/FORMS_ShColorWheel.yy",},},
     {"id":{"name":"FORMS_SprColor","path":"sprites/FORMS_SprColor/FORMS_SprColor.yy",},},

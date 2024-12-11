@@ -25,6 +25,7 @@ function FORMS_ScrollPane(_props = undefined): FORMS_Container(_props) construct
 	//static Container_layout = layout;
 	static Container_update = update;
 	static Container_draw = draw;
+	static Container_destroy = destroy;
 
 	/// @var {Struct.FORMS_HScrollbar} The scroll pane's horizontal scrollbar.
 	/// @readonly
@@ -102,5 +103,13 @@ function FORMS_ScrollPane(_props = undefined): FORMS_Container(_props) construct
 		Container_draw();
 		HScrollbar.draw();
 		VScrollbar.draw();
+	}
+
+	static destroy = function ()
+	{
+		Container_destroy();
+		HScrollbar = HScrollbar.destroy();
+		VScrollbar = VScrollbar.destroy();
+		return undefined;
 	}
 }

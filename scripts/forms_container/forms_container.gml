@@ -44,6 +44,7 @@ function FORMS_ContainerProps(): FORMS_WidgetProps() constructor
 function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 {
 	static Widget_layout = layout;
+	static Widget_destroy = destroy;
 
 	/// @var {Id.Surface} The ID of the container's surface.
 	/// @readonly
@@ -263,6 +264,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 
 	static destroy = function ()
 	{
+		Widget_destroy();
 		if (surface_exists(Surface)) { surface_free(Surface); }
 		return undefined;
 	}

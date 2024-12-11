@@ -1,4 +1,4 @@
-function TestWelcomeContainer(): FORMS_Container() constructor
+function TestWelcomeScrollPane(): FORMS_ScrollPane() constructor
 {
 	Name = "Welcome";
 	BackgroundColor = 0x272727;
