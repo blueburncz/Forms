@@ -219,57 +219,73 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		__right.Parent = self;
 	}
 
-	/// @func split_left()
+	/// @func split_left([_splitSize])
 	///
 	/// @desc Splits the dock horizontally, moving itself to the left and
 	/// creating a new dock on the right.
 	///
+	/// @param {Real, Undefined} [_splitSize] New split size of the dock or
+	/// `undefined` to keep the current value (default).
+	///
 	/// @return {Struct.FORMS_Dock} Returns `self`.
-	static split_left = function ()
+	static split_left = function (_splitSize = undefined)
 	{
 		__split(FORMS_EDockSplit.Horizontal);
+		SplitSize = _splitSize ?? SplitSize;
 		__left.set_tabs(__tabs);
 		__tabs = [];
 		return self;
 	}
 
-	/// @func split_right()
+	/// @func split_right([_splitSize])
 	///
 	/// @desc Splits the dock horizontally, moving itself to the right and
 	/// creating a new dock on the left.
 	///
+	/// @param {Real, Undefined} [_splitSize] New split size of the dock or
+	/// `undefined` to keep the current value (default).
+	///
 	/// @return {Struct.FORMS_Dock} Returns `self`.
-	static split_right = function ()
+	static split_right = function (_splitSize = undefined)
 	{
 		__split(FORMS_EDockSplit.Horizontal);
+		SplitSize = _splitSize ?? SplitSize;
 		__right.set_tabs(__tabs);
 		__tabs = [];
 		return self;
 	}
 
-	/// @func split_up()
+	/// @func split_up([_splitSize])
 	///
 	/// @desc Splits the dock vertically, moving itself to the top and creating
 	/// a new dock at the bottom.
 	///
+	/// @param {Real, Undefined} [_splitSize] New split size of the dock or
+	/// `undefined` to keep the current value (default).
+	///
 	/// @return {Struct.FORMS_Dock} Returns `self`.
-	static split_up = function ()
+	static split_up = function (_splitSize = undefined)
 	{
 		__split(FORMS_EDockSplit.Vertical);
+		SplitSize = _splitSize ?? SplitSize;
 		__left.set_tabs(__tabs);
 		__tabs = [];
 		return self;
 	}
 
-	/// @func split_down()
+	/// @func split_down([_splitSize])
 	///
 	/// @desc Splits the dock vertically, moving itself to the bottom and
 	/// creating a new dock at the top.
 	///
+	/// @param {Real, Undefined} [_splitSize] New split size of the dock or
+	/// `undefined` to keep the current value (default).
+	///
 	/// @return {Struct.FORMS_Dock} Returns `self`.
-	static split_down = function ()
+	static split_down = function (_splitSize = undefined)
 	{
 		__split(FORMS_EDockSplit.Vertical);
+		SplitSize = _splitSize ?? SplitSize;
 		__right.set_tabs(__tabs);
 		__tabs = [];
 		return self;
