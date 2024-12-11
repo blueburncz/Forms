@@ -74,6 +74,9 @@ function FORMS_PenIconProps() constructor
 	/// @var {Real, Undefined} The alpha value of the icon.
 	Alpha = undefined;
 
+	/// @var {Real, Undefined} Horizontal padding around the icon.
+	Padding = undefined;
+
 	/// @var {Real, Undefined} The width of the icon.
 	Width = undefined;
 
@@ -954,7 +957,8 @@ function FORMS_Pen(_container) constructor
 		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
 		var _iconWidth = string_width(_string);
 		var _iconHeight = string_height(_string);
-		var _width = forms_get_prop(_props, "Width") ?? _iconWidth;
+		var _padding = forms_get_prop(_props, "Padding") ?? 4;
+		var _width = forms_get_prop(_props, "Width") ?? _iconWidth + _padding * 2;
 		var _height = forms_get_prop(_props, "Height") ?? _iconHeight;
 		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x424242;
 		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 0.0;
