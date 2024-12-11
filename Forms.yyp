@@ -60,7 +60,7 @@
     {"id":{"name":"FORMS_Widget","path":"scripts/FORMS_Widget/FORMS_Widget.yy",},},
     {"id":{"name":"FORMS_Window","path":"scripts/FORMS_Window/FORMS_Window.yy",},},
     {"id":{"name":"FORMS_Workspace","path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},},
-    {"id":{"name":"TestControlsContainer","path":"scripts/TestControlsContainer/TestControlsContainer.yy",},},
+    {"id":{"name":"TestControlsScrollPane","path":"scripts/TestControlsScrollPane/TestControlsScrollPane.yy",},},
     {"id":{"name":"TestStatusBar","path":"scripts/TestStatusBar/TestStatusBar.yy",},},
     {"id":{"name":"TestUI","path":"scripts/TestUI/TestUI.yy",},},
     {"id":{"name":"TestWelcomeContainer","path":"scripts/TestWelcomeContainer/TestWelcomeContainer.yy",},},

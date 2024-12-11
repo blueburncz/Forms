@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"TestControlsContainer",
+  "%Name":"TestControlsScrollPane",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"TestControlsContainer",
+  "name":"TestControlsScrollPane",
   "parent":{
     "name":"Widgets",
     "path":"folders/Test/Widgets.yy",

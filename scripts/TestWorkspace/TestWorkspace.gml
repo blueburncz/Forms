@@ -24,8 +24,8 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	add_child(_dock);
 
 	_dock.set_tabs([
-		new FORMS_ScrollPane(new TestControlsContainer(), { Name: "Test Scroll Pane" }),
-		new FORMS_ScrollPane(new TestControlsContainer(), { Name: "Test Scroll Pane" }),
+		new TestControlsScrollPane(),
+		new TestControlsScrollPane(),
 	]);
 
 	_dock.split_left();
