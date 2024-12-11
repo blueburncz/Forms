@@ -58,10 +58,10 @@ function FORMS_MenuBar(_items = [], _props = undefined): FORMS_Container(_props)
 				Disabled: (_item.ContextMenu == undefined),
 			});
 
-			if ((_link == 1
-					|| (_link == -1 && _menu.__contextMenu != undefined && _menu.__itemCurrent
-						!= _itemIndex)
-				)
+			if ((_link == FORMS_EControlAction.Click
+					|| (_link == FORMS_EControlAction.MouseOver
+						&& _menu.__contextMenu != undefined
+						&& _menu.__itemCurrent != _itemIndex))
 				&& _item.ContextMenu != undefined)
 			{
 				if (_menu.__contextMenu != undefined)
