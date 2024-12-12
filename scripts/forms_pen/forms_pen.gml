@@ -1473,6 +1473,7 @@ function FORMS_Pen(_container) constructor
 			keyboard_string = "";
 
 			// Handle repeat of a held-down keyboard key
+			// TODO: Make input repeat speed configurable
 			var _acceptInput = false;
 			if (keyboard_check_pressed(vk_anykey))
 			{
@@ -1529,6 +1530,7 @@ function FORMS_Pen(_container) constructor
 			}
 
 			// Trim display string from the right
+			// TODO: Make trim direction configurable
 			var _stringLength = string_length(_displayString);
 			var _trimmed = false;
 			while (string_width(_displayString) > _width - _padding * 2 && _displayString != "")
