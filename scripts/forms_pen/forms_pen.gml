@@ -452,9 +452,11 @@ function FORMS_Pen(_container) constructor
 	/// @private
 	__dropdowns = {};
 
+	/// @var {String, Undefined} The ID of the currently active input or `undefined` if there isn't one.
 	/// @private
 	__inputId = undefined;
 
+	/// @var {Any} Backup of the original value of the currently active input.
 	/// @private
 	__inputValue = undefined;
 
@@ -469,6 +471,10 @@ function FORMS_Pen(_container) constructor
 
 	/// @private
 	__inputTimer = 0;
+
+	/// @var {String} The value of `keyboard_string` before an input was selected. Used to restore its value.
+	/// @private
+	__keyboardStringBackup = "";
 
 	/// @private
 	__result = undefined;
@@ -1435,6 +1441,7 @@ function FORMS_Pen(_container) constructor
 				__inputId = _id;
 				__inputValue = _value;
 				__inputString = string(__inputValue);
+				__keyboardStringBackup = keyboard_string;
 				keyboard_string = "";
 			}
 			forms_set_cursor(cr_beam);
@@ -1562,6 +1569,7 @@ function FORMS_Pen(_container) constructor
 				forms_return_result(_id, _valueNew);
 			}
 			__inputId = undefined;
+			keyboard_string = __keyboardStringBackup;
 		}
 
 		return __consume_result(_id);
