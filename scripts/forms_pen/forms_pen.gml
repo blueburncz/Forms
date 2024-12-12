@@ -1425,11 +1425,21 @@ function FORMS_Pen(_container) constructor
 		var _height = __lineHeight;
 		var _ribbon = forms_get_prop(_props, "Ribbon");
 		var _padding = forms_get_prop(_props, "Padding") ?? 4 + ((_ribbon != undefined) ? 2 : 0);
+		var _textX = _x + _padding;
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _mouseOver = (!_disabled && is_mouse_over(_x, _y, _width, _height, _id));
 
+		var _displayColor = _disabled ? c_gray : c_white;
+		var _displayString;
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//
+		// Update input
+		//
+
 		if (_mouseOver)
 		{
+			// Select the input of LMB click
 			if (forms_mouse_check_button_pressed(mb_left) && __inputId != _id)
 			{
 				if (__inputId != undefined)
@@ -1444,8 +1454,123 @@ function FORMS_Pen(_container) constructor
 				__keyboardStringBackup = keyboard_string;
 				keyboard_string = "";
 			}
+
+			// Use beam cursor on mouse-over
 			forms_set_cursor(cr_beam);
 		}
+
+		if (__inputId == _id)
+		{
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//
+			// Input *IS* active
+			//
+
+			// Append keyboard string to input value
+			var _stringToInsert = string_replace_all(keyboard_string, chr(127), "");
+			var _keyboardStringLength = string_length(_stringToInsert);
+			__inputString += _stringToInsert;
+			keyboard_string = "";
+
+			// Handle repeat of a held-down keyboard key
+			var _acceptInput = false;
+			if (keyboard_check_pressed(vk_anykey))
+			{
+				__inputTimer = -300;
+				_acceptInput = true;
+			}
+			else if (keyboard_check(vk_anykey))
+			{
+				__inputTimer += delta_time * 0.001;
+				if (__inputTimer >= 50)
+				{
+					__inputTimer = 0;
+					_acceptInput = true;
+				}
+			}
+
+			// Handle input
+			if (_acceptInput)
+			{
+				if (keyboard_check(vk_backspace))
+				{
+					if (__inputString != "")
+					{
+						__inputString = string_delete(__inputString, string_length(__inputString), 1);
+					}
+				}
+				// else if (keyboard_check(vk_delete))
+				// {
+				// }
+			}
+
+			// Display the input value trimmed from the left
+			_displayString = __inputString;
+			var _stringWidth = string_width(_displayString);
+			while (_stringWidth > (_width - _padding * 2) && _displayString != "")
+			{
+				_displayString = string_delete(_displayString, 1, 1);
+				_stringWidth = string_width(_displayString);
+			}
+		}
+		else
+		{
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//
+			// Input is *NOT* active
+			//
+
+			// Display placeholder or the input value?
+			_displayString = forms_has_result(_id) ? string(forms_peek_result(_id)) : string(_value);
+			if (_displayString == "")
+			{
+				_displayString = forms_get_prop(_props, "Placeholder") ?? "";
+				_displayColor = c_gray;
+			}
+
+			// Trim display string from the right
+			var _stringLength = string_length(_displayString);
+			var _trimmed = false;
+			while (string_width(_displayString) > _width - _padding * 2 && _displayString != "")
+			{
+				_displayString = string_delete(_displayString, _stringLength--, 1);
+				_trimmed = true;
+			}
+
+			// Show tooltip
+			if (_mouseOver)
+			{
+				var _tooltip = forms_get_prop(_props, "Tooltip");
+				if (_tooltip != undefined)
+				{
+					forms_set_tooltip(_tooltip);
+				}
+				else if (_trimmed)
+				{
+					forms_set_tooltip(string(_value));
+				}
+			}
+		}
+
+		// Return new value on Enter or click outside of the input
+		if (__inputId == _id
+			&& (keyboard_check_pressed(vk_enter) || (!_mouseOver && mouse_check_button_pressed(mb_any))))
+		{
+			var _valueNew = is_real(__inputValue)
+				? (forms_parse_real(__inputString) ?? __inputValue)
+				: __inputString;
+			if (__inputValue != _valueNew)
+			{
+				forms_return_result(_id, _valueNew);
+			}
+			__inputId = undefined;
+			keyboard_string = __keyboardStringBackup;
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//
+		// Draw input
+		//
 
 		// Border when selected
 		if (__inputId == _id)
@@ -1463,114 +1588,19 @@ function FORMS_Pen(_container) constructor
 			draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, 2, _height, _ribbon, 1.0);
 		}
 
-		// Input is active...
+		// Text
+		forms_draw_text(_textX, _y, _displayString, _displayColor, 1.0);
+
+		// Input beam
 		if (__inputId == _id)
 		{
-			var _stringToInsert = string_replace_all(keyboard_string, chr(127), "");
-			var _keyboardStringLength = string_length(_stringToInsert);
-			keyboard_string = "";
-
-			__inputString += _stringToInsert;
-
-			var _multitype = false;
-			if (keyboard_check_pressed(vk_anykey))
-			{
-				__inputTimer = -300;
-				_multitype = true;
-			}
-			else if (keyboard_check(vk_anykey))
-			{
-				__inputTimer += delta_time * 0.001;
-				if (__inputTimer >= 50)
-				{
-					__inputTimer = 0;
-					_multitype = true;
-				}
-			}
-
-			var _inputLength = string_length(__inputString);
-
-			if (_multitype
-				&& keyboard_check(vk_backspace)
-				&& __inputString != "")
-			{
-				__inputString = string_delete(__inputString, _inputLength, 1);
-				--_inputLength;
-			}
-			else if (_multitype
-				&& keyboard_check(vk_delete))
-			{
-				__inputString = string_delete(__inputString, _inputLength, 1);
-				--_inputLength;
-			}
-
-			var _displayString = __inputString;
-			var _stringWidth = string_width(_displayString);
-			while (_stringWidth > _width - _padding * 2 && _displayString != "")
-			{
-				_displayString = string_delete(_displayString, 1, 1);
-				_stringWidth = string_width(_displayString);
-			}
-
-			// Draw text
-			draw_text(_x + _padding, _y, _displayString);
-
-			// Draw input beam
 			var _alpha = (keyboard_check(vk_anykey) || mouse_check_button(mb_any))
 				? 1.0 : dsin(current_time * 0.5) * 0.5 + 0.5;
-			forms_draw_rectangle(_x + _padding + _stringWidth, _y, 2, __lineHeight, global.formsAccentColor,
-				_alpha);
-		}
-		else // Input not active...
-		{
-			var _displayString = forms_has_result(_id) ? string(forms_peek_result(_id)) : string(_value);
-			var _displayColor = _disabled ? c_gray : c_white;
-			if (_displayString == "")
-			{
-				_displayString = forms_get_prop(_props, "Placeholder") ?? "";
-				_displayColor = c_gray;
-			}
-			var _stringLength = string_length(_displayString);
-			var _trimmed = false;
-			while (string_width(_displayString) > _width - _padding * 2 && _displayString != "")
-			{
-				_displayString = string_delete(_displayString, _stringLength--, 1);
-				_trimmed = true;
-			}
 
-			// Draw text
-			draw_text_color(_x + _padding, _y, _displayString, _displayColor, _displayColor, _displayColor,
-				_displayColor, 1.0);
-
-			if (_mouseOver)
-			{
-				var _tooltip = forms_get_prop(_props, "Tooltip");
-				if (_tooltip != undefined)
-				{
-					forms_set_tooltip(_tooltip);
-				}
-				else if (_trimmed)
-				{
-					forms_set_tooltip(string(_value));
-				}
-			}
+			forms_draw_rectangle(_textX + _stringWidth, _y, 2, __lineHeight, global.formsAccentColor, _alpha);
 		}
 
 		__move_or_nl(_width);
-
-		if (__inputId == _id && (keyboard_check_pressed(vk_enter)
-				|| (!_mouseOver && mouse_check_button_pressed(mb_left))))
-		{
-			var _valueNew = is_real(__inputValue)
-				? (forms_parse_real(__inputString) ?? __inputValue)
-				: __inputString;
-			if (__inputValue != _valueNew)
-			{
-				forms_return_result(_id, _valueNew);
-			}
-			__inputId = undefined;
-			keyboard_string = __keyboardStringBackup;
-		}
 
 		return __consume_result(_id);
 	}
