@@ -1439,7 +1439,7 @@ function FORMS_Pen(_container) constructor
 
 		if (_mouseOver)
 		{
-			// Select the input of LMB click
+			// Select the input on LMB click
 			if (forms_mouse_check_button_pressed(mb_left) && __inputId != _id)
 			{
 				if (__inputId != undefined)
