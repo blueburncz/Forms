@@ -430,6 +430,7 @@ function forms_key_is_control_key(_key)
 {
 	switch (_key)
 	{
+		case 0:
 		case vk_left:
 		case vk_right:
 		case vk_up:
@@ -483,6 +484,7 @@ function forms_key_is_control_key(_key)
 		case vk_rshift:
 		case vk_rcontrol:
 		case vk_ralt:
+		case FORMS_VK_CMD:
 			return true;
 
 		default:

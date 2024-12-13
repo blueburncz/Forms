@@ -1398,6 +1398,18 @@ function FORMS_Pen(_container) constructor
 		return __consume_result(_id);
 	}
 
+	static __input_delete_selected = function ()
+	{
+		if (__inputIndexFrom != __inputIndexTo)
+		{
+			var _indexMin = min(__inputIndexFrom, __inputIndexTo);
+			var _indexMax = max(__inputIndexFrom, __inputIndexTo);
+			__inputString = string_delete(__inputString, _indexMin, _indexMax - _indexMin);
+			__inputIndexFrom = _indexMin;
+			__inputIndexTo = _indexMin;
+		}
+	}
+
 	/// @func input(_id, _value[, _props])
 	///
 	/// @desc Draws an input (text or numeric) and moves the pen by its width (or adds a new line, if
@@ -1427,6 +1439,8 @@ function FORMS_Pen(_container) constructor
 
 		var _displayColor = _disabled ? c_gray : c_white;
 		var _displayString;
+		var _fromX;
+		var _toX;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//
@@ -1447,6 +1461,8 @@ function FORMS_Pen(_container) constructor
 				__inputId = _id;
 				__inputValue = _value;
 				__inputString = string(__inputValue);
+				__inputIndexFrom = string_length(__inputString) + 1;
+				__inputIndexTo = __inputIndexFrom;
 			}
 
 			// Use beam cursor on mouse-over
@@ -1481,26 +1497,123 @@ function FORMS_Pen(_container) constructor
 			// Handle input
 			if (_acceptInput)
 			{
-				if (!forms_key_is_control_key(keyboard_key))
+				if (keyboard_check(vk_control))
 				{
-					__inputString += keyboard_lastchar;
+					if (keyboard_check_pressed(ord("A")))
+					{
+						__inputIndexFrom = 1;
+						__inputIndexTo = string_length(__inputString) + 1;
+					}
+					else if (keyboard_check_pressed(ord("C")))
+					{
+						// TODO: Copy selected to clipboard
+					}
+					else if (keyboard_check_pressed(ord("X")))
+					{
+						// TODO: Cut selected to clipboard
+					}
+					else if (keyboard_check_pressed(ord("V")))
+					{
+						// TODO: Paste from clipboard
+					}
+				}
+				else if (!forms_key_is_control_key(keyboard_key))
+				{
+					if (__inputIndexFrom != __inputIndexTo)
+					{
+						__input_delete_selected();
+					}
+					__inputString = string_insert(keyboard_lastchar, __inputString, __inputIndexFrom++);
+					__inputIndexTo = __inputIndexFrom;
 				}
 				else if (keyboard_check(vk_backspace))
 				{
-					if (__inputString != "")
+					if (__inputIndexFrom != __inputIndexTo)
 					{
-						__inputString = string_delete(__inputString, string_length(__inputString), 1);
+						__input_delete_selected();
+					}
+					else if (__inputIndexFrom > 1)
+					{
+						__inputString = string_delete(__inputString, --__inputIndexFrom, 1);
+						__inputIndexTo = __inputIndexFrom;
+					}
+				}
+				else if (keyboard_check(vk_delete))
+				{
+					if (__inputIndexFrom == __inputIndexTo)
+					{
+						__inputString = string_delete(__inputString, __inputIndexFrom, 1);
+					}
+					else
+					{
+						__input_delete_selected();
+					}
+				}
+				else if (keyboard_check(vk_left))
+				{
+					if (keyboard_check(vk_shift))
+					{
+						if (__inputIndexTo > 1)
+						{
+							--__inputIndexTo;
+						}
+					}
+					else
+					{
+						if (__inputIndexFrom != __inputIndexTo)
+						{
+							__inputIndexFrom = min(__inputIndexFrom, __inputIndexTo);
+							__inputIndexTo = __inputIndexFrom;
+						}
+						else if (__inputIndexFrom > 1)
+						{
+							__inputIndexTo = --__inputIndexFrom;
+						}
+					}
+				}
+				else if (keyboard_check(vk_right))
+				{
+					if (keyboard_check(vk_shift))
+					{
+						if (__inputIndexTo <= string_length(__inputString))
+						{
+							++__inputIndexTo;
+						}
+					}
+					else
+					{
+						if (__inputIndexFrom != __inputIndexTo)
+						{
+							__inputIndexFrom = max(__inputIndexFrom, __inputIndexTo);
+							__inputIndexTo = __inputIndexFrom;
+						}
+						else if (__inputIndexFrom <= string_length(__inputString))
+						{
+							__inputIndexTo = ++__inputIndexFrom;
+						}
 					}
 				}
 			}
 
-			// Display the input value trimmed from the left
+			// Display the input value trimmed based on the input cursor position
 			_displayString = __inputString;
-			var _stringWidth = string_width(_displayString);
-			while (_stringWidth > (_width - _padding * 2) && _displayString != "")
+
+			_fromX = string_width(string_copy(__inputString, 1, __inputIndexFrom - 1));
+			_toX = string_width(string_copy(__inputString, 1, __inputIndexTo - 1));
+
+			while (_toX > (_width - _padding * 2) && _displayString != "")
 			{
+				var _char = string_char_at(_displayString, 1);
+				var _charWidth = string_width(_char);
 				_displayString = string_delete(_displayString, 1, 1);
-				_stringWidth = string_width(_displayString);
+				_fromX -= _charWidth;
+				_toX -= _charWidth;
+			}
+
+			var _stringLength = string_length(_displayString);
+			while (string_width(_displayString) > (_width - _padding * 2) && _displayString != "")
+			{
+				_displayString = string_delete(_displayString, _stringLength--, 1);
 			}
 		}
 		else
@@ -1522,7 +1635,7 @@ function FORMS_Pen(_container) constructor
 			// TODO: Make trim direction configurable
 			var _stringLength = string_length(_displayString);
 			var _trimmed = false;
-			while (string_width(_displayString) > _width - _padding * 2 && _displayString != "")
+			while (string_width(_displayString) > (_width - _padding * 2) && _displayString != "")
 			{
 				_displayString = string_delete(_displayString, _stringLength--, 1);
 				_trimmed = true;
@@ -1578,16 +1691,29 @@ function FORMS_Pen(_container) constructor
 			draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, 2, _height, _ribbon, 1.0);
 		}
 
+		// Selection rectangle
+		if (__inputId == _id && __inputIndexFrom != __inputIndexTo)
+		{
+			var _minX = min(_fromX, _toX);
+			var _rectX = _minX;
+			var _rectWidth = max(_fromX, _toX) - _minX;
+
+			_rectX = clamp(_rectX, 0, _width - _padding * 2);
+			_rectWidth = clamp(_rectWidth, 1, _width - _padding * 2 - _rectX);
+
+			forms_draw_rectangle(_textX + _rectX, _y, _rectWidth, __lineHeight, global.formsAccentColor, 1.0);
+		}
+
 		// Text
 		forms_draw_text(_textX, _y, _displayString, _displayColor, 1.0);
 
 		// Input beam
-		if (__inputId == _id)
+		if (__inputId == _id && __inputIndexFrom == __inputIndexTo)
 		{
 			var _alpha = (keyboard_check(vk_anykey) || mouse_check_button(mb_any))
 				? 1.0 : dsin(current_time * 0.5) * 0.5 + 0.5;
 
-			forms_draw_rectangle(_textX + _stringWidth, _y, 2, __lineHeight, global.formsAccentColor, _alpha);
+			forms_draw_rectangle(_textX + _fromX, _y, 1, __lineHeight, global.formsAccentColor, _alpha);
 		}
 
 		__move_or_nl(_width);
