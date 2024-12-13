@@ -1503,21 +1503,7 @@ function FORMS_Pen(_container) constructor
 
 		if (_mouseOver)
 		{
-			// Select the input on LMB click
-			if (forms_mouse_check_button_pressed(mb_left) && __inputId != _id)
-			{
-				if (__inputId != undefined)
-				{
-					forms_return_result(__inputId, is_real(__inputValue)
-						? (forms_parse_real(__inputString) ?? __inputValue)
-						: __inputString);
-				}
-				__inputId = _id;
-				__inputValue = _value;
-				__inputString = string(__inputValue);
-				__inputIndexFrom = string_length(__inputString) + 1;
-				__inputIndexTo = __inputIndexFrom;
-			}
+			var _doSelect = false;
 
 			// Open context menu on RMB click
 			if (forms_mouse_check_button_pressed(mb_right))
@@ -1559,6 +1545,24 @@ function FORMS_Pen(_container) constructor
 					TargetControl: _id,
 				});
 				forms_get_root().add_child(_contextMenu);
+
+				_doSelect = true;
+			}
+
+			// Select the input on LMB click
+			if ((_doSelect || forms_mouse_check_button_pressed(mb_left)) && __inputId != _id)
+			{
+				if (__inputId != undefined)
+				{
+					forms_return_result(__inputId, is_real(__inputValue)
+						? (forms_parse_real(__inputString) ?? __inputValue)
+						: __inputString);
+				}
+				__inputId = _id;
+				__inputValue = _value;
+				__inputString = string(__inputValue);
+				__inputIndexFrom = string_length(__inputString) + 1;
+				__inputIndexTo = __inputIndexFrom;
 			}
 
 			// Use beam cursor on mouse-over
