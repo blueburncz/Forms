@@ -1561,8 +1561,8 @@ function FORMS_Pen(_container) constructor
 				__inputId = _id;
 				__inputValue = _value;
 				__inputString = string(__inputValue);
-				__inputIndexFrom = string_length(__inputString) + 1;
-				__inputIndexTo = __inputIndexFrom;
+				__inputIndexFrom = 1;
+				__inputIndexTo = string_length(__inputString) + 1;
 			}
 
 			// Use beam cursor on mouse-over
