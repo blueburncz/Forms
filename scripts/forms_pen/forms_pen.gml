@@ -1398,12 +1398,60 @@ function FORMS_Pen(_container) constructor
 		return __consume_result(_id);
 	}
 
+	/// @private
+	static __input_cut = function ()
+	{
+		__input_copy();
+
+		if (__inputIndexFrom != __inputIndexTo)
+		{
+			__input_delete_selected();
+		}
+		else
+		{
+			__inputString = "";
+			__inputIndexFrom = 1;
+			__inputIndexTo = 1;
+		}
+	}
+
+	/// @private
+	static __input_copy = function ()
+	{
+		var _indexMin, _indexMax;
+
+		if (__inputIndexFrom != __inputIndexTo)
+		{
+			_indexMin = min(__inputIndexFrom, __inputIndexTo);
+			_indexMax = max(__inputIndexFrom, __inputIndexTo);
+		}
+		else
+		{
+			_indexMin = 1;
+			_indexMax = string_length(__inputString) + 1;
+		}
+
+		clipboard_set_text(string_copy(__inputString, _indexMin, _indexMax - _indexMin));
+	}
+
+	/// @private
+	static __input_paste = function ()
+	{
+		__input_delete_selected();
+		var _clipboard = clipboard_get_text();
+		__inputString = string_insert(_clipboard, __inputString, __inputIndexFrom);
+		__inputIndexFrom += string_length(_clipboard);
+		__inputIndexTo = __inputIndexFrom;
+	}
+
+	/// @private
 	static __input_select_all = function ()
 	{
 		__inputIndexFrom = 1;
 		__inputIndexTo = string_length(__inputString) + 1;
 	}
 
+	/// @private
 	static __input_delete_selected = function ()
 	{
 		if (__inputIndexFrom != __inputIndexTo)
@@ -1479,18 +1527,21 @@ function FORMS_Pen(_container) constructor
 				{
 					var _option = new FORMS_ContextMenuOption("Cut");
 					_option.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_control, ord("X")]);
+					_option.Action = method(self, __input_cut);
 					array_push(_options, _option);
 				}
 
 				{
 					var _option = new FORMS_ContextMenuOption("Copy");
 					_option.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_control, ord("C")]);
+					_option.Action = method(self, __input_copy);
 					array_push(_options, _option);
 				}
 
 				{
 					var _option = new FORMS_ContextMenuOption("Pase");
 					_option.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_control, ord("V")]);
+					_option.Action = method(self, __input_paste);
 					array_push(_options, _option);
 				}
 
@@ -1544,21 +1595,21 @@ function FORMS_Pen(_container) constructor
 			{
 				if (keyboard_check(vk_control))
 				{
-					if (keyboard_check_pressed(ord("A")))
+					if (keyboard_check(ord("A")))
 					{
 						__input_select_all();
 					}
-					else if (keyboard_check_pressed(ord("C")))
+					else if (keyboard_check(ord("C")))
 					{
-						// TODO: Copy selected to clipboard
+						__input_copy();
 					}
-					else if (keyboard_check_pressed(ord("X")))
+					else if (keyboard_check(ord("X")))
 					{
-						// TODO: Cut selected to clipboard
+						__input_cut();
 					}
-					else if (keyboard_check_pressed(ord("V")))
+					else if (keyboard_check(ord("V")))
 					{
-						// TODO: Paste from clipboard
+						__input_paste();
 					}
 				}
 				else if (!forms_key_is_control_key(keyboard_key))
