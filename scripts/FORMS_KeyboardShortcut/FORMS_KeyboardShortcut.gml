@@ -1,3 +1,6 @@
+/// @macro {Constant.VirtualKey} Keycode for the command key on macOS.
+#macro FORMS_VK_CMD 92
+
 /// @func FORMS_KeyboardShortcut([_keys[, _mouseButtons]])
 ///
 /// @desc A collection of keyboard keys and mouse buttons that together represent a single keyboard shortcut.
@@ -413,5 +416,76 @@ function forms_mouse_button_to_string(_button)
 
 		default:
 			return "";
+	}
+}
+
+/// @func forms_key_is_control_key(_key)
+///
+/// @desc Does a primitive check whether given keycode is a control key.
+///
+/// @param {Constant.VirtualKey} _key The key to check.
+///
+/// @return {Bool} Returns `true` if given key is a control key or `false` if it likely represents a printable character.
+function forms_key_is_control_key(_key)
+{
+	switch (_key)
+	{
+		case vk_left:
+		case vk_right:
+		case vk_up:
+		case vk_down:
+		case vk_enter:
+		case vk_escape:
+			//case vk_space:
+		case vk_shift:
+		case vk_control:
+		case vk_alt:
+		case vk_backspace:
+		case vk_tab:
+		case vk_home:
+		case vk_end:
+		case vk_delete:
+		case vk_insert:
+		case vk_pageup:
+		case vk_pagedown:
+		case vk_pause:
+		case vk_printscreen:
+		case vk_f1:
+		case vk_f2:
+		case vk_f3:
+		case vk_f4:
+		case vk_f5:
+		case vk_f6:
+		case vk_f7:
+		case vk_f8:
+		case vk_f9:
+		case vk_f10:
+		case vk_f11:
+		case vk_f12:
+			//case vk_numpad0:
+			//case vk_numpad1:
+			//case vk_numpad2:
+			//case vk_numpad3:
+			//case vk_numpad4:
+			//case vk_numpad5:
+			//case vk_numpad6:
+			//case vk_numpad7:
+			//case vk_numpad8:
+			//case vk_numpad9:
+			//case vk_multiply:
+			//case vk_divide:
+			//case vk_add:
+			//case vk_subtract:
+			//case vk_decimal:
+		case vk_lshift:
+		case vk_lcontrol:
+		case vk_lalt:
+		case vk_rshift:
+		case vk_rcontrol:
+		case vk_ralt:
+			return true;
+
+		default:
+			return false;
 	}
 }

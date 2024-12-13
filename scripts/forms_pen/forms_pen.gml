@@ -472,10 +472,6 @@ function FORMS_Pen(_container) constructor
 	/// @private
 	__inputTimer = 0;
 
-	/// @var {String} The value of `keyboard_string` before an input was selected. Used to restore its value.
-	/// @private
-	__keyboardStringBackup = "";
-
 	/// @private
 	__result = undefined;
 
@@ -1451,8 +1447,6 @@ function FORMS_Pen(_container) constructor
 				__inputId = _id;
 				__inputValue = _value;
 				__inputString = string(__inputValue);
-				__keyboardStringBackup = keyboard_string;
-				keyboard_string = "";
 			}
 
 			// Use beam cursor on mouse-over
@@ -1465,12 +1459,6 @@ function FORMS_Pen(_container) constructor
 			//
 			// Input *IS* active
 			//
-
-			// Append keyboard string to input value
-			var _stringToInsert = string_replace_all(keyboard_string, chr(127), "");
-			var _keyboardStringLength = string_length(_stringToInsert);
-			__inputString += _stringToInsert;
-			keyboard_string = "";
 
 			// Handle repeat of a held-down keyboard key
 			// TODO: Make input repeat speed configurable
@@ -1493,16 +1481,17 @@ function FORMS_Pen(_container) constructor
 			// Handle input
 			if (_acceptInput)
 			{
-				if (keyboard_check(vk_backspace))
+				if (!forms_key_is_control_key(keyboard_key))
+				{
+					__inputString += keyboard_lastchar;
+				}
+				else if (keyboard_check(vk_backspace))
 				{
 					if (__inputString != "")
 					{
 						__inputString = string_delete(__inputString, string_length(__inputString), 1);
 					}
 				}
-				// else if (keyboard_check(vk_delete))
-				// {
-				// }
 			}
 
 			// Display the input value trimmed from the left
@@ -1566,7 +1555,6 @@ function FORMS_Pen(_container) constructor
 				forms_return_result(_id, _valueNew);
 			}
 			__inputId = undefined;
-			keyboard_string = __keyboardStringBackup;
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
