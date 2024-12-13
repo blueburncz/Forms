@@ -79,6 +79,7 @@ function FORMS_ContextMenuOption(_textOrProps): FORMS_ContextMenuItem() construc
 	IconFont = FA_FntRegular12;
 
 	/// @var {Bool} Whether the option is disabled (`true`) or enabled (`false`). Defaults to `false`.
+	// TODO: Implement disabled context menu options
 	Disabled = (_isProps ? forms_get_prop(_textOrProps, "Disabled") : undefined) ?? false;
 
 	/// @var {Array<Struct.FORMS_ContextMenuItem>, Undefined} An array of sub-options opened on mouse-over or `undefined`
@@ -109,7 +110,12 @@ function FORMS_ContextMenuOption(_textOrProps): FORMS_ContextMenuItem() construc
 /// @extends FORMS_ContainerProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_ContextMenu}.
-function FORMS_ContextMenuProps(): FORMS_ContainerProps() constructor {}
+function FORMS_ContextMenuProps(): FORMS_ContainerProps() constructor
+{
+	/// @var {String, Undefiend} The ID of the control drawn with {@link FORMS_Pen} that opened this context menu
+	/// or `undefined`.
+	TargetControl = undefined;
+}
 
 /// @func FORMS_ContextMenu([_options[, _props]])
 ///
@@ -130,6 +136,10 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 
 	/// @var {Array<Struct.FORMS_ContextMenuItem>} An array of context menu options.
 	Options = _options;
+
+	/// @var {String, Undefined} The ID of the control drawn with {@link FORMS_Pen} that opened this context menu
+	/// or `undefined` (default).
+	TargetControl = forms_get_prop(_props, "TargetControl");
 
 	/// @var {Bool} Whether the context menu should close on mouse leave. Defaults to `false`.
 	CloseOnMouseLeave = false;

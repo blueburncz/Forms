@@ -1398,6 +1398,12 @@ function FORMS_Pen(_container) constructor
 		return __consume_result(_id);
 	}
 
+	static __input_select_all = function ()
+	{
+		__inputIndexFrom = 1;
+		__inputIndexTo = string_length(__inputString) + 1;
+	}
+
 	static __input_delete_selected = function ()
 	{
 		if (__inputIndexFrom != __inputIndexTo)
@@ -1465,6 +1471,45 @@ function FORMS_Pen(_container) constructor
 				__inputIndexTo = __inputIndexFrom;
 			}
 
+			// Open context menu on RMB click
+			if (forms_mouse_check_button_pressed(mb_right))
+			{
+				var _options = [];
+
+				{
+					var _option = new FORMS_ContextMenuOption("Cut");
+					_option.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_control, ord("X")]);
+					array_push(_options, _option);
+				}
+
+				{
+					var _option = new FORMS_ContextMenuOption("Copy");
+					_option.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_control, ord("C")]);
+					array_push(_options, _option);
+				}
+
+				{
+					var _option = new FORMS_ContextMenuOption("Pase");
+					_option.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_control, ord("V")]);
+					array_push(_options, _option);
+				}
+
+				{
+					var _option = new FORMS_ContextMenuOption("Select All");
+					_option.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_control, ord("A")]);
+					_option.Action = method(self, __input_select_all);
+					array_push(_options, _option);
+				}
+
+				var _contextMenu = new FORMS_ContextMenu(_options,
+				{
+					X: window_mouse_get_x(),
+					Y: window_mouse_get_y(),
+					TargetControl: _id,
+				});
+				forms_get_root().add_child(_contextMenu);
+			}
+
 			// Use beam cursor on mouse-over
 			forms_set_cursor(cr_beam);
 		}
@@ -1501,8 +1546,7 @@ function FORMS_Pen(_container) constructor
 				{
 					if (keyboard_check_pressed(ord("A")))
 					{
-						__inputIndexFrom = 1;
-						__inputIndexTo = string_length(__inputString) + 1;
+						__input_select_all();
 					}
 					else if (keyboard_check_pressed(ord("C")))
 					{
@@ -1660,14 +1704,28 @@ function FORMS_Pen(_container) constructor
 		if (__inputId == _id
 			&& (keyboard_check_pressed(vk_enter) || (!_mouseOver && mouse_check_button_pressed(mb_any))))
 		{
-			var _valueNew = is_real(__inputValue)
-				? (forms_parse_real(__inputString) ?? __inputValue)
-				: __inputString;
-			if (__inputValue != _valueNew)
+			var _doReturn = true;
+
+			// Check whether we haven't selected an option in a context menu that was opened by this input
+			var _hovered = forms_get_root().WidgetHovered;
+			if (_hovered != undefined
+				&& is_instanceof(_hovered, FORMS_ContextMenu)
+				&& _hovered.TargetControl == _id)
 			{
-				forms_return_result(_id, _valueNew);
+				_doReturn = false;
 			}
-			__inputId = undefined;
+
+			if (_doReturn)
+			{
+				var _valueNew = is_real(__inputValue)
+					? (forms_parse_real(__inputString) ?? __inputValue)
+					: __inputString;
+				if (__inputValue != _valueNew)
+				{
+					forms_return_result(_id, _valueNew);
+				}
+				__inputId = undefined;
+			}
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
