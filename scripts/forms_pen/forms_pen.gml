@@ -1525,7 +1525,7 @@ function FORMS_Pen(_container) constructor
 				}
 
 				{
-					var _option = new FORMS_ContextMenuOption("Pase");
+					var _option = new FORMS_ContextMenuOption("Paste");
 					_option.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_control, ord("V")]);
 					_option.Action = method(self, __input_paste);
 					array_push(_options, _option);
