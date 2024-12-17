@@ -1571,6 +1571,7 @@ function FORMS_Pen(_container) constructor
 						: __inputString);
 				}
 				__inputId = _id;
+				forms_get_root().KeyboardUsed = true;
 				__inputValue = _value;
 				__inputString = string(__inputValue);
 				__inputIndexFrom = 1;
@@ -1871,6 +1872,7 @@ function FORMS_Pen(_container) constructor
 					forms_return_result(_id, _valueNew);
 				}
 				__inputId = undefined;
+				forms_get_root().KeyboardUsed = false;
 			}
 		}
 
@@ -1984,5 +1986,19 @@ function FORMS_Pen(_container) constructor
 		--__sectionCurrent;
 		nl(0);
 		return self;
+	}
+
+	/// @func destroy()
+	///
+	/// @desc Destroys the pen.
+	///
+	/// @return {Undefined} Always returns `undefined`.
+	static destroy = function ()
+	{
+		if (__inputId != undefined)
+		{
+			forms_get_root().KeyboardUsed = false;
+		}
+		return undefined;
 	}
 }

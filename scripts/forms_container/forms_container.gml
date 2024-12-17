@@ -266,6 +266,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 	{
 		Widget_destroy();
 		if (surface_exists(Surface)) { surface_free(Surface); }
+		Pen = Pen.destroy();
 		return undefined;
 	}
 }

@@ -81,9 +81,13 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	/// @readonly
 	WidgetHovered = undefined;
 
-	/// @var {Struct.FORMS_Widget, String, Undefined} The widget that currently takes the user input (mouse or keyboard).
+	/// @var {Struct.FORMS_Widget, String, Undefined} The widget that currently takes mouse input.
 	/// @readonly
 	WidgetActive = undefined;
+
+	/// @var {Bool} Whether the UI currently captures keyboard input (`true`) or not (`false`).
+	/// @readonly
+	KeyboardUsed = false;
 
 	/// @var {Struct.FORMS_UnitValue} The widget's width. Defaults to 100% of the window width.
 	Width = Width.from_props(_props, "Width", 100, FORMS_EUnit.Percent);
