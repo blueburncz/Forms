@@ -1499,6 +1499,7 @@ function FORMS_Pen(_container) constructor
 		var _textX = _x + _padding;
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _mouseOver = (!_disabled && is_mouse_over(_x, _y, _width, _height, _id));
+		var _secret = forms_get_prop(_props, "Secret") ?? false;
 
 		var _displayColor = _disabled ? c_gray : c_white;
 		var _displayString;
@@ -1712,31 +1713,32 @@ function FORMS_Pen(_container) constructor
 
 			// Trim text from the left based on the position of the input cursor
 			var _inputStringLength = string_length(__inputString);
+			_displayString = _secret ? string_repeat("*", _inputStringLength) : __inputString;
 
 			__inputIndexDraw = clamp(__inputIndexDraw, 1, _inputStringLength + 1);
 
-			var _drawX = string_width(string_copy(__inputString, 1, __inputIndexDraw - 1));
-			_fromX = string_width(string_copy(__inputString, 1, __inputIndexFrom - 1)) - _drawX;
-			_toX = string_width(string_copy(__inputString, 1, __inputIndexTo - 1)) - _drawX;
+			var _drawX = string_width(string_copy(_displayString, 1, __inputIndexDraw - 1));
+			_fromX = string_width(string_copy(_displayString, 1, __inputIndexFrom - 1)) - _drawX;
+			_toX = string_width(string_copy(_displayString, 1, __inputIndexTo - 1)) - _drawX;
 
 			// TODO: This looks terrible for performance. We should come up with something better...
 			while (_toX > (_width - _padding * 2) && __inputIndexDraw <= _inputStringLength)
 			{
 				++__inputIndexDraw;
-				_drawX = string_width(string_copy(__inputString, 1, __inputIndexDraw - 1));
-				_fromX = string_width(string_copy(__inputString, 1, __inputIndexFrom - 1)) - _drawX;
-				_toX = string_width(string_copy(__inputString, 1, __inputIndexTo - 1)) - _drawX;
+				_drawX = string_width(string_copy(_displayString, 1, __inputIndexDraw - 1));
+				_fromX = string_width(string_copy(_displayString, 1, __inputIndexFrom - 1)) - _drawX;
+				_toX = string_width(string_copy(_displayString, 1, __inputIndexTo - 1)) - _drawX;
 			}
 
 			while (_toX < 0 && __inputIndexDraw > 1)
 			{
 				--__inputIndexDraw;
-				_drawX = string_width(string_copy(__inputString, 1, __inputIndexDraw - 1));
-				_fromX = string_width(string_copy(__inputString, 1, __inputIndexFrom - 1)) - _drawX;
-				_toX = string_width(string_copy(__inputString, 1, __inputIndexTo - 1)) - _drawX;
+				_drawX = string_width(string_copy(_displayString, 1, __inputIndexDraw - 1));
+				_fromX = string_width(string_copy(_displayString, 1, __inputIndexFrom - 1)) - _drawX;
+				_toX = string_width(string_copy(_displayString, 1, __inputIndexTo - 1)) - _drawX;
 			}
 
-			_displayString = string_delete(__inputString, 1, __inputIndexDraw - 1);
+			_displayString = string_delete(_displayString, 1, __inputIndexDraw - 1);
 
 			// Trim text from the right so it doesn't overflow the input
 			var _stringLength = string_length(_displayString);
@@ -1821,6 +1823,10 @@ function FORMS_Pen(_container) constructor
 				_displayString = forms_get_prop(_props, "Placeholder") ?? "";
 				_displayColor = c_gray;
 			}
+			else if (_secret)
+			{
+				_displayString = string_repeat("*", string_length(_displayString));
+			}
 
 			// Trim display string from the right
 			// TODO: Make trim direction configurable
@@ -1840,7 +1846,7 @@ function FORMS_Pen(_container) constructor
 				{
 					forms_set_tooltip(_tooltip);
 				}
-				else if (_trimmed)
+				else if (_trimmed && !_secret)
 				{
 					forms_set_tooltip(string(_value));
 				}

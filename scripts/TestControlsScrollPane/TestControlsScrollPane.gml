@@ -17,6 +17,7 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 	];
 	DropdownIndex = 0;
 	InputString = "";
+	InputPassword = "";
 	InputReal = 0;
 	Color = new FORMS_Color(0xAA000000 | global.formsAccentColor);
 	var _propsFolder = {
@@ -144,6 +145,12 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 				InputString = Pen.get_result();
 			}
 			Pen.text(" String input").nl();
+
+			if (Pen.input("input-password", InputPassword, { Placeholder: "Your password", Secret: true }))
+			{
+				InputPassword = Pen.get_result();
+			}
+			Pen.text(" Password input").nl();
 
 			if (Pen.input("input-real", InputReal, { Tooltip: "This one has a tooltip!" }))
 			{
