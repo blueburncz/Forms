@@ -467,6 +467,9 @@ function FORMS_Pen(_container) constructor
 	__inputIndexTo = 1;
 
 	/// @private
+	__inputSelect = false;
+
+	/// @private
 	__inputString = "";
 
 	/// @private
@@ -1495,6 +1498,7 @@ function FORMS_Pen(_container) constructor
 		var _displayString;
 		var _fromX;
 		var _toX;
+		var _click = false;
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//
@@ -1550,7 +1554,9 @@ function FORMS_Pen(_container) constructor
 			}
 
 			// Select the input on LMB click
-			if ((_doSelect || forms_mouse_check_button_pressed(mb_left)) && __inputId != _id)
+			_click = forms_mouse_check_button_pressed(mb_left);
+
+			if ((_doSelect || _click) && __inputId != _id)
 			{
 				if (__inputId != undefined)
 				{
@@ -1563,6 +1569,8 @@ function FORMS_Pen(_container) constructor
 				__inputString = string(__inputValue);
 				__inputIndexFrom = 1;
 				__inputIndexTo = string_length(__inputString) + 1;
+
+				_click = false; // Consume click to avoid selecting text right away!
 			}
 
 			// Use beam cursor on mouse-over
@@ -1695,6 +1703,8 @@ function FORMS_Pen(_container) constructor
 			}
 
 			// Display the input value trimmed based on the input cursor position
+			var _displayIndex = 1;
+
 			_displayString = __inputString;
 
 			_fromX = string_width(string_copy(__inputString, 1, __inputIndexFrom - 1));
@@ -1707,12 +1717,44 @@ function FORMS_Pen(_container) constructor
 				_displayString = string_delete(_displayString, 1, 1);
 				_fromX -= _charWidth;
 				_toX -= _charWidth;
+				++_displayIndex;
 			}
 
 			var _stringLength = string_length(_displayString);
 			while (string_width(_displayString) > (_width - _padding * 2) && _displayString != "")
 			{
 				_displayString = string_delete(_displayString, _stringLength--, 1);
+			}
+
+			var _mouseIndex = 0;
+			repeat(string_length(_displayString))
+			{
+				if (_textX + string_width(string_copy(_displayString, 1, _mouseIndex + 1))
+					> forms_mouse_get_x())
+				{
+					break;
+				}
+				++_mouseIndex;
+			}
+			_mouseIndex += _displayIndex;
+
+			if (_click)
+			{
+				if (!keyboard_check(vk_shift))
+				{
+					__inputIndexFrom = _mouseIndex;
+				}
+				__inputSelect = true;
+			}
+
+			if (!mouse_check_button(mb_left))
+			{
+				__inputSelect = false;
+			}
+
+			if (__inputSelect)
+			{
+				__inputIndexTo = _mouseIndex;
 			}
 		}
 		else
