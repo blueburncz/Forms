@@ -22,7 +22,7 @@ function FORMS_ScrollPaneProps(): FORMS_ContainerProps() constructor
 /// (default).
 function FORMS_ScrollPane(_props = undefined): FORMS_Container(_props) constructor
 {
-	//static Container_layout = layout;
+	static Container_layout = layout;
 	static Container_update = update;
 	static Container_draw = draw;
 	static Container_destroy = destroy;
@@ -56,13 +56,12 @@ function FORMS_ScrollPane(_props = undefined): FORMS_Container(_props) construct
 
 	static layout = function ()
 	{
-		FORMS_LAYOUT_GENERATED;
+		Container_layout();
 
 		var _parentX = __realX;
 		var _parentY = __realY;
 		var _parentWidth = __realWidth;
 		var _parentHeight = __realHeight;
-		//var _count = array_length(Children);
 		var _container = self;
 		var _scrollbarH = HScrollbar;
 		var _scrollbarV = VScrollbar;

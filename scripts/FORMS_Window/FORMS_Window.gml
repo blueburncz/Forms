@@ -29,6 +29,9 @@ function FORMS_WindowProps(): FORMS_WidgetProps() constructor
 	/// @var {Bool, Undefined} Whether the window can be moved (`true`) or not (`false`).
 	Movable = undefined;
 
+	/// @var {Bool, Undefined} Whether the window size should be initialized automatically based on its contents.
+	AutoSize = undefined;
+
 	/// @var {Real, Undefined} Bitwise OR between directions in which the window can be resized. Use values from
 	/// {@link FORMS_EWindowResize}.
 	Resizable = undefined;
@@ -70,6 +73,10 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 	/// @var {Bool} Whether the window can be moved. Defaults to `true`.
 	Movable = forms_get_prop(_props, "Movable") ?? true;
+
+	/// @var {Bool} Whether the window size should be initialized automatically based on its contents. Defaults to
+	/// `false`.
+	AutoSize = forms_get_prop(_props, "AutoSize") ?? false;
 
 	/// @var {Real} Bitwise OR between directions in which the window can be resized. Use values from
 	/// {@link FORMS_EWindowResize}. Defaults to {@link FORMS_EWindowResize.All}.
@@ -117,6 +124,9 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 	/// @private
 	__move = false;
+
+	/// @private
+	__sizeInitialized = false;
 
 	/// @private
 	__resize = FORMS_EWindowResize.None;
@@ -251,46 +261,63 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 		Widget_layout();
 
+		var _innerX = __realX + __padding;
+		var _innerY = __realY + __padding;
+		var _innerWidth = __realWidth - __padding * 2;
+		var _innerHeight = __realHeight - __padding * 2;
+		var _titlebarHeight = 0;
+
+		if (Titlebar != undefined)
 		{
-			var _innerX = __realX + __padding;
-			var _innerY = __realY + __padding;
-			var _innerWidth = __realWidth - __padding * 2;
-			var _innerHeight = __realHeight - __padding * 2;
-			var _titlebarHeight = 0;
-
-			if (Titlebar != undefined)
+			with(Titlebar)
 			{
-				with(Titlebar)
-				{
-					__realX = _innerX;
-					__realY = _innerY;
-					__realWidth = _innerWidth;
-					__realHeight = floor(Height.get_absolute(_innerHeight, get_auto_height()));
-					_titlebarHeight = __realHeight;
-					layout();
-				}
+				__realX = _innerX;
+				__realY = _innerY;
+				__realWidth = _innerWidth;
+				__realHeight = floor(Height.get_absolute(_innerHeight, get_auto_height()));
+				_titlebarHeight = __realHeight;
+				layout();
 			}
+		}
 
-			if (Widget != undefined)
+		if (Widget != undefined)
+		{
+			with(Widget)
 			{
-				with(Widget)
-				{
-					__realX = _innerX;
-					__realY = _innerY + _titlebarHeight;
-					__realWidth = _innerWidth;
-					__realHeight = _innerHeight - _titlebarHeight;
-					layout();
-				}
+				__realX = _innerX;
+				__realY = _innerY + _titlebarHeight;
+				__realWidth = _innerWidth;
+				__realHeight = _innerHeight - _titlebarHeight;
+				layout();
 			}
+		}
+
+		if (AutoSize && Widget != undefined && !__sizeInitialized)
+		{
+			Width.Value = Widget.__realWidth + __padding * 2;
+			Height.Value = _titlebarHeight + Widget.__realHeight + __padding * 2;
+			Width.Unit = FORMS_EUnit.Pixel;
+			Height.Unit = FORMS_EUnit.Pixel;
+			__realWidth = Width.Value;
+			__realHeight = Height.Value;
+
+			Titlebar.__realWidth = Width.Value;
+			Titlebar.layout();
+
+			__sizeInitialized = true;
 		}
 
 		if (Center)
 		{
-			X.Value = floor((window_get_width() - __realWidth) / 2);
-			Y.Value = floor((window_get_height() - __realHeight) / 2);
+			var _root = forms_get_root();
+			X.Value = _root.__realX + floor((_root.__realWidth - __realWidth) / 2);
+			Y.Value = _root.__realY + floor((_root.__realHeight - __realHeight) / 2);
 			X.Unit = FORMS_EUnit.Pixel;
 			Y.Unit = FORMS_EUnit.Pixel;
+			__realX = X.Value;
+			__realY = Y.Value;
 			Center = false;
+			layout(); // Re-run to fix titlebar and widget positions
 		}
 
 		return self;

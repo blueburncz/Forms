@@ -25,6 +25,6 @@ function TestUI(): FORMS_RootWidget() constructor
 	var _statusBar = new TestStatusBar();
 	_vbox.add_child(_statusBar);
 
-	var _welcomeWindow = new FORMS_Window(new TestWelcomeScrollPane(), { Center: true });
+	var _welcomeWindow = new FORMS_Window(new TestWelcomeScrollPane(), { Center: true, AutoSize: true, });
 	add_child(_welcomeWindow);
 }

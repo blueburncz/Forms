@@ -29,6 +29,7 @@
     {"name":"FORMS_MenuBar","order":10,"path":"scripts/FORMS_MenuBar/FORMS_MenuBar.yy",},
     {"name":"FORMS_NodeGraph","order":11,"path":"scripts/FORMS_NodeGraph/FORMS_NodeGraph.yy",},
     {"name":"FORMS_Pen","order":12,"path":"scripts/FORMS_Pen/FORMS_Pen.yy",},
+    {"name":"FORMS_Question","order":21,"path":"scripts/FORMS_Question/FORMS_Question.yy",},
     {"name":"FORMS_RootWidget","order":13,"path":"scripts/FORMS_RootWidget/FORMS_RootWidget.yy",},
     {"name":"FORMS_Scrollbar","order":14,"path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},
     {"name":"FORMS_ScrollPane","order":15,"path":"scripts/FORMS_ScrollPane/FORMS_ScrollPane.yy",},

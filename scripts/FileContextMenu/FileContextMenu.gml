@@ -48,7 +48,17 @@ function FileContextMenu(): FORMS_ContextMenu() constructor
 	array_push(_options, new FORMS_ContextMenuSeparator());
 
 	_option = new FORMS_ContextMenuOption("Exit");
-	_option.Action = game_end;
+	_option.Action = function ()
+	{
+		var _question = new FORMS_Question("Are you sure you want to exit?", function (_answer)
+		{
+			if (_answer == "OK")
+			{
+				game_end();
+			}
+		});
+		forms_get_root().add_child(_question);
+	};
 	_option.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_alt, vk_f4]);
 	array_push(_options, _option);
 }

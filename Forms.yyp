@@ -53,6 +53,7 @@
     {"id":{"name":"FORMS_MenuBar","path":"scripts/FORMS_MenuBar/FORMS_MenuBar.yy",},},
     {"id":{"name":"FORMS_NodeGraph","path":"scripts/FORMS_NodeGraph/FORMS_NodeGraph.yy",},},
     {"id":{"name":"FORMS_Pen","path":"scripts/FORMS_Pen/FORMS_Pen.yy",},},
+    {"id":{"name":"FORMS_Question","path":"scripts/FORMS_Question/FORMS_Question.yy",},},
     {"id":{"name":"FORMS_RootWidget","path":"scripts/FORMS_RootWidget/FORMS_RootWidget.yy",},},
     {"id":{"name":"FORMS_Scrollbar","path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},},
     {"id":{"name":"FORMS_ScrollPane","path":"scripts/FORMS_ScrollPane/FORMS_ScrollPane.yy",},},

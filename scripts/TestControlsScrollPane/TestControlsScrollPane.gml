@@ -65,7 +65,8 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 		{
 			if (Pen.button("Click me!", { Tooltip: "Click the button!" }))
 			{
-				show_debug_message("Clicked!");
+				var _question = new FORMS_Question("You've clicked the button!", function (_button) {});
+				forms_get_root().add_child(_question);
 			}
 			Pen.nl();
 			Pen.end_section();
