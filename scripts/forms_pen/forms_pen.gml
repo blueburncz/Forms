@@ -1718,6 +1718,7 @@ function FORMS_Pen(_container) constructor
 			_fromX = string_width(string_copy(__inputString, 1, __inputIndexFrom - 1)) - _drawX;
 			_toX = string_width(string_copy(__inputString, 1, __inputIndexTo - 1)) - _drawX;
 
+			// TODO: This looks terrible for performance. We should come up with something better...
 			while (_toX > (_width - _padding * 2) && __inputIndexDraw <= _inputStringLength)
 			{
 				++__inputIndexDraw;
