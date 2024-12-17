@@ -466,8 +466,14 @@ function FORMS_Pen(_container) constructor
 	/// @private
 	__inputIndexTo = 1;
 
+	//// @private
+	__inputIndexDraw = 1;
+
 	/// @private
 	__inputSelect = false;
+
+	/// @private
+	__inputSelectTimer = 0;
 
 	/// @private
 	__inputString = "";
@@ -1569,6 +1575,7 @@ function FORMS_Pen(_container) constructor
 				__inputString = string(__inputValue);
 				__inputIndexFrom = 1;
 				__inputIndexTo = string_length(__inputString) + 1;
+				__inputIndexDraw = 1;
 
 				_click = false; // Consume click to avoid selecting text right away!
 			}
@@ -1702,30 +1709,41 @@ function FORMS_Pen(_container) constructor
 				}
 			}
 
-			// Display the input value trimmed based on the input cursor position
-			var _displayIndex = 1;
+			// Trim text from the left based on the position of the input cursor
+			var _inputStringLength = string_length(__inputString);
 
-			_displayString = __inputString;
+			__inputIndexDraw = clamp(__inputIndexDraw, 1, _inputStringLength + 1);
 
-			_fromX = string_width(string_copy(__inputString, 1, __inputIndexFrom - 1));
-			_toX = string_width(string_copy(__inputString, 1, __inputIndexTo - 1));
+			var _drawX = string_width(string_copy(__inputString, 1, __inputIndexDraw - 1));
+			_fromX = string_width(string_copy(__inputString, 1, __inputIndexFrom - 1)) - _drawX;
+			_toX = string_width(string_copy(__inputString, 1, __inputIndexTo - 1)) - _drawX;
 
-			while (_toX > (_width - _padding * 2) && _displayString != "")
+			while (_toX > (_width - _padding * 2) && __inputIndexDraw <= _inputStringLength)
 			{
-				var _char = string_char_at(_displayString, 1);
-				var _charWidth = string_width(_char);
-				_displayString = string_delete(_displayString, 1, 1);
-				_fromX -= _charWidth;
-				_toX -= _charWidth;
-				++_displayIndex;
+				++__inputIndexDraw;
+				_drawX = string_width(string_copy(__inputString, 1, __inputIndexDraw - 1));
+				_fromX = string_width(string_copy(__inputString, 1, __inputIndexFrom - 1)) - _drawX;
+				_toX = string_width(string_copy(__inputString, 1, __inputIndexTo - 1)) - _drawX;
 			}
 
+			while (_toX < 0 && __inputIndexDraw > 1)
+			{
+				--__inputIndexDraw;
+				_drawX = string_width(string_copy(__inputString, 1, __inputIndexDraw - 1));
+				_fromX = string_width(string_copy(__inputString, 1, __inputIndexFrom - 1)) - _drawX;
+				_toX = string_width(string_copy(__inputString, 1, __inputIndexTo - 1)) - _drawX;
+			}
+
+			_displayString = string_delete(__inputString, 1, __inputIndexDraw - 1);
+
+			// Trim text from the right so it doesn't overflow the input
 			var _stringLength = string_length(_displayString);
 			while (string_width(_displayString) > (_width - _padding * 2) && _displayString != "")
 			{
 				_displayString = string_delete(_displayString, _stringLength--, 1);
 			}
 
+			// Rectangle select with mouse
 			var _mouseIndex = 0;
 			repeat(string_length(_displayString))
 			{
@@ -1736,7 +1754,7 @@ function FORMS_Pen(_container) constructor
 				}
 				++_mouseIndex;
 			}
-			_mouseIndex += _displayIndex;
+			_mouseIndex += __inputIndexDraw;
 
 			if (_click)
 			{
@@ -1745,6 +1763,7 @@ function FORMS_Pen(_container) constructor
 					__inputIndexFrom = _mouseIndex;
 				}
 				__inputSelect = true;
+				__inputSelectTimer = 0;
 			}
 
 			if (!mouse_check_button(mb_left))
@@ -1754,7 +1773,36 @@ function FORMS_Pen(_container) constructor
 
 			if (__inputSelect)
 			{
-				__inputIndexTo = _mouseIndex;
+				var _tick = false;
+
+				__inputSelectTimer += delta_time * 0.001;
+				if (__inputSelectTimer >= 50)
+				{
+					__inputSelectTimer = 0;
+					_tick = true;
+				}
+
+				if ((forms_mouse_get_x() - _textX) > (_width - _padding * 2))
+				{
+					if (_tick)
+					{
+						__inputIndexTo = min(__inputIndexTo + 1, string_length(__inputString) + 1);
+					}
+				}
+				else if (forms_mouse_get_x() < _textX)
+				{
+					if (_tick)
+					{
+						__inputIndexTo = max(__inputIndexTo - 1, 1);
+					}
+				}
+				else
+				{
+					__inputIndexTo = _mouseIndex;
+				}
+
+				// Use beam cursor when selecting text
+				forms_set_cursor(cr_beam);
 			}
 		}
 		else
