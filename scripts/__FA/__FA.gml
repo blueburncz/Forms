@@ -23,6 +23,24 @@ function fa_draw(_font, _icon, _x, _y, _color = c_white, _alpha = 1.0)
 	draw_set_font(_fontPrev);
 }
 
+/// @func fa_get_width(_font, _icon)
+///
+/// @desc Returns width of a Font Awesome icon.
+///
+/// @param {Asset.GMFont} _font The font to use. This must match with given `_icon`!
+/// @param {Real} _icon The icon to get the width of. Use values from {@link FA_ESolid}, {@link FA_ERegular} and
+/// {@link FA_EBrands}.
+///
+/// @return {Real} The width of the icon.
+function fa_get_width(_font, _icon)
+{
+	var _fontPrev = draw_get_font();
+	draw_set_font(_font);
+	var _width = string_width(chr(_icon));
+	draw_set_font(_fontPrev);
+	return _width;
+}
+
 /// @enum An enumeration of all icons available in Font Awesome using the "solid" style.
 enum FA_ESolid
 {

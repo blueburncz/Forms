@@ -1,6 +1,7 @@
 function TestWelcomeScrollPane(): FORMS_ScrollPane() constructor
 {
 	Name = "Welcome";
+	Icon = FA_ESolid.CircleInfo;
 	BackgroundColor = 0x272727;
 	Width.from_string("100%");
 	Height.from_string("100%");

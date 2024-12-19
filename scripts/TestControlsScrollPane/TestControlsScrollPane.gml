@@ -1,6 +1,7 @@
 function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 {
 	Name = "Controls Test";
+	Icon = FA_ESolid.List;
 
 	Checked1 = false;
 	Checked2 = true;

@@ -104,6 +104,7 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 		static Container_destroy = destroy;
 
 		Name = "Color Picker";
+		//Icon = FA_ESolid.Palette;
 		Width.from_string("100%");
 		Height.from_string("100%");
 

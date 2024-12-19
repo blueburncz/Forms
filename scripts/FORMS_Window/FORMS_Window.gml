@@ -477,7 +477,17 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 	{
 		Pen.PaddingY = round((__realHeight - string_height("M")) / 2);
 		Pen.start();
-		Pen.text(Parent.Widget.Name);
+		var _widget = Parent.Widget;
+		if (_widget != undefined)
+		{
+			if (_widget.Icon != undefined)
+			{
+				var _width = fa_get_width(_widget.IconFont, _widget.Icon);
+				fa_draw(_widget.IconFont, _widget.Icon, Pen.X + floor((16 - _width) / 2), Pen.Y);
+				Pen.move(22);
+			}
+			Pen.text(_widget.Name);
+		}
 		var _iconWidth = 20;
 		Pen.set_x(__realWidth - _iconWidth - 2);
 		if (Parent.Closable

@@ -53,7 +53,7 @@ function FORMS_Question(_text, _callback, _props = undefined): FORMS_Window(unde
 	set_widget(new(function (_title): FORMS_Container() constructor
 	{
 		Name = _title;
-
+		Icon = FA_ESolid.CircleQuestion;
 		ContentFit = true;
 
 		static draw_content = function ()

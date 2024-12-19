@@ -1,6 +1,7 @@
 function TestWorkspace(): FORMS_FlexBox() constructor
 {
 	Name = "Test Workspace";
+	Icon = FA_ESolid.WindowMaximize;
 	Width.from_string("100%");
 	Height.from_string("100%");
 	Flex = 1;
@@ -67,7 +68,14 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	_dock.SplitSize = 0.25;
 
 	_dock.get_second().set_tabs([
-		new FORMS_ApplicationSurface({ Name: "Viewport", Width: "100%", Height: "100%", Resize: true })
+		new FORMS_ApplicationSurface(
+		{
+			Name: "Viewport",
+			Icon: FA_ESolid.Camera,
+			Width: "100%",
+			Height: "100%",
+			Resize: true
+		})
 	]);
 	//_dock.get_second().ShowTabs = false;
 }
