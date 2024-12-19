@@ -405,7 +405,10 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 		{
 			with(__widgetsToDestroy[i])
 			{
-				destroy();
+				if (!__destroyed)
+				{
+					destroy();
+				}
 			}
 		}
 		__widgetsToDestroy = [];

@@ -232,8 +232,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 					if (__submenu != undefined
 						&& __submenuIndex != i)
 					{
-						__submenu.destroy_later();
-						__submenu = undefined;
+						__submenu = __submenu.destroy_later();
 						__submenuIndex = -1;
 					}
 
@@ -306,14 +305,14 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 				if (__parentMenu.__parentMenu != undefined) && (__parentMenu.__realX < __parentMenu.__parentMenu
 					.__realX)
 				{
-					X.Value = __parentMenu.__realX - __realWidth - 2;
+					X.Value = __parentMenu.__realX - __realWidth;
 				}
 				else
 				{
-					var _parentMenuRightX = __parentMenu.__realX + __parentMenu.__realWidth + 2;
+					var _parentMenuRightX = __parentMenu.__realX + __parentMenu.__realWidth;
 					if ((window_get_width() - _parentMenuRightX) < __realWidth)
 					{
-						X.Value = __parentMenu.__realX - __realWidth - 2;
+						X.Value = __parentMenu.__realX - __realWidth;
 					}
 					else
 					{
@@ -359,16 +358,17 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 
 	static destroy = function ()
 	{
-		if (__submenu != undefined)
+		Container_destroy();
+		if (__submenu != undefined
+			&& !__submenu.__destroyed) // FIXME: Figure out why is submenu destroyed multiple times
 		{
 			if (__submenu.has_parent())
 			{
 				__submenu.remove_self();
 			}
 			__submenu.destroy();
-			__submenu = undefined;
 		}
-		Container_destroy();
+		__submenu = undefined;
 		return undefined;
 	}
 }

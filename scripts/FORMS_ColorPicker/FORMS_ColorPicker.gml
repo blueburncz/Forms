@@ -466,7 +466,7 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 
 	static update = function (_deltaTime)
 	{
-		Window_update();
+		Window_update(_deltaTime);
 		if (__hidden)
 		{
 			X.Value = -__realWidth - 10000; // hide window off screen
@@ -475,7 +475,7 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 
 	static destroy = function ()
 	{
-		__eyeDropperWidget.destroy_later();
+		__eyeDropperWidget = __eyeDropperWidget.destroy_later();
 		return Window_destroy();
 	}
 

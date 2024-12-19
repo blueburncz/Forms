@@ -1000,6 +1000,29 @@ function FORMS_Pen(_container) constructor
 		return icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntBrands12, _props);
 	}
 
+	/// @func vsep([_props])
+	///
+	/// @desc Draws a vertical separator.
+	///
+	/// @param {Struct, Undefined} [_props] Properties to apply to the separator or `undefined`.
+	///
+	/// @return {Struct.FORMS_Pen} Returns `self`.
+	static vsep = function (_props = undefined)
+	{
+		__assert_started();
+
+		var _color = forms_get_prop(_props, "Color") ?? c_dkgray;
+		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _width = forms_get_prop(_props, "Width") ?? __lineHeight;
+		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
+
+		forms_draw_rectangle(X + floor(_width / 2), Y, 1, _height, _color, _alpha);
+
+		__move_or_nl(_width);
+
+		return self;
+	}
+
 	/// @func button(_text[, _props])
 	///
 	/// @desc Draws a button and moves the pen by its width (or adds a new line, if {@link FORMS_Pen.AutoNewline} is

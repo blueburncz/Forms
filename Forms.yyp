@@ -57,6 +57,7 @@
     {"id":{"name":"FORMS_RootWidget","path":"scripts/FORMS_RootWidget/FORMS_RootWidget.yy",},},
     {"id":{"name":"FORMS_Scrollbar","path":"scripts/FORMS_Scrollbar/FORMS_Scrollbar.yy",},},
     {"id":{"name":"FORMS_ScrollPane","path":"scripts/FORMS_ScrollPane/FORMS_ScrollPane.yy",},},
+    {"id":{"name":"FORMS_Toolbar","path":"scripts/FORMS_Toolbar/FORMS_Toolbar.yy",},},
     {"id":{"name":"FORMS_Tree","path":"scripts/FORMS_Tree/FORMS_Tree.yy",},},
     {"id":{"name":"FORMS_Widget","path":"scripts/FORMS_Widget/FORMS_Widget.yy",},},
     {"id":{"name":"FORMS_Window","path":"scripts/FORMS_Window/FORMS_Window.yy",},},

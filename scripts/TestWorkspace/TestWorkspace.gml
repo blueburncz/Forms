@@ -15,6 +15,41 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	]);
 	add_child(_menu);
 
+	var _toolbar = new(function (): FORMS_Toolbar() constructor
+	{
+		static draw_content = function ()
+		{
+			Pen.start();
+			Pen.icon_solid(FA_ESolid.House, { Tooltip: "Close Project" });
+			Pen.vsep();
+			Pen.icon_solid(FA_ESolid.File, { Tooltip: "New Project" });
+			Pen.icon_solid(FA_ESolid.FolderOpen, { Tooltip: "Open Project" });
+			Pen.icon_solid(FA_ESolid.FloppyDisk, { Tooltip: "Save Project" });
+			Pen.vsep();
+			Pen.icon_solid(FA_ESolid.Download, { Tooltip: "Create Executable" });
+			Pen.vsep();
+			Pen.icon_solid(FA_ESolid.Bug, { Tooltip: "Debug" });
+			Pen.icon_solid(FA_ESolid.Play, { Tooltip: "Run" });
+			Pen.icon_solid(FA_ESolid.Stop, { Tooltip: "Stop" });
+			Pen.icon_solid(FA_ESolid.Brush, { Tooltip: "Clean" });
+			Pen.vsep();
+			Pen.icon_solid(FA_ESolid.Gear, { Tooltip: "Game Options" });
+			Pen.icon_solid(FA_ESolid.CircleQuestion, { Tooltip: "Help" });
+			Pen.vsep();
+			Pen.icon_solid(FA_ESolid.MagnifyingGlassMinus, { Tooltip: "Zoom Out" });
+			Pen.icon_solid(FA_ESolid.MagnifyingGlass, { Tooltip: "Zoom Reset" });
+			Pen.icon_solid(FA_ESolid.MagnifyingGlassPlus, { Tooltip: "Zoom In" });
+			Pen.icon_solid(FA_ESolid.Expand, { Tooltip: "Collapse/Expand" });
+			Pen.vsep();
+			Pen.icon_solid(FA_ESolid.Computer, { Tooltip: "Laptop Mode" });
+			Pen.icon_solid(FA_ESolid.Robot, { Tooltip: "AI Assistant" });
+			Pen.finish();
+			FORMS_CONTENT_UPDATE_SIZE;
+			return self;
+		}
+	})();
+	add_child(_toolbar);
+
 	var _dock = new FORMS_Dock(
 	{
 		Width: "100%",

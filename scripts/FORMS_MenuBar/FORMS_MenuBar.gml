@@ -44,6 +44,7 @@ function FORMS_MenuBar(_items = [], _props = undefined): FORMS_Container(_props)
 		var _itemIndex = 0;
 		var _contextMenuY = __realY + __realHeight;
 
+		Pen.PaddingX = 2;
 		Pen.PaddingY = 4;
 		Pen.start();
 

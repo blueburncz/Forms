@@ -378,6 +378,10 @@ function FORMS_Widget(_props = undefined) constructor
 	/// @private
 	__toDestroy = false;
 
+	/// @var {Bool}
+	/// @private
+	__destroyed = false;
+
 	/// @func get_x()
 	///
 	/// @desc Retrieves the actual X position of the widget computed in [layout](./FORMS_Widget.layout.html).
@@ -588,10 +592,14 @@ function FORMS_Widget(_props = undefined) constructor
 	/// @return {Undefined} Always returns `undefined`.
 	static destroy = function ()
 	{
+		forms_assert(!__destroyed, "Method destroy cannot be called multiple times!");
+		__destroyed = true;
+
 		if (Parent != undefined)
 		{
 			remove_self();
 		}
+
 		return undefined;
 	}
 }
