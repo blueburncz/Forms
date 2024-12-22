@@ -20,8 +20,10 @@
 /// @enum Enumeration of all possible mouse interactions with a control drawn by {@link FORMS_Pen}.
 enum FORMS_EControlAction
 {
-	/// @member Mouse is above a control.
-	MouseOver = -2,
+	/// @member A caret next to a control was left-clicked.
+	CaretClick = -3,
+		/// @member Mouse is above a control.
+		MouseOver = -2,
 		/// @member A control was right-clicked.
 		RightClick = -1,
 		/// @member No action.
@@ -1954,6 +1956,99 @@ function FORMS_Pen(_container) constructor
 		__move_or_nl(_width);
 
 		return __consume_result(_id);
+	}
+
+	/// @func tree_item(_text[, _props])
+	///
+	/// @desc Draws a tree item.
+	///
+	/// @param {String} _text The name of the tree item.
+	/// @param {Struct, Undefined} [_props] Properties to apply to the tree item or `undefined` (default).
+	///
+	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
+	static tree_item = function (_text, _props = undefined)
+	{
+		// TODO: Add struct FORMS_PenInputProps
+		__assert_started();
+
+		var _action = FORMS_EControlAction.None;
+
+		var _iconWidth = forms_get_prop(_props, "IconWidth") ?? 24;
+		var _icon = forms_get_prop(_props, "Icon");
+		var _iconFont = forms_get_prop(_props, "IconFont") ?? FA_FntRegular12;
+		var _iconCollapsed = forms_get_prop(_props, "IconCollapsed");
+		var _iconCollapsedFont = forms_get_prop(_props, "IconCollapsedFont");
+		var _iconColor = forms_get_prop(_props, "IconColor") ?? c_white;
+		var _iconAlpha = forms_get_prop(_props, "IconAlpha") ?? 1.0;
+		var _caretColor = forms_get_prop(_props, "CaretColor") ?? c_white;
+		var _caretAlpha = forms_get_prop(_props, "CaretAlpha") ?? 1.0;
+
+		var _hasChildren = forms_get_prop(_props, "HasChildren") ?? false;
+		var _collapsed = forms_get_prop(_props, "Collapsed") ?? false;
+		var _selected = forms_get_prop(_props, "Selected") ?? false;
+
+		var _spacingY = floor(SpacingY / 2);
+		var _backgroundX = Container.ScrollX;
+		var _backgroundY = Y - _spacingY;
+		var _backgroundWidth = Container.__realWidth; //Width
+		var _backgroundHeight = __lineHeight + _spacingY * 2;
+
+		var _mouseOver = is_mouse_over(_backgroundX, _backgroundY, _backgroundWidth, _backgroundHeight);
+
+		if (_mouseOver)
+		{
+			_action = FORMS_EControlAction.MouseOver;
+		}
+
+		if (_selected)
+		{
+			forms_draw_rectangle(_backgroundX, _backgroundY, _backgroundWidth, _backgroundHeight, 0x766056, 1.0);
+		}
+
+		// Caret
+		if (_hasChildren)
+		{
+			var _iconProps = {
+				Color: _caretColor,
+				Alpha: _caretAlpha,
+				Width: _iconWidth,
+				BackgroundColorHover: c_white,
+				BackgroundAlphaHover: 0.1,
+			};
+			if (icon_solid(_collapsed ? FA_ESolid.CaretRight : FA_ESolid.CaretDown, _iconProps))
+			{
+				_action = FORMS_EControlAction.CaretClick;
+			}
+		}
+		else
+		{
+			move(_iconWidth);
+		}
+
+		// Icon
+		var _iconFinal = (_collapsed || !_hasChildren) ? (_iconCollapsed ?? _icon) : _icon;
+		if (_iconFinal != undefined)
+		{
+			var _iconFontFinal = (_collapsed || !_hasChildren) ? (_iconCollapsedFont ?? _iconFont) : _iconFont;
+			icon(_iconFinal, _iconFontFinal,
+			{
+				Color: _iconColor,
+				Alpha: _iconAlpha,
+				Width: _iconWidth,
+				BackgroundColorHover: c_white,
+				BackgroundAlphaHover: 0.1
+			});
+		}
+
+		// Text
+		if (link(_text) || (_mouseOver && forms_mouse_check_button_pressed(mb_left)))
+		{
+			_action = FORMS_EControlAction.Click;
+		}
+
+		__move_or_nl(_backgroundWidth - X);
+
+		return _action;
 	}
 
 	/// @func section(_text[, _props])

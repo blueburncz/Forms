@@ -172,10 +172,6 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 	/// @return {Struct.FORMS_TreeItem} Returns `self`.
 	static draw = function (_pen)
 	{
-		var _iconWidth = 24;
-		var _penX = _pen.X;
-
-		// Highlight selected
 		if (Tree == undefined)
 		{
 			var _current = Parent;
@@ -190,60 +186,31 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 			}
 		}
 
-		var _spacingY = floor(_pen.SpacingY / 2);
-		var _backgroundX = _pen.Container.ScrollX;
-		var _backgroundY = _pen.Y - _spacingY;
-		var _backgroundWidth = _pen.Container.__realWidth; //_pen.Width
-		var _backgroundHeight = _pen.__lineHeight + _spacingY * 2;
-
-		if (Tree.Selected == self)
-		{
-			forms_draw_rectangle(_backgroundX, _backgroundY, _backgroundWidth, _backgroundHeight, 0x766056, 1.0);
-		}
-
-		// Caret
+		// Draw self
+		var _iconWidth = 24;
+		var _penX = _pen.X;
+		var _text = is_string(Text) ? Text : Getter(self);
+		var _selected = (Tree.Selected == self);
 		var _hasChildren = (is_array(Children) && array_length(Children) > 0);
 
-		if (_hasChildren)
+		var _action = _pen.tree_item(_text,
 		{
-			var _iconProps = {
-				Color: CaretColor,
-				Alpha: CaretAlpha,
-				Width: _iconWidth,
-				BackgroundColorHover: c_white,
-				BackgroundAlphaHover: 0.1,
-			};
-			if (_pen.icon_solid(Collapsed ? FA_ESolid.CaretRight : FA_ESolid.CaretDown, _iconProps))
-			{
-				Collapsed = !Collapsed;
-			}
-		}
-		else
-		{
-			_pen.move(_iconWidth);
-		}
+			IconWidth: _iconWidth,
+			Icon,
+			IconFont,
+			IconCollapsed,
+			IconCollapsedFont,
+			IconColor,
+			IconAlpha,
+			CaretColor,
+			CaretAlpha,
+			Collapsed,
+			Selected: _selected,
+			HasChildren: _hasChildren,
+		});
+		_pen.nl();
 
-		// Icon
-		var _icon = (Collapsed || !_hasChildren) ? (IconCollapsed ?? Icon) : Icon;
-		if (_icon != undefined)
-		{
-			var _iconFont = (Collapsed || !_hasChildren) ? (IconCollapsedFont ?? IconFont) : IconFont;
-			_pen.icon(_icon, _iconFont,
-			{
-				Color: IconColor,
-				Alpha: IconAlpha,
-				Width: _iconWidth,
-				BackgroundColorHover: c_white,
-				BackgroundAlphaHover: 0.1
-			});
-		}
-
-		// Text
-		var _text = is_string(Text) ? Text : Getter(self);
-
-		if (_pen.link(_text)
-			|| (_pen.is_mouse_over(_backgroundX, _backgroundY, _backgroundWidth, _backgroundHeight)
-				&& forms_mouse_check_button_pressed(mb_left)))
+		if (_action == FORMS_EControlAction.Click)
 		{
 			Tree.Selected = self;
 			if (OnSelect)
@@ -251,7 +218,10 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 				OnSelect(self);
 			}
 		}
-		_pen.nl();
+		else if (_action == FORMS_EControlAction.CaretClick)
+		{
+			Collapsed = !Collapsed;
+		}
 
 		// Children
 		if (is_array(Children))
