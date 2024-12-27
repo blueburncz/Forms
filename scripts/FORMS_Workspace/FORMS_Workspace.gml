@@ -3,14 +3,7 @@
 /// @extends FORMS_WidgetProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_Workspace}.
-function FORMS_WorkspaceProps(): FORMS_WidgetProps() constructor
-{
-	/// @var {Constant.Color, Undefined} The background color of the workspace.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the background.
-	BackgroundAlpha = undefined;
-}
+function FORMS_WorkspaceProps(): FORMS_WidgetProps() constructor {}
 
 /// @func FORMS_Workspace([_props])
 ///
@@ -23,12 +16,6 @@ function FORMS_WorkspaceProps(): FORMS_WidgetProps() constructor
 function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 {
 	static Widget_update = update;
-
-	/// @var {Constant.Color} The background color of the workspace. Defaults to `0x202020`.
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x202020;
-
-	/// @var {Real} The alpha value of the background. Defaults to 1.
-	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
 	/// @var {Struct.FORMS_WorkspaceTabs} A container that displays the workspace's tabs.
 	/// @readonly
@@ -128,9 +115,8 @@ function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 
 	static draw = function ()
 	{
-		forms_draw_rectangle(
-			__realX, __realY, __realWidth, __realHeight,
-			BackgroundColor, BackgroundAlpha);
+		var _style = forms_get_style();
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[1], 1.0);
 
 		var _tabCurrent = __tabCurrent; // Backup before it changes!
 		TabContainer.draw();
@@ -166,15 +152,16 @@ function FORMS_WorkspaceTabs(_props = undefined): FORMS_Container(_props) constr
 	/// @var {Struct.FORMS_UnitValue} The height of the workspace tabs container. Defaults to 32px.
 	Height.from_props(_props, "Height", 32);
 
-	// TODO: Docs
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
-
 	/// @var {Bool} Whether the default scrolling direction of the container is vertical (`true`) or horizontal
 	/// (`false`). Defaults to `false`.
 	IsDefaultScrollVertical = forms_get_prop(_props, "IsDefaultScrollVertical") ?? false;
 
+	/// @var {Real}
+	BackgroundColorIndex = 1;
+
 	static draw_content = function ()
 	{
+		var _style = forms_get_style();
 		var _workspace = Parent;
 		var _tabs = _workspace.__tabs;
 		var _tabCount = array_length(_tabs);
@@ -199,16 +186,16 @@ function FORMS_WorkspaceTabs(_props = undefined): FORMS_Container(_props) constr
 					+ string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0)
 					+ _tabPadding,
 					__realHeight,
-					0x282828, 1.0
-				);
+					_style.Background[2], 1.0);
 			}
 			Pen.move(_tabPadding);
 			if (_tab.Icon != undefined)
 			{
-				fa_draw(_tab.IconFont, _tab.Icon, Pen.X, Pen.Y);
+				fa_draw(_tab.IconFont, _tab.Icon, Pen.X, Pen.Y, (_tabIndex == _tabCurrent) ? _style.Text
+					: _style.TextMuted);
 				Pen.move(_iconSpace);
 			}
-			if (Pen.link(_tab.Name, { Color: (_tabIndex == _tabCurrent) ? c_white : c_silver }))
+			if (Pen.link(_tab.Name, { Muted: (_tabIndex != _tabCurrent) }))
 			{
 				_tabCurrent = _tabIndex;
 				_workspace.__tabCurrent = _tabCurrent;
@@ -216,7 +203,7 @@ function FORMS_WorkspaceTabs(_props = undefined): FORMS_Container(_props) constr
 			if (_tabCount > 1)
 			{
 				Pen.move(4);
-				if (Pen.icon_solid(FA_ESolid.Xmark, { Width: 16, Color: c_gray }))
+				if (Pen.icon_solid(FA_ESolid.Xmark, { Width: 16, Muted: true }))
 				{
 					_tab.Parent = undefined;
 					_tab.destroy();

@@ -74,7 +74,7 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 			Icon: FA_ESolid.Camera,
 			Width: "100%",
 			Height: "100%",
-			Resize: true
+			// Resize: true
 		})
 	]);
 	//_dock.get_second().ShowTabs = false;

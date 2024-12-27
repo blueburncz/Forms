@@ -77,6 +77,7 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 		static draw = function ()
 		{
 			if (!Visible) { return; }
+
 			forms_set_cursor(cr_none);
 			draw_set_valign(fa_bottom);
 			draw_set_color(c_white);

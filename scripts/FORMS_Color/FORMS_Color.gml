@@ -4,7 +4,7 @@
 /// {@link FORMS_ColorPicker} widget. If using other  formats such as HSV or RGB then leave _color argument blank and
 /// set using  relevant methods.
 ///
-/// @param {Constant.color, Struct.FORMS_Color} [_color] Initial color to set the struct, can either be a ABGR/BGR color
+/// @param {Constant.Color, Struct.FORMS_Color} [_color] Initial color to set the struct, can either be a ABGR/BGR color
 /// or {@link FORMS_Color} struct.
 /// @param {Real} _alpha Optional alpha value for BGR colors, 0..1.
 function FORMS_Color(_color = c_white, _alpha = undefined) constructor

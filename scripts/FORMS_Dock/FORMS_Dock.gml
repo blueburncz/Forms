@@ -14,39 +14,12 @@ enum FORMS_EDockSplit
 /// @desc Properties accepted by the constructor of {@link FORMS_Dock}.
 function FORMS_DockProps(): FORMS_WidgetProps() constructor
 {
-	/// @var {Constant.Color, Undefined} The background color of the dock.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the dock's background.
-	BackgroundAlpha = undefined;
-
 	/// @var {Real, Undefined} Whether the dock is split horizontally or vertically. Use values from
 	/// {@link FORMS_EDockSplit}.
 	SplitType = undefined;
 
 	/// @var {Real, Undefined} The size of the split in range 0..1.
 	SplitSize = undefined;
-
-	/// @var {Real, Undefined} The size of the splitter that can be dragged with mouse to change the dock's split size.
-	SplitterSize = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the splitter.
-	SplitterColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the splitter.
-	SplitterAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the splitter on mouse-over.
-	SplitterColorHover = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the splitter on mouse-over.
-	SplitterAlphaHover = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the splitter when being dragged.
-	SplitterColorActive = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the splitter when being dragged.
-	SplitterAlphaActive = undefined;
 
 	/// @var {Bool, Undefined} Whether to show tabs (`true`) or not (`false`).
 	ShowTabs = undefined;
@@ -64,41 +37,12 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 {
 	static Widget_update = update;
 
-	/// @var {Constant.Color} The background color of the dock. Defaults to `0x101010`.
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x101010;
-
-	/// @var {Real} The alpha value of the dock's background. Defaults to 1.
-	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
-
 	/// @var {Real} Whether the dock is split horizontally or vertically. Use values from {@link FORMS_EDockSplit}.
 	/// Default is {@link FORMS_EDockSplit.Horizontal}.
 	SplitType = forms_get_prop(_props, "SplitType") ?? FORMS_EDockSplit.Horizontal;
 
 	/// @var {Real} The split size of the dock. Defaults to 0.5.
 	SplitSize = forms_get_prop(_props, "SplitSize") ?? 0.5;
-
-	/// @var {Real} The size of the splitter that can be dragged with mouse to change the dock's split size. Defaults to
-	/// 6.
-	SplitterSize = forms_get_prop(_props, "SplitterSize") ?? 6;
-
-	/// @var {Constant.Color} The color of the splitter. Defaults to `0x101010`.
-	SplitterColor = forms_get_prop(_props, "SplitterColor") ?? 0x101010;
-
-	/// @var {Real} The alpha value of the splitter. Defaults to 1.
-	SplitterAlpha = forms_get_prop(_props, "SplitterAlpha") ?? 1.0;
-
-	/// @var {Constant.Color} The color of the splitter on mouse-over. Defaults to `0x303030`.
-	SplitterColorHover = forms_get_prop(_props, "SplitterColorHover") ?? 0x303030;
-
-	/// @var {Real} The alpha value of the splitter on mouse-over. Defaults to 1.
-	SplitterAlphaHover = forms_get_prop(_props, "SplitterAlphaHover") ?? 1.0;
-
-	/// @var {Constant.Color} The color of the splitter when it's being dragged. Defaults to
-	/// {@link global.formsAccentColor}.
-	SplitterColorActive = forms_get_prop(_props, "SplitterColorActive") ?? global.formsAccentColor;
-
-	/// @var {Real} The alpha value of the splitter when it's being dragged. Defaults to 1.
-	SplitterAlphaActive = forms_get_prop(_props, "SplitterAlphaActive") ?? 1.0;
 
 	/// @var {Bool, Undefined} Whether to show tabs (`true`, default) or not (`false`).
 	ShowTabs = forms_get_prop(_props, "ShowTabs") ?? true;
@@ -319,6 +263,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 	{
 		FORMS_LAYOUT_GENERATED;
 
+		var _style = forms_get_style();
 		var _parentX = __realX;
 		var _parentY = __realY;
 		var _parentWidth = __realWidth;
@@ -332,7 +277,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 			}
 
 			SplitSize = clamp(SplitSize, 0.1, 0.9);
-			__splitterPos = round(__realX + __realWidth * SplitSize - SplitterSize * 0.5);
+			__splitterPos = round(__realX + __realWidth * SplitSize - _style.SplitterSize * 0.5);
 		}
 		else
 		{
@@ -342,7 +287,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 			}
 
 			SplitSize = clamp(SplitSize, 0.1, 0.9);
-			__splitterPos = round(__realY + __realHeight * SplitSize - SplitterSize * 0.5);
+			__splitterPos = round(__realY + __realHeight * SplitSize - _style.SplitterSize * 0.5);
 		}
 
 		if (__resize && !mouse_check_button(mb_left))
@@ -416,7 +361,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 				}
 				else if (SplitType == FORMS_EDockSplit.Horizontal)
 				{
-					__right.__realX = __splitterPos + SplitterSize;
+					__right.__realX = __splitterPos + _style.SplitterSize;
 					__right.__realY = __realY;
 					__right.__realWidth = __realWidth - __right.__realX + __realX;
 					__right.__realHeight = __realHeight;
@@ -424,7 +369,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 				else
 				{
 					__right.__realX = __realX;
-					__right.__realY = __splitterPos + SplitterSize;
+					__right.__realY = __splitterPos + _style.SplitterSize;
 					__right.__realWidth = __realWidth;
 					__right.__realHeight = __realHeight - __right.__realY + __realY;
 				}
@@ -441,6 +386,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		Widget_update(_deltaTime);
 
 		var _root = forms_get_root();
+		var _style = _root.Style;
 		var _mousePos = (SplitType == FORMS_EDockSplit.Horizontal)
 			? forms_mouse_get_x() : forms_mouse_get_y();
 
@@ -449,7 +395,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 			&& is_mouse_over()
 			&& _root.DragTarget == undefined
 			&& _mousePos > __splitterPos
-			&& _mousePos < __splitterPos + SplitterSize);
+			&& _mousePos < __splitterPos + _style.SplitterSize);
 
 		var _resize = __resize;
 
@@ -459,7 +405,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 
 			if (forms_mouse_check_button_pressed(mb_left))
 			{
-				__mouseOffset = __splitterPos + SplitterSize * 0.5 - _mousePos;
+				__mouseOffset = __splitterPos + _style.SplitterSize * 0.5 - _mousePos;
 				_root.DragTarget = self;
 				__resize = true;
 			}
@@ -499,22 +445,21 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 	static draw = function ()
 	{
 		var _root = forms_get_root();
-		var _color = (_root.DragTarget == self) ? SplitterColorActive
-			: (__splitterIsHovered ? SplitterColorHover : SplitterColor);
-		var _alpha = (_root.DragTarget == self) ? SplitterAlphaActive
-			: (__splitterIsHovered ? SplitterAlphaHover : SplitterAlpha);
+		var _style = _root.Style;
+		var _color = (_root.DragTarget == self) ? _style.Accent
+			: (__splitterIsHovered ? _style.Background[3] : _style.Background[1]);
 
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[1]);
 
 		if (__left != undefined && __right != undefined)
 		{
 			if (SplitType == FORMS_EDockSplit.Horizontal)
 			{
-				forms_draw_rectangle(__splitterPos, __realY, SplitterSize, __realHeight, _color, _alpha);
+				forms_draw_rectangle(__splitterPos, __realY, _style.SplitterSize, __realHeight, _color);
 			}
 			else
 			{
-				forms_draw_rectangle(__realX, __splitterPos, __realWidth, SplitterSize, _color, _alpha);
+				forms_draw_rectangle(__realX, __splitterPos, __realWidth, _style.SplitterSize, _color);
 			}
 		}
 
@@ -568,8 +513,8 @@ function FORMS_DockTabs(_props = undefined): FORMS_Container(_props) constructor
 	/// 24px.
 	Height = Height.from_props(_props, "Height", 24);
 
-	/// @var {Constant.Color} The tint color of the background sprite. Defaults to `0x181818`.
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
+	/// @var {Real}
+	BackgroundColorIndex = 1;
 
 	/// @var {Bool} Whether the default scrolling direction of the container is vertical (`true`) or horizontal
 	/// (`false`). Defaults to `false`.
@@ -577,6 +522,7 @@ function FORMS_DockTabs(_props = undefined): FORMS_Container(_props) constructor
 
 	static draw_content = function ()
 	{
+		var _style = forms_get_style();
 		var _dock = Parent;
 		var _tabs = _dock.__tabs;
 		var _tabCount = array_length(_tabs);
@@ -602,16 +548,16 @@ function FORMS_DockTabs(_props = undefined): FORMS_Container(_props) constructor
 					+ string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0)
 					+ _tabPadding,
 					__realHeight,
-					0x282828, 1.0
-				);
+					_style.Background[2], 1.0);
 			}
 			Pen.move(_tabPadding);
 			if (_tab.Icon != undefined)
 			{
-				fa_draw(_tab.IconFont, _tab.Icon, Pen.X, Pen.Y);
+				fa_draw(_tab.IconFont, _tab.Icon, Pen.X, Pen.Y, (_tabIndex == _tabCurrent) ? _style.Text
+					: _style.TextMuted);
 				Pen.move(_iconSpace);
 			}
-			if (Pen.link(_tab.Name, { Color: (_tabIndex == _tabCurrent) ? c_white : c_silver }))
+			if (Pen.link(_tab.Name, { Muted: (_tabIndex != _tabCurrent) }))
 			{
 				_tabCurrent = _tabIndex;
 				_dock.__tabCurrent = _tabCurrent;
@@ -619,7 +565,7 @@ function FORMS_DockTabs(_props = undefined): FORMS_Container(_props) constructor
 			if (_tabCount > 1)
 			{
 				Pen.move(4);
-				if (Pen.icon_solid(FA_ESolid.Xmark, { Width: 16, Color: c_gray }))
+				if (Pen.icon_solid(FA_ESolid.Xmark, { Width: 16, Muted: true }))
 				{
 					_tab.Parent = undefined;
 					_tab.destroy();

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"FORMS_Style",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"FORMS_Style",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Forms/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

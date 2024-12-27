@@ -44,22 +44,16 @@ function FORMS_WindowProps(): FORMS_WidgetProps() constructor
 
 	/// @var {Real, Undefined} The subimage of the background sprite to use.
 	BackgroundIndex = undefined;
-
-	/// @var {Constant.Color, Undefined} The tint color of the background sprite.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the background sprite.
-	BackgroundAlpha = undefined;
 }
 
 /// @func FORMS_Window([_widget[, _props]])
 ///
 /// @extends FORMS_Widget
 ///
-/// @desc TODO
+/// @desc A window.
 ///
-/// @params {Struct.FORMS_Widget, Undefined} [_widget] TODO
-/// @params {Struct.FORMS_WindowProps, Undefined} [_props] TODO
+/// @params {Struct.FORMS_Widget, Undefined} [_widget] A widget to embed into the window or `undefined`.
+/// @params {Struct.FORMS_WindowProps, Undefined} [_props] Properties to create the window with or `undefined` (default).
 function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constructor
 {
 	static Widget_layout = layout;
@@ -91,12 +85,6 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 	/// @var {Real} The sub-image of the background sprite to use. Defaults to 0.
 	BackgroundIndex = forms_get_prop(_props, "BackgroundIndex") ?? 0;
-
-	/// @var {Constant.Color} The tint color of the background sprite. Defaults to `0x303030`.
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x303030;
-
-	/// @var {Real} The alpha value of the background sprite. Defaults to 1.
-	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 
 	/// @var {Struct.FORMS_WindowTitle} The window's title bar. Displays the name of the widget attached to this window.
 	/// @readonly
@@ -403,6 +391,7 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 	static draw = function ()
 	{
+		var _style = forms_get_style();
 		var _shadowOffset = 16;
 		draw_sprite_stretched_ext(
 			FORMS_SprShadow, 0,
@@ -410,12 +399,12 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 			__realY - _shadowOffset,
 			__realWidth + _shadowOffset * 2,
 			__realHeight + _shadowOffset * 2,
-			c_black, 0.5);
+			_style.Shadow, _style.ShadowAlpha);
 
 		draw_sprite_stretched_ext(
 			BackgroundSprite, BackgroundIndex,
 			__realX, __realY, __realWidth, __realHeight,
-			BackgroundColor, BackgroundAlpha);
+			_style.Background[2], 1.0);
 
 		if (Titlebar != undefined)
 		{
@@ -470,11 +459,9 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 	/// @var {Struct.FORMS_UnitValue} The height of the title bar. Defaults to 24px.
 	Height = Height.from_props(_props, "Height", 24);
 
-	/// @var {Constant.Color} The tint color of the background sprite. Defaults to `0x181818`.
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x181818;
-
 	static draw_content = function ()
 	{
+		var _style = forms_get_style();
 		Pen.PaddingY = round((__realHeight - string_height("M")) / 2);
 		Pen.start();
 		var _widget = Parent.Widget;
@@ -483,7 +470,7 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 			if (_widget.Icon != undefined)
 			{
 				var _width = fa_get_width(_widget.IconFont, _widget.Icon);
-				fa_draw(_widget.IconFont, _widget.Icon, Pen.X + floor((16 - _width) / 2), Pen.Y);
+				fa_draw(_widget.IconFont, _widget.Icon, Pen.X + floor((16 - _width) / 2), Pen.Y, _style.Text);
 				Pen.move(22);
 			}
 			Pen.text(_widget.Name);

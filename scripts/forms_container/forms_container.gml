@@ -2,7 +2,7 @@
 /// `ContentWidth = Pen.get_max_x(); ContentHeight = Pen.get_max_y();`. Useful in {@link FORMS_Container.draw_content}.
 /* beautify ignore:start */
 #macro FORMS_CONTENT_UPDATE_SIZE \
-    do { ContentWidth = Pen.get_max_x(); ContentHeight = Pen.get_max_y(); } until (1)
+	do { ContentWidth = Pen.get_max_x(); ContentHeight = Pen.get_max_y(); } until (1)
 /* beautify ignore:end */
 
 /// @func FORMS_ContainerProps()
@@ -18,11 +18,8 @@ function FORMS_ContainerProps(): FORMS_WidgetProps() constructor
 	/// @var {Real, Undefined} The subimage of the background sprite to use.
 	BackgroundIndex = undefined;
 
-	/// @var {Constant.Color, Undefined} The tint color of the background sprite.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the background sprite.
-	BackgroundAlpha = undefined;
+	/// @var {Real}
+	BackgroundColorIndex = undefined;
 
 	/// @var {Bool, Undefined} Whether the default scrolling direction of the container is vertical (`true`) or
 	/// horizontal (`false`).
@@ -57,11 +54,8 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 	/// @var {Real} The subimage of the background sprite to use. Defaults to 0.
 	BackgroundIndex = forms_get_prop(_props, "BackgroundIndex") ?? 0;
 
-	/// @var {Constant.Color} The tint color of the background sprite. Defaults to `0x272727`.
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x272727;
-
-	/// @var {Real} The alpha value of the background sprite. Defaults to 1.
-	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
+	/// @var {Real}
+	BackgroundColorIndex = forms_get_prop(_props, "BackgroundColorIndex") ?? 2;
 
 	/// @var {Real} The scroll of the contents on the X axis. Defaults to 0.
 	/// @readonly
@@ -209,7 +203,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 		draw_sprite_stretched_ext(
 			BackgroundSprite, BackgroundIndex,
 			0, 0, __realWidth, __realHeight,
-			BackgroundColor, BackgroundAlpha);
+			forms_get_style().Background[BackgroundColorIndex], 1.0);
 
 		forms_push_mouse_coordinates(__realX - ScrollX, __realY - ScrollY);
 		var _world = matrix_get(matrix_world);
@@ -220,39 +214,6 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 		_world[@ 12] += ScrollX;
 		_world[@ 13] += ScrollY;
 		matrix_set(matrix_world, _world);
-
-		var _size = 24;
-		var _color = c_black; //global.formsAccentColor;
-		var _alpha = 0.5;
-		if (ScrollX > 0)
-		{
-			draw_sprite_stretched_ext(
-				FORMS_SprScrollableX, 0,
-				0, 0, _size, __realHeight,
-				_color, _alpha);
-		}
-		if (ContentWidth - ScrollX > __realWidth)
-		{
-			draw_sprite_stretched_ext(
-				FORMS_SprScrollableX, 1,
-				__realWidth - _size, 0, _size, __realHeight,
-				_color, _alpha);
-		}
-
-		if (ScrollY > 0)
-		{
-			draw_sprite_stretched_ext(
-				FORMS_SprScrollableY, 0,
-				0, 0, __realWidth, _size,
-				_color, _alpha);
-		}
-		if (ContentHeight - ScrollY > __realHeight)
-		{
-			draw_sprite_stretched_ext(
-				FORMS_SprScrollableY, 1,
-				0, __realHeight - _size, __realWidth, _size,
-				_color, _alpha);
-		}
 
 		forms_push_mouse_coordinates(-(__realX - ScrollX), -(__realY - ScrollY));
 		surface_reset_target();

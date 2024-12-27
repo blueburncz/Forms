@@ -20,12 +20,11 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 	InputString = "";
 	InputPassword = "";
 	InputReal = 0;
-	Color = new FORMS_Color(0xAA000000 | global.formsAccentColor);
+	Color = new FORMS_Color(0xAA000000 | c_orange);
 	var _propsFolder = {
 		Icon: FA_ESolid.FolderOpen,
 		IconCollapsed: FA_ESolid.Folder,
 		IconFont: FA_FntSolid12,
-		IconColor: c_gray,
 	};
 	var _propsFile = {
 		Icon: FA_ESolid.File,
@@ -53,15 +52,7 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 	{
 		var _props;
 
-		Pen.start()
-			.text("Some stuff ")
-			.text("Some other stuff!",
-			{
-				Color: global.formsAccentColor,
-				Cursor: cr_handpoint,
-				Tooltip: "Oh yeah!"
-			})
-			.nl();
+		Pen.start().text("Here's some text...").nl();
 
 		if (Pen.section("Buttons"))
 		{

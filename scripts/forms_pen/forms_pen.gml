@@ -37,11 +37,11 @@ enum FORMS_EControlAction
 /// @desc Properties accepted by method {@link FORMS_Pen.text}.
 function FORMS_PenTextProps() constructor
 {
-	/// @var {Constant.Color, Undefined} The color of the text to draw.
-	Color = undefined;
+	/// @var {Bool, Undefined} Whether the text is disabled.
+	Disabled = undefined;
 
-	/// @var {Real, Undefined} The alpha value of the text to draw.
-	Alpha = undefined;
+	/// @var {Bool, Undefined} Whether the text is muted.
+	Muted = undefined;
 
 	/// @var {Bool, Undefined} If `true` then property `Width` is ignored and the text is trimmed from the right to the
 	/// current control width.
@@ -68,11 +68,14 @@ function FORMS_PenLinkProps(): FORMS_PenTextProps() constructor {}
 /// @desc Properties accepted by method {@link FORMS_Pen.icon}.
 function FORMS_PenIconProps() constructor
 {
-	/// @var {Constant.Color, Undefined} The color of the icon.
-	Color = undefined;
+	/// @var {Bool, Undefined} Whether the icon is disabled.
+	Disabled = undefined;
 
-	/// @var {Real, Undefined} The alpha value of the icon.
-	Alpha = undefined;
+	/// @var {Bool, Undefined} Whether the icon is muted.
+	Muted = undefined;
+
+	/// @var {Bool, Undefined} Whether the icon is active.
+	Active = undefined;
 
 	/// @var {Real, Undefined} Horizontal padding around the icon.
 	Padding = undefined;
@@ -82,18 +85,6 @@ function FORMS_PenIconProps() constructor
 
 	/// @var {Real, Undefined} The height of the icon.
 	Height = undefined;
-
-	/// @var {Constant.Color, Undefined} The icon's background color.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the icon's background.
-	BackgroundAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The icon's background color on mouse-over.
-	BackgroundColorHover = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the icon's background on mouse-over.
-	BackgroundAlphaHover = undefined;
 
 	/// @var {String, Undefined} The tooltip text to show on mouse-over.
 	Tooltip = undefined;
@@ -131,11 +122,14 @@ function FORMS_PenIconBrandsProps(): FORMS_PenIconProps() constructor
 /// @desc Properties accepted by method {@link FORMS_Pen.button}.
 function FORMS_PenButtonProps() constructor
 {
-	/// @var {Constant.Color, Undefined} The color of the button's text.
-	Color = undefined;
+	/// @var {Bool, Undefined} Whether the button is disabled.
+	Disabled = undefined;
 
-	/// @var {Real, Undefined} The alpha value of the button's text.
-	Alpha = undefined;
+	/// @var {Bool, Undefined} Whether the button is active.
+	Active = undefined;
+
+	/// @var {Bool, Undefined} Whether the button is minimal (has no background until hovered).
+	Minimal = undefined;
 
 	/// @var {Real, Undefined} The horizontal padding around the button's text.
 	Padding = undefined;
@@ -145,18 +139,6 @@ function FORMS_PenButtonProps() constructor
 
 	/// @var {Real, Undefined} The height of the button.
 	Height = undefined;
-
-	/// @var {Constant.Color, Undefined} The button's background color.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the button's background.
-	BackgroundAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The button's background color on mouse-over.
-	BackgroundColorHover = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the button's background on mouse-over.
-	BackgroundAlphaHover = undefined;
 
 	/// @var {String, Undefined} The tooltip text to show on mouse-over.
 	Tooltip = undefined;
@@ -182,24 +164,6 @@ function FORMS_PenColorProps() constructor
 /// @desc Properties accepted by method {@link FORMS_Pen.checkbox}.
 function FORMS_PenCheckboxProps() constructor
 {
-	/// @var {Constant.Color, Undefined} The color of the tick.
-	Color = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the tick.
-	Alpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The background color.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the background.
-	BackgroundAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the border shown on mouse-over.
-	BorderColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the border.
-	BorderAlpha = undefined;
-
 	/// @var {String, Undefined} The tooltip text to show on mouse-over.
 	Tooltip = undefined;
 }
@@ -209,24 +173,6 @@ function FORMS_PenCheckboxProps() constructor
 /// @desc Properties accepted by method {@link FORMS_Pen.radio}.
 function FORMS_PenRadioProps() constructor
 {
-	/// @var {Constant.Color, Undefined} The color of the tick.
-	Color = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the tick.
-	Alpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The background color.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the background.
-	BackgroundAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the border shown on mouse-over.
-	BorderColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the border.
-	BorderAlpha = undefined;
-
 	/// @var {String, Undefined} The tooltip text to show on mouse-over.
 	Tooltip = undefined;
 }
@@ -238,36 +184,6 @@ function FORMS_PenSliderProps() constructor
 {
 	/// @var {Real, Undefined} The width of the slider.
 	Width = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of text shown on the slider.
-	Color = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the text shown on the slider.
-	Alpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the border shown on mouse-over or when the slider is active.
-	BorderColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the border shown on mouse-over or when the slider is active.
-	BorderAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the slider's background.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the slider's background.
-	BackgroundAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The fill color of the slider.
-	FillColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the slider's fill.
-	FillAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the slider's thumb.
-	SliderColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the slider's thumb.
-	SliderAlpha = undefined;
 
 	/// @var {Bool, Undefined} Whether to show the slider value as text (`true`) or not (`false`).
 	ShowText = undefined;
@@ -295,24 +211,6 @@ function FORMS_PenDropdownProps() constructor
 
 	/// @var {Real, Undefined} The horizontal padding around dropdown text.
 	Padding = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the dropdown's background.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the dropdown's background.
-	BackgroundAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The caret color.
-	CaretColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the caret.
-	CaretAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The text color.
-	Color = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the text.
-	Alpha = undefined;
 }
 
 /// @enum Enumeration of all layouts available for {@link FORMS_Pen}.
@@ -825,8 +723,10 @@ function FORMS_Pen(_container) constructor
 		__assert_started();
 
 		var _textOriginal = _text;
-		var _color = forms_get_prop(_props, "Color") ?? c_white;
-		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _style = forms_get_style();
+		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
+		var _muted = forms_get_prop(_props, "Muted") ?? false;
+		var _color = _disabled ? _style.TextDisabled : (_muted ? _style.TextMuted : _style.Text);
 		var _textWidth = string_width(_text);
 		var _textHeight = string_height(_text);
 		var _trim = forms_get_prop(_props, "Trim") ?? (__layout == FORMS_EPenLayout.Column2);
@@ -851,7 +751,7 @@ function FORMS_Pen(_container) constructor
 			forms_set_cursor(forms_get_prop(_props, "Cursor") ?? forms_get_cursor());
 		}
 
-		draw_text_color(X, Y, _text, _color, _color, _color, _color, _alpha);
+		forms_draw_text(X, Y, _text, _color);
 		__move_or_nl(string_width(_text));
 
 		return self;
@@ -870,9 +770,11 @@ function FORMS_Pen(_container) constructor
 	{
 		__assert_started();
 
+		var _style = forms_get_style();
 		var _textOriginal = _text;
-		var _color = forms_get_prop(_props, "Color") ?? c_white;
-		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
+		var _muted = forms_get_prop(_props, "Muted") ?? false;
+		var _color = _disabled ? _style.TextDisabled : (_muted ? _style.TextMuted : _style.Text);
 		var _textWidth = string_width(_text);
 		var _textHeight = string_height(_text);
 		var _trim = forms_get_prop(_props, "Trim") ?? (__layout == FORMS_EPenLayout.Column2);
@@ -894,10 +796,10 @@ function FORMS_Pen(_container) constructor
 		if (_mouseOver)
 		{
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip") ?? (_shortened ? _textOriginal : undefined));
-			forms_set_cursor(forms_get_prop(_props, "Cursor") ?? forms_get_cursor());
+			forms_set_cursor(cr_handpoint);
 		}
 
-		draw_text_color(X, Y, _text, _color, _color, _color, _color, _alpha);
+		forms_draw_text(X, Y, _text, _color);
 		__move_or_nl(string_width(_text));
 
 		FORMS_PEN_RETURN_MOUSE_STATE;
@@ -917,21 +819,20 @@ function FORMS_Pen(_container) constructor
 	{
 		__assert_started();
 
+		var _style = forms_get_style();
 		var _string = chr(_icon);
 		var _fontPrev = draw_get_font();
 		draw_set_font(_font);
-		var _color = forms_get_prop(_props, "Color") ?? c_white;
-		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
+		var _muted = forms_get_prop(_props, "Muted") ?? false;
+		var _active = forms_get_prop(_props, "Active") ?? false;
+		var _color = _disabled ? _style.TextDisabled : (_muted ? _style.TextMuted : _style.Text);
 		var _iconWidth = string_width(_string);
 		var _iconHeight = string_height(_string);
 		var _padding = forms_get_prop(_props, "Padding") ?? 4;
 		var _width = forms_get_prop(_props, "Width") ?? _iconWidth + _padding * 2;
 		var _height = forms_get_prop(_props, "Height") ?? _iconHeight;
-		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x424242;
-		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 0.0;
-		var _backgroundColorHover = forms_get_prop(_props, "BackgroundColorHover") ?? 0x424242;
-		var _backgroundAlphaHover = forms_get_prop(_props, "BackgroundAlphaHover") ?? 1.0;
-		var _mouseOver = is_mouse_over(X, Y, _width, _height);
+		var _mouseOver = !_disabled && is_mouse_over(X, Y, _width, _height);
 
 		if (_mouseOver)
 		{
@@ -939,14 +840,15 @@ function FORMS_Pen(_container) constructor
 			forms_set_cursor(cr_handpoint);
 		}
 
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height,
-			_mouseOver ? _backgroundColorHover : _backgroundColor,
-			_mouseOver ? _backgroundAlphaHover : _backgroundAlpha);
-		draw_text_color(
+		if (_active || _mouseOver)
+		{
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[4], 1.0);
+		}
+		forms_draw_text(
 			round(X + (_width - _iconWidth) / 2),
 			round(Y + (_height - _iconHeight) / 2),
 			_string,
-			_color, _color, _color, _color, _alpha);
+			_color);
 		draw_set_font(_fontPrev);
 		__move_or_nl(_width);
 
@@ -1008,25 +910,25 @@ function FORMS_Pen(_container) constructor
 	///
 	/// @param {Asset.GMSprite} _sprite The sprite to draw.
 	/// @param {Real} [_subimage] The sprite subimage to draw. Defaults to 0.
-	/// @param {Struct} [_props] Properties to apply to the sprite button or `undefined` (default).
+	/// @param {Struct.FORMS_PenSpriteProps} [_props] Properties to apply to the sprite button or `undefined` (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static sprite = function (_sprite, _subimage = 0, _props = undefined)
 	{
+		// TODO: Add struct FORMS_PenSpriteProps
 		__assert_started();
 
-		var _color = forms_get_prop(_props, "Color") ?? c_white;
-		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _style = forms_get_style();
+		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
+		var _muted = forms_get_prop(_props, "Muted") ?? false;
+		var _active = forms_get_prop(_props, "Active") ?? false;
+		var _color = _disabled ? _style.TextDisabled : (_muted ? _style.TextMuted : _style.Text);
 		var _spriteWidth = sprite_get_width(_sprite);
 		var _spriteHeight = sprite_get_height(_sprite);
 		var _padding = forms_get_prop(_props, "Padding") ?? 4;
 		var _width = forms_get_prop(_props, "Width") ?? __lineHeight;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
-		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x424242;
-		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 0.0;
-		var _backgroundColorHover = forms_get_prop(_props, "BackgroundColorHover") ?? 0x424242;
-		var _backgroundAlphaHover = forms_get_prop(_props, "BackgroundAlphaHover") ?? 1.0;
-		var _mouseOver = is_mouse_over(X, Y, _width, _height);
+		var _mouseOver = !_disabled && is_mouse_over(X, Y, _width, _height);
 
 		if (_mouseOver)
 		{
@@ -1034,9 +936,10 @@ function FORMS_Pen(_container) constructor
 			forms_set_cursor(cr_handpoint);
 		}
 
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height,
-			_mouseOver ? _backgroundColorHover : _backgroundColor,
-			_mouseOver ? _backgroundAlphaHover : _backgroundAlpha);
+		if (_active || _mouseOver)
+		{
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[4], 1.0);
+		}
 
 		var _aspect = _width / _height;
 		var _aspectSprite = _spriteWidth / _spriteHeight;
@@ -1057,7 +960,7 @@ function FORMS_Pen(_container) constructor
 		var _spriteY = floor(Y + (_height - _spriteHeightScaled) / 2);
 
 		draw_sprite_stretched_ext(_sprite, _subimage, _spriteX, _spriteY, _spriteWidthScaled, _spriteHeightScaled,
-			_color, _alpha);
+			_color, 1.0);
 
 		__move_or_nl(_width);
 
@@ -1068,19 +971,19 @@ function FORMS_Pen(_container) constructor
 	///
 	/// @desc Draws a vertical separator.
 	///
-	/// @param {Struct, Undefined} [_props] Properties to apply to the separator or `undefined`.
+	/// @param {Struct.FORMS_PenVSepProps, Undefined} [_props] Properties to apply to the separator or `undefined`.
 	///
 	/// @return {Struct.FORMS_Pen} Returns `self`.
 	static vsep = function (_props = undefined)
 	{
+		// TODO: Add struct FORMS_PenVSepProps
 		__assert_started();
 
-		var _color = forms_get_prop(_props, "Color") ?? c_dkgray;
-		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _color = forms_get_style().Background[3];
 		var _width = forms_get_prop(_props, "Width") ?? __lineHeight;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
 
-		forms_draw_rectangle(X + floor(_width / 2), Y, 1, _height, _color, _alpha);
+		forms_draw_rectangle(X + floor(_width / 2), Y, 1, _height, _color);
 
 		__move_or_nl(_width);
 
@@ -1101,17 +1004,16 @@ function FORMS_Pen(_container) constructor
 	{
 		__assert_started();
 
-		var _color = forms_get_prop(_props, "Color") ?? c_white;
-		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _style = forms_get_style();
+		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
+		var _active = forms_get_prop(_props, "Active") ?? false;
+		var _minimal = forms_get_prop(_props, "Minimal") ?? false;
+		var _color = _disabled ? _style.TextDisabled : _style.Text;
 		var _textWidth = string_width(_text);
 		var _padding = forms_get_prop(_props, "Padding") ?? 8;
 		var _width = forms_get_prop(_props, "Width") ?? _textWidth + _padding * 2;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
-		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x424242;
-		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
-		var _backgroundColorHover = forms_get_prop(_props, "BackgroundColorHover") ?? 0x555555;
-		var _backgroundAlphaHover = forms_get_prop(_props, "BackgroundAlphaHover") ?? 1.0;
-		var _mouseOver = is_mouse_over(X, Y, _width, _height);
+		var _mouseOver = !_disabled && is_mouse_over(X, Y, _width, _height);
 
 		if (_mouseOver)
 		{
@@ -1119,10 +1021,13 @@ function FORMS_Pen(_container) constructor
 			forms_set_cursor(cr_handpoint);
 		}
 
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height,
-			_mouseOver ? _backgroundColorHover : _backgroundColor,
-			_mouseOver ? _backgroundAlphaHover : _backgroundAlpha);
-		draw_text_color(X + _padding, Y, _text, _color, _color, _color, _color, _alpha);
+		if (!_minimal || _mouseOver || _active)
+		{
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height,
+				(_mouseOver || _active) ? _style.Background[4] : _style.Background[3], 1.0);
+		}
+
+		forms_draw_text(X + _padding, Y, _text, _color);
 		__move_or_nl(_width);
 
 		FORMS_PEN_RETURN_MOUSE_STATE;
@@ -1203,10 +1108,9 @@ function FORMS_Pen(_container) constructor
 	{
 		__assert_started();
 
+		var _style = forms_get_style();
 		var _width = __lineHeight;
 		var _height = __lineHeight;
-		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x171717;
-		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
 
 		if (_mouseOver)
@@ -1218,23 +1122,17 @@ function FORMS_Pen(_container) constructor
 		// Border
 		if (_mouseOver)
 		{
-			var _borderColor = forms_get_prop(_props, "BorderColor") ?? 0x9D9D9D;
-			var _borderAlpha = forms_get_prop(_props, "BorderAlpha") ?? 1.0;
-
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, _borderColor,
-				_borderAlpha);
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, _style.Border,
+				1.0);
 		}
 
 		// Background
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _backgroundColor, _backgroundAlpha);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[1], 1.0);
 
 		// Icon
 		if (_checked)
 		{
-			var _color = forms_get_prop(_props, "Color") ?? global.formsAccentColor;
-			var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
-
-			fa_draw(FA_FntSolid12, FA_ESolid.Check, X + 2, Y, _color, _alpha);
+			fa_draw(FA_FntSolid12, FA_ESolid.Check, X + 2, Y, _style.Accent);
 		}
 
 		__move_or_nl(_width);
@@ -1256,10 +1154,9 @@ function FORMS_Pen(_container) constructor
 	{
 		__assert_started();
 
+		var _style = forms_get_style();
 		var _width = __lineHeight;
 		var _height = __lineHeight;
-		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x171717;
-		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height);
 
 		if (_mouseOver)
@@ -1269,23 +1166,18 @@ function FORMS_Pen(_container) constructor
 		}
 
 		// Background
-		draw_sprite_stretched_ext(FORMS_SprRadioButton, 0, X, Y, _width, _height, _backgroundColor,
-			_backgroundAlpha);
+		draw_sprite_stretched_ext(FORMS_SprRadioButton, 0, X, Y, _width, _height, _style.Background[1], 1.0);
+
 		// Border
 		if (_mouseOver)
 		{
-			var _borderColor = forms_get_prop(_props, "BorderColor") ?? 0x9D9D9D;
-			var _borderAlpha = forms_get_prop(_props, "BorderAlpha") ?? 1.0;
-
-			draw_sprite_stretched_ext(FORMS_SprRadioButton, 1, X, Y, _width, _height, _borderColor, _borderAlpha);
+			draw_sprite_stretched_ext(FORMS_SprRadioButton, 1, X, Y, _width, _height, _style.Border, 1.0);
 		}
+
 		// Tick
 		if (_selected)
 		{
-			var _color = forms_get_prop(_props, "Color") ?? global.formsAccentColor;
-			var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
-
-			draw_sprite_stretched_ext(FORMS_SprRadioButton, 2, X, Y, _width, _height, _color, _alpha);
+			draw_sprite_stretched_ext(FORMS_SprRadioButton, 2, X, Y, _width, _height, _style.Accent, 1.0);
 		}
 
 		__move_or_nl(_width);
@@ -1313,41 +1205,35 @@ function FORMS_Pen(_container) constructor
 
 		_id = __make_id(_id);
 
+		var _style = forms_get_style();
 		var _valueNew = clamp(_value, _min, _max);
 		var _width = forms_get_prop(_props, "Width") ?? get_control_width();
 		var _height = __lineHeight;
-		var _color = forms_get_prop(_props, "Color") ?? c_white;
-		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
-		var _fillColor = forms_get_prop(_props, "FillColor") ?? 0x424242;
-		var _fillAlpha = forms_get_prop(_props, "FillAlpha") ?? 1.0;
-		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x171717;
-		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
-		var _sliderColor = forms_get_prop(_props, "SliderColor") ?? c_silver;
-		var _sliderAlpha = forms_get_prop(_props, "SliderAlpha") ?? 1.0;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height, _id);
 
 		// Border
 		if (_mouseOver || __widgetActive == _id)
 		{
-			var _borderColor = forms_get_prop(_props, "BorderColor") ?? 0x9D9D9D;
-			var _borderAlpha = forms_get_prop(_props, "BorderAlpha") ?? 1.0;
-
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, _borderColor,
-				_borderAlpha);
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, _style.Border,
+				1.0);
 		}
+
 		// Background
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _backgroundColor, _backgroundAlpha);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[1], 1.0);
+
 		// Fill
 		var _fillWidth = ((_valueNew - _min) / (_max - _min)) * _width;
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _fillWidth, _height, _fillColor, _fillAlpha);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _fillWidth, _height, _style.Background[3], 1.0);
+
 		// Slider
-		draw_sprite_stretched_ext(FORMS_SprSlider, 0, X + _fillWidth - 1, Y - 1, 3, _height + 2, _sliderColor,
-			_sliderAlpha);
+		draw_sprite_stretched_ext(FORMS_SprSlider, 0, X + _fillWidth - 1, Y - 1, 3, _height + 2, _style.TextMuted,
+			1.0);
+
 		// Text
 		if (forms_get_prop(_props, "ShowText") ?? true)
 		{
 			forms_draw_text(X + 4, Y, (forms_get_prop(_props, "Pre") ?? "") + string(_value) + (forms_get_prop(
-				_props, "Post") ?? ""), _color, _alpha);
+				_props, "Post") ?? ""), _style.Text);
 		}
 
 		if (_mouseOver)
@@ -1405,21 +1291,17 @@ function FORMS_Pen(_container) constructor
 
 		_id = __make_id(_id);
 
+		var _style = forms_get_style();
 		var _width = forms_get_prop(_props, "Width") ?? get_control_width();
 		var _height = __lineHeight;
 		var _padding = forms_get_prop(_props, "Padding") ?? 4;
-		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x424242;
-		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
-		var _caretColor = forms_get_prop(_props, "CaretColor") ?? c_white;
-		var _caretAlpha = forms_get_prop(_props, "CaretAlpha") ?? 0.5;
-		var _color = forms_get_prop(_props, "Color") ?? c_white;
-		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height, _id);
 
 		// Background
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _backgroundColor, _backgroundAlpha);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[3], 1.0);
+
 		// Caret icon
-		fa_draw(FA_FntSolid12, FA_ESolid.CaretDown, X + _width - 16, Y - 2, _caretColor, _caretAlpha);
+		fa_draw(FA_FntSolid12, FA_ESolid.CaretDown, X + _width - 16, Y - 2, _style.TextMuted);
 
 		// Find current value
 		var _textOriginal = "";
@@ -1455,7 +1337,7 @@ function FORMS_Pen(_container) constructor
 				}
 				_shortened = true;
 			}
-			forms_draw_text(X + _padding, Y, _text, _color, _alpha);
+			forms_draw_text(X + _padding, Y, _text, _style.Text);
 			if (_shortened && _mouseOver)
 			{
 				forms_set_tooltip(_textOriginal);
@@ -1577,6 +1459,7 @@ function FORMS_Pen(_container) constructor
 		__assert_started();
 		_id = __make_id(_id);
 
+		var _style = forms_get_style();
 		var _x = X;
 		var _y = Y;
 		var _width = forms_get_prop(_props, "Width") ?? get_control_width();
@@ -1588,7 +1471,7 @@ function FORMS_Pen(_container) constructor
 		var _mouseOver = (!_disabled && is_mouse_over(_x, _y, _width, _height, _id));
 		var _secret = forms_get_prop(_props, "Secret") ?? false;
 
-		var _displayColor = _disabled ? c_gray : c_white;
+		var _displayColor = _disabled ? _style.TextDisabled : _style.Text;
 		var _displayString;
 		var _fromX;
 		var _toX;
@@ -1908,7 +1791,7 @@ function FORMS_Pen(_container) constructor
 			if (_displayString == "")
 			{
 				_displayString = forms_get_prop(_props, "Placeholder") ?? "";
-				_displayColor = c_gray;
+				_displayColor = _style.TextMuted;
 			}
 			else if (_secret)
 			{
@@ -1977,12 +1860,12 @@ function FORMS_Pen(_container) constructor
 		// Border when selected
 		if (__inputId == _id)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x - 1, _y - 1, _width + 2, _height + 2, 0x9D9D9D, 1.0);
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x - 1, _y - 1, _width + 2, _height + 2, _style.Border,
+				1.0);
 		}
 
 		// Background
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, _width, _height, _disabled ? 0x101010 : 0x171717,
-			1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, _width, _height, _style.Background[1], 1.0);
 
 		// Ribbon
 		if (_ribbon != undefined)
@@ -2000,11 +1883,11 @@ function FORMS_Pen(_container) constructor
 			_rectX = clamp(_rectX, 0, _width - _padding * 2);
 			_rectWidth = clamp(_rectWidth, 1, _width - _padding * 2 - _rectX);
 
-			forms_draw_rectangle(_textX + _rectX, _y, _rectWidth, __lineHeight, global.formsAccentColor, 1.0);
+			forms_draw_rectangle(_textX + _rectX, _y, _rectWidth, __lineHeight, _style.Accent);
 		}
 
 		// Text
-		forms_draw_text(_textX, _y, _displayString, _displayColor, 1.0);
+		forms_draw_text(_textX, _y, _displayString, _displayColor);
 
 		// Input beam
 		if (__inputId == _id && __inputIndexFrom == __inputIndexTo)
@@ -2012,7 +1895,7 @@ function FORMS_Pen(_container) constructor
 			var _alpha = (keyboard_check(vk_anykey) || mouse_check_button(mb_any))
 				? 1.0 : dsin(current_time * 0.5) * 0.5 + 0.5;
 
-			forms_draw_rectangle(_textX + _fromX, _y, 1, __lineHeight, global.formsAccentColor, _alpha);
+			forms_draw_rectangle(_textX + _fromX, _y, 1, __lineHeight, _style.Accent, _alpha);
 		}
 
 		__move_or_nl(_width);
@@ -2025,25 +1908,23 @@ function FORMS_Pen(_container) constructor
 	/// @desc Draws a tree item.
 	///
 	/// @param {String} _text The name of the tree item.
-	/// @param {Struct, Undefined} [_props] Properties to apply to the tree item or `undefined` (default).
+	/// @param {Struct.FORMS_PenTreeItemProps, Undefined} [_props] Properties to apply to the tree item or `undefined`
+	/// (default).
 	///
 	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
 	static tree_item = function (_text, _props = undefined)
 	{
-		// TODO: Add struct FORMS_PenInputProps
+		// TODO: Add struct FORMS_PenTreeItemProps
 		__assert_started();
 
 		var _action = FORMS_EControlAction.None;
 
+		var _style = forms_get_style();
 		var _iconWidth = forms_get_prop(_props, "IconWidth") ?? 24;
 		var _icon = forms_get_prop(_props, "Icon");
 		var _iconFont = forms_get_prop(_props, "IconFont") ?? FA_FntRegular12;
 		var _iconCollapsed = forms_get_prop(_props, "IconCollapsed");
 		var _iconCollapsedFont = forms_get_prop(_props, "IconCollapsedFont");
-		var _iconColor = forms_get_prop(_props, "IconColor") ?? c_white;
-		var _iconAlpha = forms_get_prop(_props, "IconAlpha") ?? 1.0;
-		var _caretColor = forms_get_prop(_props, "CaretColor") ?? c_white;
-		var _caretAlpha = forms_get_prop(_props, "CaretAlpha") ?? 1.0;
 
 		var _hasChildren = forms_get_prop(_props, "HasChildren") ?? false;
 		var _collapsed = forms_get_prop(_props, "Collapsed") ?? false;
@@ -2064,19 +1945,13 @@ function FORMS_Pen(_container) constructor
 
 		if (_selected)
 		{
-			forms_draw_rectangle(_backgroundX, _backgroundY, _backgroundWidth, _backgroundHeight, 0x766056, 1.0);
+			forms_draw_rectangle(_backgroundX, _backgroundY, _backgroundWidth, _backgroundHeight, _style.Highlight);
 		}
 
 		// Caret
 		if (_hasChildren)
 		{
-			var _iconProps = {
-				Color: _caretColor,
-				Alpha: _caretAlpha,
-				Width: _iconWidth,
-				BackgroundColorHover: c_white,
-				BackgroundAlphaHover: 0.1,
-			};
+			var _iconProps = { Width: _iconWidth };
 			if (icon_solid(_collapsed ? FA_ESolid.CaretRight : FA_ESolid.CaretDown, _iconProps))
 			{
 				_action = FORMS_EControlAction.CaretClick;
@@ -2092,14 +1967,7 @@ function FORMS_Pen(_container) constructor
 		if (_iconFinal != undefined)
 		{
 			var _iconFontFinal = (_collapsed || !_hasChildren) ? (_iconCollapsedFont ?? _iconFont) : _iconFont;
-			icon(_iconFinal, _iconFontFinal,
-			{
-				Color: _iconColor,
-				Alpha: _iconAlpha,
-				Width: _iconWidth,
-				BackgroundColorHover: c_white,
-				BackgroundAlphaHover: 0.1
-			});
+			icon(_iconFinal, _iconFontFinal, { Muted: _hasChildren, Width: _iconWidth });
 		}
 
 		// Text
@@ -2127,16 +1995,17 @@ function FORMS_Pen(_container) constructor
 	{
 		// TODO: Add struct FORMS_PenSectionProps
 		__assert_started();
+		var _style = forms_get_style();
 		var _id = forms_get_prop(_props, "Id") ?? _text;
 		__sectionExpanded[$  _id] ??= !(forms_get_prop(_props, "Collapsed") ?? false);
 		var _width = Width;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
 		var _indent = __sectionCurrent * SectionIndent;
 		var _mouseOver = is_mouse_over(StartX, Y, _width, _height);
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, StartX, Y, _width, _height, 0x3F3F3F, 1.0);
-		fa_draw(FA_FntSolid12, __sectionExpanded[$  _id] ? FA_ESolid.AngleDown : FA_ESolid.AngleRight, StartX
-			+ _indent + 4, Y, c_white, 0.5);
-		draw_text(StartX + _indent + SectionIndent, Y, _text);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, StartX, Y, _width, _height, _style.Background[3], 1.0);
+		fa_draw(FA_FntSolid12, __sectionExpanded[$  _id] ? FA_ESolid.CaretDown : FA_ESolid.CaretRight, StartX
+			+ _indent + 4, Y - 1, _style.TextMuted);
+		forms_draw_text(StartX + _indent + SectionIndent, Y, _text, _style.Text);
 		if (_mouseOver)
 		{
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));

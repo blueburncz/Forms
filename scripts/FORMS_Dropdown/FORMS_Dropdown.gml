@@ -46,8 +46,8 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 	/// [layout](./FORMS_Widget.layout.html) is called. Defaults to `true`.
 	ContentFit = true;
 
-	/// @var {Constant.Color} The tint color of the background sprite. Defaults to `0x181818`.
-	BackgroundColor = 0x181818;
+	/// @var {Real}
+	BackgroundColorIndex = 1;
 
 	/// @var {Struct.FORMS_Container, Undefined} A container that opened this dropdown or `undefined` (default).
 	/// @readonly
@@ -61,6 +61,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 
 	static draw_content = function ()
 	{
+		var _style = forms_get_style();
 		var _x = 0;
 		var _y = 0;
 		var _values = DropdownValues;
@@ -75,14 +76,13 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 			var _value = string(
 				is_struct(_option)
 				? (_option[$ "Text"] ?? _option.Value)
-				: _option
-			);
+				: _option);
 			var _stringWidth = string_width(_value);
 			var _valueWidth = max(_stringWidth, _dropdownWidth);
 
 			if (Pen.is_mouse_over(_x, _y, _valueWidth, _lineHeight))
 			{
-				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, c_white, 0.3);
+				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, _style.Background[4]);
 				if (forms_mouse_check_button_pressed(mb_left))
 				{
 					_select = i;
@@ -95,10 +95,10 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 			}
 			else if (i == _index)
 			{
-				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, c_white, 0.1);
+				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, _style.Highlight);
 			}
 
-			draw_text(_x, _y, _value);
+			forms_draw_text(_x, _y, _value, _style.Text);
 
 			_y += _lineHeight;
 		}
@@ -149,6 +149,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 
 	static draw = function ()
 	{
+		var _style = forms_get_style();
 		var _shadowOffset = 16;
 		draw_sprite_stretched_ext(
 			FORMS_SprShadow, 0,
@@ -156,7 +157,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 			__realY - _shadowOffset,
 			__realWidth + _shadowOffset * 2,
 			__realHeight + _shadowOffset * 2,
-			c_black, 0.5);
+			_style.Shadow, _style.ShadowAlpha);
 		Container_draw();
 		return self;
 	}

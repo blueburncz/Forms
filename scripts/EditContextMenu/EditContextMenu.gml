@@ -4,6 +4,5 @@ function EditContextMenu(): FORMS_ContextMenu() constructor
 		Options,
 		new FORMS_ContextMenuOption("Some"),
 		new FORMS_ContextMenuOption("Stuff"),
-		new FORMS_ContextMenuOption("Here")
-	);
+		new FORMS_ContextMenuOption("Here"));
 }

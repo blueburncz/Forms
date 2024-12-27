@@ -31,7 +31,11 @@ function forms_get_root()
 /// @extends FORMS_CompoundWidgetProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_RootWidget}.
-function FORMS_RootWidgetProps(): FORMS_CompoundWidget() constructor {}
+function FORMS_RootWidgetProps(): FORMS_CompoundWidget() constructor
+{
+	/// @var {Struct.FORMS_Style, Undefined} The style of the UI.
+	Style = undefined;
+}
 
 /// @func FORMS_RootWidget([_props[, _children]])
 ///
@@ -66,6 +70,9 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	static CompoundWidget_update = update;
 	static CompoundWidget_draw = draw;
 	static CompoundWidget_destroy = destroy;
+
+	/// @var {Struct.FORMS_Style} The style of the UI.
+	Style = forms_get_prop(_props, "Style") ?? new FORMS_Style();
 
 	/// @var {Real} The current mouse X coordinate. When rendering into a {@link FORMS_Container}, it's relative to the
 	/// container's position and scroll!
@@ -198,6 +205,8 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	{
 		global.__formsRoot = self;
 
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, Style.Background[1]);
+
 		gpu_push_state();
 		gpu_set_tex_filter(true);
 		gpu_set_blendmode_ext_sepalpha(bm_src_alpha, bm_inv_src_alpha, bm_one, bm_inv_src_alpha);
@@ -238,7 +247,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 					_tooltipY - _shadowOffset,
 					_tooltipWidth + _shadowOffset * 2,
 					_tooltipHeight + _shadowOffset * 2,
-					c_black, 0.5);
+					Style.Shadow, Style.ShadowAlpha);
 
 				draw_sprite_stretched_ext(
 					FORMS_SprRound4,
@@ -247,13 +256,13 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 					_tooltipY,
 					_tooltipWidth,
 					_tooltipHeight,
-					0xB3DCE9,
+					Style.Tooltip,
 					_tooltipAlpha);
-				draw_text_color(
+				forms_draw_text(
 					_tooltipX + _tooltipPaddingX,
 					_tooltipY + _tooltipPaddingY,
 					__tooltip,
-					c_black, c_black, c_black, c_black,
+					Style.TooltipText,
 					_tooltipAlpha);
 			}
 		}
@@ -711,4 +720,23 @@ function forms_get_result(_id)
 {
 	gml_pragma("forceinline");
 	return forms_get_root().get_result(_id);
+}
+
+/// @func forms_get_style()
+///
+/// @desc Retrieves the current UI style.
+///
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
+///
+/// @return {Struct.FORMS_Style} The current UI style.
+///
+/// @note This is a shorthand for `forms_get_root().Style`.
+///
+/// @see forms_get_root
+/// @see FORMS_RootWidget.Style
+function forms_get_style()
+{
+	gml_pragma("forceinline");
+	return forms_get_root().Style;
 }

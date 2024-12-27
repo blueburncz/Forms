@@ -16,12 +16,6 @@ function FORMS_ApplicationSurfaceProps(): FORMS_CompoundWidgetProps() constructo
 	/// @var {Bool, Undefined} Whether to rescale the surface to the form (`true`) or keep its dimensions unchanged
 	/// (`false`).
 	Resize = undefined;
-
-	/// @var {Constant.Color, Undefined} The color to fill the empty space around the surface with.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the background.
-	BackgroundAlpha = forms_get_prop(_props, "BackgroundColor") ?? 1.0;
 }
 
 /// @func FORMS_ApplicationSurface([_props[, _children]])
@@ -52,12 +46,6 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 	/// @var {Bool, Undefined} Whether to rescale the surface to the form (`true`) or keep its dimensions unchanged
 	/// (`false`).
 	Resize = forms_get_prop(_props, "Resize") ?? false;
-
-	/// @var {Constant.Color} The color to fill the empty space around the surface with. Defaults to `c_black`.
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? c_black;
-
-	/// @var {Real} The alpha value of the background. Defaults to 1.
-	BackgroundAlpha = forms_get_prop(_props, "BackgroundColor") ?? 1.0;
 
 	/// @var {Real} The absolute X position of the drawn surface. Updated in [layout](./FORMS_Widget.layout.html).
 	/// @readonly
@@ -181,7 +169,7 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 
 	static draw = function ()
 	{
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, forms_get_style().Background[0]);
 
 		var _surface = get_surface();
 		if (surface_exists(_surface))

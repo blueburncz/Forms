@@ -10,10 +10,6 @@
 /// @macro {String} The version of Forms as a string "major.minor.patch".
 #macro FORMS_VERSION_STRING $"{FORMS_VERSION_MAJOR}.{FORMS_VERSION_MINOR}.{FORMS_VERSION_PATCH}"
 
-/// @var {Constant.Color} The accent color. Used for example as color of the tick icon in selected checkboxes or the
-/// circle icon in selected radio buttons. Default value is `0x5B9D00` ("GameMaker green").
-global.formsAccentColor = 0x5B9D00;
-
 /// @func forms_assert(_expr, _message)
 ///
 /// @desc Calls `show_error(_message, true)` if given expression doesn't evaluate to `true`.

@@ -3,35 +3,7 @@
 /// @extends FORMS_WidgetProps
 ///
 /// @desc Properties accepted by the constructor of {@link FORMS_Scrollbar}.
-function FORMS_ScrollbarProps(): FORMS_WidgetProps() constructor
-{
-	/// @var {Constant.Color, Undefined} The color of the scrollbar's background.
-	BackgroundColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the scrollbar's background.
-	BackgroundAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the scrollbar's thumb.
-	ThumbColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the scrollbar's thumb.
-	ThumbAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the scrollbar's thumb on mouse-over.
-	ThumbColorHover = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the scrollbar's thumb on mouse-over.
-	ThumbAlphaHover = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the scrollbar's thumb when it's being dragged.
-	ThumbColorActive = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the scrollbar's thumb when it's being dragged.
-	ThumbAlphaActive = undefined;
-
-	/// @var {Real, Undefined} The minimum size of the scrollbar's thumb.
-	ThumbSizeMin = undefined;
-}
+function FORMS_ScrollbarProps(): FORMS_WidgetProps() constructor {}
 
 /// @func FORMS_Scrollbar(_target[, _props])
 ///
@@ -47,32 +19,9 @@ function FORMS_Scrollbar(_target, _props = undefined): FORMS_Widget(_props) cons
 	/// @var {Struct.FORMS_Container} The container that this scrollbar scrolls.
 	Target = _target;
 
-	/// @var {Constant.Color} The color of the scrollbar's background. Defaults to `0x272727`.
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x272727;
-
-	/// @var {Real} The alpha value of the scrollbar's background. Defaults to 1.
-	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
-
-	/// @var {Constant.Color} The color of the scrollbar's thumb. Defaults to `0x4D4D4D`.
-	ThumbColor = forms_get_prop(_props, "ThumbColor") ?? 0x4D4D4D;
-
-	/// @var {Real} The alpha value of the scrollbar's thumb. Defaults to 1.
-	ThumbAlpha = forms_get_prop(_props, "ThumbAlpha") ?? 1.0;
-
-	/// @var {Constant.Color} The color of the scrollbar's thumb on mouse-over. Defaults to `0x575757`.
-	ThumbColorHover = forms_get_prop(_props, "ThumbColorHover") ?? 0x575757;
-
-	/// @var {Real} The alpha value of the scrollbar's thumb on mouse-over. Defaults to 1.
-	ThumbAlphaHover = forms_get_prop(_props, "ThumbAlphaHover") ?? 1.0;
-
-	/// @var {Constant.Color} The color of the scrollbar's thumb when it's being dragged. Defaults to `0x898989`.
-	ThumbColorActive = forms_get_prop(_props, "ThumbColorActive") ?? 0x898989;
-
-	/// @var {Real} The alpha value of the scrollbar's thumb when it's being dragged. Defaults to 1.
-	ThumbAlphaActive = forms_get_prop(_props, "ThumbAlphaActive") ?? 1.0;
-
-	/// @var {Real} The minimum size of the scrollbar's thumb. Defaults to 32.
-	ThumbSizeMin = forms_get_prop(_props, "ThumbSizeMin") ?? 32;
+	/// @var {Real}
+	/// @readonly
+	ThumbSizeMin = 32;
 
 	__thumbPos = 0;
 	__thumbSize = 0;
@@ -195,14 +144,13 @@ function FORMS_HScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target,
 
 	static draw = function ()
 	{
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
 		var _root = forms_get_root();
-		var _color = (_root.DragTarget == self) ? ThumbColorActive
-			: (__thumbIsHovered ? ThumbColorHover : ThumbColor);
-		var _alpha = (_root.DragTarget == self) ? ThumbAlphaActive
-			: (__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
+		var _style = _root.Style;
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[2]);
+		var _color = (_root.DragTarget == self) ? _style.ScrollbarActive
+			: (__thumbIsHovered ? _style.ScrollbarHover : _style.Scrollbar);
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __thumbPos, __realY, __thumbSize, __realHeight, _color,
-			_alpha);
+			1.0);
 		return self;
 	}
 }
@@ -249,14 +197,13 @@ function FORMS_VScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target,
 
 	static draw = function ()
 	{
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);
 		var _root = forms_get_root();
-		var _color = (_root.DragTarget == self) ? ThumbColorActive
-			: (__thumbIsHovered ? ThumbColorHover : ThumbColor);
-		var _alpha = (_root.DragTarget == self) ? ThumbAlphaActive
-			: (__thumbIsHovered ? ThumbAlphaHover : ThumbAlpha);
+		var _style = _root.Style;
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[2]);
+		var _color = (_root.DragTarget == self) ? _style.ScrollbarActive
+			: (__thumbIsHovered ? _style.ScrollbarHover : _style.Scrollbar);
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __realX, __thumbPos, __realWidth, __thumbSize, _color,
-			_alpha);
+			1.0);
 		return self;
 	}
 }

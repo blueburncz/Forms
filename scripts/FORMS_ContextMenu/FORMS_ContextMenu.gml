@@ -156,12 +156,12 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 	/// @private
 	__submenuIndex = -1;
 
+	/// @var {Real}
+	BackgroundColorIndex = 1;
+
 	/// @var {Asset.GMSprite} The background sprite of the context menu, stretched over its entire size. Defaults to
 	/// `FORMS_SprRound8`.
 	BackgroundSprite = forms_get_prop(_props, "BackgroundSprite") ?? FORMS_SprRound8;
-
-	/// @var {Constant.Color} The tint color of the background sprite. Defaults to `0x101010`.
-	BackgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x101010;
 
 	/// @var {Bool} If `true` then the size of the context menu is recomputed from its contents the next time method
 	/// [layout](./FORMS_Widget.layout.html) is called. Defaults to `true`.
@@ -169,6 +169,8 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 
 	static draw_content = function ()
 	{
+		var _style = forms_get_style();
+
 		var _options = Options;
 		var _select = undefined;
 
@@ -207,7 +209,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 			if (is_instanceof(_option, FORMS_ContextMenuSeparator))
 			{
 				var _height = floor(_lineHeight * 0.5);
-				forms_draw_rectangle(_x, _y + floor((_height - 1) * 0.5), _widthMax, 1, c_silver, 0.2);
+				forms_draw_rectangle(_x, _y + floor((_height - 1) * 0.5), _widthMax, 1, _style.Background[2]);
 				_y += _height;
 			}
 			else
@@ -219,7 +221,8 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 
 				if (_mouseOver || __submenuIndex == i)
 				{
-					draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, _widthMax, _lineHeight, c_white, 0.3);
+					draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, _widthMax, _lineHeight, _style
+						.Background[4], 1.0);
 				}
 
 				if (_mouseOver)
@@ -253,19 +256,18 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 					forms_set_cursor(cr_handpoint);
 				}
 
-				draw_text(_x, _y, _optionText);
+				forms_draw_text(_x, _y, _optionText, _style.Text);
 
 				if (_optionOptions != undefined)
 				{
 					draw_set_halign(fa_right);
-					fa_draw(FA_FntSolid12, FA_ESolid.AngleRight, _x + _widthMax, _y, c_silver);
+					fa_draw(FA_FntSolid12, FA_ESolid.AngleRight, _x + _widthMax, _y, _style.TextMuted);
 					draw_set_halign(fa_left);
 				}
 				else if (_optionShortcut != undefined)
 				{
 					draw_set_halign(fa_right);
-					draw_text_color(_x + _widthMax, _y, _optionShortcut.to_string(),
-						c_silver, c_silver, c_silver, c_silver, 1.0);
+					forms_draw_text(_x + _widthMax, _y, _optionShortcut.to_string(), _style.TextMuted);
 					draw_set_halign(fa_left);
 				}
 
@@ -342,6 +344,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 
 	static draw = function ()
 	{
+		var _style = forms_get_style();
 		var _shadowOffset = 16;
 		draw_sprite_stretched_ext(
 			FORMS_SprShadow, 0,
@@ -349,7 +352,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 			__realY - _shadowOffset,
 			__realWidth + _shadowOffset * 2,
 			__realHeight + _shadowOffset * 2,
-			c_black, 0.5);
+			_style.Shadow, _style.ShadowAlpha);
 
 		Container_draw();
 

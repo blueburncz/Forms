@@ -57,18 +57,6 @@ function FORMS_TreeItemProps() constructor
 	/// `undefined`, in which case the same font is used.
 	IconCollapsedFont = undefined;
 
-	/// @var {Constant.Color, Undefined} The color of the icon draw next to the tree item.
-	IconColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the icon drawn next to the tree item.
-	IconAlpha = undefined;
-
-	/// @var {Constant.Color, Undefined} The color of the caret drawn next to the tree item.
-	CaretColor = undefined;
-
-	/// @var {Real, Undefined} The alpha value of the caret drawn next to the tree item.
-	CaretAlpha = undefined;
-
 	/// @var {Bool, Undefined} Whether the tree item is collapsed (`true`) or not (`false`). Child items are not drawn
 	/// when collapsed.
 	Collapsed = undefined;
@@ -118,18 +106,6 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 	/// @see FORMS_TreeItem.IconFont
 	/// @see FORMS_TreeItem.Collapsed
 	IconCollapsedFont = forms_get_prop(_props, "IconCollapsedFont");
-
-	/// @var {Constant.Color} The color of the icon draw next to the tree item. Defaults to `c_white`.
-	IconColor = forms_get_prop(_props, "IconColor") ?? c_white;
-
-	/// @var {Real} The alpha value of the icon drawn next to the tree item. Defaults to 1.
-	IconAlpha = forms_get_prop(_props, "IconAlpha") ?? 1.0;
-
-	/// @var {Constant.Color} The color of the caret drawn next to the tree item.
-	CaretColor = forms_get_prop(_props, "CaretColor") ?? c_white;
-
-	/// @var {Real} The alpha value of the caret drawn next to the tree item. Defaults to 1.
-	CaretAlpha = forms_get_prop(_props, "CaretAlpha") ?? 1.0;
 
 	/// @var {Bool} Whether the tree item is collapsed (`true`) or not (`false`, default). Child items are not drawn
 	/// when collapsed.
@@ -200,10 +176,6 @@ function FORMS_TreeItem(_textOrGetter, _props = undefined, _children = undefined
 			IconFont,
 			IconCollapsed,
 			IconCollapsedFont,
-			IconColor,
-			IconAlpha,
-			CaretColor,
-			CaretAlpha,
 			Collapsed,
 			Selected: _selected,
 			HasChildren: _hasChildren,

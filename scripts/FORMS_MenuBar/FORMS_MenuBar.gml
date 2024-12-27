@@ -55,11 +55,9 @@ function FORMS_MenuBar(_items = [], _props = undefined): FORMS_Container(_props)
 
 			var _link = Pen.button(_item.Name,
 			{
-				BackgroundColor: c_white,
-				BackgroundAlpha: (_itemIndex == _itemCurrent) ? 0.2 : 0.0,
-				BackgroundColorHover: c_white,
-				BackgroundAlphaHover: 0.2,
 				Disabled: (_item.ContextMenu == undefined),
+				Active: (_itemIndex == _itemCurrent),
+				Minimal: true,
 			});
 
 			if ((_link == FORMS_EControlAction.Click
