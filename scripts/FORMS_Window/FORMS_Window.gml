@@ -223,7 +223,7 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 			if (!mouse_check_button(mb_left))
 			{
-				forms_get_root().WidgetActive = undefined;
+				forms_get_root().DragTarget = undefined;
 				__resize = FORMS_EWindowResize.None;
 			}
 		}
@@ -234,7 +234,7 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 			if (!mouse_check_button(mb_left))
 			{
-				forms_get_root().WidgetActive = undefined;
+				forms_get_root().DragTarget = undefined;
 				__move = false;
 			}
 		}
@@ -329,7 +329,7 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 		var _resize = __resize;
 
-		if (is_mouse_over() && forms_get_root().WidgetActive == undefined)
+		if (is_mouse_over() && forms_get_root().DragTarget == undefined)
 		{
 			var _mouseX = forms_mouse_get_x();
 			var _mouseY = forms_mouse_get_y();
@@ -365,7 +365,7 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 			if (_resize != FORMS_EWindowResize.None
 				&& forms_mouse_check_button_pressed(mb_left))
 			{
-				forms_get_root().WidgetActive = self;
+				forms_get_root().DragTarget = self;
 				__resize = _resize;
 				__mouseOffset[@ 0] = _mouseOffsetX;
 				__mouseOffset[@ 1] = _mouseOffsetY;
@@ -507,7 +507,7 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 			&& is_mouse_over()
 			&& forms_mouse_check_button_pressed(mb_left))
 		{
-			forms_get_root().WidgetActive = Parent;
+			forms_get_root().DragTarget = Parent;
 			Parent.__mouseOffset[@ 0] = Parent.__realX - forms_mouse_get_x();
 			Parent.__mouseOffset[@ 1] = Parent.__realY - forms_mouse_get_y();
 			Parent.__move = true;

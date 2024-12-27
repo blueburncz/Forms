@@ -347,7 +347,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 
 		if (__resize && !mouse_check_button(mb_left))
 		{
-			forms_get_root().WidgetActive = undefined;
+			forms_get_root().DragTarget = undefined;
 			__resize = false;
 		}
 
@@ -447,7 +447,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		__splitterIsHovered = (__left != undefined
 			&& __right != undefined
 			&& is_mouse_over()
-			&& _root.WidgetActive == undefined
+			&& _root.DragTarget == undefined
 			&& _mousePos > __splitterPos
 			&& _mousePos < __splitterPos + SplitterSize);
 
@@ -460,7 +460,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 			if (forms_mouse_check_button_pressed(mb_left))
 			{
 				__mouseOffset = __splitterPos + SplitterSize * 0.5 - _mousePos;
-				_root.WidgetActive = self;
+				_root.DragTarget = self;
 				__resize = true;
 			}
 		}
@@ -499,9 +499,9 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 	static draw = function ()
 	{
 		var _root = forms_get_root();
-		var _color = (_root.WidgetActive == self) ? SplitterColorActive
+		var _color = (_root.DragTarget == self) ? SplitterColorActive
 			: (__splitterIsHovered ? SplitterColorHover : SplitterColor);
-		var _alpha = (_root.WidgetActive == self) ? SplitterAlphaActive
+		var _alpha = (_root.DragTarget == self) ? SplitterAlphaActive
 			: (__splitterIsHovered ? SplitterAlphaHover : SplitterAlpha);
 
 		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, BackgroundColor, BackgroundAlpha);

@@ -791,7 +791,7 @@ function FORMS_Pen(_container) constructor
 		var _root = forms_get_root();
 		return (_root.WidgetHovered == Container
 			&& forms_mouse_in_rectangle(_x, _y, _width, _height)
-			&& (_root.WidgetActive == _id || _root.WidgetActive == undefined));
+			&& (_root.DragTarget == _id || _root.DragTarget == undefined));
 	}
 
 	/// @func get_absolute_pos(_x, _y)

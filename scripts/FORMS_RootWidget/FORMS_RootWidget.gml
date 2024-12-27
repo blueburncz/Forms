@@ -81,9 +81,8 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	/// @readonly
 	WidgetHovered = undefined;
 
-	/// @var {Struct.FORMS_Widget, String, Undefined} The widget that currently takes mouse input.
-	/// @readonly
-	WidgetActive = undefined;
+	/// @var {Any} A thing that is currently being dragged with the mouse or `undefined`.
+	DragTarget = undefined;
 
 	/// @var {Bool} Whether the UI currently captures keyboard input (`true`) or not (`false`).
 	/// @readonly
@@ -207,7 +206,12 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 
 		gpu_pop_state();
 
-		if (__tooltip != undefined && WidgetActive == undefined)
+		if (is_struct(DragTarget) && variable_struct_exists(DragTarget, "draw_drag_target"))
+		{
+			DragTarget.draw_drag_target(window_mouse_get_x() + 16, window_mouse_get_y() + 16);
+		}
+
+		if (__tooltip != undefined && DragTarget == undefined)
 		{
 			if (__tooltip != __tooltipLast || mouse_check_button(mb_any))
 			{
