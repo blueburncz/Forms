@@ -1002,6 +1002,68 @@ function FORMS_Pen(_container) constructor
 		return icon(_icon, forms_get_prop(_props, "Font") ?? FA_FntBrands12, _props);
 	}
 
+	/// @func sprite(_sprite[, _subimage[, _props]])
+	///
+	/// @desc Draws a sprite button.
+	///
+	/// @param {Asset.GMSprite} _sprite The sprite to draw.
+	/// @param {Real} [_subimage] The sprite subimage to draw. Defaults to 0.
+	/// @param {Struct} [_props] Properties to apply to the sprite button or `undefined` (default).
+	///
+	/// @return {Real} Returns a value from {@link FORMS_EControlAction}.
+	static sprite = function (_sprite, _subimage = 0, _props = undefined)
+	{
+		__assert_started();
+
+		var _color = forms_get_prop(_props, "Color") ?? c_white;
+		var _alpha = forms_get_prop(_props, "Alpha") ?? 1.0;
+		var _spriteWidth = sprite_get_width(_sprite);
+		var _spriteHeight = sprite_get_height(_sprite);
+		var _padding = forms_get_prop(_props, "Padding") ?? 4;
+		var _width = forms_get_prop(_props, "Width") ?? __lineHeight;
+		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
+		var _backgroundColor = forms_get_prop(_props, "BackgroundColor") ?? 0x424242;
+		var _backgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 0.0;
+		var _backgroundColorHover = forms_get_prop(_props, "BackgroundColorHover") ?? 0x424242;
+		var _backgroundAlphaHover = forms_get_prop(_props, "BackgroundAlphaHover") ?? 1.0;
+		var _mouseOver = is_mouse_over(X, Y, _width, _height);
+
+		if (_mouseOver)
+		{
+			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
+			forms_set_cursor(cr_handpoint);
+		}
+
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height,
+			_mouseOver ? _backgroundColorHover : _backgroundColor,
+			_mouseOver ? _backgroundAlphaHover : _backgroundAlpha);
+
+		var _aspect = _width / _height;
+		var _aspectSprite = _spriteWidth / _spriteHeight;
+		var _spriteWidthScaled, _spriteHeightScaled;
+
+		if (_aspectSprite > _aspect)
+		{
+			_spriteWidthScaled = _width - _padding * 2;
+			_spriteHeightScaled = _width / _aspectSprite - _padding * 2;
+		}
+		else
+		{
+			_spriteHeightScaled = _height - _padding * 2;
+			_spriteWidthScaled = _height * _aspectSprite - _padding * 2;
+		}
+
+		var _spriteX = floor(X + (_width - _spriteWidthScaled) / 2);
+		var _spriteY = floor(Y + (_height - _spriteHeightScaled) / 2);
+
+		draw_sprite_stretched_ext(_sprite, _subimage, _spriteX, _spriteY, _spriteWidthScaled, _spriteHeightScaled,
+			_color, _alpha);
+
+		__move_or_nl(_width);
+
+		FORMS_PEN_RETURN_MOUSE_STATE;
+	}
+
 	/// @func vsep([_props])
 	///
 	/// @desc Draws a vertical separator.
