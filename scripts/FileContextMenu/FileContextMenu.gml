@@ -42,7 +42,7 @@ function FileContextMenu(): FORMS_ContextMenu() constructor
 	array_push(_options, new FORMS_ContextMenuSeparator());
 
 	_option = new FORMS_ContextMenuOption("Preferences");
-	_option.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_control, vk_shift, ord("P")]);
+	_option.KeyboardShortcut = global.ksPreferences;
 	array_push(_options, _option);
 
 	array_push(_options, new FORMS_ContextMenuSeparator());

@@ -1,3 +1,10 @@
+global.ksPreferences = new FORMS_KeyboardShortcut(
+	[vk_control, vk_shift, ord("P")], undefined,
+	function ()
+	{
+		show_debug_message("Open preferences!");
+	});
+
 function TestWorkspace(): FORMS_FlexBox() constructor
 {
 	Name = "Test Workspace";
@@ -7,6 +14,7 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	Flex = 1;
 	Spacing.Value = 1;
 	IsHorizontal = false;
+	KeyboardShortcuts = [global.ksPreferences];
 
 	var _menu = new FORMS_MenuBar([
 		new FORMS_MenuBarItem("File", FileContextMenu),

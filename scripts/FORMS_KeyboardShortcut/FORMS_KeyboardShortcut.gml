@@ -1,7 +1,7 @@
 /// @macro {Constant.VirtualKey} Keycode for the command key on macOS.
 #macro FORMS_VK_CMD 92
 
-/// @func FORMS_KeyboardShortcut([_keys[, _mouseButtons]])
+/// @func FORMS_KeyboardShortcut([_keys[, _mouseButtons[, _callback]]])
 ///
 /// @desc A collection of keyboard keys and mouse buttons that together represent a single keyboard shortcut.
 ///
@@ -9,7 +9,8 @@
 /// (default).
 /// @param {Array<Constant.MouseButton>, Undefined} [_mouseButtons] An array of mouse buttons that trigger the shortcut
 /// or `undefined` (default).
-function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) constructor
+/// @param {Function, Undefined} [_callback] A function that the keyboard shorcut executes or `undefined` (default)`.
+function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined, _callback = undefined) constructor
 {
 	/// @var {Array<Constant.VirtualKey>} An array of keys that trigger the shortcut.
 	/// @readonly
@@ -20,6 +21,9 @@ function FORMS_KeyboardShortcut(_keys = undefined, _mouseButtons = undefined) co
 	/// @readonly
 	/// @see FORMS_KeyboardShortcut.add_mouse_button
 	MouseButtons = [];
+
+	/// @var {Function, Undefined} A function that the keyboard shorcut executes or `undefined` (default)`.
+	Callback = _callback;
 
 	if (_keys != undefined)
 	{

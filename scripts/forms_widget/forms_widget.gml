@@ -275,6 +275,9 @@ function FORMS_WidgetProps() constructor
 	/// @var {Real, Undefined} A value that represents how much space does the widget take when its parent is
 	/// {@link FORMS_FlexBox}. Value 0 means the widget doesn't grow or shrink based on the flex box size.
 	Flex = undefined;
+
+	/// @var {Array<Struct.FORMS_KeyboardShortcut>, Undefined} TODO: Add docs
+	KeyboardShortcuts = undefined;
 }
 
 /// @func forms_get_prop(_props, _name)
@@ -381,6 +384,9 @@ function FORMS_Widget(_props = undefined) constructor
 	/// @var {Bool}
 	/// @private
 	__destroyed = false;
+
+	/// @var {Array<Struct.FORMS_KeyboardShortcut>} TODO: Add docs
+	KeyboardShortcuts = forms_get_prop(_props, "KeyboardShortcuts") ?? [];
 
 	/// @func get_x()
 	///
@@ -557,6 +563,15 @@ function FORMS_Widget(_props = undefined) constructor
 	/// @return {Struct.FORMS_Widget} Returns `self`.
 	static update = function (_deltaTime)
 	{
+		var _index = 0;
+		repeat(array_length(KeyboardShortcuts))
+		{
+			var _ks = KeyboardShortcuts[_index++];
+			if (_ks.Callback != undefined && _ks.check_pressed())
+			{
+				_ks.Callback();
+			}
+		}
 		return self;
 	}
 
