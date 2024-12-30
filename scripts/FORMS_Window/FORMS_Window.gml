@@ -39,6 +39,9 @@ function FORMS_WindowProps(): FORMS_WidgetProps() constructor
 	/// @var {Bool, Undefined} Whether the window can be closed (`true`) or not (`false`).
 	Closable = undefined;
 
+	/// @var {Bool, Undefined} Whether the window should be destroyed on close (`true`) or just removed (`false`).
+	DestroyOnClose = undefined;
+
 	/// @var {Asset.GMSprite, Undefined} The background sprite of the window, stretched over its entire size.
 	BackgroundSprite = undefined;
 
@@ -78,6 +81,9 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 	/// @var {Bool} Whether the window can be closed. Defaults to `true`.
 	Closable = forms_get_prop(_props, "Closable") ?? true;
+
+	/// @var {Bool} Whether the window should be destroyed on close (`true`, default) or just removed (`false`).
+	DestroyOnClose = forms_get_prop(_props, "DestroyOnClose") ?? true;
 
 	/// @var {Asset.GMSprite} The background sprite of the window, stretched over its entire size. Defaults to
 	/// `FORMS_SprRound4`.
@@ -185,28 +191,32 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 	static layout = function ()
 	{
+		// TODO: Shouldn't this clamp to root widget's size?
+		var _mouseX = clamp(forms_mouse_get_x(), 0, window_get_width());
+		var _mouseY = clamp(forms_mouse_get_y(), 0, window_get_height());
+
 		if (__resize != FORMS_EWindowResize.None)
 		{
 			if (__resize & FORMS_EWindowResize.Left)
 			{
 				var _xprev = X.Value;
-				X.Value = min(forms_mouse_get_x() + __mouseOffset[0], __realX + __realWidth - __widthMin);
+				X.Value = min(_mouseX + __mouseOffset[0], __realX + __realWidth - __widthMin);
 				Width.Value += _xprev - X.Value;
 			}
 			else if (__resize & FORMS_EWindowResize.Right)
 			{
-				Width.Value = max(forms_mouse_get_x() - __realX + __mouseOffset[0], __widthMin);
+				Width.Value = max(_mouseX - __realX + __mouseOffset[0], __widthMin);
 			}
 
 			if (__resize & FORMS_EWindowResize.Top)
 			{
 				var _yprev = Y.Value;
-				Y.Value = min(forms_mouse_get_y() + __mouseOffset[1], __realY + __realHeight - __heightMin);
+				Y.Value = min(_mouseY + __mouseOffset[1], __realY + __realHeight - __heightMin);
 				Height.Value += _yprev - Y.Value;
 			}
 			else if (__resize & FORMS_EWindowResize.Bottom)
 			{
-				Height.Value = max(forms_mouse_get_y() - __realY + __mouseOffset[1], __heightMin);
+				Height.Value = max(_mouseY - __realY + __mouseOffset[1], __heightMin);
 			}
 
 			if (!mouse_check_button(mb_left))
@@ -217,8 +227,8 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 		}
 		else if (__move)
 		{
-			X.Value = forms_mouse_get_x() + __mouseOffset[0];
-			Y.Value = forms_mouse_get_y() + __mouseOffset[1];
+			X.Value = _mouseX + __mouseOffset[0];
+			Y.Value = _mouseY + __mouseOffset[1];
 
 			if (!mouse_check_button(mb_left))
 			{
@@ -480,7 +490,14 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 		if (Parent.Closable
 			&& Pen.icon_solid(FA_ESolid.Xmark, { Width: _iconWidth }))
 		{
-			Parent.destroy_later();
+			if (Parent.DestroyOnClose)
+			{
+				Parent.destroy_later();
+			}
+			else
+			{
+				Parent.remove_self();
+			}
 		}
 		Pen.finish();
 		return self;
