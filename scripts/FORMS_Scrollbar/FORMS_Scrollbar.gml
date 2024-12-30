@@ -94,7 +94,7 @@ function FORMS_Scrollbar(_target, _props = undefined): FORMS_Widget(_props) cons
 		else
 		{
 			var _scrollWheel =
-				_isMouseOver * (mouse_wheel_down() - mouse_wheel_up()) * string_height("M");
+				_isMouseOver * (mouse_wheel_down() - mouse_wheel_up()) * string_height("M") * 2;
 			_scrollNew = _scroll + _scrollWheel;
 		}
 

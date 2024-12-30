@@ -154,7 +154,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 
 	static update = function (_deltaTime)
 	{
-		var _scroll = is_mouse_over() * (mouse_wheel_down() - mouse_wheel_up()) * string_height("M");
+		var _scroll = is_mouse_over() * (mouse_wheel_down() - mouse_wheel_up()) * string_height("M") * 2;
 		if (keyboard_check(vk_control) == IsDefaultScrollVertical)
 		{
 			ScrollX += _scroll;
