@@ -2,7 +2,10 @@ global.ksPreferences = new FORMS_KeyboardShortcut(
 	[vk_control, vk_shift, ord("P")], undefined,
 	function ()
 	{
-		show_debug_message("Open preferences!");
+		if (global.testPreferencesWindow.Parent == undefined)
+		{
+			forms_get_root().add_child(global.testPreferencesWindow);
+		}
 	});
 
 function TestWorkspace(): FORMS_FlexBox() constructor

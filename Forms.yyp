@@ -64,6 +64,7 @@
     {"id":{"name":"FORMS_Window","path":"scripts/FORMS_Window/FORMS_Window.yy",},},
     {"id":{"name":"FORMS_Workspace","path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},},
     {"id":{"name":"TestControlsScrollPane","path":"scripts/TestControlsScrollPane/TestControlsScrollPane.yy",},},
+    {"id":{"name":"TestPreferences","path":"scripts/TestPreferences/TestPreferences.yy",},},
     {"id":{"name":"TestStatusBar","path":"scripts/TestStatusBar/TestStatusBar.yy",},},
     {"id":{"name":"TestUI","path":"scripts/TestUI/TestUI.yy",},},
     {"id":{"name":"TestWelcomeScrollPane","path":"scripts/TestWelcomeScrollPane/TestWelcomeScrollPane.yy",},},

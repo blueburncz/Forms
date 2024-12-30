@@ -40,6 +40,7 @@
     {"name":"FORMS_Window","order":18,"path":"scripts/FORMS_Window/FORMS_Window.yy",},
     {"name":"FORMS_Workspace","order":19,"path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},
     {"name":"TestControlsScrollPane","order":5,"path":"scripts/TestControlsScrollPane/TestControlsScrollPane.yy",},
+    {"name":"TestPreferences","order":6,"path":"scripts/TestPreferences/TestPreferences.yy",},
     {"name":"TestUI","order":1,"path":"scripts/TestUI/TestUI.yy",},
     {"name":"TestWelcomeScrollPane","order":2,"path":"scripts/TestWelcomeScrollPane/TestWelcomeScrollPane.yy",},
     {"name":"TestWorkspace","order":3,"path":"scripts/TestWorkspace/TestWorkspace.yy",},
