@@ -140,7 +140,9 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 				_scrollChanged = true;
 			}
 		}
-		if (_scrollChanged || (!is_mouse_over() && mouse_check_button_pressed(mb_left)))
+		if (_scrollChanged
+			|| keyboard_check_pressed(vk_escape)
+			|| (!is_mouse_over() && mouse_check_button_pressed(mb_left)))
 		{
 			destroy_later();
 		}
