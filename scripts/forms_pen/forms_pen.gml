@@ -1050,12 +1050,26 @@ function FORMS_Pen(_container) constructor
 
 		_id = __make_id(_id);
 
+		var _style = forms_get_style();
 		var _width = forms_get_prop(_props, "Width") ?? min(get_control_width(), 50);
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _height = __lineHeight;
 		var _mouseOver = (!_disabled && is_mouse_over(X, Y, _width, _height, _id));
 
+		// Border
+		if (_color.get() == _style.Background[2].get())
+		{
+			var _red = 255 - _color.get_red();
+			var _green = 255 - _color.get_green();
+			var _blue = 255 - _color.get_blue();
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2,
+				make_color_rgb(_red, _green, _blue), 1.0);
+		}
+
+		// Background
 		draw_sprite_stretched(FORMS_SprColor, 0, X, Y, _width, _height);
+
+		// Fill
 		draw_sprite_stretched_ext(
 			FORMS_SprRound4, 0,
 			X, Y,
@@ -1122,9 +1136,8 @@ function FORMS_Pen(_container) constructor
 		// Border
 		if (_mouseOver)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, _style.Border
-				.get(),
-				1.0);
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2,
+				_style.Border.get(), 1.0);
 		}
 
 		// Background
