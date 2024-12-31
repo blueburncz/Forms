@@ -42,6 +42,9 @@ function FORMS_WindowProps(): FORMS_WidgetProps() constructor
 	/// @var {Bool, Undefined} Whether the window should be destroyed on close (`true`) or just removed (`false`).
 	DestroyOnClose = undefined;
 
+	/// @var {Bool, Undefined} TODO: Add docs
+	Blocking = undefined;
+
 	/// @var {Asset.GMSprite, Undefined} The background sprite of the window, stretched over its entire size.
 	BackgroundSprite = undefined;
 
@@ -84,6 +87,9 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 	/// @var {Bool} Whether the window should be destroyed on close (`true`, default) or just removed (`false`).
 	DestroyOnClose = forms_get_prop(_props, "DestroyOnClose") ?? true;
+
+	/// @var {Bool} TODO: Add docs
+	Blocking = forms_get_prop(_props, "Blocking") ?? false;
 
 	/// @var {Asset.GMSprite} The background sprite of the window, stretched over its entire size. Defaults to
 	/// `FORMS_SprRound4`.
@@ -191,6 +197,11 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 	static layout = function ()
 	{
+		if (Blocking)
+		{
+			forms_get_root().WidgetHovered = undefined;
+		}
+
 		// TODO: Shouldn't this clamp to root widget's size?
 		var _mouseX = clamp(forms_mouse_get_x(), 0, window_get_width());
 		var _mouseY = clamp(forms_mouse_get_y(), 0, window_get_height());
@@ -401,7 +412,17 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 
 	static draw = function ()
 	{
-		var _style = forms_get_style();
+		var _root = forms_get_root();
+
+		if (Blocking)
+		{
+			with(_root)
+			{
+				forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, c_black, 0.25);
+			}
+		}
+
+		var _style = _root.Style;
 		var _shadowOffset = 16;
 		draw_sprite_stretched_ext(
 			FORMS_SprShadow, 0,

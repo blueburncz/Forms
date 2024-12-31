@@ -25,9 +25,6 @@ function FORMS_QuestionProps(): FORMS_WindowProps() constructor
 /// (default).
 function FORMS_Question(_text, _callback, _props = undefined): FORMS_Window(undefined, _props) constructor
 {
-	static Window_layout = layout;
-	static Window_draw = draw;
-
 	/// @var {String} The title of the window. Defaults to "Confirm".
 	/// @readonly
 	Title = forms_get_prop(_props, "Title") ?? "Confirm";
@@ -52,6 +49,8 @@ function FORMS_Question(_text, _callback, _props = undefined): FORMS_Window(unde
 	AutoSize = true;
 
 	Resizable = false;
+
+	Blocking = true;
 
 	set_widget(new(function (_title): FORMS_Container() constructor
 	{
@@ -80,21 +79,4 @@ function FORMS_Question(_text, _callback, _props = undefined): FORMS_Window(unde
 			return self;
 		}
 	})(Title));
-
-	static layout = function ()
-	{
-		forms_get_root().WidgetHovered = undefined;
-		Window_layout();
-		return self;
-	}
-
-	static draw = function ()
-	{
-		with(forms_get_root())
-		{
-			forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, c_black, 0.25);
-		}
-		Window_draw();
-		return self;
-	}
 }
