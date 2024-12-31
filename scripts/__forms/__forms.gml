@@ -25,6 +25,22 @@ function forms_assert(_expr, _message)
 	}
 }
 
+/// @func forms_array_clone(_array)
+///
+/// @desc Creates a shallow clone of an array.
+///
+/// @param {Array} _array The array to clone.
+///
+/// @return {Array} The created clone of the array.
+function forms_array_clone(_array)
+{
+	gml_pragma("forceinline");
+	var _length = array_length(_array);
+	var _clone = array_create(_length);
+	array_copy(_clone, 0, _array, 0, _length);
+	return _clone;
+}
+
 /// @func forms_draw_text(_x, _y, _text[, _color[, _alpha]])
 ///
 /// @desc Draws a text.

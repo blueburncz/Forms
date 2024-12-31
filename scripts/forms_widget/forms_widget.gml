@@ -388,6 +388,17 @@ function FORMS_Widget(_props = undefined) constructor
 	/// @var {Array<Struct.FORMS_KeyboardShortcut>} TODO: Add docs
 	KeyboardShortcuts = forms_get_prop(_props, "KeyboardShortcuts") ?? [];
 
+	/// @func exists()
+	///
+	/// @desc Checks whether the widget exists.
+	///
+	/// @return {Bool} Returns `true` if the widget exists.
+	static exists = function ()
+	{
+		gml_pragma("forceinline");
+		return (!__toDestroy && !__destroyed);
+	}
+
 	/// @func get_x()
 	///
 	/// @desc Retrieves the actual X position of the widget computed in [layout](./FORMS_Widget.layout.html).
@@ -489,11 +500,11 @@ function FORMS_Widget(_props = undefined) constructor
 		var _current = Parent;
 		while (_current)
 		{
-			if (is_instanceof(Parent, _type))
+			if (is_instanceof(_current, _type))
 			{
-				return Parent;
+				return _current;
 			}
-			Parent = Parent.Parent;
+			_current = _current.Parent;
 		}
 		return undefined;
 	}
@@ -510,11 +521,32 @@ function FORMS_Widget(_props = undefined) constructor
 		var _current = Parent;
 		while (_current)
 		{
-			if (Parent.Name == _name)
+			if (_current.Name == _name)
 			{
-				return Parent;
+				return _current;
 			}
-			Parent = Parent.Parent;
+			_current = _current.Parent;
+		}
+		return undefined;
+	}
+
+	/// @func find_parent_id(_id)
+	///
+	/// @desc Recursively looks for a node with given ID up in the widget hierarchy and returns the first one found.
+	///
+	/// @param {String} _id The ID of the widget to find.
+	///
+	/// @return {Struct.FORMS_CompoundWidget, Undefined} The widget found or `undefined`.
+	static find_parent_id = function (_id)
+	{
+		var _current = Parent;
+		while (_current)
+		{
+			if (_current.Id == _id)
+			{
+				return _current;
+			}
+			_current = _current.Parent;
 		}
 		return undefined;
 	}

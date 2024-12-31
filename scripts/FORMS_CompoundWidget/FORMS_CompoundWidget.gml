@@ -132,20 +132,34 @@ function FORMS_CompoundWidget(_props = undefined, _children = undefined): FORMS_
 	static update = function (_deltaTime)
 	{
 		Widget_update(_deltaTime);
-		var _count = array_length(Children);
+		var _children = forms_array_clone(Children);
+		var _count = array_length(_children);
 		for (var i = 0; i < _count; ++i)
 		{
-			Children[i].update(_deltaTime);
+			with(_children[i])
+			{
+				if (exists())
+				{
+					update(_deltaTime);
+				}
+			}
 		}
 		return self;
 	}
 
 	static draw = function ()
 	{
-		var _count = array_length(Children);
+		var _children = forms_array_clone(Children);
+		var _count = array_length(_children);
 		for (var i = 0; i < _count; ++i)
 		{
-			Children[i].draw();
+			with(_children[i])
+			{
+				if (exists())
+				{
+					draw();
+				}
+			}
 		}
 		return self;
 	}

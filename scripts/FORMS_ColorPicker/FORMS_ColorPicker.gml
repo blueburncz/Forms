@@ -450,12 +450,12 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 			_buttonWidth = Pen.get_control_width() - 8 / 2;
 			if (Pen.button("OK", { Width: _buttonWidth }))
 			{
-				Parent.remove_self().destroy_later();
+				Parent.destroy_later();
 			}
 			Pen.move(8);
 			if (Pen.button("Cancel", { Width: _buttonWidth }))
 			{
-				Parent.remove_self().destroy_later();
+				Parent.destroy_later();
 				forms_return_result(Parent.ControlId, Parent.OriginalColor);
 			}
 
@@ -473,6 +473,17 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 		{
 			X.Value = -__realWidth - 10000; // hide window off screen
 		}
+		else
+		{
+			if (keyboard_check_pressed(vk_escape)
+				|| (mouse_check_button_pressed(mb_any)
+					&& !is_mouse_over()
+					&& forms_get_root().WidgetHovered.find_parent_id(Id) == undefined))
+			{
+				destroy_later();
+			}
+		}
+		return self;
 	}
 
 	static destroy = function ()

@@ -305,8 +305,8 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 			if (__parentMenu != undefined)
 			{
 				//Check if parent menu has parent menu and check if its on the left
-				if (__parentMenu.__parentMenu != undefined) && (__parentMenu.__realX < __parentMenu.__parentMenu
-					.__realX)
+				if (__parentMenu.__parentMenu != undefined
+					&& (__parentMenu.__realX < __parentMenu.__parentMenu.__realX))
 				{
 					X.Value = __parentMenu.__realX - __realWidth;
 				}
