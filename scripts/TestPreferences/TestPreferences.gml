@@ -45,7 +45,7 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					var _style = forms_get_style();
 					Pen.start(FORMS_EPenLayout.Column2);
 
-					Pen.text("Accent Color");
+					Pen.text("Accent");
 					Pen.next();
 					if (Pen.color("color-accent", _style.Accent))
 					{
@@ -53,7 +53,7 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					}
 					Pen.next();
 
-					Pen.text("Text Color");
+					Pen.text("Text");
 					Pen.next();
 					if (Pen.color("color-text", _style.Text))
 					{
@@ -61,7 +61,7 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					}
 					Pen.next();
 
-					Pen.text("Muted Text Color");
+					Pen.text("Muted Text");
 					Pen.next();
 					if (Pen.color("color-text-muted", _style.TextMuted))
 					{
@@ -69,7 +69,7 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					}
 					Pen.next();
 
-					Pen.text("Disabled Text Color");
+					Pen.text("Disabled Text");
 					Pen.next();
 					if (Pen.color("color-text-disabled", _style.TextDisabled))
 					{
@@ -79,7 +79,7 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 
 					for (var i = 0; i < array_length(_style.Background); ++i)
 					{
-						Pen.text($"Background Color {i + 1}");
+						Pen.text($"Background {i + 1}");
 						Pen.next();
 						if (Pen.color($"color-background-{i}", _style.Background[i]))
 						{
@@ -128,25 +128,25 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					}
 					Pen.next();
 
-					Pen.text("color-tooltip-text");
+					Pen.text("Tooltip Text");
 					Pen.next();
-					if (Pen.color("TooltipText", _style.TooltipText))
+					if (Pen.color("color-tooltip-text", _style.TooltipText))
 					{
 						_style.TooltipText = Pen.get_result();
 					}
 					Pen.next();
 
-					Pen.text("color-highlight");
+					Pen.text("Highlight");
 					Pen.next();
-					if (Pen.color("Highlight", _style.Highlight))
+					if (Pen.color("color-highlight", _style.Highlight))
 					{
 						_style.Highlight = Pen.get_result();
 					}
 					Pen.next();
 
-					Pen.text("color-border");
+					Pen.text("Border");
 					Pen.next();
-					if (Pen.color("Border", _style.Border))
+					if (Pen.color("color-border", _style.Border))
 					{
 						_style.Border = Pen.get_result();
 					}
