@@ -116,7 +116,7 @@ function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 	static draw = function ()
 	{
 		var _style = forms_get_style();
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[1], 1.0);
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[1].get(), 1.0);
 
 		var _tabCurrent = __tabCurrent; // Backup before it changes!
 		TabContainer.draw();
@@ -186,13 +186,14 @@ function FORMS_WorkspaceTabs(_props = undefined): FORMS_Container(_props) constr
 					+ string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0)
 					+ _tabPadding,
 					__realHeight,
-					_style.Background[2], 1.0);
+					_style.Background[2].get(), 1.0);
 			}
 			Pen.move(_tabPadding);
 			if (_tab.Icon != undefined)
 			{
 				fa_draw(_tab.IconFont, _tab.Icon, Pen.X, Pen.Y, (_tabIndex == _tabCurrent) ? _style.Text
-					: _style.TextMuted);
+					.get()
+					: _style.TextMuted.get());
 				Pen.move(_iconSpace);
 			}
 			if (Pen.link(_tab.Name, { Muted: (_tabIndex != _tabCurrent) }))

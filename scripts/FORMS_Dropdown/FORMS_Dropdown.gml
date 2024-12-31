@@ -82,7 +82,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 
 			if (Pen.is_mouse_over(_x, _y, _valueWidth, _lineHeight))
 			{
-				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, _style.Background[4]);
+				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, _style.Background[4].get());
 				if (forms_mouse_check_button_pressed(mb_left))
 				{
 					_select = i;
@@ -95,10 +95,10 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 			}
 			else if (i == _index)
 			{
-				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, _style.Highlight);
+				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, _style.Highlight.get());
 			}
 
-			forms_draw_text(_x, _y, _value, _style.Text);
+			forms_draw_text(_x, _y, _value, _style.Text.get());
 
 			_y += _lineHeight;
 		}
@@ -157,7 +157,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 			__realY - _shadowOffset,
 			__realWidth + _shadowOffset * 2,
 			__realHeight + _shadowOffset * 2,
-			_style.Shadow, _style.ShadowAlpha);
+			_style.Shadow.get(), _style.Shadow.get_alpha());
 		Container_draw();
 		return self;
 	}

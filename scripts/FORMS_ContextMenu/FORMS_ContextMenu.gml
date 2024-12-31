@@ -209,7 +209,8 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 			if (is_instanceof(_option, FORMS_ContextMenuSeparator))
 			{
 				var _height = floor(_lineHeight * 0.5);
-				forms_draw_rectangle(_x, _y + floor((_height - 1) * 0.5), _widthMax, 1, _style.Background[2]);
+				forms_draw_rectangle(_x, _y + floor((_height - 1) * 0.5), _widthMax, 1, _style.Background[2]
+					.get());
 				_y += _height;
 			}
 			else
@@ -222,7 +223,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 				if (_mouseOver || __submenuIndex == i)
 				{
 					draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, _widthMax, _lineHeight, _style
-						.Background[4], 1.0);
+						.Background[4].get(), 1.0);
 				}
 
 				if (_mouseOver)
@@ -256,18 +257,18 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 					forms_set_cursor(cr_handpoint);
 				}
 
-				forms_draw_text(_x, _y, _optionText, _style.Text);
+				forms_draw_text(_x, _y, _optionText, _style.Text.get());
 
 				if (_optionOptions != undefined)
 				{
 					draw_set_halign(fa_right);
-					fa_draw(FA_FntSolid12, FA_ESolid.AngleRight, _x + _widthMax, _y, _style.TextMuted);
+					fa_draw(FA_FntSolid12, FA_ESolid.AngleRight, _x + _widthMax, _y, _style.TextMuted.get());
 					draw_set_halign(fa_left);
 				}
 				else if (_optionShortcut != undefined)
 				{
 					draw_set_halign(fa_right);
-					forms_draw_text(_x + _widthMax, _y, _optionShortcut.to_string(), _style.TextMuted);
+					forms_draw_text(_x + _widthMax, _y, _optionShortcut.to_string(), _style.TextMuted.get());
 					draw_set_halign(fa_left);
 				}
 
@@ -352,7 +353,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 			__realY - _shadowOffset,
 			__realWidth + _shadowOffset * 2,
 			__realHeight + _shadowOffset * 2,
-			_style.Shadow, _style.ShadowAlpha);
+			_style.Shadow.get(), _style.Shadow.get_alpha());
 
 		Container_draw();
 

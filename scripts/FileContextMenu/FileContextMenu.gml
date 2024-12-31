@@ -43,6 +43,13 @@ function FileContextMenu(): FORMS_ContextMenu() constructor
 
 	_option = new FORMS_ContextMenuOption("Preferences");
 	_option.KeyboardShortcut = global.ksPreferences;
+	_option.Action = function ()
+	{
+		if (global.testPreferencesWindow.Parent == undefined)
+		{
+			forms_get_root().add_child(global.testPreferencesWindow);
+		}
+	};
 	array_push(_options, _option);
 
 	array_push(_options, new FORMS_ContextMenuSeparator());

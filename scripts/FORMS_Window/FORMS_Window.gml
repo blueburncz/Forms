@@ -409,12 +409,12 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 			__realY - _shadowOffset,
 			__realWidth + _shadowOffset * 2,
 			__realHeight + _shadowOffset * 2,
-			_style.Shadow, _style.ShadowAlpha);
+			_style.Shadow.get(), _style.Shadow.get_alpha());
 
 		draw_sprite_stretched_ext(
 			BackgroundSprite, BackgroundIndex,
 			__realX, __realY, __realWidth, __realHeight,
-			_style.Background[2], 1.0);
+			_style.Background[2].get(), 1.0);
 
 		if (Titlebar != undefined)
 		{
@@ -480,7 +480,8 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 			if (_widget.Icon != undefined)
 			{
 				var _width = fa_get_width(_widget.IconFont, _widget.Icon);
-				fa_draw(_widget.IconFont, _widget.Icon, Pen.X + floor((16 - _width) / 2), Pen.Y, _style.Text);
+				fa_draw(_widget.IconFont, _widget.Icon, Pen.X + floor((16 - _width) / 2), Pen.Y, _style.Text
+					.get());
 				Pen.move(22);
 			}
 			Pen.text(_widget.Name);

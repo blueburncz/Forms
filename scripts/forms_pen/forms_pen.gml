@@ -726,7 +726,7 @@ function FORMS_Pen(_container) constructor
 		var _style = forms_get_style();
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _muted = forms_get_prop(_props, "Muted") ?? false;
-		var _color = _disabled ? _style.TextDisabled : (_muted ? _style.TextMuted : _style.Text);
+		var _color = _disabled ? _style.TextDisabled.get() : (_muted ? _style.TextMuted.get() : _style.Text.get());
 		var _textWidth = string_width(_text);
 		var _textHeight = string_height(_text);
 		var _trim = forms_get_prop(_props, "Trim") ?? (__layout == FORMS_EPenLayout.Column2);
@@ -774,7 +774,7 @@ function FORMS_Pen(_container) constructor
 		var _textOriginal = _text;
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _muted = forms_get_prop(_props, "Muted") ?? false;
-		var _color = _disabled ? _style.TextDisabled : (_muted ? _style.TextMuted : _style.Text);
+		var _color = _disabled ? _style.TextDisabled.get() : (_muted ? _style.TextMuted.get() : _style.Text.get());
 		var _textWidth = string_width(_text);
 		var _textHeight = string_height(_text);
 		var _trim = forms_get_prop(_props, "Trim") ?? (__layout == FORMS_EPenLayout.Column2);
@@ -826,7 +826,7 @@ function FORMS_Pen(_container) constructor
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _muted = forms_get_prop(_props, "Muted") ?? false;
 		var _active = forms_get_prop(_props, "Active") ?? false;
-		var _color = _disabled ? _style.TextDisabled : (_muted ? _style.TextMuted : _style.Text);
+		var _color = _disabled ? _style.TextDisabled.get() : (_muted ? _style.TextMuted.get() : _style.Text.get());
 		var _iconWidth = string_width(_string);
 		var _iconHeight = string_height(_string);
 		var _padding = forms_get_prop(_props, "Padding") ?? 4;
@@ -842,7 +842,7 @@ function FORMS_Pen(_container) constructor
 
 		if (_active || _mouseOver)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[4], 1.0);
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[4].get(), 1.0);
 		}
 		forms_draw_text(
 			round(X + (_width - _iconWidth) / 2),
@@ -922,7 +922,7 @@ function FORMS_Pen(_container) constructor
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _muted = forms_get_prop(_props, "Muted") ?? false;
 		var _active = forms_get_prop(_props, "Active") ?? false;
-		var _color = _disabled ? _style.TextDisabled : (_muted ? _style.TextMuted : _style.Text);
+		var _color = _disabled ? _style.TextDisabled.get() : (_muted ? _style.TextMuted.get() : _style.Text.get());
 		var _spriteWidth = sprite_get_width(_sprite);
 		var _spriteHeight = sprite_get_height(_sprite);
 		var _padding = forms_get_prop(_props, "Padding") ?? 4;
@@ -938,7 +938,7 @@ function FORMS_Pen(_container) constructor
 
 		if (_active || _mouseOver)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[4], 1.0);
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[4].get(), 1.0);
 		}
 
 		var _aspect = _width / _height;
@@ -979,7 +979,7 @@ function FORMS_Pen(_container) constructor
 		// TODO: Add struct FORMS_PenVSepProps
 		__assert_started();
 
-		var _color = forms_get_style().Background[3];
+		var _color = forms_get_style().Background[3].get();
 		var _width = forms_get_prop(_props, "Width") ?? __lineHeight;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
 
@@ -1008,7 +1008,7 @@ function FORMS_Pen(_container) constructor
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _active = forms_get_prop(_props, "Active") ?? false;
 		var _minimal = forms_get_prop(_props, "Minimal") ?? false;
-		var _color = _disabled ? _style.TextDisabled : _style.Text;
+		var _color = _disabled ? _style.TextDisabled.get() : _style.Text.get();
 		var _textWidth = string_width(_text);
 		var _padding = forms_get_prop(_props, "Padding") ?? 8;
 		var _width = forms_get_prop(_props, "Width") ?? _textWidth + _padding * 2;
@@ -1024,7 +1024,7 @@ function FORMS_Pen(_container) constructor
 		if (!_minimal || _mouseOver || _active)
 		{
 			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height,
-				(_mouseOver || _active) ? _style.Background[4] : _style.Background[3], 1.0);
+				(_mouseOver || _active) ? _style.Background[4].get() : _style.Background[3].get(), 1.0);
 		}
 
 		forms_draw_text(X + _padding, Y, _text, _color);
@@ -1122,17 +1122,18 @@ function FORMS_Pen(_container) constructor
 		// Border
 		if (_mouseOver)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, _style.Border,
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, _style.Border
+				.get(),
 				1.0);
 		}
 
 		// Background
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[1], 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[1].get(), 1.0);
 
 		// Icon
 		if (_checked)
 		{
-			fa_draw(FA_FntSolid12, FA_ESolid.Check, X + 2, Y, _style.Accent);
+			fa_draw(FA_FntSolid12, FA_ESolid.Check, X + 2, Y, _style.Accent.get());
 		}
 
 		__move_or_nl(_width);
@@ -1166,18 +1167,18 @@ function FORMS_Pen(_container) constructor
 		}
 
 		// Background
-		draw_sprite_stretched_ext(FORMS_SprRadioButton, 0, X, Y, _width, _height, _style.Background[1], 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRadioButton, 0, X, Y, _width, _height, _style.Background[1].get(), 1.0);
 
 		// Border
 		if (_mouseOver)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRadioButton, 1, X, Y, _width, _height, _style.Border, 1.0);
+			draw_sprite_stretched_ext(FORMS_SprRadioButton, 1, X, Y, _width, _height, _style.Border.get(), 1.0);
 		}
 
 		// Tick
 		if (_selected)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRadioButton, 2, X, Y, _width, _height, _style.Accent, 1.0);
+			draw_sprite_stretched_ext(FORMS_SprRadioButton, 2, X, Y, _width, _height, _style.Accent.get(), 1.0);
 		}
 
 		__move_or_nl(_width);
@@ -1214,26 +1215,28 @@ function FORMS_Pen(_container) constructor
 		// Border
 		if (_mouseOver || __widgetActive == _id)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, _style.Border,
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2, _style.Border
+				.get(),
 				1.0);
 		}
 
 		// Background
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[1], 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[1].get(), 1.0);
 
 		// Fill
 		var _fillWidth = ((_valueNew - _min) / (_max - _min)) * _width;
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _fillWidth, _height, _style.Background[3], 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _fillWidth, _height, _style.Background[3].get(), 1.0);
 
 		// Slider
-		draw_sprite_stretched_ext(FORMS_SprSlider, 0, X + _fillWidth - 1, Y - 1, 3, _height + 2, _style.TextMuted,
+		draw_sprite_stretched_ext(FORMS_SprSlider, 0, X + _fillWidth - 1, Y - 1, 3, _height + 2, _style.TextMuted
+			.get(),
 			1.0);
 
 		// Text
 		if (forms_get_prop(_props, "ShowText") ?? true)
 		{
 			forms_draw_text(X + 4, Y, (forms_get_prop(_props, "Pre") ?? "") + string(_value) + (forms_get_prop(
-				_props, "Post") ?? ""), _style.Text);
+				_props, "Post") ?? ""), _style.Text.get());
 		}
 
 		if (_mouseOver)
@@ -1298,10 +1301,10 @@ function FORMS_Pen(_container) constructor
 		var _mouseOver = is_mouse_over(X, Y, _width, _height, _id);
 
 		// Background
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[3], 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, X, Y, _width, _height, _style.Background[3].get(), 1.0);
 
 		// Caret icon
-		fa_draw(FA_FntSolid12, FA_ESolid.CaretDown, X + _width - 16, Y - 2, _style.TextMuted);
+		fa_draw(FA_FntSolid12, FA_ESolid.CaretDown, X + _width - 16, Y - 2, _style.TextMuted.get());
 
 		// Find current value
 		var _textOriginal = "";
@@ -1337,7 +1340,7 @@ function FORMS_Pen(_container) constructor
 				}
 				_shortened = true;
 			}
-			forms_draw_text(X + _padding, Y, _text, _style.Text);
+			forms_draw_text(X + _padding, Y, _text, _style.Text.get());
 			if (_shortened && _mouseOver)
 			{
 				forms_set_tooltip(_textOriginal);
@@ -1471,7 +1474,7 @@ function FORMS_Pen(_container) constructor
 		var _mouseOver = (!_disabled && is_mouse_over(_x, _y, _width, _height, _id));
 		var _secret = forms_get_prop(_props, "Secret") ?? false;
 
-		var _displayColor = _disabled ? _style.TextDisabled : _style.Text;
+		var _displayColor = _disabled ? _style.TextDisabled.get() : _style.Text.get();
 		var _displayString;
 		var _fromX;
 		var _toX;
@@ -1791,7 +1794,7 @@ function FORMS_Pen(_container) constructor
 			if (_displayString == "")
 			{
 				_displayString = forms_get_prop(_props, "Placeholder") ?? "";
-				_displayColor = _style.TextMuted;
+				_displayColor = _style.TextMuted.get();
 			}
 			else if (_secret)
 			{
@@ -1860,12 +1863,13 @@ function FORMS_Pen(_container) constructor
 		// Border when selected
 		if (__inputId == _id)
 		{
-			draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x - 1, _y - 1, _width + 2, _height + 2, _style.Border,
+			draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x - 1, _y - 1, _width + 2, _height + 2, _style.Border
+				.get(),
 				1.0);
 		}
 
 		// Background
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, _width, _height, _style.Background[1], 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, _x, _y, _width, _height, _style.Background[1].get(), 1.0);
 
 		// Ribbon
 		if (_ribbon != undefined)
@@ -1883,7 +1887,7 @@ function FORMS_Pen(_container) constructor
 			_rectX = clamp(_rectX, 0, _width - _padding * 2);
 			_rectWidth = clamp(_rectWidth, 1, _width - _padding * 2 - _rectX);
 
-			forms_draw_rectangle(_textX + _rectX, _y, _rectWidth, __lineHeight, _style.Accent);
+			forms_draw_rectangle(_textX + _rectX, _y, _rectWidth, __lineHeight, _style.Accent.get());
 		}
 
 		// Text
@@ -1895,7 +1899,7 @@ function FORMS_Pen(_container) constructor
 			var _alpha = (keyboard_check(vk_anykey) || mouse_check_button(mb_any))
 				? 1.0 : dsin(current_time * 0.5) * 0.5 + 0.5;
 
-			forms_draw_rectangle(_textX + _fromX, _y, 1, __lineHeight, _style.Accent, _alpha);
+			forms_draw_rectangle(_textX + _fromX, _y, 1, __lineHeight, _style.Accent.get(), _alpha);
 		}
 
 		__move_or_nl(_width);
@@ -1945,7 +1949,8 @@ function FORMS_Pen(_container) constructor
 
 		if (_selected)
 		{
-			forms_draw_rectangle(_backgroundX, _backgroundY, _backgroundWidth, _backgroundHeight, _style.Highlight);
+			forms_draw_rectangle(_backgroundX, _backgroundY, _backgroundWidth, _backgroundHeight, _style.Highlight
+				.get());
 		}
 
 		// Caret
@@ -2002,10 +2007,10 @@ function FORMS_Pen(_container) constructor
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
 		var _indent = __sectionCurrent * SectionIndent;
 		var _mouseOver = is_mouse_over(StartX, Y, _width, _height);
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, StartX, Y, _width, _height, _style.Background[3], 1.0);
+		draw_sprite_stretched_ext(FORMS_SprRound4, 0, StartX, Y, _width, _height, _style.Background[3].get(), 1.0);
 		fa_draw(FA_FntSolid12, __sectionExpanded[$  _id] ? FA_ESolid.CaretDown : FA_ESolid.CaretRight, StartX
-			+ _indent + 4, Y - 1, _style.TextMuted);
-		forms_draw_text(StartX + _indent + SectionIndent, Y, _text, _style.Text);
+			+ _indent + 4, Y - 1, _style.TextMuted.get());
+		forms_draw_text(StartX + _indent + SectionIndent, Y, _text, _style.Text.get());
 		if (_mouseOver)
 		{
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));

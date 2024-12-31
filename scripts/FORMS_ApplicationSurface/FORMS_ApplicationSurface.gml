@@ -169,7 +169,7 @@ function FORMS_ApplicationSurface(_props = undefined, _children = undefined): FO
 
 	static draw = function ()
 	{
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, forms_get_style().Background[0]);
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, forms_get_style().Background[0].get());
 
 		var _surface = get_surface();
 		if (surface_exists(_surface))

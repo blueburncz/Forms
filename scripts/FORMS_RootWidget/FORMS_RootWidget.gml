@@ -205,7 +205,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	{
 		global.__formsRoot = self;
 
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, Style.Background[1]);
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, Style.Background[1].get());
 
 		gpu_push_state();
 		gpu_set_tex_filter(true);
@@ -247,7 +247,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 					_tooltipY - _shadowOffset,
 					_tooltipWidth + _shadowOffset * 2,
 					_tooltipHeight + _shadowOffset * 2,
-					Style.Shadow, Style.ShadowAlpha);
+					Style.Shadow.get(), Style.Shadow.get_alpha());
 
 				draw_sprite_stretched_ext(
 					FORMS_SprRound4,
@@ -256,13 +256,13 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 					_tooltipY,
 					_tooltipWidth,
 					_tooltipHeight,
-					Style.Tooltip,
+					Style.Tooltip.get(),
 					_tooltipAlpha);
 				forms_draw_text(
 					_tooltipX + _tooltipPaddingX,
 					_tooltipY + _tooltipPaddingY,
 					__tooltip,
-					Style.TooltipText,
+					Style.TooltipText.get(),
 					_tooltipAlpha);
 			}
 		}

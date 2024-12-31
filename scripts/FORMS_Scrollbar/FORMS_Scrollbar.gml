@@ -146,9 +146,9 @@ function FORMS_HScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target,
 	{
 		var _root = forms_get_root();
 		var _style = _root.Style;
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[2]);
-		var _color = (_root.DragTarget == self) ? _style.ScrollbarActive
-			: (__thumbIsHovered ? _style.ScrollbarHover : _style.Scrollbar);
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[2].get());
+		var _color = (_root.DragTarget == self) ? _style.ScrollbarActive.get()
+			: (__thumbIsHovered ? _style.ScrollbarHover.get() : _style.Scrollbar.get());
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __thumbPos, __realY, __thumbSize, __realHeight, _color,
 			1.0);
 		return self;
@@ -199,9 +199,9 @@ function FORMS_VScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target,
 	{
 		var _root = forms_get_root();
 		var _style = _root.Style;
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[2]);
-		var _color = (_root.DragTarget == self) ? _style.ScrollbarActive
-			: (__thumbIsHovered ? _style.ScrollbarHover : _style.Scrollbar);
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[2].get());
+		var _color = (_root.DragTarget == self) ? _style.ScrollbarActive.get()
+			: (__thumbIsHovered ? _style.ScrollbarHover.get() : _style.Scrollbar.get());
 		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __realX, __thumbPos, __realWidth, __thumbSize, _color,
 			1.0);
 		return self;

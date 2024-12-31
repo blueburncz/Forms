@@ -203,7 +203,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 		draw_sprite_stretched_ext(
 			BackgroundSprite, BackgroundIndex,
 			0, 0, __realWidth, __realHeight,
-			forms_get_style().Background[BackgroundColorIndex], 1.0);
+			forms_get_style().Background[BackgroundColorIndex].get(), 1.0);
 
 		forms_push_mouse_coordinates(__realX - ScrollX, __realY - ScrollY);
 		var _world = matrix_get(matrix_world);

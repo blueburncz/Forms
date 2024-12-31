@@ -2,6 +2,8 @@ global.testPreferencesWindow = new TestPreferencesWindow();
 
 function TestPreferencesWindow(): FORMS_Window() constructor
 {
+	Width.from_string("600px");
+	Height.from_string("400px");
 	Center = true;
 	DestroyOnClose = false;
 
@@ -45,37 +47,33 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 
 					Pen.text("Accent Color");
 					Pen.next();
-					if (Pen.color("input-accent-color", new FORMS_Color(0xFF000000 | _style
-							.Accent)))
+					if (Pen.color("color-accent", _style.Accent))
 					{
-						_style.Accent = Pen.get_result().get();
+						_style.Accent = Pen.get_result();
 					}
 					Pen.next();
 
 					Pen.text("Text Color");
 					Pen.next();
-					if (Pen.color("input-text-color", new FORMS_Color(0xFF000000 | _style
-							.Text)))
+					if (Pen.color("color-text", _style.Text))
 					{
-						_style.Text = Pen.get_result().get();
+						_style.Text = Pen.get_result();
 					}
 					Pen.next();
 
 					Pen.text("Muted Text Color");
 					Pen.next();
-					if (Pen.color("input-text-muted-color", new FORMS_Color(0xFF000000 | _style
-							.TextMuted)))
+					if (Pen.color("color-text-muted", _style.TextMuted))
 					{
-						_style.TextMuted = Pen.get_result().get();
+						_style.TextMuted = Pen.get_result();
 					}
 					Pen.next();
 
 					Pen.text("Disabled Text Color");
 					Pen.next();
-					if (Pen.color("input-text-disabled-color", new FORMS_Color(0xFF000000
-							| _style.TextDisabled)))
+					if (Pen.color("color-text-disabled", _style.TextDisabled))
 					{
-						_style.TextDisabled = Pen.get_result().get();
+						_style.TextDisabled = Pen.get_result();
 					}
 					Pen.next();
 
@@ -83,87 +81,74 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					{
 						Pen.text($"Background Color {i + 1}");
 						Pen.next();
-						if (Pen.color($"input-background-color-{i}", new FORMS_Color(0xFF000000
-								| _style.Background[i])))
+						if (Pen.color($"color-background-{i}", _style.Background[i]))
 						{
-							_style.Background[@ i] = Pen.get_result().get();
+							_style.Background[@ i] = Pen.get_result();
 						}
 						Pen.next();
 					}
 
 					Pen.text("Scrollbar");
 					Pen.next();
-					if (Pen.color("Scrollbar", new FORMS_Color(0xFF000000 | _style.Scrollbar)))
+					if (Pen.color("color-scrollbar", _style.Scrollbar))
 					{
-						_style.Scrollbar = Pen.get_result().get();
+						_style.Scrollbar = Pen.get_result();
 					}
 					Pen.next();
 
-					Pen.text("ScrollbarHover");
+					Pen.text("Scrollbar Hover");
 					Pen.next();
-					if (Pen.color("ScrollbarHover", new FORMS_Color(0xFF000000 | _style
-							.ScrollbarHover)))
+					if (Pen.color("color-scrollbar-hover", _style.ScrollbarHover))
 					{
-						_style.ScrollbarHover = Pen.get_result().get();
+						_style.ScrollbarHover = Pen.get_result();
 					}
 					Pen.next();
 
-					Pen.text("ScrollbarActive");
+					Pen.text("Scrollbar Active");
 					Pen.next();
-					if (Pen.color("ScrollbarActive", new FORMS_Color(0xFF000000 | _style
-							.ScrollbarActive)))
+					if (Pen.color("color-scrollbar-active", _style.ScrollbarActive))
 					{
-						_style.ScrollbarActive = Pen.get_result().get();
+						_style.ScrollbarActive = Pen.get_result();
 					}
 					Pen.next();
 
 					Pen.text("Shadow");
 					Pen.next();
-					if (Pen.color("Shadow", new FORMS_Color(0xFF000000 | _style.Shadow)))
+					if (Pen.color("color-shadow", _style.Shadow))
 					{
-						_style.Shadow = Pen.get_result().get();
-					}
-					Pen.next();
-
-					Pen.text("ShadowAlpha");
-					Pen.next();
-					if (Pen.color("ShadowAlpha", new FORMS_Color(0xFF000000 | _style
-							.ShadowAlpha)))
-					{
-						_style.ShadowAlpha = Pen.get_result().get();
+						_style.Shadow = Pen.get_result();
 					}
 					Pen.next();
 
 					Pen.text("Tooltip");
 					Pen.next();
-					if (Pen.color("Tooltip", new FORMS_Color(0xFF000000 | _style.Tooltip)))
+					if (Pen.color("color-tooltip", _style.Tooltip))
 					{
-						_style.Tooltip = Pen.get_result().get();
+						_style.Tooltip = Pen.get_result();
 					}
 					Pen.next();
 
-					Pen.text("TooltipText");
+					Pen.text("color-tooltip-text");
 					Pen.next();
-					if (Pen.color("TooltipText", new FORMS_Color(0xFF000000 | _style
-							.TooltipText)))
+					if (Pen.color("TooltipText", _style.TooltipText))
 					{
-						_style.TooltipText = Pen.get_result().get();
+						_style.TooltipText = Pen.get_result();
 					}
 					Pen.next();
 
-					Pen.text("Highlight");
+					Pen.text("color-highlight");
 					Pen.next();
-					if (Pen.color("Highlight", new FORMS_Color(0xFF000000 | _style.Highlight)))
+					if (Pen.color("Highlight", _style.Highlight))
 					{
-						_style.Highlight = Pen.get_result().get();
+						_style.Highlight = Pen.get_result();
 					}
 					Pen.next();
 
-					Pen.text("Border");
+					Pen.text("color-border");
 					Pen.next();
-					if (Pen.color("Border", new FORMS_Color(0xFF000000 | _style.Border)))
+					if (Pen.color("Border", _style.Border))
 					{
-						_style.Border = Pen.get_result().get();
+						_style.Border = Pen.get_result();
 					}
 					Pen.next();
 
@@ -180,12 +165,30 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 		Width.from_string("100%");
 		Height.from_string("32px");
 		Pen.SpacingX = 4;
+		__window = undefined;
 
 		static draw_content = function ()
 		{
 			Pen.start();
-			if (Pen.button("Apply")) {}
-			if (Pen.button("Cancel")) {}
+
+			if (Pen.button("Apply"))
+			{
+				__window ??= find_parent_type(TestPreferencesWindow);
+				if (__window.DestroyOnClose)
+				{
+					__window.destroy_later();
+				}
+				else
+				{
+					__window.remove_self();
+				}
+			}
+
+			if (Pen.button("Cancel"))
+			{
+				// TODO: Discard changes and close preferences window
+			}
+
 			Pen.finish();
 			FORMS_CONTENT_UPDATE_SIZE;
 			return self;

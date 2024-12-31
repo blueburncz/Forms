@@ -446,10 +446,10 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 	{
 		var _root = forms_get_root();
 		var _style = _root.Style;
-		var _color = (_root.DragTarget == self) ? _style.Accent
-			: (__splitterIsHovered ? _style.Background[3] : _style.Background[1]);
+		var _color = (_root.DragTarget == self) ? _style.Accent.get()
+			: (__splitterIsHovered ? _style.Background[3].get() : _style.Background[1].get());
 
-		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[1]);
+		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[1].get());
 
 		if (__left != undefined && __right != undefined)
 		{
@@ -548,13 +548,14 @@ function FORMS_DockTabs(_props = undefined): FORMS_Container(_props) constructor
 					+ string_width(_tab.Name) + ((_tabCount > 1) ? 4 + 16 : 0)
 					+ _tabPadding,
 					__realHeight,
-					_style.Background[2], 1.0);
+					_style.Background[2].get(), 1.0);
 			}
 			Pen.move(_tabPadding);
 			if (_tab.Icon != undefined)
 			{
 				fa_draw(_tab.IconFont, _tab.Icon, Pen.X, Pen.Y, (_tabIndex == _tabCurrent) ? _style.Text
-					: _style.TextMuted);
+					.get()
+					: _style.TextMuted.get());
 				Pen.move(_iconSpace);
 			}
 			if (Pen.link(_tab.Name, { Muted: (_tabIndex != _tabCurrent) }))
