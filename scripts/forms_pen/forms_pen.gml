@@ -1057,11 +1057,14 @@ function FORMS_Pen(_container) constructor
 		var _mouseOver = (!_disabled && is_mouse_over(X, Y, _width, _height, _id));
 
 		// Border
-		if (_color.get() == _style.Background[2].get())
+		var _backgroundColor = _style.Background[2];
+
+		if (_color.get() == _backgroundColor.get())
 		{
-			var _red = 255 - _color.get_red();
-			var _green = 255 - _color.get_green();
-			var _blue = 255 - _color.get_blue();
+			var _red = 255 - _backgroundColor.get_red();
+			var _green = 255 - _backgroundColor.get_green();
+			var _blue = 255 - _backgroundColor.get_blue();
+
 			draw_sprite_stretched_ext(FORMS_SprRound4, 0, X - 1, Y - 1, _width + 2, _height + 2,
 				make_color_rgb(_red, _green, _blue), 1.0);
 		}
