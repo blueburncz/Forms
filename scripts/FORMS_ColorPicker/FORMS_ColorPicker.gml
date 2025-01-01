@@ -460,7 +460,7 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 			}
 
 			Pen.finish();
-			FORMS_CONTENT_UPDATE_SIZE
+			FORMS_CONTENT_UPDATE_SIZE;
 			return self;
 		}
 
@@ -476,9 +476,10 @@ function FORMS_ColorPicker(_id, _color, _props = undefined): FORMS_Window(undefi
 		else
 		{
 			if (keyboard_check_pressed(vk_escape)
-				|| (mouse_check_button_pressed(mb_any)
-					&& !is_mouse_over()
-					&& forms_get_root().WidgetHovered.find_parent_id(Id) == undefined))
+				|| (!is_mouse_over()
+					&& (forms_get_root().WidgetHovered == undefined
+						|| forms_get_root().WidgetHovered.find_parent_id(Id) == undefined)
+					&& forms_mouse_check_button_pressed(mb_left)))
 			{
 				destroy_later();
 			}
