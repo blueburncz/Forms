@@ -60,6 +60,7 @@
     {"id":{"name":"FORMS_Style","path":"scripts/FORMS_Style/FORMS_Style.yy",},},
     {"id":{"name":"FORMS_Toolbar","path":"scripts/FORMS_Toolbar/FORMS_Toolbar.yy",},},
     {"id":{"name":"FORMS_Tree","path":"scripts/FORMS_Tree/FORMS_Tree.yy",},},
+    {"id":{"name":"FORMS_UnitValue","path":"scripts/FORMS_UnitValue/FORMS_UnitValue.yy",},},
     {"id":{"name":"FORMS_Widget","path":"scripts/FORMS_Widget/FORMS_Widget.yy",},},
     {"id":{"name":"FORMS_Window","path":"scripts/FORMS_Window/FORMS_Window.yy",},},
     {"id":{"name":"FORMS_Workspace","path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},},

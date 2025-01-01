@@ -36,6 +36,7 @@
     {"name":"FORMS_Style","order":23,"path":"scripts/FORMS_Style/FORMS_Style.yy",},
     {"name":"FORMS_Toolbar","order":22,"path":"scripts/FORMS_Toolbar/FORMS_Toolbar.yy",},
     {"name":"FORMS_Tree","order":16,"path":"scripts/FORMS_Tree/FORMS_Tree.yy",},
+    {"name":"FORMS_UnitValue","order":24,"path":"scripts/FORMS_UnitValue/FORMS_UnitValue.yy",},
     {"name":"FORMS_Widget","order":17,"path":"scripts/FORMS_Widget/FORMS_Widget.yy",},
     {"name":"FORMS_Window","order":18,"path":"scripts/FORMS_Window/FORMS_Window.yy",},
     {"name":"FORMS_Workspace","order":19,"path":"scripts/FORMS_Workspace/FORMS_Workspace.yy",},
