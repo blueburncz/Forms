@@ -4,7 +4,7 @@
 #macro FORMS_PEN_RETURN_MOUSE_STATE \
 	if (_mouseOver) \
 	{ \
-		if (forms_mouse_check_button_pressed(mb_left)) \
+		if (forms_left_click()) \
 		{ \
 			return FORMS_EControlAction.Click; \
 		} \
@@ -1084,7 +1084,7 @@ function FORMS_Pen(_container) constructor
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 
-			if (forms_mouse_check_button_pressed(mb_left))
+			if (forms_left_click())
 			{
 				var _colorPickerId = _id + "#color-picker";
 
@@ -1366,7 +1366,7 @@ function FORMS_Pen(_container) constructor
 		if (_mouseOver)
 		{
 			// Open dropdown options
-			if (forms_mouse_check_button_pressed(mb_left))
+			if (forms_left_click())
 			{
 				if (__dropdowns[$  _id] == undefined
 					|| !weak_ref_alive(__dropdowns[$  _id]))
@@ -1992,7 +1992,7 @@ function FORMS_Pen(_container) constructor
 		}
 
 		// Text
-		if (link(_text) || (_mouseOver && forms_mouse_check_button_pressed(mb_left)))
+		if (link(_text) || (_mouseOver && forms_left_click()))
 		{
 			_action = FORMS_EControlAction.Click;
 		}
@@ -2032,7 +2032,7 @@ function FORMS_Pen(_container) constructor
 			forms_set_tooltip(forms_get_prop(_props, "Tooltip"));
 			forms_set_cursor(cr_handpoint);
 		}
-		if (_mouseOver && forms_mouse_check_button_pressed(mb_left))
+		if (_mouseOver && forms_left_click())
 		{
 			__sectionExpanded[$  _id] = !__sectionExpanded[$  _id];
 		}

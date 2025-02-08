@@ -2,13 +2,30 @@
 /// @private
 global.__formsRoot = undefined;
 
-/// @enum Status for mouse buttons
-enum FORMS_EMouseButton
+/// @enum Mouse button states.
+enum FORMS_EMouseState
 {
+	/// @member TODO: Add docs
 	Released = -1,
+		/// @member TODO: Add docs
 		Off = 0,
+		/// @member TODO: Add docs
 		Held = 1,
+		/// @member TODO: Add docs
 		Pressed = 2,
+};
+
+/// @enum TODO: Add docs
+enum FORMS_EDragState
+{
+	/// @member TODO: Add docs
+	None,
+	/// @member TODO: Add docs
+	Start,
+	/// @member TODO: Add docs
+	Dragging,
+	/// @member TODO: Add docs
+	End,
 };
 
 /// @func forms_get_root()
@@ -112,6 +129,14 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 
 	__results = {};
 
+	__dragStartX = 0;
+	__dragStartY = 0;
+	__dragThreshold = 2;
+
+	/// @var {Bool}
+	/// @readonly
+	DragState = FORMS_EDragState.None;
+
 	/// @var {Array<Struct.FORMS_Widget>}
 	/// @private
 	__widgetsToDestroy = [];
@@ -190,13 +215,50 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	static update = function (_deltaTime)
 	{
 		global.__formsRoot = self;
+
 		MouseX = window_mouse_get_x();
 		MouseY = window_mouse_get_y();
 		__mouseButtons = {};
 		__tooltip = undefined;
 		__cursor = cr_default;
+
+		if (mouse_check_button_pressed(mb_left))
+		{
+			__dragStartX = MouseX;
+			__dragStartY = MouseY;
+			DragState = FORMS_EDragState.None;
+		}
+
+		if (mouse_check_button(mb_left))
+		{
+			if (point_distance(MouseX, MouseY, __dragStartX, __dragStartY) > __dragThreshold)
+			{
+				if (DragState == FORMS_EDragState.None)
+				{
+					DragState = FORMS_EDragState.Start;
+				}
+				else if (DragState == FORMS_EDragState.Start)
+				{
+					DragState = FORMS_EDragState.Dragging;
+				}
+			}
+		}
+		else if (DragState == FORMS_EDragState.End)
+		{
+			DragState = FORMS_EDragState.None;
+		}
+
+		if (mouse_check_button_released(mb_left))
+		{
+			if (DragState == FORMS_EDragState.Dragging)
+			{
+				DragState = FORMS_EDragState.End;
+			}
+		}
+
 		layout();
 		CompoundWidget_update(_deltaTime);
+
 		global.__formsRoot = undefined;
 		return self;
 	}
@@ -342,16 +404,16 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	///
 	/// @param {Constant.MouseButton} _button The mouse button to check.
 	///
-	/// @return {Real} Value from {@link FORMS_EMouseButton}
+	/// @return {Real} Value from {@link FORMS_EMouseState}
 	static __check_mouse_status = function (_button)
 	{
 		if (!struct_exists(__mouseButtons, _button))
 		{
 			var _status = undefined;
-			_status ??= mouse_check_button_pressed(_button) ? FORMS_EMouseButton.Pressed : undefined;
-			_status ??= mouse_check_button(_button) ? FORMS_EMouseButton.Held : undefined;
-			_status ??= mouse_check_button_released(_button) ? FORMS_EMouseButton.Released : undefined;
-			_status ??= FORMS_EMouseButton.Off;
+			_status ??= mouse_check_button_pressed(_button) ? FORMS_EMouseState.Pressed : undefined;
+			_status ??= mouse_check_button(_button) ? FORMS_EMouseState.Held : undefined;
+			_status ??= mouse_check_button_released(_button) ? FORMS_EMouseState.Released : undefined;
+			_status ??= FORMS_EMouseState.Off;
 			__mouseButtons[$  _button] = _status;
 		}
 		return __mouseButtons[$  _button];
@@ -367,9 +429,9 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	/// @return {Bool} Returns `true` if given mouse button is pressed.
 	static check_mouse_pressed = function (_button)
 	{
-		if (__check_mouse_status(_button) == FORMS_EMouseButton.Pressed)
+		if (__check_mouse_status(_button) == FORMS_EMouseState.Pressed)
 		{
-			mouse_set_button_status(_button, FORMS_EMouseButton.Held);
+			mouse_set_button_status(_button, FORMS_EMouseState.Held);
 			return true;
 		}
 		return false;
@@ -385,7 +447,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	static check_mouse = function (_button)
 	{
 		var _button_status = __check_mouse_status(_button);
-		return (_button_status == FORMS_EMouseButton.Held || _button_status == FORMS_EMouseButton.Pressed);
+		return (_button_status == FORMS_EMouseState.Held || _button_status == FORMS_EMouseState.Pressed);
 	}
 
 	/// @func check_mouse_released(_button)
@@ -397,7 +459,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	/// @return {Bool} Returns `true` if given mouse button has been released.
 	static check_mouse_released = function (_button)
 	{
-		return __check_mouse_status(_button) == FORMS_EMouseButton.Released;
+		return __check_mouse_status(_button) == FORMS_EMouseState.Released;
 	}
 
 	/// @func mouse_set_button_status(_button)
@@ -405,7 +467,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 	/// @desc Sets the given mouse button's status.
 	///
 	/// @param {Constant.MouseButton} _button The mouse button to set.
-	/// @param {Real} _status Value from Enum {@link FORMS_EMouseButton}.
+	/// @param {Real} _status Value from Enum {@link FORMS_EMouseState}.
 	static mouse_set_button_status = function (_button, _status)
 	{
 		__mouseButtons[$  _button] = _status;
@@ -551,7 +613,7 @@ function forms_mouse_check_button_released(_button)
 /// @desc Sets the given mouse button's status.
 ///
 /// @param {Constant.MouseButton} _button The mouse button to set.
-/// @param {Real} _status Value from Enum {@link FORMS_EMouseButton}.
+/// @param {Real} _status Value from Enum {@link FORMS_EMouseState}.
 function forms_mouse_set_button_status(_button, _status)
 {
 	gml_pragma("forceinline");
@@ -739,4 +801,37 @@ function forms_get_style()
 {
 	gml_pragma("forceinline");
 	return forms_get_root().Style;
+}
+
+/// @func forms_get_drag_state()
+///
+/// @desc TODO: Add docs
+///
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
+///
+/// @return {Real} One of the values from {@link FORMS_EDragState}.
+///
+/// @note This is a shorthand for `forms_get_root().DragState`.
+///
+/// @see forms_get_root
+/// @see FORMS_RootWidget.DragState
+function forms_get_drag_state()
+{
+	gml_pragma("forceinline");
+	return forms_get_root().DragState;
+}
+
+/// @func forms_left_click()
+///
+/// @desc Checks whether left mouse button was clicked.
+///
+/// Available only in scope of [update](./FORMS_Widget.update.html) and [draw](./FORMS_Widget.draw.html) of the
+/// [root widget](./FORMS_RootWidget.html), otherwise ends with an error!
+///
+/// @return {Bool} Returns `true` one left mouse click.
+function forms_left_click()
+{
+	gml_pragma("forceinline");
+	return (forms_mouse_check_button_released(mb_left) && forms_get_drag_state() == FORMS_EDragState.None);
 }

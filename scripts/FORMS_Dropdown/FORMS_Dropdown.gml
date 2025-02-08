@@ -83,7 +83,7 @@ function FORMS_Dropdown(_id, _values, _index, _width, _props = undefined): FORMS
 			if (Pen.is_mouse_over(_x, _y, _valueWidth, _lineHeight))
 			{
 				forms_draw_rectangle(_x, _y, _valueWidth, _lineHeight, _style.Background[4].get());
-				if (forms_mouse_check_button_pressed(mb_left))
+				if (forms_left_click())
 				{
 					_select = i;
 				}

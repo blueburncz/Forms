@@ -228,7 +228,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 
 				if (_mouseOver)
 				{
-					if (forms_mouse_check_button_pressed(mb_left))
+					if (forms_left_click())
 					{
 						_select = _option;
 					}
