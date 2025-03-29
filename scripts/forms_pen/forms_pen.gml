@@ -1992,7 +1992,8 @@ function FORMS_Pen(_container) constructor
 		}
 
 		// Text
-		if (link(_text) || (_mouseOver && forms_left_click()))
+		if (_action != FORMS_EControlAction.CaretClick
+			&& (link(_text) || (_mouseOver && forms_left_click())))
 		{
 			_action = FORMS_EControlAction.Click;
 		}
