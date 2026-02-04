@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"__FA",
   "parent":{
-    "name":"FontAwesome6.5.1",
-    "path":"folders/FontAwesome6.5.1.yy",
+    "name":"FontAwesome6.7.2",
+    "path":"folders/FontAwesome6.7.2.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
