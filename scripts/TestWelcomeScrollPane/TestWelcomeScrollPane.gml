@@ -10,7 +10,7 @@ function TestWelcomeScrollPane(): FORMS_ScrollPane() constructor
 	{
 		Pen.start()
 			.text($"Welcome to Forms {FORMS_VERSION_STRING}!").nl(2)
-			.text("Forms is a UI library for creating applications in GameMaker!").nl()
+			.text("Forms is a UI library for creating desktop applications in GameMaker!").nl()
 			.finish();
 		FORMS_CONTENT_UPDATE_SIZE;
 		return self;

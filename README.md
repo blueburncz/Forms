@@ -1,17 +1,13 @@
 # Forms
 
-> UI library for creating applications in GameMaker
+> UI library for creating desktop applications in GameMaker
 
 [![License](https://img.shields.io/github/license/blueburncz/Forms)](LICENSE)
 [![Discord](https://img.shields.io/discord/298884075585011713?label=Discord)](https://discord.gg/ep2BGPm)
 
-> **WARNING:** Forms is currently in development and usage in real-world apps is not advised before 1.0.0 is released!
+## Status: Community Project 💙
 
-## Table of Contents
-
-* [About](#about)
-* [Screenshots](#screenshots)
-* [Contributing](#contributing)
+This is a community-developed project, released under **CC0 1.0 Universal (Public Domain)**. It is **no longer actively maintained** by the original author. Feel free to fork, modify, or experiment.
 
 ## About
 
@@ -20,7 +16,3 @@ Forms is a UI library for creating applications in GameMaker. Its origins trace 
 ## Screenshots
 
 ![Screenshot](screenshot.png)
-
-## Contributing
-
-Forms is open for pull requests! You're welcome to choose any of the open issues or open a new one yourself and start a discussion. **It is mandatory that your coding style matches with the rest of the repo!** We're using [format-gml](https://github.com/blueburncz/format-gml) to ensure this. Please have a look here to learn how to use it: <https://github.com/blueburncz/format-gml?tab=readme-ov-file#as-a-contributor>.
