@@ -178,8 +178,8 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 
 					Pen.text("Scrollbar Size Min");
 					Pen.next();
-					if (Pen.slider("scrollbar-size-min", _style.ScrollbarSizeMin, 16, 128,
-						{ ShowText: true, Post: "px", Integers: true }))
+					if (Pen.slider("scrollbar-size-min", _style.ScrollbarSizeMin, 16,
+							128, { ShowText: true, Post: "px", Integers: true }))
 					{
 						_style.ScrollbarSizeMin = Pen.get_result();
 					}
@@ -251,8 +251,8 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 
 					Pen.text("Splitter Size");
 					Pen.next();
-					if (Pen.slider("splitter-size", _style.SplitterSize, 2, 16,
-						{ ShowText: true, Post: "px", Integers: true }))
+					if (Pen.slider("splitter-size", _style.SplitterSize, 2,
+							16, { ShowText: true, Post: "px", Integers: true }))
 					{
 						_style.SplitterSize = Pen.get_result();
 					}
@@ -261,7 +261,11 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					Pen.text("Padding");
 					Pen.next();
 					if (Pen.slider("padding", _style.Padding, 0, 32,
-						{ ShowText: true, Post: "px", Integers: true }))
+						{
+							ShowText: true,
+							Post: "px",
+							Integers: true
+						}))
 					{
 						_style.Padding = Pen.get_result();
 					}
@@ -270,7 +274,11 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					Pen.text("Spacing");
 					Pen.next();
 					if (Pen.slider("spacing", _style.Spacing, 0, 16,
-						{ ShowText: true, Post: "px", Integers: true }))
+						{
+							ShowText: true,
+							Post: "px",
+							Integers: true
+						}))
 					{
 						_style.Spacing = Pen.get_result();
 					}

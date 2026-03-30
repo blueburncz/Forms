@@ -74,7 +74,8 @@ function TestWindowContextMenu(): FORMS_ContextMenu() constructor
 		var _dock = new FORMS_Dock({ ShowTabs: false });
 		_dock.__tabs = [_tab];
 		_tab.Parent = _dock;
-		var _window = new FORMS_Window(_dock, {
+		var _window = new FORMS_Window(_dock,
+		{
 			Center: true,
 			Width: 600,
 			Height: 400,
@@ -89,7 +90,8 @@ function TestWindowContextMenu(): FORMS_ContextMenu() constructor
 	{
 		forms_open_single_instance("viewport", function ()
 		{
-			return new FORMS_ApplicationSurface({
+			return new FORMS_ApplicationSurface(
+			{
 				Name: "Viewport",
 				Icon: FA_ESolid.Camera,
 				Width: "100%",
@@ -193,7 +195,8 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	forms_register_single_instance("viewport", _viewport);
 
 	// Tool selection toolbar (top-left)
-	var _toolBar = new (function (): FORMS_FloatingToolbar({
+	var _toolBar = new(function (): FORMS_FloatingToolbar(
+	{
 		PositionX: 0.0,
 		PositionY: 0.0,
 	}) constructor
@@ -203,20 +206,43 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 		static draw_content = function ()
 		{
 			Pen.start();
-			if (Pen.icon_solid(FA_ESolid.ArrowPointer, { Width: 24, Tooltip: "Select", Active: (Tool == 0) }))
+			if (Pen.icon_solid(FA_ESolid.ArrowPointer,
+				{
+					Width: 24,
+					Tooltip: "Select",
+					Active: (Tool
+						== 0)
+				}))
 			{
 				Tool = 0;
 			}
 			Pen.vsep();
-			if (Pen.icon_solid(FA_ESolid.ArrowsUpDownLeftRight, { Width: 24, Tooltip: "Move", Active: (Tool == 1) }))
+			if (Pen.icon_solid(FA_ESolid.ArrowsUpDownLeftRight,
+				{
+					Width: 24,
+					Tooltip: "Move",
+					Active: (
+						Tool == 1)
+				}))
 			{
 				Tool = 1;
 			}
-			if (Pen.icon_solid(FA_ESolid.ArrowsRotate, { Width: 24, Tooltip: "Rotate", Active: (Tool == 2) }))
+			if (Pen.icon_solid(FA_ESolid.ArrowsRotate,
+				{
+					Width: 24,
+					Tooltip: "Rotate",
+					Active: (Tool
+						== 2)
+				}))
 			{
 				Tool = 2;
 			}
-			if (Pen.icon_solid(FA_ESolid.UpRightAndDownLeftFromCenter, { Width: 24, Tooltip: "Scale", Active: (Tool == 3) }))
+			if (Pen.icon_solid(FA_ESolid.UpRightAndDownLeftFromCenter,
+				{
+					Width: 24,
+					Tooltip: "Scale",
+					Active: (Tool == 3)
+				}))
 			{
 				Tool = 3;
 			}
@@ -228,7 +254,8 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	_viewport.add_child(_toolBar);
 
 	// Rendering options toolbar (top-right)
-	var _renderBar = new (function (): FORMS_FloatingToolbar({
+	var _renderBar = new(function (): FORMS_FloatingToolbar(
+	{
 		PositionX: 1.0,
 		PositionY: 0.0,
 	}) constructor
@@ -256,7 +283,8 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	_viewport.add_child(_renderBar);
 
 	// FPS counter (bottom-right)
-	var _fpsBar = new (function (): FORMS_FloatingToolbar({
+	var _fpsBar = new(function (): FORMS_FloatingToolbar(
+	{
 		PositionX: 1.0,
 		PositionY: 1.0,
 		BackgroundAlpha: 0.6,

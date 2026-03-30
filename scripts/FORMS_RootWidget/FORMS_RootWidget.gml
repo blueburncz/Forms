@@ -304,6 +304,12 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 			}
 		}
 
+		// Clear any remaining DragTarget on mouse release (e.g. file drag dropped on invalid area)
+		if (DragTarget != undefined && mouse_check_button_released(mb_left))
+		{
+			DragTarget = undefined;
+		}
+
 		global.__formsRoot = undefined;
 		return self;
 	}
@@ -383,6 +389,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 			}
 			if (__tooltipTimer >= 500)
 			{
+				draw_set_font(Style.Font);
 				var _tooltipPaddingX = Style.Padding;
 				var _tooltipPaddingY = Style.Padding / 2;
 				var _tooltipWidth = string_width(__tooltip) + _tooltipPaddingX * 2;

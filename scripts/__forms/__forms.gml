@@ -278,7 +278,7 @@ global.__formsSingleInstances = {};
 /// @param {Struct.FORMS_Widget} _widget The widget to register.
 function forms_register_single_instance(_id, _widget)
 {
-	global.__formsSingleInstances[$ _id] = weak_ref_create(_widget);
+	global.__formsSingleInstances[$  _id] = weak_ref_create(_widget);
 }
 
 /// @func forms_unregister_single_instance(_id)
@@ -304,7 +304,7 @@ function forms_get_single_instance(_id)
 	{
 		return undefined;
 	}
-	var _ref = global.__formsSingleInstances[$ _id];
+	var _ref = global.__formsSingleInstances[$  _id];
 	if (!weak_ref_alive(_ref))
 	{
 		variable_struct_remove(global.__formsSingleInstances, _id);
@@ -377,7 +377,8 @@ function forms_open_single_instance(_id, _createFunc, _dock = undefined)
 		var _innerDock = new FORMS_Dock({ ShowTabs: false });
 		_innerDock.__tabs = [_widget];
 		_widget.Parent = _innerDock;
-		var _window = new FORMS_Window(_innerDock, {
+		var _window = new FORMS_Window(_innerDock,
+		{
 			Center: true,
 			Width: 600,
 			Height: 400,

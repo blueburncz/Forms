@@ -217,7 +217,8 @@ function FORMS_TabDrag() constructor
 			{
 				array_delete(_sourceDock.__tabs, _tabIndex, 1);
 				_tab.Parent = undefined;
-				_sourceDock.__tabCurrent = clamp(_sourceDock.__tabCurrent, 0, max(array_length(_sourceDock.__tabs) - 1, 0));
+				_sourceDock.__tabCurrent = clamp(_sourceDock.__tabCurrent, 0, max(array_length(_sourceDock.__tabs)
+					- 1, 0));
 			}
 
 			// Execute drop based on zone type
@@ -273,7 +274,8 @@ function FORMS_TabDrag() constructor
 		{
 			array_delete(_sourceDock.__tabs, _tabIndex, 1);
 			_tab.Parent = undefined;
-			_sourceDock.__tabCurrent = clamp(_sourceDock.__tabCurrent, 0, max(array_length(_sourceDock.__tabs) - 1, 0));
+			_sourceDock.__tabCurrent = clamp(_sourceDock.__tabCurrent, 0, max(array_length(_sourceDock.__tabs) - 1,
+				0));
 		}
 
 		// Create a dock inside a window (ShowTabs false = tabs render in window title bar)
@@ -283,7 +285,8 @@ function FORMS_TabDrag() constructor
 
 		var _mouseX = window_mouse_get_x();
 		var _mouseY = window_mouse_get_y();
-		var _window = new FORMS_Window(_dock, {
+		var _window = new FORMS_Window(_dock,
+		{
 			X: _mouseX - DragOffsetX,
 			Y: _mouseY - DragOffsetY,
 			Width: max(TabWidth + 32, 400),
@@ -456,8 +459,10 @@ function FORMS_TabDrag() constructor
 			// Border
 			forms_draw_rectangle(_rect[0], _rect[1], _rect[2], 2, _style.Accent.get(), 0.8 * PreviewAlpha);
 			forms_draw_rectangle(_rect[0], _rect[1], 2, _rect[3], _style.Accent.get(), 0.8 * PreviewAlpha);
-			forms_draw_rectangle(_rect[0] + _rect[2] - 2, _rect[1], 2, _rect[3], _style.Accent.get(), 0.8 * PreviewAlpha);
-			forms_draw_rectangle(_rect[0], _rect[1] + _rect[3] - 2, _rect[2], 2, _style.Accent.get(), 0.8 * PreviewAlpha);
+			forms_draw_rectangle(_rect[0] + _rect[2] - 2, _rect[1], 2, _rect[3], _style.Accent.get(), 0.8
+				* PreviewAlpha);
+			forms_draw_rectangle(_rect[0], _rect[1] + _rect[3] - 2, _rect[2], 2, _style.Accent.get(), 0.8
+				* PreviewAlpha);
 		}
 		else
 		{
@@ -891,8 +896,7 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 					array_push(_zones, new FORMS_DropZone(
 						FORMS_EDropZone.TabInsert, self,
 						_insertX - 8, _tabBarY,
-						16, _tabBarH,
-						{ insertIndex: i }));
+						16, _tabBarH, { insertIndex: i }));
 				}
 			}
 
@@ -1175,7 +1179,8 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 							if (_pi < array_length(__tabs) && _pi < array_length(_tc.__tabXPositions))
 							{
 								// Visual offset: mouse position relative to tab's normal position
-								_tc.__reorderOffsetX = _mx - (_tc.__tabXPositions[_pi] + _tc.__tabWidths[_pi] * 0.5);
+								_tc.__reorderOffsetX = _mx - (_tc.__tabXPositions[_pi] + _tc.__tabWidths[_pi]
+									* 0.5);
 
 								// Find which tab position the mouse is over
 								for (var _ri = 0; _ri < array_length(_tc.__tabXPositions); ++_ri)
@@ -1211,10 +1216,12 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 										array_insert(_tc.__tabWidths, _ri, _movingW);
 										for (var _qi = 1; _qi < array_length(_tc.__tabXPositions); ++_qi)
 										{
-											_tc.__tabXPositions[_qi] = _tc.__tabXPositions[_qi - 1] + _tc.__tabWidths[_qi - 1];
+											_tc.__tabXPositions[_qi] = _tc.__tabXPositions[_qi - 1] + _tc
+												.__tabWidths[_qi - 1];
 										}
 										// Recalculate visual offset with updated position
-										_tc.__reorderOffsetX = _mx - (_tc.__tabXPositions[_ri] + _tc.__tabWidths[_ri] * 0.5);
+										_tc.__reorderOffsetX = _mx - (_tc.__tabXPositions[_ri] + _tc
+											.__tabWidths[_ri] * 0.5);
 										break;
 									}
 								}

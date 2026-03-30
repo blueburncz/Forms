@@ -170,6 +170,7 @@ function FORMS_ContextMenu(_options = [], _props = undefined): FORMS_Container(_
 	static draw_content = function ()
 	{
 		var _style = forms_get_style();
+		draw_set_font(_style.Font);
 
 		var _options = Options;
 		var _select = undefined;

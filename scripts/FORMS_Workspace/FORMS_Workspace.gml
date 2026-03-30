@@ -288,9 +288,11 @@ function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 								array_insert(_tc.__tabWidths, _ri, _movingWidth);
 								for (var _qi = 1; _qi < array_length(_tc.__tabXPositions); ++_qi)
 								{
-									_tc.__tabXPositions[_qi] = _tc.__tabXPositions[_qi - 1] + _tc.__tabWidths[_qi - 1];
+									_tc.__tabXPositions[_qi] = _tc.__tabXPositions[_qi - 1] + _tc.__tabWidths[
+										_qi - 1];
 								}
-								_tc.__reorderOffsetX = _mx - (_tc.__tabXPositions[_ri] + _tc.__tabWidths[_ri] * 0.5);
+								_tc.__reorderOffsetX = _mx - (_tc.__tabXPositions[_ri] + _tc.__tabWidths[_ri]
+									* 0.5);
 								__tabPrevious = __tabCurrent;
 								break;
 							}
@@ -522,7 +524,8 @@ function FORMS_WorkspaceTabs(_props = undefined): FORMS_Container(_props) constr
 				}
 
 				var _menuPos = Pen.get_absolute_pos(Pen.X, Pen.Y + string_height("M"));
-				var _contextMenu = new FORMS_ContextMenu(_options, {
+				var _contextMenu = new FORMS_ContextMenu(_options,
+				{
 					X: _menuPos[0],
 					Y: _menuPos[1],
 				});

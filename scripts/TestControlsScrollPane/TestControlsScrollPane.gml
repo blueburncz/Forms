@@ -96,7 +96,11 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 			Pen.nl();
 
 			Pen.text("Long text that will be trimmed: ", { Trim: false });
-			Pen.text("Lorem ipsum dolor sit amet consectetur adipiscing elit", { Trim: true, Tooltip: "Full text in tooltip" });
+			Pen.text("Lorem ipsum dolor sit amet consectetur adipiscing elit",
+			{
+				Trim: true,
+				Tooltip: "Full text in tooltip"
+			});
 			Pen.nl();
 
 			Pen.end_section();
@@ -146,9 +150,11 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 			// Button that shows dialog
 			if (Pen.button("Show Question Dialog"))
 			{
-				var _question = new FORMS_Question("You clicked the button!\n\nThis is a question dialog.", function (_button) {
-					show_debug_message("Dialog button clicked: " + string(_button));
-				});
+				var _question = new FORMS_Question("You clicked the button!\n\nThis is a question dialog.",
+					function (_button)
+					{
+						show_debug_message("Dialog button clicked: " + string(_button));
+					});
 				forms_get_root().add_child(_question);
 			}
 			Pen.nl();
@@ -207,7 +213,8 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 			}
 			Pen.nl();
 
-			if (Pen.radio(Radio == 3, { Tooltip: "Fourth option with tooltip" }) | Pen.link(" Option 4: Fourth choice"))
+			if (Pen.radio(Radio == 3, { Tooltip: "Fourth option with tooltip" }) | Pen.link(
+					" Option 4: Fourth choice"))
 			{
 				Radio = 3;
 			}
@@ -284,14 +291,18 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 			Pen.text(" Struct dropdown: " + string(DropdownStructValue)).nl();
 
 			// Wide dropdown
-			if (Pen.dropdown("dropdown-wide", DropdownWideValue, ["Option A", "Option B", "Option C"], { Width: 250 }))
+			if (Pen.dropdown("dropdown-wide", DropdownWideValue, ["Option A", "Option B",
+					"Option C"
+				], { Width: 250 }))
 			{
 				DropdownWideValue = Pen.get_result();
 			}
 			Pen.nl();
 
 			// Dropdown with custom padding
-			if (Pen.dropdown("dropdown-padded", DropdownPaddedValue, ["Compact", "Normal", "Spacious"], { Padding: 8 }))
+			if (Pen.dropdown("dropdown-padded", DropdownPaddedValue, ["Compact", "Normal",
+					"Spacious"
+				], { Padding: 8 }))
 			{
 				DropdownPaddedValue = Pen.get_result();
 			}
@@ -325,7 +336,11 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 			Pen.text(" Numeric input: " + string(InputReal)).nl();
 
 			// Input with ribbon (colored left border)
-			if (Pen.input("input-ribbon", InputWithRibbon, { Ribbon: _style.Accent.get(), Placeholder: "Has accent ribbon" }))
+			if (Pen.input("input-ribbon", InputWithRibbon,
+				{
+					Ribbon: _style.Accent.get(),
+					Placeholder: "Has accent ribbon"
+				}))
 			{
 				InputWithRibbon = Pen.get_result();
 			}
@@ -471,7 +486,13 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 			}
 			Pen.space();
 
-			Pen.sprite(FORMS_SprRound4, 0, { Width: 24, Height: 24, Disabled: true, Tooltip: "Disabled sprite" });
+			Pen.sprite(FORMS_SprRound4, 0,
+			{
+				Width: 24,
+				Height: 24,
+				Disabled: true,
+				Tooltip: "Disabled sprite"
+			});
 			Pen.nl();
 
 			Pen.end_section();
@@ -616,7 +637,8 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 			Pen.text("Background levels:", { Muted: true }).nl();
 			for (var i = 0; i < array_length(_style.Background); ++i)
 			{
-				draw_sprite_stretched_ext(FORMS_SprRound4, 0, Pen.X, Pen.Y, 16, 16, _style.Background[i].get(), 1.0);
+				draw_sprite_stretched_ext(FORMS_SprRound4, 0, Pen.X, Pen.Y, 16, 16, _style.Background[i].get(),
+					1.0);
 				Pen.space(5);
 				Pen.text($"Level {i}");
 				if (i < array_length(_style.Background) - 1) Pen.space(2);
@@ -636,13 +658,13 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 				var _opt1 = new FORMS_ContextMenuOption("Copy");
 				_opt1.Icon = FA_ESolid.Copy;
 				_opt1.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_control, ord("C")]);
-				_opt1.Action = function() { show_debug_message("Copy clicked!"); };
+				_opt1.Action = function () { show_debug_message("Copy clicked!"); };
 				array_push(_options, _opt1);
 
 				var _opt2 = new FORMS_ContextMenuOption("Paste");
 				_opt2.Icon = FA_ESolid.Paste;
 				_opt2.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_control, ord("V")]);
-				_opt2.Action = function() { show_debug_message("Paste clicked!"); };
+				_opt2.Action = function () { show_debug_message("Paste clicked!"); };
 				array_push(_options, _opt2);
 
 				array_push(_options, new FORMS_ContextMenuSeparator()); // Separator
@@ -650,10 +672,11 @@ function TestControlsScrollPane(): FORMS_ScrollPane() constructor
 				var _opt3 = new FORMS_ContextMenuOption("Delete");
 				_opt3.Icon = FA_ESolid.Trash;
 				_opt3.KeyboardShortcut = new FORMS_KeyboardShortcut([vk_delete]);
-				_opt3.Action = function() { show_debug_message("Delete clicked!"); };
+				_opt3.Action = function () { show_debug_message("Delete clicked!"); };
 				array_push(_options, _opt3);
 
-				var _contextMenu = new FORMS_ContextMenu(_options, {
+				var _contextMenu = new FORMS_ContextMenu(_options,
+				{
 					X: window_mouse_get_x(),
 					Y: window_mouse_get_y(),
 				});
