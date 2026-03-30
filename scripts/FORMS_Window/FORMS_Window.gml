@@ -120,7 +120,7 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 	__heightMin = 64;
 
 	/// @private
-	__padding = 4;
+	__padding = undefined;
 
 	/// @private
 	__move = false;
@@ -201,6 +201,9 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 		{
 			forms_get_root().WidgetHovered = undefined;
 		}
+
+		// Initialize padding from style if not set
+		__padding ??= forms_get_root().Style.Padding / 2;
 
 		// TODO: Shouldn't this clamp to root widget's size?
 		var _mouseX = clamp(forms_mouse_get_x(), 0, window_get_width());
@@ -413,16 +416,16 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 	static draw = function ()
 	{
 		var _root = forms_get_root();
+		var _style = _root.Style;
 
 		if (Blocking)
 		{
 			with(_root)
 			{
-				forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, c_black, 0.25);
+				forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.ModalOverlay.get(),
+					_style.ModalOverlay.get_alpha());
 			}
 		}
-
-		var _style = _root.Style;
 		var _shadowOffset = 16;
 		draw_sprite_stretched_ext(
 			FORMS_SprShadow, 0,
@@ -440,6 +443,41 @@ function FORMS_Window(_widget, _props = undefined): FORMS_Widget(_props) constru
 		if (Titlebar != undefined)
 		{
 			Titlebar.draw();
+		}
+
+		// Draw reordering tab overlay for dock-in-window (outside surface to avoid alpha issues)
+		if (Widget != undefined
+			&& variable_struct_exists(Widget, "__tabContainer"))
+		{
+			var _tc = Widget.__tabContainer;
+			if (_tc.__reorderActive && _tc.__pressedTabIndex >= 0
+				&& _tc.__pressedTabIndex < array_length(Widget.__tabs))
+			{
+				var _pi = _tc.__pressedTabIndex;
+				var _tab = Widget.__tabs[_pi];
+				var _tabPadding = _style.Padding + 1;
+				var _iconSpace = (_tab.Icon != undefined) ? 24 : 0;
+				var _tabWidth = (_pi < array_length(_tc.__tabWidths)) ? _tc.__tabWidths[_pi] : 100;
+				var _tabX = _tc.__tabXPositions[_pi] + _tc.__reorderOffsetX;
+				var _tabY = _tc.__tabHitY;
+				var _tabH = _tc.__tabHitHeight;
+
+				draw_sprite_stretched_ext(
+					FORMS_SprTab, 0,
+					_tabX, _tabY,
+					_tabWidth, _tabH,
+					_style.Background[2].get(), 1.0);
+
+				var _contentX = _tabX + _tabPadding;
+				var _contentY = _tabY + 3;
+				if (_tab.Icon != undefined)
+				{
+					fa_draw(_tab.IconFont, _tab.Icon, _contentX, _contentY, _style.Text.get());
+					_contentX += _iconSpace;
+				}
+				draw_set_font(_style.Font);
+				forms_draw_text(_contentX, _contentY, _tab.Name, _style.Text.get());
+			}
 		}
 
 		if (Widget != undefined)
@@ -490,14 +528,123 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 	/// @var {Struct.FORMS_UnitValue} The height of the title bar. Defaults to 24px.
 	Height = Height.from_props(_props, "Height", 24);
 
+	/// @var {Real} Background color index (darker than window body for contrast).
+	BackgroundColorIndex = 1;
+
+	/// @var {Bool} Set to `true` during draw_content when mouse pressed on a dock tab.
+	/// @private
+	__tabAreaPressed = false;
+
 	static draw_content = function ()
 	{
 		var _style = forms_get_style();
+		var _window = Parent;
+		var _widget = _window.Widget;
+
 		Pen.PaddingY = round((__realHeight - string_height("M")) / 2);
 		Pen.start();
-		var _widget = Parent.Widget;
-		if (_widget != undefined)
+
+		__tabAreaPressed = false;
+
+		// Check if widget is a Dock with ShowTabs disabled (pop-out window)
+		if (_widget != undefined
+			&& variable_struct_exists(_widget, "__tabs")
+			&& variable_struct_exists(_widget, "ShowTabs")
+			&& !_widget.ShowTabs)
 		{
+			// Render dock tabs inside the title bar
+			var _dock = _widget;
+			var _tabs = _dock.__tabs;
+			var _tabCount = array_length(_tabs);
+			var _tabCurrent = _dock.__tabCurrent;
+			var _tabPadding = _style.Padding + 1;
+			var _tabDrag = forms_get_tab_drag();
+
+			// Write positions to the dock's __tabContainer so Dock.update() drag detection works
+			var _tc = _dock.__tabContainer;
+			array_resize(_tc.__tabXPositions, _tabCount);
+			array_resize(_tc.__tabWidths, _tabCount);
+			_tc.__tabHitY = __realY;
+			_tc.__tabHitHeight = __realHeight;
+
+			// Reserve space for close button on the right
+			var _closeSpace = _window.Closable ? 24 : 0;
+			var _maxTabX = __realWidth - _closeSpace;
+
+			for (var i = 0; i < _tabCount; ++i)
+			{
+				var _tab = _tabs[i];
+				var _iconSpace = (_tab.Icon != undefined) ? 24 : 0;
+				var _tabStartX = Pen.X;
+
+				var _tabWidth = _tabPadding
+					+ _iconSpace
+					+ string_width(_tab.Name)
+					+ 4 + 16
+					+ _tabPadding;
+
+				_tc.__tabXPositions[i] = __realX + _tabStartX - ScrollX;
+				_tc.__tabWidths[i] = _tabWidth;
+
+				// Don't draw tabs past the window close button area
+				if (_tabStartX + _tabWidth > _maxTabX) break;
+
+				// Skip drawing tabs that are being dragged or reordered (drawn as overlay)
+				if ((_tabDrag.Active && _tabDrag.SourceDock == _dock && _tabDrag.TabIndex == i)
+					|| (_tc.__reorderActive && i == _tc.__pressedTabIndex))
+				{
+					Pen.move(_tabWidth);
+					continue;
+				}
+
+				if (_tabCurrent == i)
+				{
+					draw_sprite_stretched_ext(
+						FORMS_SprTab, 0,
+						Pen.X, 0,
+						_tabWidth, __realHeight,
+						_style.Background[2].get(), 1.0);
+				}
+				Pen.move(_tabPadding);
+				if (_tab.Icon != undefined)
+				{
+					fa_draw(_tab.IconFont, _tab.Icon, Pen.X, Pen.Y,
+						(i == _tabCurrent) ? _style.Text.get() : _style.TextMuted.get());
+					Pen.move(_iconSpace);
+				}
+				if (Pen.link(_tab.Name, { Muted: (i != _tabCurrent) }))
+				{
+					_dock.__tabCurrent = i;
+				}
+				Pen.move(4);
+				if (Pen.icon_solid(FA_ESolid.Xmark, { Width: 16, Muted: true }))
+				{
+					_tab.Parent = undefined;
+					_tab.destroy();
+					array_delete(_tabs, i--, 1);
+					--_tabCount;
+					_tabCurrent = clamp(_tabCurrent, 0, _tabCount - 1);
+					_dock.__tabCurrent = _tabCurrent;
+
+					// If dock is now empty, close the window
+					if (_tabCount == 0)
+					{
+						_window.destroy_later();
+					}
+				}
+				Pen.move(_tabPadding);
+
+				// Detect if mouse is within the tab area while button is held
+				if (Pen.is_mouse_over(_tabStartX, 0, _tabWidth, __realHeight)
+					&& mouse_check_button(mb_left))
+				{
+					__tabAreaPressed = true;
+				}
+			}
+		}
+		else if (_widget != undefined)
+		{
+			// Standard title: icon + name
 			if (_widget.Icon != undefined)
 			{
 				var _width = fa_get_width(_widget.IconFont, _widget.Icon);
@@ -507,18 +654,20 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 			}
 			Pen.text(_widget.Name);
 		}
+
+		// Close button (right-aligned)
 		var _iconWidth = 20;
 		Pen.set_x(__realWidth - _iconWidth - 2);
-		if (Parent.Closable
+		if (_window.Closable
 			&& Pen.icon_solid(FA_ESolid.Xmark, { Width: _iconWidth }))
 		{
-			if (Parent.DestroyOnClose)
+			if (_window.DestroyOnClose)
 			{
-				Parent.destroy_later();
+				_window.destroy_later();
 			}
 			else
 			{
-				Parent.remove_self();
+				_window.remove_self();
 			}
 		}
 		Pen.finish();
@@ -530,6 +679,7 @@ function FORMS_WindowTitle(_props = undefined): FORMS_Container(_props) construc
 		Container_draw();
 		if (!Parent.__toDestroy
 			&& Parent.Movable
+			&& !__tabAreaPressed
 			&& is_mouse_over()
 			&& forms_mouse_check_button_pressed(mb_left))
 		{

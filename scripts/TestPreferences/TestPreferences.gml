@@ -45,6 +45,10 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					var _style = forms_get_style();
 					Pen.start(FORMS_EPenLayout.Column2);
 
+					// ========================================
+					// Accent & Interactive Colors
+					// ========================================
+
 					Pen.text("Accent");
 					Pen.next();
 					if (Pen.color("color-accent", _style.Accent))
@@ -52,6 +56,18 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 						_style.Accent = Pen.get_result();
 					}
 					Pen.next();
+
+					Pen.text("Focus");
+					Pen.next();
+					if (Pen.color("color-focus", _style.Focus))
+					{
+						_style.Focus = Pen.get_result();
+					}
+					Pen.next();
+
+					// ========================================
+					// Text Colors
+					// ========================================
 
 					Pen.text("Text");
 					Pen.next();
@@ -77,9 +93,53 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					}
 					Pen.next();
 
+					Pen.text("Link");
+					Pen.next();
+					if (Pen.color("color-link", _style.Link))
+					{
+						_style.Link = Pen.get_result();
+					}
+					Pen.next();
+
+					Pen.text("Error");
+					Pen.next();
+					if (Pen.color("color-error", _style.Error))
+					{
+						_style.Error = Pen.get_result();
+					}
+					Pen.next();
+
+					Pen.text("Warning");
+					Pen.next();
+					if (Pen.color("color-warning", _style.Warning))
+					{
+						_style.Warning = Pen.get_result();
+					}
+					Pen.next();
+
+					Pen.text("Success");
+					Pen.next();
+					if (Pen.color("color-success", _style.Success))
+					{
+						_style.Success = Pen.get_result();
+					}
+					Pen.next();
+
+					Pen.text("Info");
+					Pen.next();
+					if (Pen.color("color-info", _style.Info))
+					{
+						_style.Info = Pen.get_result();
+					}
+					Pen.next();
+
+					// ========================================
+					// Background Colors
+					// ========================================
+
 					for (var i = 0; i < array_length(_style.Background); ++i)
 					{
-						Pen.text($"Background {i + 1}");
+						Pen.text($"Background [{i}]");
 						Pen.next();
 						if (Pen.color($"color-background-{i}", _style.Background[i]))
 						{
@@ -87,6 +147,10 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 						}
 						Pen.next();
 					}
+
+					// ========================================
+					// Scrollbar
+					// ========================================
 
 					Pen.text("Scrollbar");
 					Pen.next();
@@ -112,6 +176,19 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					}
 					Pen.next();
 
+					Pen.text("Scrollbar Size Min");
+					Pen.next();
+					if (Pen.slider("scrollbar-size-min", _style.ScrollbarSizeMin, 16, 128,
+						{ ShowText: true, Post: "px", Integers: true }))
+					{
+						_style.ScrollbarSizeMin = Pen.get_result();
+					}
+					Pen.next();
+
+					// ========================================
+					// Shadows & Overlays
+					// ========================================
+
 					Pen.text("Shadow");
 					Pen.next();
 					if (Pen.color("color-shadow", _style.Shadow))
@@ -119,6 +196,18 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 						_style.Shadow = Pen.get_result();
 					}
 					Pen.next();
+
+					Pen.text("Modal Overlay");
+					Pen.next();
+					if (Pen.color("color-modal-overlay", _style.ModalOverlay))
+					{
+						_style.ModalOverlay = Pen.get_result();
+					}
+					Pen.next();
+
+					// ========================================
+					// Tooltips
+					// ========================================
 
 					Pen.text("Tooltip");
 					Pen.next();
@@ -136,6 +225,10 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					}
 					Pen.next();
 
+					// ========================================
+					// Selection & Borders
+					// ========================================
+
 					Pen.text("Highlight");
 					Pen.next();
 					if (Pen.color("color-highlight", _style.Highlight))
@@ -149,6 +242,37 @@ function TestPreferencesWindow(): FORMS_Window() constructor
 					if (Pen.color("color-border", _style.Border))
 					{
 						_style.Border = Pen.get_result();
+					}
+					Pen.next();
+
+					// ========================================
+					// Spacing & Layout
+					// ========================================
+
+					Pen.text("Splitter Size");
+					Pen.next();
+					if (Pen.slider("splitter-size", _style.SplitterSize, 2, 16,
+						{ ShowText: true, Post: "px", Integers: true }))
+					{
+						_style.SplitterSize = Pen.get_result();
+					}
+					Pen.next();
+
+					Pen.text("Padding");
+					Pen.next();
+					if (Pen.slider("padding", _style.Padding, 0, 32,
+						{ ShowText: true, Post: "px", Integers: true }))
+					{
+						_style.Padding = Pen.get_result();
+					}
+					Pen.next();
+
+					Pen.text("Spacing");
+					Pen.next();
+					if (Pen.slider("spacing", _style.Spacing, 0, 16,
+						{ ShowText: true, Post: "px", Integers: true }))
+					{
+						_style.Spacing = Pen.get_result();
 					}
 					Pen.next();
 

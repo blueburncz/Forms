@@ -259,8 +259,90 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 		layout();
 		CompoundWidget_update(_deltaTime);
 
+		// Tab drag: update hovered drop zone
+		var _tabDrag = forms_get_tab_drag();
+		if (_tabDrag.Active)
+		{
+			// Cancel on ESC
+			if (keyboard_check_pressed(vk_escape))
+			{
+				DragTarget = undefined;
+				_tabDrag.cancel();
+			}
+			else
+			{
+				// Collect drop zones from all docks
+				var _zones = [];
+				__collect_dock_drop_zones(self, _zones, _tabDrag);
+
+				// Find hovered zone (smallest area = most specific wins)
+				_tabDrag.HoveredZone = undefined;
+				var _bestArea = infinity;
+				var _mouseAbsX = window_mouse_get_x();
+				var _mouseAbsY = window_mouse_get_y();
+
+				for (var i = 0; i < array_length(_zones); ++i)
+				{
+					var _zone = _zones[i];
+					if (_zone.contains(_mouseAbsX, _mouseAbsY))
+					{
+						var _area = _zone.Width * _zone.Height;
+						if (_area < _bestArea)
+						{
+							_tabDrag.HoveredZone = _zone;
+							_bestArea = _area;
+						}
+					}
+				}
+
+				// Handle drop on mouse release
+				if (mouse_check_button_released(mb_left))
+				{
+					DragTarget = undefined;
+					_tabDrag.drop();
+				}
+			}
+		}
+
 		global.__formsRoot = undefined;
 		return self;
+	}
+
+	/// @private
+	static __collect_dock_drop_zones = function (_widget, _zones, _tabDrag)
+	{
+		// If this is a Dock, get its drop zones
+		if (variable_struct_exists(_widget, "get_drop_zones"))
+		{
+			_widget.get_drop_zones(_zones);
+			return;
+		}
+
+		// Check CompoundWidget children
+		if (variable_struct_exists(_widget, "Children"))
+		{
+			for (var i = 0; i < array_length(_widget.Children); ++i)
+			{
+				__collect_dock_drop_zones(_widget.Children[i], _zones, _tabDrag);
+			}
+		}
+
+		// Check Window widget (FORMS_Window stores its content in Widget)
+		if (variable_struct_exists(_widget, "Widget") && _widget.Widget != undefined)
+		{
+			__collect_dock_drop_zones(_widget.Widget, _zones, _tabDrag);
+		}
+
+		// Check Workspace tabs
+		if (variable_struct_exists(_widget, "__tabs") && variable_struct_exists(_widget, "__tabCurrent"))
+		{
+			var _tabs = _widget.__tabs;
+			var _tabCurrent = _widget.__tabCurrent;
+			if (_tabCurrent >= 0 && _tabCurrent < array_length(_tabs))
+			{
+				__collect_dock_drop_zones(_tabs[_tabCurrent], _zones, _tabDrag);
+			}
+		}
 	}
 
 	static draw = function ()
@@ -282,6 +364,13 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 			DragTarget.draw_drag_target(window_mouse_get_x() + 16, window_mouse_get_y() + 16);
 		}
 
+		// Draw tab drag overlay (preview + floating tab)
+		var _tabDrag = forms_get_tab_drag();
+		if (_tabDrag.Active)
+		{
+			_tabDrag.draw();
+		}
+
 		if (__tooltip != undefined && DragTarget == undefined)
 		{
 			if (__tooltip != __tooltipLast || mouse_check_button(mb_any))
@@ -294,8 +383,8 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 			}
 			if (__tooltipTimer >= 500)
 			{
-				var _tooltipPaddingX = 8;
-				var _tooltipPaddingY = 4;
+				var _tooltipPaddingX = Style.Padding;
+				var _tooltipPaddingY = Style.Padding / 2;
 				var _tooltipWidth = string_width(__tooltip) + _tooltipPaddingX * 2;
 				var _tooltipHeight = string_height(__tooltip) + _tooltipPaddingY * 2;
 				var _tooltipX = clamp(forms_mouse_get_x() + 16, 0, window_get_width() - _tooltipWidth);
@@ -312,7 +401,7 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 					Style.Shadow.get(), Style.Shadow.get_alpha());
 
 				draw_sprite_stretched_ext(
-					FORMS_SprRound4,
+					Style.TooltipSprite,
 					0,
 					_tooltipX,
 					_tooltipY,

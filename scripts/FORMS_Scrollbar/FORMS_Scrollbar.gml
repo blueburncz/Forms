@@ -19,9 +19,9 @@ function FORMS_Scrollbar(_target, _props = undefined): FORMS_Widget(_props) cons
 	/// @var {Struct.FORMS_Container} The container that this scrollbar scrolls.
 	Target = _target;
 
-	/// @var {Real}
+	/// @var {Real, Undefined} The minimum scrollbar thumb size. If undefined, uses the style's ScrollbarSizeMin.
 	/// @readonly
-	ThumbSizeMin = 32;
+	ThumbSizeMin = undefined;
 
 	__thumbPos = 0;
 	__thumbSize = 0;
@@ -58,8 +58,11 @@ function FORMS_Scrollbar(_target, _props = undefined): FORMS_Widget(_props) cons
 		var _isMouseOver = is_mouse_over();
 		var _root = forms_get_root();
 
+		// Use ThumbSizeMin from style if not explicitly set
+		var _thumbSizeMin = ThumbSizeMin ?? _root.Style.ScrollbarSizeMin;
+
 		__thumbSize = (_containerSize / _contentSize) * _scrollbarSize;
-		__thumbSize = max(__thumbSize, ThumbSizeMin);
+		__thumbSize = max(__thumbSize, _thumbSizeMin);
 		__thumbSize = min(__thumbSize, _scrollbarSize);
 		__thumbPos = _scrollbarPos + (_scrollbarSize - __thumbSize) * _scrollLinear;
 		__thumbIsHovered = (_isMouseOver
@@ -202,8 +205,8 @@ function FORMS_VScrollbar(_target, _props = undefined): FORMS_Scrollbar(_target,
 		forms_draw_rectangle(__realX, __realY, __realWidth, __realHeight, _style.Background[2].get());
 		var _color = (_root.DragTarget == self) ? _style.ScrollbarActive.get()
 			: (__thumbIsHovered ? _style.ScrollbarHover.get() : _style.Scrollbar.get());
-		draw_sprite_stretched_ext(FORMS_SprRound4, 0, __realX, __thumbPos, __realWidth, __thumbSize, _color,
-			1.0);
+		draw_sprite_stretched_ext(_style.ScrollbarSprite, 0, __realX, __thumbPos, __realWidth, __thumbSize,
+			_color, 1.0);
 		return self;
 	}
 }

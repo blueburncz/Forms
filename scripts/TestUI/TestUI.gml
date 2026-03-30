@@ -16,6 +16,15 @@ function TestUI(): FORMS_RootWidget() constructor
 	});
 	_vbox.add_child(_workspace);
 
+	_workspace.WorkspaceTemplates = [
+		{
+			Name: "Test Workspace",
+			Icon: FA_ESolid.WindowMaximize,
+			IconFont: FA_FntSolid12,
+			Create: function () { return new TestWorkspace(); },
+		},
+	];
+
 	var _testWorkspace1 = new TestWorkspace();
 	_workspace.add_tab(_testWorkspace1);
 

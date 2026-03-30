@@ -261,3 +261,129 @@ function forms_scissor_rect_pop()
 		);
 	}
 }
+
+// =========================================================================
+// Single-Instance Tab Registry
+// =========================================================================
+
+/// @var {Struct} Map of SingleInstanceId → widget weak reference.
+/// @private
+global.__formsSingleInstances = {};
+
+/// @func forms_register_single_instance(_id, _widget)
+///
+/// @desc Registers a widget as a single-instance tab.
+///
+/// @param {String} _id Unique identifier.
+/// @param {Struct.FORMS_Widget} _widget The widget to register.
+function forms_register_single_instance(_id, _widget)
+{
+	global.__formsSingleInstances[$ _id] = weak_ref_create(_widget);
+}
+
+/// @func forms_unregister_single_instance(_id)
+///
+/// @desc Removes a widget from the single-instance registry.
+///
+/// @param {String} _id Unique identifier.
+function forms_unregister_single_instance(_id)
+{
+	variable_struct_remove(global.__formsSingleInstances, _id);
+}
+
+/// @func forms_get_single_instance(_id)
+///
+/// @desc Retrieves a registered single-instance widget, or `undefined` if not found or destroyed.
+///
+/// @param {String} _id Unique identifier.
+///
+/// @return {Struct.FORMS_Widget, Undefined}
+function forms_get_single_instance(_id)
+{
+	if (!variable_struct_exists(global.__formsSingleInstances, _id))
+	{
+		return undefined;
+	}
+	var _ref = global.__formsSingleInstances[$ _id];
+	if (!weak_ref_alive(_ref))
+	{
+		variable_struct_remove(global.__formsSingleInstances, _id);
+		return undefined;
+	}
+	return _ref.ref;
+}
+
+/// @func forms_focus_tab(_widget)
+///
+/// @desc Finds a widget in the dock tree and switches to its tab.
+///
+/// @param {Struct.FORMS_Widget} _widget The widget to focus.
+///
+/// @return {Bool} `true` if the widget was found and focused.
+function forms_focus_tab(_widget)
+{
+	// Walk up to find the parent dock
+	var _dock = _widget.Parent;
+	while (_dock != undefined)
+	{
+		if (variable_struct_exists(_dock, "__tabs") && variable_struct_exists(_dock, "__left"))
+		{
+			// Found a dock - look for the widget in its tabs
+			for (var i = 0; i < array_length(_dock.__tabs); ++i)
+			{
+				if (_dock.__tabs[i] == _widget)
+				{
+					_dock.__tabCurrent = i;
+					return true;
+				}
+			}
+		}
+		_dock = _dock.Parent;
+	}
+	return false;
+}
+
+/// @func forms_open_single_instance(_id, _createFunc[, _dock])
+///
+/// @desc Opens a single-instance tab. If already open, focuses it. Otherwise creates it via `_createFunc`.
+///
+/// @param {String} _id Unique identifier for this tab type.
+/// @param {Function} _createFunc Function that creates and returns the widget. Only called if no existing instance found.
+/// @param {Struct.FORMS_Dock, Undefined} [_dock] Dock to add the tab to. If `undefined`, opens in a floating window.
+///
+/// @return {Struct.FORMS_Widget} The existing or newly created widget.
+function forms_open_single_instance(_id, _createFunc, _dock = undefined)
+{
+	// Check for existing instance
+	var _existing = forms_get_single_instance(_id);
+	if (_existing != undefined && _existing.exists())
+	{
+		forms_focus_tab(_existing);
+		return _existing;
+	}
+
+	// Create new instance
+	var _widget = _createFunc();
+	forms_register_single_instance(_id, _widget);
+
+	if (_dock != undefined)
+	{
+		_dock.add_tab(_widget);
+		_dock.__tabCurrent = array_length(_dock.__tabs) - 1;
+	}
+	else
+	{
+		// Open in floating window
+		var _innerDock = new FORMS_Dock({ ShowTabs: false });
+		_innerDock.__tabs = [_widget];
+		_widget.Parent = _innerDock;
+		var _window = new FORMS_Window(_innerDock, {
+			Center: true,
+			Width: 600,
+			Height: 400,
+		});
+		forms_get_root().add_child(_window);
+	}
+
+	return _widget;
+}

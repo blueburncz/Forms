@@ -250,18 +250,18 @@ function FORMS_Pen(_container) constructor
 	AutoNewline = false;
 
 	/// @var {Real} The X coordinate to start drawing at when {@link FORMS_Pen.start} is called and value to add to the
-	/// maximum drawn-to X coordinate returned by {@link FORMS_Pen.get_max_x}.
-	PaddingX = 8;
+	/// maximum drawn-to X coordinate returned by {@link FORMS_Pen.get_max_x}. Defaults to style's Padding value.
+	PaddingX = undefined;
 
 	/// @var {Real} The Y coordinate to start drawing at when {@link FORMS_Pen.start} is called and value to add to the
-	/// maximum drawn-to Y coordinate returned by {@link FORMS_Pen.get_max_y}.
-	PaddingY = 8;
+	/// maximum drawn-to Y coordinate returned by {@link FORMS_Pen.get_max_y}. Defaults to style's Padding value.
+	PaddingY = undefined;
 
 	/// @var {Real} Spacing between drawn text and controls on the X axis. Defaults to 0.
 	SpacingX = 0;
 
-	/// @var {Real} Spacing between drawn text and controls on the Y axis. Defaults to 0.
-	SpacingY = 8;
+	/// @var {Real} Spacing between drawn text and controls on the Y axis. Defaults to style's Spacing value.
+	SpacingY = undefined;
 
 	/// @var {Real} The current X position of the pen.
 	/// @readonly
@@ -384,6 +384,15 @@ function FORMS_Pen(_container) constructor
 	/// @private
 	__result = undefined;
 
+	/// @private
+	__paddingX = 0;
+
+	/// @private
+	__paddingY = 0;
+
+	/// @private
+	__spacingY = 0;
+
 	/// @func set_x(_x)
 	///
 	/// @desc Moves the pen to given X coordinate.
@@ -408,7 +417,7 @@ function FORMS_Pen(_container) constructor
 	/// @see FORMS_Pen.PaddingX
 	static get_max_x = function ()
 	{
-		return MaxX + PaddingX;
+		return MaxX + __paddingX;
 	}
 
 	/// @func get_max_y()
@@ -421,7 +430,7 @@ function FORMS_Pen(_container) constructor
 	/// @see FORMS_Pen.PaddingY
 	static get_max_y = function ()
 	{
-		return MaxY + PaddingY;
+		return MaxY + __paddingY;
 	}
 
 	/// @func get_column_width()
@@ -504,7 +513,12 @@ function FORMS_Pen(_container) constructor
 	{
 		__assert_started();
 		__layout = _layout;
-		ColumnX1 = StartX;
+		// Preserve ColumnX1 to maintain section indentation
+		// Only reset if we're at the base level (no sections)
+		if (__sectionCurrent == 0)
+		{
+			ColumnX1 = StartX;
+		}
 		switch (__layout)
 		{
 			case FORMS_EPenLayout.Horizontal:
@@ -515,8 +529,7 @@ function FORMS_Pen(_container) constructor
 			case FORMS_EPenLayout.Column2:
 				__columnCurrent = 0;
 				__columnWidth = floor(Width / 2);
-				//ColumnX1 = StartX;
-				ColumnX2 = StartY + __columnWidth;
+				ColumnX2 = ColumnX1 + __columnWidth;
 				break;
 		}
 		return self;
@@ -532,21 +545,35 @@ function FORMS_Pen(_container) constructor
 	static start = function (_layout = FORMS_EPenLayout.Horizontal)
 	{
 		forms_assert(!__started, "Must use method finish first!");
-		forms_get_root(); // Note: Asserts!
+		var _root = forms_get_root(); // Note: Asserts!
+		var _style = _root.Style;
 		__started = true;
-		X = PaddingX;
-		Y = PaddingY;
+
+		// Use padding and spacing from style if not explicitly set
+		var _paddingX = PaddingX ?? _style.Padding;
+		var _paddingY = PaddingY ?? _style.Padding;
+		var _spacingY = SpacingY ?? _style.Spacing;
+
+		X = _paddingX;
+		Y = _paddingY;
 		StartX = X;
 		StartY = Y;
 		MaxX = X;
 		MaxY = Y;
 		__fontBackup = draw_get_font();
-		if (Font != undefined)
+		var _fontToUse = Font ?? _root.Style.Font;
+		if (_fontToUse != undefined)
 		{
-			draw_set_font(Font);
+			draw_set_font(_fontToUse);
 		}
 		__lineHeight = LineHeight ?? string_height("M");
-		Width = Container.__realWidth - X * 2;
+		Width = Container.__realWidth - _paddingX * 2;
+
+		// Store resolved values for later use
+		__paddingX = _paddingX;
+		__paddingY = _paddingY;
+		__spacingY = _spacingY;
+
 		set_layout(_layout);
 		return self;
 	}
@@ -580,6 +607,29 @@ function FORMS_Pen(_container) constructor
 		return self;
 	}
 
+	/// @func space([_multiplier])
+	///
+	/// @desc Moves the pen horizontally by the style's spacing value, optionally multiplied. This provides a
+	/// consistent way to add spacing between elements that automatically respects the current style configuration.
+	///
+	/// @param {Real} [_multiplier] Optional multiplier for the spacing. Defaults to 1.
+	///
+	/// @return {Struct.FORMS_Pen} Returns `self`.
+	///
+	/// @example
+	/// ```gml
+	/// Pen.space();      // Standard spacing (Style.Spacing)
+	/// Pen.space(0.5);   // Half spacing
+	/// Pen.space(2);     // Double spacing
+	/// ```
+	static space = function (_multiplier = 1)
+	{
+		var _spacing = _multiplier * (forms_get_style().Spacing);
+		X += _spacing;
+		MaxX = max(MaxX, X);
+		return self;
+	}
+
 	/// @func nl([_count])
 	///
 	/// @desc Adds given number of new lines.
@@ -603,7 +653,7 @@ function FORMS_Pen(_container) constructor
 			set_x(ColumnX1);
 		}
 
-		Y += (__lineHeight + SpacingY) * _count;
+		Y += (__lineHeight + __spacingY) * _count;
 		MaxY = max(MaxY, Y);
 
 		return self;
@@ -829,7 +879,7 @@ function FORMS_Pen(_container) constructor
 		var _color = _disabled ? _style.TextDisabled.get() : (_muted ? _style.TextMuted.get() : _style.Text.get());
 		var _iconWidth = string_width(_string);
 		var _iconHeight = string_height(_string);
-		var _padding = forms_get_prop(_props, "Padding") ?? 4;
+		var _padding = forms_get_prop(_props, "Padding") ?? _style.Spacing;
 		var _width = forms_get_prop(_props, "Width") ?? _iconWidth + _padding * 2;
 		var _height = forms_get_prop(_props, "Height") ?? _iconHeight;
 		var _mouseOver = !_disabled && is_mouse_over(X, Y, _width, _height);
@@ -925,7 +975,7 @@ function FORMS_Pen(_container) constructor
 		var _color = _disabled ? _style.TextDisabled.get() : (_muted ? _style.TextMuted.get() : _style.Text.get());
 		var _spriteWidth = sprite_get_width(_sprite);
 		var _spriteHeight = sprite_get_height(_sprite);
-		var _padding = forms_get_prop(_props, "Padding") ?? 4;
+		var _padding = forms_get_prop(_props, "Padding") ?? _style.Spacing;
 		var _width = forms_get_prop(_props, "Width") ?? __lineHeight;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
 		var _mouseOver = !_disabled && is_mouse_over(X, Y, _width, _height);
@@ -983,9 +1033,19 @@ function FORMS_Pen(_container) constructor
 		var _width = forms_get_prop(_props, "Width") ?? __lineHeight;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
 
-		forms_draw_rectangle(X + floor(_width / 2), Y, 1, _height, _color);
-
-		__move_or_nl(_width);
+		if (AutoNewline)
+		{
+			// Horizontal separator when in vertical/auto-newline mode
+			var _sepWidth = forms_get_prop(_props, "Width") ?? Width;
+			forms_draw_rectangle(X, Y + floor(_height / 2), _sepWidth, 1, _color);
+			nl();
+		}
+		else
+		{
+			// Vertical separator (default)
+			forms_draw_rectangle(X + floor(_width / 2), Y, 1, _height, _color);
+			__move_or_nl(_width);
+		}
 
 		return self;
 	}
@@ -1010,7 +1070,7 @@ function FORMS_Pen(_container) constructor
 		var _minimal = forms_get_prop(_props, "Minimal") ?? false;
 		var _color = _disabled ? _style.TextDisabled.get() : _style.Text.get();
 		var _textWidth = string_width(_text);
-		var _padding = forms_get_prop(_props, "Padding") ?? 8;
+		var _padding = forms_get_prop(_props, "Padding") ?? _style.Padding;
 		var _width = forms_get_prop(_props, "Width") ?? _textWidth + _padding * 2;
 		var _height = forms_get_prop(_props, "Height") ?? __lineHeight;
 		var _mouseOver = !_disabled && is_mouse_over(X, Y, _width, _height);
@@ -1313,7 +1373,7 @@ function FORMS_Pen(_container) constructor
 		var _style = forms_get_style();
 		var _width = forms_get_prop(_props, "Width") ?? get_control_width();
 		var _height = __lineHeight;
-		var _padding = forms_get_prop(_props, "Padding") ?? 4;
+		var _padding = forms_get_prop(_props, "Padding") ?? _style.Spacing;
 		var _mouseOver = is_mouse_over(X, Y, _width, _height, _id);
 
 		// Background
@@ -1484,7 +1544,7 @@ function FORMS_Pen(_container) constructor
 		var _width = forms_get_prop(_props, "Width") ?? get_control_width();
 		var _height = __lineHeight;
 		var _ribbon = forms_get_prop(_props, "Ribbon");
-		var _padding = forms_get_prop(_props, "Padding") ?? 4 + ((_ribbon != undefined) ? 2 : 0);
+		var _padding = forms_get_prop(_props, "Padding") ?? _style.Spacing + ((_ribbon != undefined) ? 2 : 0);
 		var _textX = _x + _padding;
 		var _disabled = forms_get_prop(_props, "Disabled") ?? false;
 		var _mouseOver = (!_disabled && is_mouse_over(_x, _y, _width, _height, _id));
@@ -1950,7 +2010,7 @@ function FORMS_Pen(_container) constructor
 		var _collapsed = forms_get_prop(_props, "Collapsed") ?? false;
 		var _selected = forms_get_prop(_props, "Selected") ?? false;
 
-		var _spacingY = floor(SpacingY / 2);
+		var _spacingY = floor(__spacingY / 2);
 		var _backgroundX = Container.ScrollX;
 		var _backgroundY = Y - _spacingY;
 		var _backgroundWidth = Container.__realWidth; //Width
