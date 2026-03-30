@@ -308,6 +308,20 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 
 	_dock.get_second().split_up(0.6);
 	_dock.get_second().get_second().set_tabs([
-		new FORMS_FileBrowser({ Name: "File Browser", Width: "100%", Height: "100%" })
+		new FORMS_FileBrowser(
+		{
+			Name: "File Browser",
+			Icon: FA_ESolid.FolderOpen,
+			Width: "100%",
+			Height: "100%"
+		}),
+		new FORMS_AssetBrowser(
+		{
+			Name: "Asset Browser",
+			Icon: FA_ESolid.BoxesStacked,
+			Width: "100%",
+			Height: "100%",
+			IgnoreFilters: ["forms", "fa_", "test", "__"]
+		}),
 	]);
 }

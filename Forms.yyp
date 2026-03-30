@@ -42,6 +42,7 @@
     {"id":{"name":"EditContextMenu","path":"scripts/EditContextMenu/EditContextMenu.yy",},},
     {"id":{"name":"FileContextMenu","path":"scripts/FileContextMenu/FileContextMenu.yy",},},
     {"id":{"name":"FORMS_ApplicationSurface","path":"scripts/FORMS_ApplicationSurface/FORMS_ApplicationSurface.yy",},},
+    {"id":{"name":"FORMS_AssetBrowser","path":"scripts/FORMS_AssetBrowser/FORMS_AssetBrowser.yy",},},
     {"id":{"name":"FORMS_Box","path":"scripts/FORMS_Box/FORMS_Box.yy",},},
     {"id":{"name":"FORMS_Color","path":"scripts/FORMS_Color/FORMS_Color.yy",},},
     {"id":{"name":"FORMS_ColorPicker","path":"scripts/FORMS_ColorPicker/FORMS_ColorPicker.yy",},},

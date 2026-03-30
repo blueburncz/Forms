@@ -949,12 +949,17 @@ function FORMS_FileBrowser(_props = undefined): FORMS_CompoundWidget(_props) con
 				{
 					var _folder = _folders[i];
 
-					// Hover highlight
+					// Hover + click on full row
 					var _mouseOver = Pen.is_mouse_over(Pen.X, Pen.Y, Pen.Width, _lineH);
 					if (_mouseOver)
 					{
 						forms_draw_rectangle(Pen.X, Pen.Y, Pen.Width, _lineH, _style.Background[3]
 							.get(), 0.5);
+
+						if (forms_left_click())
+						{
+							_fb.navigate(_folder.Path);
+						}
 
 						// Right-click context menu
 						if (mouse_check_button_pressed(mb_right))
@@ -967,11 +972,8 @@ function FORMS_FileBrowser(_props = undefined): FORMS_CompoundWidget(_props) con
 					fa_draw(FA_FntSolid12, FA_ESolid.Folder, Pen.X, Pen.Y, 0x41C0EB);
 					Pen.move(20);
 
-					// Folder name (click to navigate)
-					if (Pen.link(_folder.Name))
-					{
-						_fb.navigate(_folder.Path);
-					}
+					// Folder name
+					Pen.text(_folder.Name);
 
 					Pen.nl();
 				}
