@@ -374,6 +374,8 @@ function FORMS_RootWidget(_props = undefined, _children = undefined): FORMS_Comp
 		var _tabDrag = forms_get_tab_drag();
 		if (_tabDrag.Active)
 		{
+			// Reset matrix to identity to ensure screen-space drawing
+			matrix_set(matrix_world, matrix_build_identity());
 			_tabDrag.draw();
 		}
 

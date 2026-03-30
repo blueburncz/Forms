@@ -79,13 +79,14 @@ function TestSceneNode(_name, _icon = FA_ESolid.Cube, _children = undefined) con
 }
 
 /// @func TestSceneHierarchy([_props])
-function TestSceneHierarchy(_props = undefined): FORMS_ScrollPane(_props) constructor
+function TestSceneHierarchy(_props = undefined): FORMS_FlexBox(_props) constructor
 {
 	Name = "Scene Hierarchy";
 	Icon = FA_ESolid.Sitemap;
-	Pen.PaddingX = 4;
-	Pen.PaddingY = 4;
-	BackgroundColorIndex = 2;
+	Width.from_string("100%");
+	Height.from_string("100%");
+	IsHorizontal = false;
+	Spacing.Value = 0;
 
 	/// @var {Array<Struct.TestSceneNode>} Root nodes.
 	Nodes = [];
@@ -194,121 +195,152 @@ function TestSceneHierarchy(_props = undefined): FORMS_ScrollPane(_props) constr
 		return false;
 	}
 
-	static draw_content = function ()
+	// Search toolbar
+	var _self = self;
+	var _searchBar = new (function (_sh): FORMS_Container() constructor
 	{
-		var _style = forms_get_style();
-		if (__dirty) __rebuild_flat_list();
+		SceneHierarchy = _sh;
+		Width.from_string("100%");
+		Height.from_string("28px");
+		Pen.SpacingX = 2;
 
-		var _lineH = string_height("M");
-		var _indent = 16;
-		var _nodeCount = array_length(__flatList);
-
-		Pen.start();
-
-		// Search bar
-		var _padX = Pen.PaddingX ?? _style.Padding;
-		var _hasSearch = (SearchFilter != "");
-		var _clearW = _hasSearch ? 20 : 0;
-		if (Pen.input("scene-search", SearchFilter,
-			{
-				Width: Pen.Width - _clearW,
-				Placeholder: "Search hierarchy..."
-			}))
+		static draw_content = function ()
 		{
-			SearchFilter = Pen.get_result();
-			__dirty = true;
-		}
-		if (_hasSearch)
-		{
-			if (Pen.icon_solid(FA_ESolid.Xmark, { Width: 20, Muted: true }))
-			{
-				SearchFilter = "";
-				__dirty = true;
-			}
-		}
-		Pen.nl();
+			var _style = forms_get_style();
+			var _sh = SceneHierarchy;
+			Pen.start();
 
-		// Virtual scrolling
-		var _listStartY = Pen.Y;
-		var _visibleTop = ScrollY;
-		var _visibleBottom = ScrollY + __realHeight;
-		var _firstVisible = max(floor((_visibleTop - _listStartY) / _lineH), 0);
-		var _lastVisible = min(ceil((_visibleBottom - _listStartY) / _lineH), _nodeCount - 1);
-
-		Pen.Y = _listStartY + _firstVisible * _lineH;
-
-		for (var i = _firstVisible; i <= _lastVisible; ++i)
-		{
-			var _node = __flatList[i];
-			var _x = Pen.X + _node.Depth * _indent;
-			var _hasChildren = (is_array(_node.Children) && array_length(_node.Children) > 0);
-
-			// Selection highlight
-			if (_node.Selected)
-			{
-				forms_draw_rectangle(Pen.X, Pen.Y, Pen.Width, _lineH, _style.Highlight.get());
-			}
-
-			// Hover
-			var _mouseOver = Pen.is_mouse_over(Pen.X, Pen.Y, Pen.Width, _lineH);
-			if (_mouseOver)
-			{
-				if (!_node.Selected)
+			var _padX = Pen.PaddingX ?? _style.Padding;
+			var _hasSearch = (_sh.SearchFilter != "");
+			var _clearW = _hasSearch ? 20 : 0;
+			if (Pen.input("scene-search", _sh.SearchFilter,
 				{
-					forms_draw_rectangle(Pen.X, Pen.Y, Pen.Width, _lineH, _style.Background[3].get(), 0.5);
-				}
-
-				if (forms_left_click())
+					Width: __realWidth - Pen.X - _padX - _clearW,
+					Placeholder: "Search hierarchy..."
+				}))
+			{
+				_sh.SearchFilter = Pen.get_result();
+				_sh.__dirty = true;
+			}
+			if (_hasSearch)
+			{
+				if (Pen.icon_solid(FA_ESolid.Xmark, { Width: 20, Muted: true }))
 				{
-					// Deselect previous
-					if (SelectedNode != undefined) SelectedNode.Selected = false;
-					_node.Selected = true;
-					SelectedNode = _node;
+					_sh.SearchFilter = "";
+					_sh.__dirty = true;
 				}
 			}
 
-			// Expand caret
-			if (_hasChildren)
-			{
-				var _caretIcon = _node.Expanded ? FA_ESolid.CaretDown : FA_ESolid.CaretRight;
-				var _caretOver = Pen.is_mouse_over(_x, Pen.Y, 12, _lineH);
-				fa_draw(FA_FntSolid12, _caretIcon, _x, Pen.Y,
-					_caretOver ? _style.Text.get() : _style.TextMuted.get());
-				if (_caretOver && forms_left_click())
-				{
-					_node.Expanded = !_node.Expanded;
-					__dirty = true;
-				}
-			}
-
-			// Visibility toggle
-			var _visIcon = _node.Visible ? FA_ESolid.Eye : FA_ESolid.EyeSlash;
-			var _visX = Pen.X + Pen.Width - 16;
-			var _visOver = Pen.is_mouse_over(_visX, Pen.Y, 16, _lineH);
-			fa_draw(FA_FntSolid12, _visIcon, _visX, Pen.Y,
-				_node.Visible ? _style.TextMuted.get() : _style.Background[3].get());
-			if (_visOver && forms_left_click())
-			{
-				_node.Visible = !_node.Visible;
-			}
-
-			// Icon + name
-			var _iconX = _x + 14;
-			fa_draw(FA_FntSolid12, _node.Icon, _iconX, Pen.Y,
-				_node.Selected ? _style.Text.get() : _style.TextMuted.get());
-			forms_draw_text(_iconX + 18, Pen.Y, _node.Name,
-				_node.Selected ? _style.Text.get() : _style.TextMuted.get());
-
-			Pen.Y += _lineH;
+			Pen.finish();
+			FORMS_CONTENT_UPDATE_SIZE;
+			return self;
 		}
+	})(_self);
+	add_child(_searchBar);
 
-		// Total content size
-		Pen.MaxY = max(Pen.MaxY, _listStartY + _nodeCount * _lineH);
+	// Node list scroll pane
+	var _nodeList = new (function (_sh): FORMS_ScrollPane() constructor
+	{
+		SceneHierarchy = _sh;
+		Width.from_string("100%");
+		Pen.PaddingX = 4;
+		Pen.PaddingY = 4;
+		BackgroundColorIndex = 2;
+		Flex = 1;
 
-		Pen.finish();
-		FORMS_CONTENT_UPDATE_SIZE;
-		return self;
-	}
+		static draw_content = function ()
+		{
+			var _style = forms_get_style();
+			var _sh = SceneHierarchy;
+			if (_sh.__dirty) _sh.__rebuild_flat_list();
+
+			var _lineH = string_height("M");
+			var _indent = 16;
+			var _nodeCount = array_length(_sh.__flatList);
+
+			Pen.start();
+
+			// Virtual scrolling
+			var _visibleTop = ScrollY;
+			var _visibleBottom = ScrollY + __realHeight;
+			var _firstVisible = max(floor(_visibleTop / _lineH), 0);
+			var _lastVisible = min(ceil(_visibleBottom / _lineH), _nodeCount - 1);
+
+			Pen.Y = Pen.StartY + _firstVisible * _lineH;
+
+			for (var i = _firstVisible; i <= _lastVisible; ++i)
+			{
+				var _node = _sh.__flatList[i];
+				var _x = Pen.X + _node.Depth * _indent;
+				var _hasChildren = (is_array(_node.Children) && array_length(_node.Children) > 0);
+
+				// Selection highlight
+				if (_node.Selected)
+				{
+					forms_draw_rectangle(Pen.X, Pen.Y, Pen.Width, _lineH, _style.Highlight.get());
+				}
+
+				// Hover
+				var _mouseOver = Pen.is_mouse_over(Pen.X, Pen.Y, Pen.Width, _lineH);
+				if (_mouseOver)
+				{
+					if (!_node.Selected)
+					{
+						forms_draw_rectangle(Pen.X, Pen.Y, Pen.Width, _lineH, _style.Background[3].get(), 0.5);
+					}
+
+					if (forms_left_click())
+					{
+						if (_sh.SelectedNode != undefined) _sh.SelectedNode.Selected = false;
+						_node.Selected = true;
+						_sh.SelectedNode = _node;
+					}
+				}
+
+				// Expand caret
+				if (_hasChildren)
+				{
+					var _caretIcon = _node.Expanded ? FA_ESolid.CaretDown : FA_ESolid.CaretRight;
+					var _caretOver = Pen.is_mouse_over(_x, Pen.Y, 12, _lineH);
+					fa_draw(FA_FntSolid12, _caretIcon, _x, Pen.Y,
+						_caretOver ? _style.Text.get() : _style.TextMuted.get());
+					if (_caretOver && forms_left_click())
+					{
+						_node.Expanded = !_node.Expanded;
+						_sh.__dirty = true;
+					}
+				}
+
+				// Visibility toggle
+				var _visIcon = _node.Visible ? FA_ESolid.Eye : FA_ESolid.EyeSlash;
+				var _visX = Pen.X + Pen.Width - 16;
+				var _visOver = Pen.is_mouse_over(_visX, Pen.Y, 16, _lineH);
+				fa_draw(FA_FntSolid12, _visIcon, _visX, Pen.Y,
+					_node.Visible ? _style.TextMuted.get() : _style.Background[3].get());
+				if (_visOver && forms_left_click())
+				{
+					_node.Visible = !_node.Visible;
+				}
+
+				// Icon + name
+				var _iconX = _x + 14;
+				fa_draw(FA_FntSolid12, _node.Icon, _iconX, Pen.Y,
+					_node.Selected ? _style.Text.get() : _style.TextMuted.get());
+				forms_draw_text(_iconX + 18, Pen.Y, _node.Name,
+					_node.Selected ? _style.Text.get() : _style.TextMuted.get());
+
+				Pen.Y += _lineH;
+			}
+
+			// Total content size
+			Pen.MaxY = max(Pen.MaxY, Pen.StartY + _nodeCount * _lineH);
+
+			Pen.finish();
+			FORMS_CONTENT_UPDATE_SIZE;
+			return self;
+		}
+	})(_self);
+	add_child(_nodeList);
 }
 
 // =========================================================================
