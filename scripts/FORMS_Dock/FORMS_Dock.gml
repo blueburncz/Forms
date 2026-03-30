@@ -230,39 +230,19 @@ function FORMS_TabDrag() constructor
 					break;
 
 				case FORMS_EDropZone.Left:
-					_targetDock.__split(FORMS_EDockSplit.Horizontal);
-					_targetDock.SplitSize = 0.5;
-					_targetDock.__right.set_tabs(_targetDock.__tabs);
-					_targetDock.__tabs = [];
-					_targetDock.__left.__tabs = [_tab];
-					_tab.Parent = _targetDock.__left;
+					__dock_edge(_targetDock, _tab, FORMS_EDockSplit.Horizontal, true);
 					break;
 
 				case FORMS_EDropZone.Right:
-					_targetDock.__split(FORMS_EDockSplit.Horizontal);
-					_targetDock.SplitSize = 0.5;
-					_targetDock.__left.set_tabs(_targetDock.__tabs);
-					_targetDock.__tabs = [];
-					_targetDock.__right.__tabs = [_tab];
-					_tab.Parent = _targetDock.__right;
+					__dock_edge(_targetDock, _tab, FORMS_EDockSplit.Horizontal, false);
 					break;
 
 				case FORMS_EDropZone.Top:
-					_targetDock.__split(FORMS_EDockSplit.Vertical);
-					_targetDock.SplitSize = 0.5;
-					_targetDock.__right.set_tabs(_targetDock.__tabs);
-					_targetDock.__tabs = [];
-					_targetDock.__left.__tabs = [_tab];
-					_tab.Parent = _targetDock.__left;
+					__dock_edge(_targetDock, _tab, FORMS_EDockSplit.Vertical, true);
 					break;
 
 				case FORMS_EDropZone.Bottom:
-					_targetDock.__split(FORMS_EDockSplit.Vertical);
-					_targetDock.SplitSize = 0.5;
-					_targetDock.__left.set_tabs(_targetDock.__tabs);
-					_targetDock.__tabs = [];
-					_targetDock.__right.__tabs = [_tab];
-					_tab.Parent = _targetDock.__right;
+					__dock_edge(_targetDock, _tab, FORMS_EDockSplit.Vertical, false);
 					break;
 
 				case FORMS_EDropZone.TabInsert:
@@ -342,6 +322,73 @@ function FORMS_TabDrag() constructor
 	}
 
 	/// @private
+	/// @func __dock_edge(_targetDock, _tab, _splitType, _tabFirst)
+	///
+	/// @desc Docks a tab to the edge of a dock, handling both leaf and branch targets.
+	///
+	/// @param {Struct.FORMS_Dock} _targetDock The dock to split.
+	/// @param {Struct.FORMS_Widget} _tab The tab widget to dock.
+	/// @param {Real} _splitType FORMS_EDockSplit.Horizontal or Vertical.
+	/// @param {Bool} _tabFirst If `true`, the tab goes to __left (left/top). If `false`, to __right (right/bottom).
+	///
+	/// @private
+	static __dock_edge = function (_targetDock, _tab, _splitType, _tabFirst)
+	{
+		var _isBranch = (_targetDock.__left != undefined && _targetDock.__right != undefined);
+
+		if (_isBranch)
+		{
+			// Branch dock: wrap existing split into a new child, put tab in the other
+			var _existingChild = new FORMS_Dock();
+			_existingChild.Parent = _targetDock;
+			_existingChild.SplitType = _targetDock.SplitType;
+			_existingChild.SplitSize = _targetDock.SplitSize;
+			_existingChild.__left = _targetDock.__left;
+			_existingChild.__right = _targetDock.__right;
+			_existingChild.__left.Parent = _existingChild;
+			_existingChild.__right.Parent = _existingChild;
+
+			var _tabChild = new FORMS_Dock();
+			_tabChild.Parent = _targetDock;
+			_tabChild.__tabs = [_tab];
+			_tab.Parent = _tabChild;
+
+			_targetDock.SplitType = _splitType;
+			_targetDock.SplitSize = 0.5;
+			if (_tabFirst)
+			{
+				_targetDock.__left = _tabChild;
+				_targetDock.__right = _existingChild;
+			}
+			else
+			{
+				_targetDock.__left = _existingChild;
+				_targetDock.__right = _tabChild;
+			}
+			_targetDock.__tabs = [];
+		}
+		else
+		{
+			// Leaf dock: use existing split mechanism
+			_targetDock.__split(_splitType);
+			_targetDock.SplitSize = 0.5;
+			if (_tabFirst)
+			{
+				_targetDock.__right.set_tabs(_targetDock.__tabs);
+				_targetDock.__tabs = [];
+				_targetDock.__left.__tabs = [_tab];
+				_tab.Parent = _targetDock.__left;
+			}
+			else
+			{
+				_targetDock.__left.set_tabs(_targetDock.__tabs);
+				_targetDock.__tabs = [];
+				_targetDock.__right.__tabs = [_tab];
+				_tab.Parent = _targetDock.__right;
+			}
+		}
+	}
+
 	static __cleanup_source = function (_sourceDock, _targetDock)
 	{
 		if (_sourceDock == undefined) return;
@@ -755,6 +802,34 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 		{
 			__left.get_drop_zones(_zones);
 			__right.get_drop_zones(_zones);
+
+			// Add outer edge zones on the root dock (parent is not a dock)
+			// so tabs can be docked to the outermost edges of the layout
+			if (Parent == undefined || !variable_struct_exists(Parent, "__left"))
+			{
+				var _outerEdge = 20;
+
+				array_push(_zones, new FORMS_DropZone(
+					FORMS_EDropZone.Left, self,
+					__realX, __realY,
+					_outerEdge, __realHeight));
+
+				array_push(_zones, new FORMS_DropZone(
+					FORMS_EDropZone.Right, self,
+					__realX + __realWidth - _outerEdge, __realY,
+					_outerEdge, __realHeight));
+
+				array_push(_zones, new FORMS_DropZone(
+					FORMS_EDropZone.Top, self,
+					__realX, __realY,
+					__realWidth, _outerEdge));
+
+				array_push(_zones, new FORMS_DropZone(
+					FORMS_EDropZone.Bottom, self,
+					__realX, __realY + __realHeight - _outerEdge,
+					__realWidth, _outerEdge));
+			}
+
 			return _zones;
 		}
 
