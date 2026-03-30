@@ -180,8 +180,7 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 		new TestControlsScrollPane(),
 	]);
 
-	_dock.split_left();
-	_dock.SplitSize = 0.25;
+	_dock.split_left(0.25);
 
 	var _viewport = new FORMS_ApplicationSurface(
 	{
@@ -278,5 +277,9 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	_dock.get_second().set_tabs([
 		_viewport
 	]);
-	//_dock.get_second().ShowTabs = false;
+
+	_dock.get_second().split_up(0.6);
+	_dock.get_second().get_second().set_tabs([
+		new FORMS_FileBrowser({ Name: "File Browser", Width: "100%", Height: "100%" })
+	]);
 }
