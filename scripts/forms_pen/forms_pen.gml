@@ -457,7 +457,16 @@ function FORMS_Pen(_container) constructor
 			case FORMS_EPenLayout.Vertical:
 				return __columnWidth;
 			case FORMS_EPenLayout.Column2:
-				return __columnWidth - X + ((__columnCurrent == 0) ? StartX : ColumnX2);
+				if (__columnCurrent == 0)
+				{
+					return __columnWidth - X + StartX;
+				}
+				else
+				{
+					// Use actual right edge of content area, not column width
+					// (column width doesn't account for section indentation)
+					return StartX + Width - X;
+				}
 		}
 	}
 

@@ -505,7 +505,6 @@ function FORMS_FileBrowser(_props = undefined): FORMS_CompoundWidget(_props) con
 				array_pop(_options);
 			}
 
-			draw_set_font(forms_get_style().Font);
 			var _contextMenu = new FORMS_ContextMenu(_options,
 			{
 				X: window_mouse_get_x(),
@@ -921,7 +920,7 @@ function FORMS_FileBrowser(_props = undefined): FORMS_CompoundWidget(_props) con
 		FileBrowser = _fb;
 		Pen.PaddingX = 4;
 		Pen.PaddingY = 4;
-		BackgroundColorIndex = 0;
+		BackgroundColorIndex = 2;
 
 		static draw_content = function ()
 		{
@@ -999,7 +998,7 @@ function FORMS_FileBrowser(_props = undefined): FORMS_CompoundWidget(_props) con
 		FileBrowser = _fb;
 		Pen.PaddingX = 4;
 		Pen.PaddingY = 4;
-		BackgroundColorIndex = 0;
+		BackgroundColorIndex = 2;
 
 		/// @private
 		__dragPressIndex = -1;

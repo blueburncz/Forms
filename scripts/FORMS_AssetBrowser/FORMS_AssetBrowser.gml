@@ -371,7 +371,6 @@ function FORMS_AssetBrowser(_props = undefined): FORMS_CompoundWidget(_props) co
 			{
 				array_pop(_options);
 			}
-			draw_set_font(forms_get_style().Font);
 			var _contextMenu = new FORMS_ContextMenu(_options,
 			{
 				X: window_mouse_get_x(),
@@ -578,7 +577,7 @@ function FORMS_AssetBrowser(_props = undefined): FORMS_CompoundWidget(_props) co
 		AssetBrowser = _ab;
 		Pen.PaddingX = 4;
 		Pen.PaddingY = 4;
-		BackgroundColorIndex = 0;
+		BackgroundColorIndex = 2;
 
 		static draw_content = function ()
 		{
@@ -641,7 +640,7 @@ function FORMS_AssetBrowser(_props = undefined): FORMS_CompoundWidget(_props) co
 		AssetBrowser = _ab;
 		Pen.PaddingX = 4;
 		Pen.PaddingY = 4;
-		BackgroundColorIndex = 0;
+		BackgroundColorIndex = 2;
 
 		/// @private
 		__dragPressIndex = -1;

@@ -206,6 +206,7 @@ function FORMS_Container(_props = undefined): FORMS_Widget(_props) constructor
 			forms_get_style().Background[BackgroundColorIndex].get(), 1.0);
 
 		forms_push_mouse_coordinates(__realX - ScrollX, __realY - ScrollY);
+		draw_set_font(forms_get_style().Font);
 		var _world = matrix_get(matrix_world);
 		_world[@ 12] -= ScrollX;
 		_world[@ 13] -= ScrollY;
